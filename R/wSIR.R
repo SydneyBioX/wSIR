@@ -1,0 +1,41 @@
+# Hello world function
+
+#' Day hello
+#'
+#' @description
+#' This function says hello
+#'
+#' @param none no arguments
+#'
+#' @return prints hello world
+#'
+#' @examples
+#' hello()
+#'
+#' @export
+wSIR = function(X,
+                coords,
+                slices = 8,
+                weighted = TRUE,
+                alpha = 1,
+                maxDirections = 10,
+                ...) {
+  # ... passed onto sir_PCA e.g. argument varThreshold
+
+  tile_allocation <- spatial_allocator2(coords = coords, slices = slices)
+
+  sliceName = "coordinate"
+  labels = tile_allocation[,sliceName,drop = FALSE]
+
+  if (weighted) {
+    W = cells_weight_matrix2(coords, labels = labels, alpha = alpha)
+  } else {
+    W = NULL
+  }
+
+  wsir_obj <- sir_categorical(X = X,
+                              Y = tile_allocation,
+                              directions = maxDirections,
+                              W = W, ...)
+  return(wsir_obj)
+}
