@@ -4,7 +4,7 @@
 \alias{sir_categorical}
 \title{Day hello}
 \usage{
-sir_categorical(X, Y, directions = 10, W = NULL, ...)
+sir_categorical(X, Y, directions = 50, W = NULL, ...)
 }
 \arguments{
 \item{none}{no arguments}

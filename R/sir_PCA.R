@@ -13,9 +13,10 @@
 #' hello()
 #'
 #' @export
-sir_PCA <- function(sliced_data, directions,
+sir_PCA <- function(sliced_data,
+                    directions,
                     W = diag(nrow(sliced_data)),
-                    varThreshold = 0.8) {
+                    varThreshold = 0.99) {
 
   ## sir_PCA
 

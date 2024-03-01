@@ -8,7 +8,7 @@ sir_PCA(
   sliced_data,
   directions,
   W = diag(nrow(sliced_data)),
-  varThreshold = 0.8
+  varThreshold = 0.99
 )
 }
 \arguments{
