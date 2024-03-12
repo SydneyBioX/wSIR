@@ -15,7 +15,7 @@
 #' @export
 wSIR = function(X,
                 coords,
-                groups = rep(1, ncol(nrow(coords))),
+                groups = rep(1, nrow(coords)),
                 slices = 8,
                 weighted = TRUE,
                 alpha = 1,
