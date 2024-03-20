@@ -14,8 +14,14 @@
 #'
 #' @export
 sir_univariate <- function(X, Y, directions = 10, categorical = FALSE, slices = 10, alpha = 1, W) {
-  sliced_data <- slicer(X = X, Y = Y, slices = slices, categorical = categorical) # create sliced and averaged data
-
+  
+  n <- nrow(X)
+  Xc <- scale(X, center = TRUE, scale = FALSE)
+  qr.Xc <- qr(Xc)
+  R <- qr.R(qr.Xc)
+  Z <- qr.Q(qr.Xc) * sqrt(n)
+  
+  sliced_data <- slicer(X = Z, Y = Y, slices = slices, categorical = categorical) # create sliced and averaged data
   ## sir_univariate
 
   ### inputs:
@@ -50,10 +56,12 @@ sir_univariate <- function(X, Y, directions = 10, categorical = FALSE, slices = 
   }
 
   pc_dirs <- sir_PCA(sliced_data, directions = directions, W = W)
-
-  betas <- multiplier(data = X, pc_dirs = pc_dirs[[1]])
-
+  betas <- backsolve(R, pc_dirs$evectors)
+  betas <- apply(betas, 2, function(x) x/sqrt(sum(x^2)))
+  
   final_XB <- as.matrix(X) %*% betas
 
-  return(list(final_XB, betas, pc_dirs[[2]])) # 1 is the transformed X, 2 is the rotation (for new data), 3 is the number of selected dimensions
+  return(list(scores = final_XB, 
+              directions = betas, 
+              d = pc_dirs[[2]])) # 1 is the transformed X, 2 is the rotation (for new data), 3 is the number of selected dimensions
 }
