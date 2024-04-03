@@ -5,12 +5,15 @@
 #' @description
 #' This function says hello
 #'
-#' @param none no arguments
+#' @param sliced_data no arguments
+#' @param directions to fill
+#' @param W to fill
+#' @param varThreshold to fill
 #'
 #' @return prints hello world
 #'
 #' @examples
-#' hello()
+#' #hello()
 #'
 #' @export
 sir_PCA <- function(sliced_data,

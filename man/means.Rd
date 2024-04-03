@@ -7,7 +7,7 @@
 means(dataset_one_slice)
 }
 \arguments{
-\item{none}{no arguments}
+\item{dataset_one_slice}{no arguments}
 }
 \value{
 prints hello world
@@ -16,6 +16,6 @@ prints hello world
 This function says hello
 }
 \examples{
-hello()
+#hello()
 
 }

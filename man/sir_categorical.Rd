@@ -7,7 +7,15 @@
 sir_categorical(X, Y, directions = 50, W = NULL, ...)
 }
 \arguments{
-\item{none}{no arguments}
+\item{X}{no arguments}
+
+\item{Y}{to fill}
+
+\item{directions}{to fill}
+
+\item{W}{to fill}
+
+\item{...}{to fill}
 }
 \value{
 prints hello world
@@ -16,6 +24,6 @@ prints hello world
 This function says hello
 }
 \examples{
-hello()
+#hello()
 
 }

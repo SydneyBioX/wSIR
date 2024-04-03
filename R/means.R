@@ -5,12 +5,12 @@
 #' @description
 #' This function says hello
 #'
-#' @param none no arguments
+#' @param dataset_one_slice no arguments
 #'
 #' @return prints hello world
 #'
 #' @examples
-#' hello()
+#' #hello()
 #'
 #' @export
 means <- function(dataset_one_slice) {

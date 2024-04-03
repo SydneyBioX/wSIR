@@ -5,12 +5,19 @@
 #' @description
 #' This function says hello
 #'
-#' @param none no arguments
+#' @param X no arguments
+#' @param coords to fill
+#' @param groups to fill
+#' @param slices to fill
+#' @param weighted to fill
+#' @param alpha to fill
+#' @param maxDirections to fill
+#' @param ... to fill
 #'
 #' @return prints hello world
 #'
 #' @examples
-#' hello()
+#' #hello()
 #'
 #' @export
 wSIR = function(X,

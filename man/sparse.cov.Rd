@@ -7,7 +7,7 @@
 sparse.cov(x)
 }
 \arguments{
-\item{none}{no arguments}
+\item{x}{no arguments}
 }
 \value{
 prints hello world
@@ -16,6 +16,6 @@ prints hello world
 This function says hello
 }
 \examples{
-hello()
+#hello()
 
 }

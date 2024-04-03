@@ -7,7 +7,7 @@
 wSIR(
   X,
   coords,
-  groups = rep(1, ncol(nrow(coords))),
+  groups = rep(1, nrow(coords)),
   slices = 8,
   weighted = TRUE,
   alpha = 1,
@@ -16,7 +16,21 @@ wSIR(
 )
 }
 \arguments{
-\item{none}{no arguments}
+\item{X}{no arguments}
+
+\item{coords}{to fill}
+
+\item{groups}{to fill}
+
+\item{slices}{to fill}
+
+\item{weighted}{to fill}
+
+\item{alpha}{to fill}
+
+\item{maxDirections}{to fill}
+
+\item{...}{to fill}
 }
 \value{
 prints hello world
@@ -25,6 +39,6 @@ prints hello world
 This function says hello
 }
 \examples{
-hello()
+#hello()
 
 }

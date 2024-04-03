@@ -7,7 +7,13 @@
 slicer(X, Y, slices = 8, categorical = FALSE)
 }
 \arguments{
-\item{none}{no arguments}
+\item{X}{no arguments}
+
+\item{Y}{to fill}
+
+\item{slices}{to fill}
+
+\item{categorical}{to fill}
 }
 \value{
 prints hello world
@@ -16,6 +22,6 @@ prints hello world
 This function says hello
 }
 \examples{
-hello()
+#hello()
 
 }

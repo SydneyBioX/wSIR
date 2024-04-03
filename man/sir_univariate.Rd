@@ -15,7 +15,19 @@ sir_univariate(
 )
 }
 \arguments{
-\item{none}{no arguments}
+\item{X}{no arguments}
+
+\item{Y}{to fill}
+
+\item{directions}{to fill}
+
+\item{categorical}{to fill}
+
+\item{slices}{to fill}
+
+\item{alpha}{to fill}
+
+\item{W}{to fill}
 }
 \value{
 prints hello world
@@ -24,6 +36,6 @@ prints hello world
 This function says hello
 }
 \examples{
-hello()
+# hello()
 
 }

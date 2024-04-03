@@ -5,12 +5,12 @@
 #' @description
 #' This function says hello
 #'
-#' @param none no arguments
+#' @param x no arguments
 #'
 #' @return prints hello world
 #'
 #' @examples
-#' hello()
+#' #hello()
 #'
 #' @export
 sparse.cov <- function(x){

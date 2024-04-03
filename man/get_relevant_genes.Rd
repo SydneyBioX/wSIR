@@ -18,6 +18,6 @@ character vector of relevant features
 This function calculates standardized z-scores for gene expression values, converts them to corresponding p-values, identifies genes with p-values below a specified threshold, and returns their names as relevant genes.
 }
 \examples{
-hello()
+#hello()
 
 }

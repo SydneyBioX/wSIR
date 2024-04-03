@@ -5,12 +5,13 @@
 #' @description
 #' This function says hello
 #'
-#' @param none no arguments
+#' @param nrows no arguments
+#' @param slices to fill
 #'
 #' @return prints hello world
 #'
 #' @examples
-#' hello()
+#' # hello()
 #'
 #' @export
 allocator <- function(nrows, slices = 8) {

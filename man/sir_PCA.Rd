@@ -12,7 +12,13 @@ sir_PCA(
 )
 }
 \arguments{
-\item{none}{no arguments}
+\item{sliced_data}{no arguments}
+
+\item{directions}{to fill}
+
+\item{W}{to fill}
+
+\item{varThreshold}{to fill}
 }
 \value{
 prints hello world
@@ -21,6 +27,6 @@ prints hello world
 This function says hello
 }
 \examples{
-hello()
+#hello()
 
 }

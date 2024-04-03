@@ -5,12 +5,13 @@
 #' @description
 #' This function says hello
 #'
-#' @param none no arguments
+#' @param sir no arguments
+#' @param newdata to fill
 #'
 #' @return prints hello world
 #'
 #' @examples
-#' hello()
+#' #hello()
 #'
 #' @export
 project_SIR = function(sir, newdata) {

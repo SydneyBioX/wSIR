@@ -7,7 +7,9 @@
 project_SIR(sir, newdata)
 }
 \arguments{
-\item{none}{no arguments}
+\item{sir}{no arguments}
+
+\item{newdata}{to fill}
 }
 \value{
 prints hello world
@@ -16,6 +18,6 @@ prints hello world
 This function says hello
 }
 \examples{
-hello()
+#hello()
 
 }

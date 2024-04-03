@@ -5,12 +5,13 @@
 #' @description
 #' This function says hello
 #'
-#' @param none no arguments
+#' @param data no arguments
+#' @param pc_dirs to fill
 #'
 #' @return prints hello world
 #'
 #' @examples
-#' hello()
+#' #hello()
 #'
 #' @export
 multiplier <- function(data, pc_dirs) {

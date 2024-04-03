@@ -7,7 +7,9 @@
 slicer_categorical(X, Y)
 }
 \arguments{
-\item{none}{no arguments}
+\item{X}{no arguments}
+
+\item{Y}{to fill}
 }
 \value{
 prints hello world
@@ -16,6 +18,6 @@ prints hello world
 This function says hello
 }
 \examples{
-hello()
+#hello()
 
 }

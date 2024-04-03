@@ -5,15 +5,21 @@
 #' @description
 #' This function says hello
 #'
-#' @param none no arguments
+#' @param X no arguments
+#' @param Y to fill
+#' @param slices to fill
+#' @param categorical to fill
 #'
 #' @return prints hello world
 #'
 #' @examples
-#' hello()
+#' #hello()
 #'
 #' @export
-slicer <- function(X, Y, slices = 8, categorical = FALSE) { # this is a slicer for univariate Y: if Y is multivariate, need to make it univariate in a previous step
+slicer <- function(X,
+                   Y,
+                   slices = 8,
+                   categorical = FALSE) { # this is a slicer for univariate Y: if Y is multivariate, need to make it univariate in a previous step
 
   ## slicer
 

@@ -11,7 +11,7 @@
 #' @return character vector of relevant features
 #'
 #' @examples
-#' hello()
+#' #hello()
 #'
 #' @export
 get_relevant_genes = function(out,

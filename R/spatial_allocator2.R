@@ -5,12 +5,13 @@
 #' @description
 #' This function says hello
 #'
-#' @param none no arguments
+#' @param coords no arguments
+#' @param slices to fill
 #'
 #' @return prints hello world
 #'
 #' @examples
-#' hello()
+#' #hello()
 #'
 #' @export
 spatial_allocator2 <- function(coords, slices = 3) {

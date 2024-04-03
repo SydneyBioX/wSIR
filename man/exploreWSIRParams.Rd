@@ -14,7 +14,17 @@ exploreWSIRParams(
 )
 }
 \arguments{
-\item{none}{no arguments}
+\item{X}{no arguments}
+
+\item{coords}{to fill}
+
+\item{alphaVals}{to fill}
+
+\item{numSlices}{to fill}
+
+\item{nRepeats}{to fill}
+
+\item{...}{to fill}
 }
 \value{
 prints hello world
@@ -23,6 +33,6 @@ prints hello world
 This function says hello
 }
 \examples{
-hello()
+#hello()
 
 }

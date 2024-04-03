@@ -5,15 +5,25 @@
 #' @description
 #' This function says hello
 #'
-#' @param none no arguments
+#' @param X no arguments
+#' @param coords to fill
+#' @param slices to fill
+#' @param directions to fill
+#' @param W to fill
+#' @param alpha to fill
 #'
 #' @return prints hello world
 #'
 #' @examples
-#' hello()
+#' #hello()
 #'
 #' @export
-weighted_sir_package <- function(X, coords, slices = 8, directions = 10, W = diag(slices)/nrow(X), alpha = 1) {
+weighted_sir_package <- function(X,
+                                 coords,
+                                 slices = 8,
+                                 directions = 10,
+                                 W = diag(slices)/nrow(X),
+                                 alpha = 1) {
 
 
   ## weighted_sir_package

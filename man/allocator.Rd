@@ -7,7 +7,9 @@
 allocator(nrows, slices = 8)
 }
 \arguments{
-\item{none}{no arguments}
+\item{nrows}{no arguments}
+
+\item{slices}{to fill}
 }
 \value{
 prints hello world
@@ -16,6 +18,6 @@ prints hello world
 This function says hello
 }
 \examples{
-hello()
+# hello()
 
 }

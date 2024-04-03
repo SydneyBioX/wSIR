@@ -5,12 +5,14 @@
 #' @description
 #' This function says hello
 #'
-#' @param none no arguments
+#' @param coords no arguments
+#' @param labels to fill
+#' @param alpha to fill
 #'
 #' @return prints hello world
 #'
 #' @examples
-#' hello()
+#' #hello()
 #'
 #' @export
 cells_weight_matrix2 <- function(coords, labels, alpha = 1) {

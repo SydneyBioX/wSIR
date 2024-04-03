@@ -14,7 +14,17 @@ weighted_sir_package(
 )
 }
 \arguments{
-\item{none}{no arguments}
+\item{X}{no arguments}
+
+\item{coords}{to fill}
+
+\item{slices}{to fill}
+
+\item{directions}{to fill}
+
+\item{W}{to fill}
+
+\item{alpha}{to fill}
 }
 \value{
 prints hello world
@@ -23,6 +33,6 @@ prints hello world
 This function says hello
 }
 \examples{
-hello()
+#hello()
 
 }

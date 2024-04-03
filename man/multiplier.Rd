@@ -7,7 +7,9 @@
 multiplier(data, pc_dirs)
 }
 \arguments{
-\item{none}{no arguments}
+\item{data}{no arguments}
+
+\item{pc_dirs}{to fill}
 }
 \value{
 prints hello world
@@ -16,6 +18,6 @@ prints hello world
 This function says hello
 }
 \examples{
-hello()
+#hello()
 
 }

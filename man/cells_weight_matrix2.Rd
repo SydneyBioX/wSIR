@@ -4,10 +4,14 @@
 \alias{cells_weight_matrix2}
 \title{Day hello}
 \usage{
-cells_weight_matrix2(coords, groups, labels, alpha = 1)
+cells_weight_matrix2(coords, labels, alpha = 1)
 }
 \arguments{
-\item{none}{no arguments}
+\item{coords}{no arguments}
+
+\item{labels}{to fill}
+
+\item{alpha}{to fill}
 }
 \value{
 prints hello world
@@ -16,6 +20,6 @@ prints hello world
 This function says hello
 }
 \examples{
-hello()
+#hello()
 
 }

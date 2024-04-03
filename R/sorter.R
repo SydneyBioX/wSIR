@@ -5,12 +5,13 @@
 #' @description
 #' This function says hello
 #'
-#' @param none no arguments
+#' @param X no arguments
+#' @param Y to fill
 #'
 #' @return prints hello world
 #'
 #' @examples
-#' hello()
+#' #hello()
 #'
 #' @export
 sorter <- function(X, Y) {

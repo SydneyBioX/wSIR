@@ -5,12 +5,17 @@
 #' @description
 #' This function says hello
 #'
-#' @param none no arguments
+#' @param X no arguments
+#' @param coords to fill
+#' @param alphaVals to fill
+#' @param numSlices to fill
+#' @param nRepeats to fill
+#' @param ... to fill
 #'
 #' @return prints hello world
 #'
 #' @examples
-#' hello()
+#' #hello()
 #'
 #' @export
 exploreWSIRParams = function(X,
@@ -36,8 +41,8 @@ exploreWSIRParams = function(X,
   #                          maxDirections = 20,
   #                          varThreshold = 0.9)
 
-  require(Rfast)
-  require(patchwork)
+  # require(Rfast)
+  # require(patchwork)
 
   # res_df_list = list()
   res_array = array(data = NA, dim = c(length(alphaVals), length(numSlices), nRepeats),
