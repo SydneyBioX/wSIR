@@ -34,9 +34,9 @@ sir_PCA <- function(sliced_data,
   m <- (t(as.matrix(sliced_data)) %*% W %*% sliced_data)
   eig_m <- eigen(m)
   all_pc <- eig_m$vectors
-  eig_m_values <- eig_m$values
+  eig_m_values <- pmax(eig_m$values, 0)
   propvariance_explained <- cumsum(eig_m_values)/sum(eig_m_values)
-  d <- which(propvariance_explained > varThreshold)[1]
+  d <- which(propvariance_explained >= varThreshold)[1]
   d <- min(d, directions) # directions is a maximum number of directions
   return(list(evectors = all_pc[,1:d],
               d = d,
