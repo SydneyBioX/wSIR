@@ -27,7 +27,7 @@ cells_weight_matrix2 <- function(coords, labels, alpha = 1) {
 
   dist_mat_new = dist_mat + D2
 
-  dist_norm <- 1 - (dist_mat_new / max(dist_mat, na.rm = TRUE))^alpha
+  dist_norm <- (1 - dist_mat_new / max(dist_mat, na.rm = TRUE))^alpha
   weight_mat <- dist_norm
   #weight_mat <- (dist_norm^alpha* 2) - 1
   # ensure it is psd
