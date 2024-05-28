@@ -29,6 +29,7 @@ cells_weight_matrix2 <- function(coords, labels, alpha = 1) {
 
   dist_norm <- (1 - dist_mat_new / max(dist_mat, na.rm = TRUE))^alpha
   weight_mat <- dist_norm
+  weight_mat[!is.finite(weight_mat)] <- 0 # turn -inf into 0
   #weight_mat <- (dist_norm^alpha* 2) - 1
   # ensure it is psd
   eig <- eigen(weight_mat)
