@@ -5,19 +5,12 @@
 #' @description
 #' This function says hello
 #'
-#' @param X no arguments
-#' @param coords to fill
-#' @param groups to fill
-#' @param slices to fill
-#' @param weighted to fill
-#' @param alpha to fill
-#' @param maxDirections to fill
-#' @param ... to fill
+#' @param none no arguments
 #'
 #' @return prints hello world
 #'
 #' @examples
-#' #hello()
+#' hello()
 #'
 #' @export
 wSIR = function(X,
@@ -29,7 +22,7 @@ wSIR = function(X,
                 maxDirections = 50,
                 ...) {
   # ... passed onto sir_PCA e.g. argument varThreshold
-
+  #browser()
   coords_split = split.data.frame(coords, groups)
 
   tile_allocations = lapply(coords_split, spatial_allocator2, slices = slices)
@@ -44,13 +37,21 @@ wSIR = function(X,
 
   sliceName = "coordinate"
   labels = tile_allocation[,sliceName,drop = FALSE]
-
+  
+  
+  # This Dmatrix is for the proportion
+  H = table(tile_allocation$coordinate)
+  Dmatrix <- diag(sqrt(H)/nrow(X), ncol = length(H))
+  
   if (weighted) {
-    W = cells_weight_matrix2(coords, labels = labels, alpha = alpha)
+    corrMatrix = cells_weight_matrix2(coords, labels = labels, alpha = alpha)
   } else {
-    W = NULL
+    corrMatrix = diag(ncol = length(H), nrow = length(H))
   }
-
+  
+  W <- Dmatrix %*% corrMatrix %*% Dmatrix
+  
+  
   wsir_obj <- sir_categorical(X = X,
                               Y = tile_allocation,
                               directions = maxDirections,
