@@ -14,6 +14,8 @@
 #'
 #' @export
 cells_weight_matrix2 <- function(coords, labels, alpha = 1) {
+  alpha = 4/alpha # alpha_old = 0 (function argument = 0) gives alpha_new = Inf (rather than undefined) which equals SIR
+  
   #browser()
   avg_coords <- slicer_categorical(coords, labels)
 
