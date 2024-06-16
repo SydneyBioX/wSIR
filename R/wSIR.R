@@ -17,8 +17,7 @@ wSIR = function(X,
                 coords,
                 groups = rep(1, nrow(coords)),
                 slices = 8,
-                weighted = TRUE,
-                alpha = 1,
+                alpha = 4,
                 maxDirections = 50,
                 ...) {
   # ... passed onto sir_PCA e.g. argument varThreshold
