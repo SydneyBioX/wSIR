@@ -19,7 +19,7 @@
 #' @export
 sir_categorical <- function(X, Y, directions = 50, W = NULL, varThreshold = 0.95) {
 
-  # do the transformation
+  # do the transformation (QR scaling method)
   n <- nrow(X)
   Xc <- scale(X, center = TRUE, scale = FALSE)
   qr.Xc <- qr(Xc)
