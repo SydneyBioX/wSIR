@@ -14,12 +14,12 @@
 #' #hello()
 #'
 #' @export
-project_SIR = function(sir, newdata) {
+project_wSIR = function(wsir, newdata) {
 
   ## Projecting new data
-  # sir is list object output from `sir_univariate`
+  # wsir is list object output from `wSIR`
   # newdata is a cells x features matrix of expression
 
-  proj = newdata %*% sir[[2]]
+  proj = newdata %*% wsir[[2]]
   return(proj)
 }
