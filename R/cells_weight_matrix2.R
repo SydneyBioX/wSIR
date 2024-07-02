@@ -1,6 +1,4 @@
-# Hello world function
-
-#' Day hello
+#' cells_weight_matrix2
 #'
 #' @description
 #' A function to create the weight matrix given the location of the cells, tile allocations and desired spatial weighting strength. Weight matrix entries represent level of spatial correlation between all pairs of tiles.
@@ -11,10 +9,8 @@
 #'
 #' @return matrix containing the weight value for all pairs of tiles. Each value is between 0 and 1, with 1 always on the diagonal.
 #'
-#' @examples
-#' hello()
-#'
-#' @export
+#' @keywords internal
+
 cells_weight_matrix2 <- function(coords, labels, alpha = 4) {
   alpha = 4/alpha # alpha_old = 0 (function argument = 0) gives alpha_new = Inf (rather than undefined) which equals SIR
   
