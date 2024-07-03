@@ -1,6 +1,4 @@
-# Hello world function
-
-#' Day hello
+#' sir_categorical
 #'
 #' @description
 #' This function performs WSIR based on provided gene expression data, tile allocations, and weight matrix.
@@ -13,10 +11,8 @@
 #'
 #' @return list of outputs witth 5 named slots. They are the same as the output of the wSIR function: this is the final step in the wSIR function.
 #'
-#' @examples
-#' #hello()
-#'
-#' @export
+#' @keywords internal
+
 sir_categorical <- function(X, Y, directions = 50, W = NULL, varThreshold = 0.95) {
 
   # do the transformation (QR scaling method)
