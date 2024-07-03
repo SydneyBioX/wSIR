@@ -1,17 +1,17 @@
-# Hello world function
-
-#' Day hello
+#' project_wSIR
 #'
 #' @description
-#' This function says hello
+#' function to project new gene expression data into low-dimensional space
 #'
-#' @param sir no arguments
-#' @param newdata to fill
+#' @param wsir wsir object that is usually the output of wSIR function. If you want to project new data into low-dim space following a 
+#' different DR method, at param wsir use a list with loadings in slot 2 (e.g PCA loadings) of dimension p * d
+#' @param newdata matrix of new gene expression data to project into low-dimensional space
 #'
-#' @return prints hello world
+#' @return matrix of low-dimensional representation of newdata gene expression data
 #'
 #' @examples
-#' #hello()
+#' wsir_obj = wSIR(exprs = sample1_exprs, coords = sample1_coords)
+#' sample2_low_dim_exprs = project_wSIR(wsir = wsir_obj, newdata = sample2_exprs)
 #'
 #' @export
 project_wSIR = function(wsir, newdata) {
