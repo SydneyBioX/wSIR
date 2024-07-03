@@ -1,4 +1,4 @@
-#' Tile allocation function
+#' spatial_allocator2
 #'
 #' @description
 #' This function allocates each cell to a tile based on a specified number of tiles.
@@ -8,10 +8,8 @@
 #'
 #' @return output by itself is a matrix containing slice belonging for each axis in long format. When used in lapply(coords_split, spatial_allocator2, slices) as in wSIR the output is a dataframe with each cell's tile allocation in the "coordinate" column.
 #'
-#' @examples
-#' #hello()
-#'
-#' @export
+#' @keywords internal
+
 spatial_allocator2 <- function(coords, slices = 3) {
 
   sliced <- lapply(coords, function(x) as.integer(cut(rank(x), slices)))
