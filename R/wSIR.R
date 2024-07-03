@@ -1,6 +1,4 @@
-# Hello world function
-
-#' Day hello
+#' wSIR
 #'
 #' @description
 #' A function to perform supervised dimension reduction of a gene expression matrix using coordinates dataframe as response value. Incorporates weighting mechanism into SIR algorithm to generate low-dimensional representation of the data and allow for projection of new single-cell gene expression data into low-dimensional space. 
@@ -20,7 +18,7 @@
 #' 5) evalues vector containing p eigenvalues of t(X_H) %*% W %*% X_H. varThreshold parameter works on these evalues, such that e.g the first j directions are included if the sum of the first j evalues equals 0.95% of the sum of all evalues.
 #' 
 #' @examples
-#' hello()
+#' # to fill with some simulated spatial data from a package
 #'
 #' @export
 wSIR = function(X,
