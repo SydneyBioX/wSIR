@@ -2,28 +2,25 @@
 % Please edit documentation in R/sir_categorical.R
 \name{sir_categorical}
 \alias{sir_categorical}
-\title{Day hello}
+\title{sir_categorical}
 \usage{
-sir_categorical(X, Y, directions = 50, W = NULL, ...)
+sir_categorical(X, Y, directions = 50, W = NULL, varThreshold = 0.95)
 }
 \arguments{
-\item{X}{no arguments}
+\item{X}{matrix of normalised gene expression data for n genes across p cells.}
 
-\item{Y}{to fill}
+\item{Y}{dataframe with 1 column named "coordinate" that is the tile allocation for each cell. There should be up to slices^2 unique tile IDs in this column.}
 
-\item{directions}{to fill}
+\item{directions}{Integer to specify maximum number of directions to retain in thee low-dimensional embedding of the data. Use if you need at most a certain number for a downstream task.}
 
-\item{W}{to fill}
+\item{W}{Weight matrix created by cells_weight_matrix. Entry (i,j) represents the spatial correlation level between tiles i and j. The diagonal values should be all 1. If not provided, SIR implementation will be used.}
 
-\item{...}{to fill}
+\item{varThreshold}{numeric value specifying the desired proportion of variance to retain. If e.g 95% (default), then number of directions used will be such that their eigenvalues add up to 95% of the sum of all eigenvalues.}
 }
 \value{
-prints hello world
+list of outputs witth 5 named slots. They are the same as the output of the wSIR function: this is the final step in the wSIR function.
 }
 \description{
-This function says hello
+This function performs WSIR based on provided gene expression data, tile allocations, and weight matrix.
 }
-\examples{
-#hello()
-
-}
+\keyword{internal}

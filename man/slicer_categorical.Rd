@@ -2,22 +2,19 @@
 % Please edit documentation in R/slicer_categorical.R
 \name{slicer_categorical}
 \alias{slicer_categorical}
-\title{Day hello}
+\title{slicer_categorical}
 \usage{
 slicer_categorical(X, Y)
 }
 \arguments{
-\item{X}{no arguments}
+\item{X}{matrix or dataframe containing the columns to average}
 
-\item{Y}{to fill}
+\item{Y}{dataframe with a single column named 'coordinate'. This column contains the categorical variable tile ID for each cell.}
 }
 \value{
-prints hello world
+dataframe containing the averages for each column within each category in Y. Dimension h * p, where h is the number of categories in Y and p is the number of columns in X.
 }
 \description{
-This function says hello
+This function averages all columns in the X matrix for each category in the single-column Y dataframe. It is used to find the average position within each tile to create the weight matrix, as well as to create the tile means that are used in the eigendecomposition step of SIR/wSIR.
 }
-\examples{
-#hello()
-
-}
+\keyword{internal}

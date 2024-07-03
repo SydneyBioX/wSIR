@@ -2,24 +2,21 @@
 % Please edit documentation in R/cells_weight_matrix2.R
 \name{cells_weight_matrix2}
 \alias{cells_weight_matrix2}
-\title{Day hello}
+\title{cells_weight_matrix2}
 \usage{
-cells_weight_matrix2(coords, labels, alpha = 1)
+cells_weight_matrix2(coords, labels, alpha = 4)
 }
 \arguments{
-\item{coords}{no arguments}
+\item{coords}{dataframe of dimension n * 2. Column names c("x", "y"). Spatial position of each cell.}
 
-\item{labels}{to fill}
+\item{labels}{dataframe of dimension n * 1, column name c("coordinate"). Tile allocation of each cell. This is automatically created in the wSIR function.}
 
-\item{alpha}{to fill}
+\item{alpha}{numeric value giving strength of spatial weighting matrix. alpha = 0 returns identity matrix and equals SIR. Large alpha values tend all entries towards 1. Default is 4.}
 }
 \value{
-prints hello world
+matrix containing the weight value for all pairs of tiles. Each value is between 0 and 1, with 1 always on the diagonal.
 }
 \description{
-This function says hello
+A function to create the weight matrix given the location of the cells, tile allocations and desired spatial weighting strength. Weight matrix entries represent level of spatial correlation between all pairs of tiles.
 }
-\examples{
-#hello()
-
-}
+\keyword{internal}
