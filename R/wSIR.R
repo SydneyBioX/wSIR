@@ -5,7 +5,7 @@
 #'
 #' @param X matrix containing normalised gene expression data including n cells and p genes, dimension n * p.
 #' @param coords dataframe containing spatial positions of n cells in 2D space. Dimension n * 2. Column names must be c("x", "y"). 
-#' @param groups unsure purpose, to fill
+#' @param groups unsure purpose, to fill when confirmed
 #' @param slices integer for number of slices on each axis of tissue. For example, slices = 4 creates 4 slices along each spatial axis, yielding 4^2 = 16 tiles. Default is 8, suggested minimum of 3. Suggest to tune this parameter.
 #' @param alpha integer to specify desired strength of spatial correlation. Suggest to tune this parameter on testing dataset among e.g values c(0,2,4,8). alpha = 0 gives SIR implementation. Larger values give stronger spatial correlations.
 #' @param maxDirections integer for upper limit on number of directions to include in low-dimensional space. Use if you need less than a certain number of dimensions for downstream analyes
@@ -18,7 +18,7 @@
 #' 5) evalues vector containing p eigenvalues of t(X_H) %*% W %*% X_H. varThreshold parameter works on these evalues, such that e.g the first j directions are included if the sum of the first j evalues equals 0.95% of the sum of all evalues.
 #' 
 #' @examples
-#' # to fill with some simulated spatial data from a package
+#' wsir_obj = wSIR(exprs = sample1_exprs, coords = sample1_coords) # create wsir object
 #'
 #' @export
 wSIR = function(X,
