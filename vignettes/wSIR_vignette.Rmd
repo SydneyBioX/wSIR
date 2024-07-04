@@ -1,0 +1,107 @@
+---
+title: "Weighted Sliced Inverse Regression (WSIR): supervised dimension reduction for spatial transcriptomics data"
+author:
+  - Max Woollard
+  - Linh Nghiem
+  - Shila Ghazanfar
+  - Pratibha Panwar
+output:
+  BiocStyle::html_document:
+    toc_float: true
+  BiocStyle::pdf_document: default
+package: WSIR
+vignette: |
+  %\VignetteIndexEntry{WSIR supervised dimension reduction}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = FALSE
+)
+```
+
+```{r setup, message=FALSE, warning=FALSE}
+library(wSIR)
+library(tidyverse)
+library(vctrs)
+library(umap)
+library(scran)
+
+library(MouseGastrulationData) # to load the data for this vignette
+```
+
+```{r}
+set.seed(2024)
+```
+
+# Introduction
+
+Weighted Sliced Inverse Regression (WSIR) is a supervised dimension reduction technique for spatial transcriptomics data. It creates a low-dimensional representation of the gene expression data using its spatial coordinates to obtain information about spatial patterns present in the gene expression data. It can be used to project new single-cell gene expression data into a low-dimensional space in such a way as to preserve the ability to predict a cell's spatial location from its low-dimensional embedding. 
+
+## Vignette Goals
+
+In this vignette, we will demonstrate how to use WSIR to obtain a low-dimensional embedding of gene expression data. We will then explore this embedding using the in-built functions in the package, but this low-dimensional matrix is more importantly used for your own downstream tasks that would benefit from a lower-dimensional representation of gene expression data that preserves information about each cell's spatial location. 
+
+# Load Data
+
+Load data from https://www.nature.com/articles/s41587-023-01766-z and prepare. 
+
+```{r}
+seqfish_data_sample1 <- LohoffSeqFISHData(samples = 1)
+seqfish_data_sample1 = logNormCounts(seqfish_data_sample1) # log transform variance stabilising 
+rownames(seqfish_data_sample1) <- rowData(seqfish_data_sample1)[,"SYMBOL"] # change rownames to gene symbols that are consistent across Google 
+sample1_exprs = t(assay(seqfish_data_sample1, "logcounts")) # extract matrix of gene expressions 
+sample1_coords = spatialCoords(seqfish_data_sample1)[,1:2]
+colnames(sample1_coords) = c("x", "y")
+
+seqfish_data_sample2 <- LohoffSeqFISHData(samples = 2)
+seqfish_data_sample2 = logNormCounts(seqfish_data_sample2) # log transform variance stabilising 
+rownames(seqfish_data_sample2) <- rowData(seqfish_data_sample2)[,"SYMBOL"] # change rownames to gene symbols that are consistent across Google 
+sample2_exprs = t(assay(seqfish_data_sample2, "logcounts")) # extract matrix of gene expressions 
+colnames(sample2_coords) = c("x", "y")
+```
+
+# Supervised dimension reduction with WSIR
+
+Tune parameters to find optimal values for parameters slices, alpha
+
+```{r}
+plot = explore_wsir_params(exprs = sample1_exprs, coords = sample1_coords, alpha_vals = c(0,2,4,8), slice_vals = c(3,6,10))
+plot
+```
+
+Perform WSIR
+
+```{r}
+wsir_obj = wSIR(exprs = sample1_exprs, coords = sample1_coords, slices = 6, alpha = 4) # create wsir object using optimal values for slices, alpha
+```
+
+Observe the genes that contribute the most to WSIR1 (first direction of WSIR) using top_genes function
+
+```{r}
+top_genes_obj = top_genes(WSIR = wsir_obj, highest = 8) # create top genes object
+top_genes_plot = top_genes_obj$plot # select plot
+top_genes_plot # print plot
+```
+
+Visualise the WSIR directions using visualise_wsir function
+
+```{r}
+vis_obj = visualise_wsir(coords = sample1_coords, WSIR = wsir_obj, dirs = 8) # create visualisations
+vis_obj
+```
+
+Visualise UMAP plots of low-dimensional representation of sample1_exprs after WSIR, colouring points by the 4 genes that contribute the most to WSIR1 using vis_umap function
+
+```{r}
+umap_plots = vis_umap(exprs = sample1_exprs, WSIR = wsir_obj, highest_genes = top_genes_obj, n_genes = 4)
+umap_plots
+```
+
+Projecting sample2_exprs into low-dimensional space using project_wSIR function. This low-dimensional embedding retains the ability to predict a cell's spatial location that was already present in the gene expression data.
+
+```{r}
+sample2_low_dim_exprs = project_wSIR(wsir = wsir_obj, newdata = sample2_exprs)
+```
