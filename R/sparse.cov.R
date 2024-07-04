@@ -1,20 +1,14 @@
-# Hello world function
-
-#' Day hello
+#' A function to calculate covariance of a sparse matrix. 
 #'
 #' @description
-#' This function says hello
+#' This function finds the covariance of a sparse matrix.
 #'
-#' @param x no arguments
+#' @param x sparse matrix
 #'
-#' @return prints hello world
+#' @return covariance matrix of x
 #'
-#' @examples
-#' #hello()
-#'
-#' @export
+#' @keywords internal
 sparse.cov <- function(x){
-  # function to calculate covariance of a sparse matrix
   n <- nrow(x)
   m <- ncol(x)
   ii <- unique(x@i)+1 # rows with a non-zero element
