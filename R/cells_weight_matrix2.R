@@ -13,16 +13,16 @@
 
 cells_weight_matrix2 <- function(coords, labels, alpha = 4) {
   alpha = 4/alpha # alpha_old = 0 (function argument = 0) gives alpha_new = Inf (rather than undefined) which equals SIR
-  
+
   #browser()
   avg_coords <- slicer_categorical(coords, labels)
 
   avg_coords_groups <- gsub(".*, ", "", rownames(avg_coords))
 
-  dist_mat <- as.matrix(dist(avg_coords, diag = TRUE, upper = TRUE))
+  dist_mat <- as.matrix(stats::dist(avg_coords, diag = TRUE, upper = TRUE))
 
   # mask out the slices that are far away from each other
-  D2 = as.matrix(dist(avg_coords_groups, method = "manhattan"))
+  D2 = as.matrix(stats::dist(avg_coords_groups, method = "manhattan"))
   D2[D2 > 0] <- Inf
 
   dist_mat_new = dist_mat + D2

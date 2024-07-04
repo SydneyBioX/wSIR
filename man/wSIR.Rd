@@ -27,14 +27,14 @@ wSIR(
 
 \item{maxDirections}{integer for upper limit on number of directions to include in low-dimensional space. Use if you need less than a certain number of dimensions for downstream analyes}
 
-\item{varThreshold}{numeric proportion of eigenvalues of variance in t(X_H) %*% W %*% X_H to retain. Default is 0.95. Select higher threshold to include more dimensions, lower threshold to include less dimensions.}
+\item{varThreshold}{numeric proportion of eigenvalues of variance in t(X_H) \%\emph{\% W \%}\% X_H to retain. Default is 0.95. Select higher threshold to include more dimensions, lower threshold to include less dimensions.}
 }
 \value{
 wSIR object which is a list containing 5 (named) positions. 1) scores matrix containing low-dimensional representation of X from wSIR algorithm. Dimension n * d, where d is chosen to include at least varThreshold proportion of variance.
-2) directions matrix containing WSIR directions, dimension p * d. Use this to project new data into low-dimensional space via X_new %*% directions. 
+2) directions matrix containing WSIR directions, dimension p * d. Use this to project new data into low-dimensional space via X_new \%\emph{\% directions.
 3) estd integer stating how many dimensions in the computed low-dimensional space are needed to account for varThreshold proportion of variance. Same as number of dimensions in scores.
 4) W matrix weight matrix from cells_weight_matrix2 function
-5) evalues vector containing p eigenvalues of t(X_H) %*% W %*% X_H. varThreshold parameter works on these evalues, such that e.g the first j directions are included if the sum of the first j evalues equals 0.95% of the sum of all evalues.
+5) evalues vector containing p eigenvalues of t(X_H) \%}\% W \%*\% X_H. varThreshold parameter works on these evalues, such that e.g the first j directions are included if the sum of the first j evalues equals 0.95\% of the sum of all evalues.
 }
 \description{
 A function to perform supervised dimension reduction of a gene expression matrix using coordinates dataframe as response value. Incorporates weighting mechanism into SIR algorithm to generate low-dimensional representation of the data and allow for projection of new single-cell gene expression data into low-dimensional space.

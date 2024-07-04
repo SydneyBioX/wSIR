@@ -7,19 +7,19 @@
 top_genes(WSIR, highest = 10)
 }
 \arguments{
-\item{WSIR}{wsir object as output of wSIR function. To analyse a different DR method, ensure the 
+\item{WSIR}{wsir object as output of wSIR function. To analyse a different DR method, ensure the
 slot named 'directions' contains the loadings as a matrix with the gene names as the rownames.}
 
-\item{highest}{integer for how many of the top genes you would like to see. Recommend no more 
+\item{highest}{integer for how many of the top genes you would like to see. Recommend no more
 than 20 for ease of visualisation. Default is 10.}
 }
 \value{
-List containing two slots. First is named "plot" and shows a barplot with the top genes 
+List containing two slots. First is named "plot" and shows a barplot with the top genes
 and their corresponding loadings. Second is named "genes" and is a vector of the genes with highest
 (in absolute value) loading in low-dimensional direction 1. Length is parameter highest.
 }
 \description{
-A function to find and visualise the genes with the highest (in absolute value) loading in WSIR1. 
+A function to find and visualise the genes with the highest (in absolute value) loading in WSIR1.
 These genes contribute the most to the first low-dimensional direction.
 }
 \examples{

@@ -7,7 +7,7 @@
 project_wSIR(wsir, newdata)
 }
 \arguments{
-\item{wsir}{wsir object that is usually the output of wSIR function. If you want to project new data into low-dim space following a 
+\item{wsir}{wsir object that is usually the output of wSIR function. If you want to project new data into low-dim space following a
 different DR method, at param wsir use a list with matrix of loadings in slot 2 (e.g PCA loadings) of dimension p * d}
 
 \item{newdata}{matrix of new gene expression data to project into low-dimensional space. Must have the same p columns

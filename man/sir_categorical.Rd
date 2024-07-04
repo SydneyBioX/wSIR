@@ -15,7 +15,7 @@ sir_categorical(X, Y, directions = 50, W = NULL, varThreshold = 0.95)
 
 \item{W}{Weight matrix created by cells_weight_matrix. Entry (i,j) represents the spatial correlation level between tiles i and j. The diagonal values should be all 1. If not provided, SIR implementation will be used.}
 
-\item{varThreshold}{numeric value specifying the desired proportion of variance to retain. If e.g 95% (default), then number of directions used will be such that their eigenvalues add up to 95% of the sum of all eigenvalues.}
+\item{varThreshold}{numeric value specifying the desired proportion of variance to retain. If e.g 95\% (default), then number of directions used will be such that their eigenvalues add up to 95\% of the sum of all eigenvalues.}
 }
 \value{
 list of outputs witth 5 named slots. They are the same as the output of the wSIR function: this is the final step in the wSIR function.

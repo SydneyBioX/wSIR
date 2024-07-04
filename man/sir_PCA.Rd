@@ -18,15 +18,15 @@ sir_PCA(
 
 \item{W}{matrix of slice weights. Output of cells_weight_matrix2 function.}
 
-\item{varThreshold}{numeric proportion of eigenvalues of variance in t(X_H) %*% W %*% X_H to retain. 
+\item{varThreshold}{numeric proportion of eigenvalues of variance in t(X_H) \%\emph{\% W \%}\% X_H to retain.
 Default is 0.95. Select higher threshold to include more dimensions, lower threshold to include less dimensions.}
 }
 \value{
-list containing: 1) "eigenvectors" matrix of eigenvectors of (X^H)^t %*% W %*% (X^H)
+list containing: 1) "eigenvectors" matrix of eigenvectors of (X^H)^t \%\emph{\% W \%}\% (X^H)
 2) "d" integer, selected number of dimensions
-3) "evalues" vector of eigenvalues of (X^H)^t %*% W %*% (X^H)
+3) "evalues" vector of eigenvalues of (X^H)^t \%\emph{\% W \%}\% (X^H)
 }
 \description{
-This function performs eigendecomposition on (X^H)^t %*% W %*% (X^H), where X^H is matrix of scaled slice means.
+This function performs eigendecomposition on (X^H)^t \%\emph{\% W \%}\% (X^H), where X^H is matrix of scaled slice means.
 }
 \keyword{internal}

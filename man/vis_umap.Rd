@@ -19,7 +19,7 @@ that the slot named "scores" in WSIR parameter contains the low-dimensional repr
 
 \item{highest_genes}{output from top_genes function.}
 
-\item{n_genes}{integer for the number of genes you would like to show. Default is the number of genes you selected in the 
+\item{n_genes}{integer for the number of genes you would like to show. Default is the number of genes you selected in the
 top_genes function.}
 }
 \value{
