@@ -1,9 +1,31 @@
-# function to generate umap plots on the WSIRS (or SIRS or PCs etc)
+#' vis_umap
+#'
+#' @description
+#' A function to generate UMAP plots on the low-dimensional embedding of the gene expression data. The points are coloured by
+#' their value for the genes with highest (in absolute value) loading in WSIR1. 
+#'
+#' @param exprs matrix containing normalised gene expression data including n cells and p genes, dimension n * p.
+#' @param WSIR wsir object that is output of wSIR function. If you wish to generate UMAP plots based on other DR methods, ensure
+#' that the slot named "scores" in WSIR parameter contains the low-dimensional representation of exprs.
+#' @param highest_genes output from top_genes function.
+#' @param n_genes integer for the number of genes you would like to show. Default is the number of genes you selected in the 
+#' top_genes function.
+#' 
+#' @return Grid of umap plots with n_genes number of plots. Each shows the cells in a UMAP generated on the low-dimensional gene
+#' expression data, coloured by their value for each of the genes found by top_genes. 
+#'
+#' @examples
+#' wsir_obj = wSIR(exprs = sample1_exprs, coords = sample1_coords) # create wsir object
+#' top_genes_obj = top_genes(WSIR = wsir_obj, highest = 4) # create top genes object
+#' umap_plots = vis_umap(exprs = sample1_exprs, WSIR = wsir_obj, highest_genes = top_genes_obj, n_genes = 4)
+#' umap_plots
+#'
+#' @export
 
-vis_umap <- function(exprs, # same as the X input to WSIR function
-                     WSIR, # output from WSIR function
-                     highest_genes, # output from top_genes function
-                     n_genes = length(names(highest_genes$genes))) { # integer for number of genes you want to show
+vis_umap <- function(exprs,
+                     WSIR,
+                     highest_genes,
+                     n_genes = length(names(highest_genes$genes))) {
   n_genes <- min(n_genes, length(names(highest_genes$genes))) # make sure it is a valid number of genes
   gene_names <- names(highest_genes$genes)[1:n_genes]
   
