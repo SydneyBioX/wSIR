@@ -15,12 +15,8 @@
 #' sample2_low_dim_exprs = project_wSIR(wsir = wsir_obj, newdata = sample2_exprs)
 #'
 #' @export
+
 project_wSIR = function(wsir, newdata) {
-
-  ## Projecting new data
-  # wsir is list object output from `wSIR`
-  # newdata is a cells x features matrix of expression
-
   proj = newdata %*% wsir[[2]]
   return(proj)
 }
