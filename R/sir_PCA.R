@@ -18,7 +18,7 @@
 sir_PCA <- function(sliced_data,
                     directions,
                     W = diag(nrow(sliced_data)),
-                    varThreshold = 0.99) {
+                    varThreshold = 0.95) {
 
   nslices <- nrow(sliced_data)
   sliced_data <- as.matrix(sliced_data)
