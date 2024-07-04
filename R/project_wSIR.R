@@ -4,7 +4,7 @@
 #' function to project new gene expression data into low-dimensional space
 #'
 #' @param wsir wsir object that is usually the output of wSIR function. If you want to project new data into low-dim space following a 
-#' different DR method, at param wsir use a list with loadings in slot 2 (e.g PCA loadings) of dimension p * d
+#' different DR method, at param wsir use a list with matrix of loadings in slot 2 (e.g PCA loadings) of dimension p * d
 #' @param newdata matrix of new gene expression data to project into low-dimensional space. Must have the same p columns
 #' as the columns in X argument used to generate wsir. 
 #'
