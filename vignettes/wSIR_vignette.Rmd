@@ -60,7 +60,6 @@ seqfish_data_sample2 <- LohoffSeqFISHData(samples = 2)
 seqfish_data_sample2 = logNormCounts(seqfish_data_sample2) # log transform variance stabilising 
 rownames(seqfish_data_sample2) <- rowData(seqfish_data_sample2)[,"SYMBOL"] # change rownames to gene symbols that are consistent across Google 
 sample2_exprs = t(assay(seqfish_data_sample2, "logcounts")) # extract matrix of gene expressions 
-colnames(sample2_coords) = c("x", "y")
 ```
 
 # Supervised dimension reduction with WSIR
