@@ -15,8 +15,9 @@
 #'
 #' @examples
 #' wsir_obj = wSIR(exprs = sample1_exprs, coords = sample1_coords) # create wsir object
-#' top_genes_plot = top_genes(WSIR = wsir_obj, highest = 8) # create top genes plot
-#' top_genes_plot
+#' top_genes_obj = top_genes(WSIR = wsir_obj, highest = 8) # create top genes object
+#' top_genes_plot = top_genes_obj$loadings_plot # select plot
+#' top_genes_plot # print plot
 #'
 #' @export
 
