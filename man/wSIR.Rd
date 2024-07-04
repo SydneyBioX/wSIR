@@ -19,7 +19,7 @@ wSIR(
 
 \item{coords}{dataframe containing spatial positions of n cells in 2D space. Dimension n * 2. Column names must be c("x", "y").}
 
-\item{groups}{unsure purpose, to fill}
+\item{groups}{unsure purpose, to fill when confirmed}
 
 \item{slices}{integer for number of slices on each axis of tissue. For example, slices = 4 creates 4 slices along each spatial axis, yielding 4^2 = 16 tiles. Default is 8, suggested minimum of 3. Suggest to tune this parameter.}
 
@@ -40,6 +40,6 @@ wSIR object which is a list containing 5 (named) positions. 1) scores matrix con
 A function to perform supervised dimension reduction of a gene expression matrix using coordinates dataframe as response value. Incorporates weighting mechanism into SIR algorithm to generate low-dimensional representation of the data and allow for projection of new single-cell gene expression data into low-dimensional space.
 }
 \examples{
-# to fill with some simulated spatial data from a package
+wsir_obj = wSIR(exprs = sample1_exprs, coords = sample1_coords) # create wsir object
 
 }

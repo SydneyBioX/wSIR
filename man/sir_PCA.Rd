@@ -2,31 +2,31 @@
 % Please edit documentation in R/sir_PCA.R
 \name{sir_PCA}
 \alias{sir_PCA}
-\title{Day hello}
+\title{sir_PCA}
 \usage{
 sir_PCA(
   sliced_data,
   directions,
   W = diag(nrow(sliced_data)),
-  varThreshold = 0.99
+  varThreshold = 0.95
 )
 }
 \arguments{
-\item{sliced_data}{no arguments}
+\item{sliced_data}{matrix of scaled slice means}
 
-\item{directions}{to fill}
+\item{directions}{integer, number of directions we want in our final low-dimensional Z.}
 
-\item{W}{to fill}
+\item{W}{matrix of slice weights. Output of cells_weight_matrix2 function.}
 
-\item{varThreshold}{to fill}
+\item{varThreshold}{numeric proportion of eigenvalues of variance in t(X_H) %*% W %*% X_H to retain. 
+Default is 0.95. Select higher threshold to include more dimensions, lower threshold to include less dimensions.}
 }
 \value{
-prints hello world
+list containing: 1) "eigenvectors" matrix of eigenvectors of (X^H)^t %*% W %*% (X^H)
+2) "d" integer, selected number of dimensions
+3) "evalues" vector of eigenvalues of (X^H)^t %*% W %*% (X^H)
 }
 \description{
-This function says hello
+This function performs eigendecomposition on (X^H)^t %*% W %*% (X^H), where X^H is matrix of scaled slice means.
 }
-\examples{
-#hello()
-
-}
+\keyword{internal}
