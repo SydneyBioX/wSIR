@@ -1,16 +1,30 @@
 Package: wSIR
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Weighted Sliced Inverse Regression (WSIR) for supervised dimension reduction of spatial transcriptomics and single cell gene expression data
 Version: 0.1.2
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Authors@R: c(
+    person("Max", "Woollard", , "mwoo5086@uni.sydney.edu.au", role = c("aut", "ctb")),
+    person("Pratibha", "Panwar", role = c("ctb")),
+    person("Linh", "Nghiem", role = c("aut","ctb")),
+    person("Shila", "Ghazanfar", , "shazanfar@gmail.com", role = c("aut", "cre", "ctb"))
+    )
+Description: Weighted Sliced Inverse Regression (WSIR) is a supervised dimension 
+    reduction algorithm for spatial transcriptomics gene expression data. For a 
+    provided gene expression matrix and dataframe of each cell's spatial 
+    coordinates, WSIR creates a low-dimensional representation of the gene 
+    expression data that preserves the ability to predict spatial coordinates 
+    that was present in the gene expression data. Furthermore, WSIR provides 
+    interpretable loadings which allow for projection of new single-cell gene 
+    expression data into a low-dimensional space which preserves the spatial 
+    information present in the gene expression data.
 License: GPL-2
 Encoding: UTF-8
+URL: https://sydneybiox.github.io/wSIR, https://sydneybiox.github.io/wSIR/
+BugReports: https://github.com/sydneybiox/wSIR/issues
+biocViews: DimensionReduction, Software
 LazyData: true
-RoxygenNote: 7.3.1
 Roxygen: list(markdown = TRUE)
+Depends: R (>= 4.4.0),
 Imports: 
     Rfast,
     patchwork,
@@ -19,3 +33,4 @@ Suggests:
     doBy,
     umap
 VignetteBuilder: knitr
+RoxygenNote: 7.3.1
