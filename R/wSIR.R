@@ -49,11 +49,7 @@ wSIR = function(X,
   H = table(tile_allocation$coordinate)
   Dmatrix <- diag(sqrt(H)/nrow(X), ncol = length(H))
   
-  if (weighted) {
-    corrMatrix = cells_weight_matrix2(coords, labels = labels, alpha = alpha)
-  } else {
-    corrMatrix = diag(ncol = length(H), nrow = length(H))
-  }
+  corrMatrix = cells_weight_matrix2(coords, labels = labels, alpha = alpha)
   
   W <- Dmatrix %*% corrMatrix %*% Dmatrix
   
