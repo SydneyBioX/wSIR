@@ -104,3 +104,12 @@ Projecting sample2_exprs into low-dimensional space using project_wSIR function.
 ```{r}
 sample2_low_dim_exprs = project_wSIR(wsir = wsir_obj, newdata = sample2_exprs)
 ```
+
+<details>
+  <summary>**Session Info**</summary>
+  
+```{r}
+sessionInfo()
+```
+
+</details>
