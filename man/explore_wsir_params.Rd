@@ -42,21 +42,19 @@ correlation of distances. Default is "DC".}
 with each value. If FALSE, then no progress updates.}
 }
 \value{
-Plot showing the average metric value across the nrep iterations for every combination of parameters slices and alpha.
-Larger circles for a slices/alpha combination indicates better performance for that pair of values. Suggest to find the pair with
-the highest metric value and use those parameter values for your task.
+List with two slots, named "plot" and "message". "Plot" shows the average metric value across the nrep iterations for every combination
+of parameters slices and alpha. Larger circles for a slices/alpha combination indicates better performance for that pair of values. Slot
+"message" tells you the parameter combination with highest metric value.
 }
 \description{
 This function is used to select the optimal values for parameters slices and alpha in weighted sliced inverse regression
 based on your provided gene expression data and corresponding spatial coordinates. For a given evaluation metric,
-it will visualise the performance of WSIR with varying function values based on your data.
-NOTE: as of 4/7/24, this function won't work due to dependency on functions not in this repo. To be fixed sometime.
+it will visualise the performance of WSIR with varying function parameters based on your data, and return the optimal pair.
+This pair of slices and alpha can be used for your downstream tasks.
 }
 \examples{
-plot = explore_wsir_params(exprs = sample1_exprs,
-coords = sample1_coords,
-alpha_vals = c(0,2,4,8),
-slice_vals = c(3,6,10))
-plot
+explore_params = explore_wsir_params(exprs = sample1_exprs, coords = sample1_coords, alpha_vals = c(0,2,4,8), slice_vals = c(3,6,10))
+explore_params$plot
+explore_params$message
 
 }
