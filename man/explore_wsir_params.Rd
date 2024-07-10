@@ -13,7 +13,7 @@ explore_wsir_params(
   maxDirections = 50,
   metric = "DC",
   nrep = 5,
-  print_progress = TRUE
+  verbose = FALSE
 )
 }
 \arguments{
@@ -33,18 +33,23 @@ Select higher threshold to include more dimensions, lower threshold to include l
 
 \item{maxDirections}{integer for the maximum number of directions to include in the low-dimenensional embedding. Default is 50.}
 
-\item{metric}{evaluation metric to use for parameterr tuning. String, either "DC" to use distance correlation or "CD" to use
+\item{metric}{evaluation metric to use for parameter tuning. String, either "DC" to use distance correlation or "CD" to use
 correlation of distances. Default is "DC".}
 
 \item{nrep}{integer for the number of train/test splits of the data to perform.}
 
-\item{print_progress}{logical If TRUE, prints the current values of slices and alpha as the tuning gets up to performing WSIR
-with each value. If FALSE, then no progress updates.}
+\item{verbose}{logical If TRUE, prints the current values of slices and alpha as the tuning gets up to performing WSIR
+with each value. If FALSE, then no progress updates. Default is FALSE.}
 }
 \value{
-List with two slots, named "plot" and "message". "Plot" shows the average metric value across the nrep iterations for every combination
-of parameters slices and alpha. Larger circles for a slices/alpha combination indicates better performance for that pair of values. Slot
-"message" tells you the parameter combination with highest metric value.
+List with four slots, named "plot" and "message".
+\enumerate{
+\item "Plot" shows the average metric value across the nrep iterations for every combination of parameters slices and alpha.
+Larger circles for a slices/alpha combination indicates better performance for that pair of values.
+\item "message" tells you the parameter combination with highest metric value.
+\item "best_alpha" returns the integer for the best alpha values among the values that were tested.
+\item "best_slices" returns the integer for the best slices value among the values that were tested.
+}
 }
 \description{
 This function is used to select the optimal values for parameters slices and alpha in weighted sliced inverse regression
@@ -56,5 +61,6 @@ This pair of slices and alpha can be used for your downstream tasks.
 explore_params = explore_wsir_params(exprs = sample1_exprs, coords = sample1_coords, alpha_vals = c(0,2,4,8), slice_vals = c(3,6,10))
 explore_params$plot
 explore_params$message
+wsir_obj = wSIR(X = sample1_exprs, coords = sample1_coords, alpha = best_alpha, slices = best_slices)
 
 }

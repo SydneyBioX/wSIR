@@ -58,7 +58,8 @@ wSIR = function(X,
                 alpha_vals = c(0,1,2,4,8,12),
                 slice_vals = c(3,5,7,10,15,20),
                 verbose = FALSE,
-                metric = "DC") {
+                metric = "DC",
+                nrep = 5) {
 
   if (optim_params) {
     optim_obj = explore_wsir_params(exprs = X,
