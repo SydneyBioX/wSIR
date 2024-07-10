@@ -4,7 +4,7 @@
 #' This function is used to select the optimal values for parameters slices and alpha in weighted sliced inverse regression
 #' based on your provided gene expression data and corresponding spatial coordinates. For a given evaluation metric,
 #' it will visualise the performance of WSIR with varying function parameters based on your data, and return the optimal pair.
-#' This pair of slices and alpha can be used for your downstream tasks. 
+#' This pair of slices and alpha can be used for your downstream tasks.
 #'
 #' @param exprs matrix containing normalised gene expression data including n cells and p genes, dimension n * p.
 #' @param coords dataframe containing spatial positions of n cells in 2D space. Dimension n * 2. Column names must be c("x", "y").
@@ -22,14 +22,18 @@
 #' @param print_progress logical If TRUE, prints the current values of slices and alpha as the tuning gets up to performing WSIR
 #' with each value. If FALSE, then no progress updates.
 #'
-#' @return List with two slots, named "plot" and "message". "Plot" shows the average metric value across the nrep iterations for every combination
-#' of parameters slices and alpha. Larger circles for a slices/alpha combination indicates better performance for that pair of values. Slot 
-#' "message" tells you the parameter combination with highest metric value. 
+#' @return List with four slots, named "plot" and "message".
+#' 1) "Plot" shows the average metric value across the nrep iterations for every combination of parameters slices and alpha.
+#' Larger circles for a slices/alpha combination indicates better performance for that pair of values.
+#' 2) "message" tells you the parameter combination with highest metric value.
+#' 3) "best_alpha" returns the integer for the best alpha values among the values that were tested.
+#' 4) "best_slices" returns the integer for the best slices value among the values that were tested.
 #'
 #' @examples
 #' explore_params = explore_wsir_params(exprs = sample1_exprs, coords = sample1_coords, alpha_vals = c(0,2,4,8), slice_vals = c(3,6,10))
 #' explore_params$plot
 #' explore_params$message
+#' wsir_obj = wSIR(X = sample1_exprs, coords = sample1_coords, alpha = best_alpha, slices = best_slices)
 #'
 #' @export
 explore_wsir_params = function(exprs,
@@ -70,10 +74,10 @@ explore_wsir_params = function(exprs,
   res_df$alpha <- vec_rep_each(alpha_vals, length(slice_vals)) %>% as.factor()
   res_df$slices <- rep(slice_vals, length(alpha_vals)) %>% as.factor()
   res_df$metric <- metric_vals
-  
+
   best_alpha = res_df$alpha[which.max(res_df$metric)]
   best_slices = res_df$slices[which.max(res_df$metric)]
-  
+
   message = paste0("Optimal (alpha, slices) pair: (", best_alpha, ", ", best_slices, ")")
 
   plot <- ggplot(data = res_df, aes(x = alpha, y = slices, size = metric)) +
@@ -81,6 +85,9 @@ explore_wsir_params = function(exprs,
     theme_classic() +
     ggtitle(paste0("Metric value for different parameter combinations (",nrep, " iterations of train/test split)"))
 
-  return(list(plot = plot, message = message))
+  return(list(plot = plot,
+              message = message,
+              best_alpha = best_alpha,
+              best_slices = best_slices))
 
 }
