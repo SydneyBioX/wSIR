@@ -1,22 +1,48 @@
 #' wSIR
 #'
 #' @description
-#' A function to perform supervised dimension reduction of a gene expression matrix using coordinates dataframe as response value. Incorporates weighting mechanism into SIR algorithm to generate low-dimensional representation of the data and allow for projection of new single-cell gene expression data into low-dimensional space. 
+#' A function to perform supervised dimension reduction of a gene expression matrix using coordinates dataframe as
+#' response value. Incorporates weighting mechanism into SIR algorithm to generate low-dimensional representation of
+#' the data and allow for projection of new single-cell gene expression data into low-dimensional space.
 #'
 #' @param X matrix containing normalised gene expression data including n cells and p genes, dimension n * p.
-#' @param coords dataframe containing spatial positions of n cells in 2D space. Dimension n * 2. Column names must be c("x", "y"). 
+#' @param coords dataframe containing spatial positions of n cells in 2D space. Dimension n * 2. Column names must be c("x", "y").
 #' @param groups unsure purpose, to fill when confirmed
-#' @param slices integer for number of slices on each axis of tissue. For example, slices = 4 creates 4 slices along each spatial axis, yielding 4^2 = 16 tiles. Default is 8, suggested minimum of 3. Suggest to tune this parameter.
-#' @param alpha integer to specify desired strength of spatial correlation. Suggest to tune this parameter on testing dataset among e.g values c(0,2,4,8). alpha = 0 gives SIR implementation. Larger values give stronger spatial correlations.
-#' @param maxDirections integer for upper limit on number of directions to include in low-dimensional space. Use if you need less than a certain number of dimensions for downstream analyes
-#' @param varThreshold numeric proportion of eigenvalues of variance in t(X_H) %*% W %*% X_H to retain. Default is 0.95. Select higher threshold to include more dimensions, lower threshold to include less dimensions.
+#' @param slices integer for number of slices on each axis of tissue. For example, slices = 4 creates 4 slices along
+#' each spatial axis, yielding 4^2 = 16 tiles. Default is 8, suggested minimum of 3. Suggest to tune this parameter.
+#' @param alpha integer to specify desired strength of spatial correlation. Suggest to tune this parameter on testing
+#' dataset among e.g values c(0,2,4,8). alpha = 0 gives SIR implementation. Larger values give stronger spatial correlations.
+#' @param maxDirections integer for upper limit on number of directions to include in low-dimensional space. Use if you
+#' need less than a certain number of dimensions for downstream analyes
+#' @param varThreshold numeric proportion of eigenvalues of variance in t(X_H) %*% W %*% X_H to retain. Default is 0.95.
+#' Select higher threshold to include more dimensions, lower threshold to include less dimensions.
+#' @param optim_params logical, if you would like wSIR to automatically optimise parameters slices and alpha based on
+#' either distance correlation or correlation of distances as evaluation metric. Default is TRUE. If your downstream
+#' task is quite different to either of those metrics, then we suggest you tune those two parameters yourself using
+#' your specific task and evaluation metric. In that case, determine your optimal slices and alpha values and then use
+#' them in the relevant function, then setting optim_params = FALSE.
+#' @param alpha_vals If you have optim_params = TRUE, then this is the values of alpha to optimise over in WSIR. 0
+#' gives Sliced Inverse Regression (SIR) implementation, and larger values represent stronger spatial correlation.
+#' Suggest to use integers for interpretability, but can use non-integers. Values must be non-negative.
+#' @param slice_vals If you have optim_params = TRUE, then this is the values of slices to optimise over in WSIR.
+#' Suggest maximum value in the vector to be no more than around \eqn{\sqrt{n/20}}, as this upper bound ensures an
+#' average of at least 10 cells per tile in the training set.
+#' @param verbose Logical, use if optim_params = TRUE. If TRUE, prints the current values of slices and alpha as the
+#' tuning gets up to performing WSIR with each value. If FALSE, then no progress updates. Default is FALSE.
+#' @param metric If optim_params = TRUE, this is the evaluation metric to use for parameter tuning. String,
+#' either "DC" to use distance correlation or "CD" to use correlation of distances. Default is "DC".
+#' @param nrep If optim_params = TRUE, this is the integer for the number of train/test splits of the data to
+#' perform during optimisation of parameters slices and alpha.
 #'
-#' @return wSIR object which is a list containing 5 (named) positions. 1) scores matrix containing low-dimensional representation of X from wSIR algorithm. Dimension n * d, where d is chosen to include at least varThreshold proportion of variance.
-#' 2) directions matrix containing WSIR directions, dimension p * d. Use this to project new data into low-dimensional space via X_new %*% directions. 
-#' 3) estd integer stating how many dimensions in the computed low-dimensional space are needed to account for varThreshold proportion of variance. Same as number of dimensions in scores.
+#' @return wSIR object which is a list containing 5 (named) positions. 1) scores matrix containing low-dimensional
+#' representation of X from wSIR algorithm. Dimension n * d, where d is chosen to include at least varThreshold proportion of variance.
+#' 2) directions matrix containing WSIR directions, dimension p * d. Use this to project new data into low-dimensional space via X_new %*% directions.
+#' 3) estd integer stating how many dimensions in the computed low-dimensional space are needed to account for varThreshold
+#' proportion of variance. Same as number of dimensions in scores.
 #' 4) W matrix weight matrix from cells_weight_matrix2 function
-#' 5) evalues vector containing p eigenvalues of t(X_H) %*% W %*% X_H. varThreshold parameter works on these evalues, such that e.g the first j directions are included if the sum of the first j evalues equals 0.95% of the sum of all evalues.
-#' 
+#' 5) evalues vector containing p eigenvalues of t(X_H) %*% W %*% X_H. varThreshold parameter works on these evalues,
+#' such that e.g the first j directions are included if the sum of the first j evalues equals 0.95% of the sum of all evalues.
+#'
 #' @examples
 #' wsir_obj = wSIR(exprs = sample1_exprs, coords = sample1_coords) # create wsir object
 #'
@@ -27,7 +53,27 @@ wSIR = function(X,
                 slices = 8,
                 alpha = 4,
                 maxDirections = 50,
-                varThreshold = 0.95) {
+                varThreshold = 0.95,
+                optim_params = TRUE,
+                alpha_vals = c(0,1,2,4,8,12),
+                slice_vals = c(3,5,7,10,15,20),
+                verbose = FALSE,
+                metric = "DC") {
+
+  if (optim_params) {
+    optim_obj = explore_wsir_params(exprs = X,
+                                    coords = coords,
+                                    alpha_vals = alpha_vals,
+                                    slice_vals = slice_vals,
+                                    varThreshold = varThreshold,
+                                    maxDirections = maxDirections,
+                                    metric = metric,
+                                    nrep = nrep,
+                                    verbose = verbose)
+    alpha = optim_obj$best_alpha
+    slices = optim_obj$best_slices
+  }
+
   #browser()
   coords_split = split.data.frame(coords, groups)
 
@@ -43,17 +89,17 @@ wSIR = function(X,
 
   sliceName = "coordinate"
   labels = tile_allocation[,sliceName,drop = FALSE]
-  
-  
+
+
   # This Dmatrix is for the proportion
   H = table(tile_allocation$coordinate)
   Dmatrix <- diag(sqrt(H)/nrow(X), ncol = length(H))
-  
+
   corrMatrix = cells_weight_matrix2(coords, labels = labels, alpha = alpha)
-  
+
   W <- Dmatrix %*% corrMatrix %*% Dmatrix
-  
-  
+
+
   wsir_obj <- sir_categorical(X = X,
                               Y = tile_allocation,
                               directions = maxDirections,

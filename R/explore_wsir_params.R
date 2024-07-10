@@ -16,11 +16,11 @@
 #' @param varThreshold numeric proportion of variance in \code{t(X_H) \%*\% W \%*\% X_H} to retain. Must be between 0 and 1. Default is 0.95.
 #' Select higher threshold to include more dimensions, lower threshold to include less dimensions.
 #' @param maxDirections integer for the maximum number of directions to include in the low-dimenensional embedding. Default is 50.
-#' @param metric evaluation metric to use for parameterr tuning. String, either "DC" to use distance correlation or "CD" to use
+#' @param metric evaluation metric to use for parameter tuning. String, either "DC" to use distance correlation or "CD" to use
 #' correlation of distances. Default is "DC".
 #' @param nrep integer for the number of train/test splits of the data to perform.
-#' @param print_progress logical If TRUE, prints the current values of slices and alpha as the tuning gets up to performing WSIR
-#' with each value. If FALSE, then no progress updates.
+#' @param verbose logical If TRUE, prints the current values of slices and alpha as the tuning gets up to performing WSIR
+#' with each value. If FALSE, then no progress updates. Default is FALSE.
 #'
 #' @return List with four slots, named "plot" and "message".
 #' 1) "Plot" shows the average metric value across the nrep iterations for every combination of parameters slices and alpha.
@@ -44,16 +44,16 @@ explore_wsir_params = function(exprs,
                                maxDirections = 50,
                                metric = "DC",
                                nrep = 5,
-                               print_progress = TRUE) {
+                               verbose = FALSE) {
 
   metric_vals <- c()
 
   for (alpha in alpha_vals) {
-    if (print_progress) {
+    if (verbose) {
       print(paste("current alpha:", alpha))
     }
     for (slices in slice_vals) {
-      if (print_progress) {
+      if (verbose) {
         print(paste("current slices:", slices))
       }
       metric_current <- metric_eval_wsir_optim(exprs = exprs,
