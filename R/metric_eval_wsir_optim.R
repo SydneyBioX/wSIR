@@ -50,8 +50,8 @@ metric_eval_wsir_optim = function(exprs,
     projected_test = project_wSIR(wsir = wsir_obj, newdata = exprs_test)
 
     if (metric == "CD") {
-      current_metric = cor(subset_lower.tri(dist(projected_test)),
-                           subset_lower.tri(dist(coords_test)),
+      current_metric = cor(subset_lower_tri(dist(projected_test)),
+                           subset_lower_tri(dist(coords_test)),
                            method = "spearman",
                            use = "pairwise.complete")
     } else if (metric == "DC") {

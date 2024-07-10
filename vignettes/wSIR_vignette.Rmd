@@ -53,7 +53,7 @@ seqfish_data_sample1 <- LohoffSeqFISHData(samples = 1)
 seqfish_data_sample1 = logNormCounts(seqfish_data_sample1) # log transform variance stabilising 
 rownames(seqfish_data_sample1) <- rowData(seqfish_data_sample1)[,"SYMBOL"] # change rownames to gene symbols that are consistent across Google 
 sample1_exprs = t(assay(seqfish_data_sample1, "logcounts")) # extract matrix of gene expressions 
-sample1_coords = spatialCoords(seqfish_data_sample1)[,1:2]
+sample1_coords = spatialCoords(seqfish_data_sample1)[,1:2] %>% as.data.frame()
 colnames(sample1_coords) = c("x", "y")
 
 seqfish_data_sample2 <- LohoffSeqFISHData(samples = 2)
