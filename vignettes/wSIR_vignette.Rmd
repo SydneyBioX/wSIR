@@ -9,7 +9,7 @@ output:
   BiocStyle::html_document:
     toc_float: true
   BiocStyle::pdf_document: default
-package: WSIR
+package: wSIR
 vignette: |
   %\VignetteIndexEntry{WSIR supervised dimension reduction}
   %\VignetteEngine{knitr::rmarkdown}
@@ -38,7 +38,7 @@ set.seed(2024)
 
 # Introduction
 
-Weighted Sliced Inverse Regression (WSIR) is a supervised dimension reduction technique for spatial transcriptomics data. It creates a low-dimensional representation of the gene expression data using its spatial coordinates to obtain information about spatial patterns present in the gene expression data. It can be used to project new single-cell gene expression data into a low-dimensional space in such a way as to preserve the ability to predict a cell's spatial location from its low-dimensional embedding. 
+Weighted Sliced Inverse Regression (wSIR) is a supervised dimension reduction technique for spatial transcriptomics data. It creates a low-dimensional representation of the gene expression data using its spatial coordinates to obtain information about spatial patterns present in the gene expression data. It can be used to project new single-cell gene expression data into a low-dimensional space in such a way as to preserve the ability to predict a cell's spatial location from its low-dimensional embedding. 
 
 ## Vignette Goals
 
