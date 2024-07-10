@@ -8,6 +8,7 @@
 #' slot named 'directions' contains the loadings as a matrix with the gene names as the rownames.
 #' @param highest integer for how many of the top genes you would like to see. Recommend no more
 #' than 20 for ease of visualisation. Default is 10.
+#' @param dirs integer or vector for which direction / directions you want to show/find the top genes from.
 #'
 #' @return List containing two slots. First is named "plot" and shows a barplot with the top genes
 #' and their corresponding loadings. Second is named "genes" and is a vector of the genes with highest
@@ -23,28 +24,33 @@
 #'
 #' @export
 
-top_genes <- function(WSIR, highest = 10) {
+top_genes <- function(WSIR, highest = 10, dirs = 1) {
 
-  # make df with directions from WSIR object
   wsir_dirs_df <- WSIR$directions %>% as.data.frame()
   wsir_dirs_df$gene <- rownames(WSIR$directions)
 
-  # retain in df only genes with high/low loading
-  top_n <- doBy::which.maxn(abs(wsir_dirs_df$V1), highest)
-  wsir_dirs_top_n <- wsir_dirs_df[top_n,]
+  res_df <- matrix(NA, nrow = length(dirs)*highest, ncol = 3) %>% as.data.frame()
+  colnames(res_df) <- c("gene", "loading", "direction")
+  res_df$direction <- vec_rep_each(paste0("WSIR",dirs), highest)
 
-  top_genes_ls <- wsir_dirs_df$V1[top_n]
-  names(top_genes_ls) <- wsir_dirs_df$gene[top_n]
-  top_genes_ls <- sort(top_genes_ls, decreasing = TRUE)
+  j = 0
+  for (i in dirs) {
+    current_top_n <- doBy::which.maxn(abs(wsir_dirs_df[,i]), highest)
+    current_genes <- wsir_dirs_df$gene[current_top_n]
+    current_loadings <- wsir_dirs_df[current_top_n,i]
+    res_df$gene[(j*highest+1):((j+1)*highest)] <- current_genes
+    res_df$loading[(j*highest+1):((j+1)*highest)] <- current_loadings
+    j = j + 1
+  }
 
-  # produce plot
-  loadings_plot <- ggplot(aes(x = reorder(gene, -V1, sum), y = V1), data = wsir_dirs_top_n) +
+  loadings_plot <- ggplot(aes(x = reorder(gene, -loading, sum), y = loading), data = res_df) +
     geom_col(width = 0.6) +
     theme_minimal() +
-    labs(x = "Gene", y = "LowDim1") +
+    labs(x = "Gene", y = "Loading values from WSIR directions") +
     geom_hline(yintercept = 0) +
-    ggtitle(paste("Top", highest, "genes with highest/lowest loading in WSIR1"))
+    ggtitle(paste("Top", highest, "genes with highest/lowest loading in", paste(paste0("WSIR", dirs), collapse = ", "))) +
+    facet_wrap(~direction, nrow = 2, scales = "free")
 
   return(list(plot = loadings_plot,
-              genes = top_genes_ls))
+              genes = res_df))
 }
