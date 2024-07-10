@@ -77,7 +77,10 @@ optim_obj$plot
 Perform WSIR
 
 ```{r}
-wsir_obj = wSIR(exprs = sample1_exprs, coords = sample1_coords, slices = 6, alpha = 4) # create wsir object using optimal values for slices, alpha
+wsir_obj = wSIR(X = sample1_exprs, 
+                coords = sample1_coords, 
+                slices = optim_obj$best_slices, 
+                alpha = optim_obj$best_alpha) # create wsir object using optimal values for slices, alpha
 ```
 
 Observe the genes that contribute the most to WSIR1 (first direction of WSIR) using top_genes function
