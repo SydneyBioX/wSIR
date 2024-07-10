@@ -71,12 +71,15 @@ explore_wsir_params = function(exprs,
   res_df <- matrix(NA, nrow = length(alpha_vals)*length(slice_vals), ncol = 3) %>% as.data.frame()
   colnames(res_df) <- c("alpha", "slices", "metric")
 
-  res_df$alpha <- vec_rep_each(alpha_vals, length(slice_vals)) %>% as.factor()
-  res_df$slices <- rep(slice_vals, length(alpha_vals)) %>% as.factor()
+  res_df$alpha <- vec_rep_each(alpha_vals, length(slice_vals))
+  res_df$slices <- rep(slice_vals, length(alpha_vals))
   res_df$metric <- metric_vals
 
   best_alpha = res_df$alpha[which.max(res_df$metric)]
   best_slices = res_df$slices[which.max(res_df$metric)]
+
+  res_df$alpha <- res_df$alpha %>% as.factor()
+  res_df$slices <- res_df$slices %>% as.factor()
 
   message = paste0("Optimal (alpha, slices) pair: (", best_alpha, ", ", best_slices, ")")
 
