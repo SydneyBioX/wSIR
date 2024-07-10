@@ -16,7 +16,8 @@ wSIR(
   alpha_vals = c(0, 1, 2, 4, 8, 12),
   slice_vals = c(3, 5, 7, 10, 15, 20),
   verbose = FALSE,
-  metric = "DC"
+  metric = "DC",
+  nrep = 5
 )
 }
 \arguments{

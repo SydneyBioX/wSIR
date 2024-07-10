@@ -45,7 +45,8 @@ metric_eval_wsir_optim = function(exprs,
                     slices = slices,
                     alpha = alpha,
                     maxDirections = maxDirections,
-                    varThreshold = varThreshold)
+                    varThreshold = varThreshold,
+                    optim_params = FALSE)
     projected_test = project_wSIR(wsir = wsir_obj, newdata = exprs_test)
 
     if (metric == "CD") {

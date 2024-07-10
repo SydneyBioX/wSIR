@@ -67,8 +67,11 @@ sample2_exprs = t(assay(seqfish_data_sample2, "logcounts")) # extract matrix of 
 Tune parameters to find optimal values for parameters slices, alpha
 
 ```{r}
-plot = explore_wsir_params(exprs = sample1_exprs, coords = sample1_coords, alpha_vals = c(0,2,4,8), slice_vals = c(3,6,10))
-plot
+optim_obj = explore_wsir_params(exprs = sample1_exprs, 
+                           coords = sample1_coords, 
+                           alpha_vals = c(0,2,4,8), 
+                           slice_vals = c(3,6,10))
+optim_obj$plot
 ```
 
 Perform WSIR
