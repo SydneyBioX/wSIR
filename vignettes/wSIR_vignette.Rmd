@@ -70,7 +70,8 @@ Tune parameters to find optimal values for parameters slices, alpha
 optim_obj = explore_wsir_params(exprs = sample1_exprs, 
                            coords = sample1_coords, 
                            alpha_vals = c(0,2,4,8), 
-                           slice_vals = c(3,6,10))
+                           slice_vals = c(3,6,10),
+                           verbose = TRUE)
 optim_obj$plot
 ```
 
@@ -80,7 +81,8 @@ Perform WSIR
 wsir_obj = wSIR(X = sample1_exprs, 
                 coords = sample1_coords, 
                 slices = optim_obj$best_slices, 
-                alpha = optim_obj$best_alpha) # create wsir object using optimal values for slices, alpha
+                alpha = optim_obj$best_alpha,
+                optim_params = FALSE) # create wsir object using optimal values for slices, alpha
 ```
 
 Observe the genes that contribute the most to WSIR1 (first direction of WSIR) using top_genes function
