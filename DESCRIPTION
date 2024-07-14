@@ -30,6 +30,9 @@ Imports:
     patchwork,
     dplyr,
     doBy,
-    umap
+    umap,
+    scran
+Suggests:
+    knitr
 VignetteBuilder: knitr
 RoxygenNote: 7.3.2
