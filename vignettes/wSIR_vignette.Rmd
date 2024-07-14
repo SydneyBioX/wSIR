@@ -103,7 +103,10 @@ vis_obj
 Visualise UMAP plots of low-dimensional representation of sample1_exprs after WSIR, colouring points by the 4 genes that contribute the most to WSIR1 using vis_umap function
 
 ```{r}
-umap_plots = vis_umap(exprs = sample1_exprs, WSIR = wsir_obj, highest_genes = top_genes_obj, n_genes = 4)
+umap_plots = vis_umap(exprs = as.matrix(sample1_exprs), 
+                      WSIR = wsir_obj, 
+                      highest_genes = top_genes_obj, 
+                      n_genes = 4)
 umap_plots
 ```
 

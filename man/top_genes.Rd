@@ -4,7 +4,7 @@
 \alias{top_genes}
 \title{top_genes}
 \usage{
-top_genes(WSIR, highest = 10)
+top_genes(WSIR, highest = 10, dirs = 1)
 }
 \arguments{
 \item{WSIR}{wsir object as output of wSIR function. To analyse a different DR method, ensure the
@@ -12,6 +12,8 @@ slot named 'directions' contains the loadings as a matrix with the gene names as
 
 \item{highest}{integer for how many of the top genes you would like to see. Recommend no more
 than 20 for ease of visualisation. Default is 10.}
+
+\item{dirs}{integer or vector for which direction / directions you want to show/find the top genes from.}
 }
 \value{
 List containing two slots. First is named "plot" and shows a barplot with the top genes
