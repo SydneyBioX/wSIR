@@ -31,8 +31,6 @@ Imports:
     tidyverse,
     doBy,
     umap,
-    scran,
-    MouseGastrulationData,
     vctrs
 Suggests:
     knitr

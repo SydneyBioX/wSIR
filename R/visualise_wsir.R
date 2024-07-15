@@ -18,7 +18,7 @@
 #' coloured by their value for each of the first 'dirs' WSIR directions.
 #'
 #' @examples
-#' load("data/MouseData.Rdata")
+#' data(MouseData)
 #' wsir_obj = wSIR(exprs = sample1_exprs, coords = sample1_coords) # create wsir object
 #' vis_obj = visualise_wsir(coords = sample1_coords, WSIR = wsir_obj, dirs = 8) # create visualisations
 #' vis_obj

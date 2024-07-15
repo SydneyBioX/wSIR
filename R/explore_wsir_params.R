@@ -30,7 +30,7 @@
 #' 4) "best_slices" returns the integer for the best slices value among the values that were tested.
 #'
 #' @examples
-#' load("data/MouseData.Rdata")
+#' data(MouseData)
 #' explore_params = explore_wsir_params(exprs = sample1_exprs, coords = sample1_coords, alpha_vals = c(0,2,4,8), slice_vals = c(3,6,10))
 #' explore_params$plot
 #' explore_params$message
