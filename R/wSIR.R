@@ -44,6 +44,7 @@
 #' such that e.g the first j directions are included if the sum of the first j evalues equals 0.95% of the sum of all evalues.
 #'
 #' @examples
+#' load("data/MouseData.Rdata")
 #' wsir_obj = wSIR(exprs = sample1_exprs, coords = sample1_coords) # create wsir object
 #'
 #' @export

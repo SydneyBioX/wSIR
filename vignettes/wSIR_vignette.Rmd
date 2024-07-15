@@ -23,13 +23,12 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup, message=FALSE, warning=FALSE}
-library(wSIR)
-library(tidyverse)
-library(vctrs)
-library(umap)
-library(scran)
-
-library(MouseGastrulationData) # to load the data for this vignette
+library(wSIR) # package itself
+library(tidyverse) # for %>%, ggplot
+library(vctrs) # vec_rep_each
+library(umap) # umap
+library(scran) # logNormCounts
+library(MouseGastrulationData) # load the data for this vignette
 ```
 
 ```{r}
@@ -46,20 +45,22 @@ In this vignette, we will demonstrate how to use WSIR to obtain a low-dimensiona
 
 # Load Data
 
-Load data from https://www.nature.com/articles/s41587-023-01766-z and prepare. 
+Load data from https://www.nature.com/articles/s41587-021-01006-2 . Commented out is the code to download it yourself (requiring packages MouseGastrulationData and scran). For this vignette and the examples in the .R function files, we simply load the data as it has been already saved at data/MouseData.Rdata.
 
 ```{r}
-seqfish_data_sample1 <- LohoffSeqFISHData(samples = 1)
-seqfish_data_sample1 = logNormCounts(seqfish_data_sample1) # log transform variance stabilising 
-rownames(seqfish_data_sample1) <- rowData(seqfish_data_sample1)[,"SYMBOL"] # change rownames to gene symbols that are consistent across Google 
-sample1_exprs = t(assay(seqfish_data_sample1, "logcounts")) # extract matrix of gene expressions 
-sample1_coords = spatialCoords(seqfish_data_sample1)[,1:2] %>% as.data.frame()
-colnames(sample1_coords) = c("x", "y")
+#seqfish_data_sample1 <- LohoffSeqFISHData(samples = 1)
+#seqfish_data_sample1 = logNormCounts(seqfish_data_sample1) # log transform variance stabilising 
+#rownames(seqfish_data_sample1) <- rowData(seqfish_data_sample1)[,"SYMBOL"] # change rownames to gene symbols that are consistent across Google 
+#sample1_exprs = t(assay(seqfish_data_sample1, "logcounts")) # extract matrix of gene expressions 
+#sample1_coords = spatialCoords(seqfish_data_sample1)[,1:2] %>% as.data.frame()
+#colnames(sample1_coords) = c("x", "y")
 
-seqfish_data_sample2 <- LohoffSeqFISHData(samples = 2)
-seqfish_data_sample2 = logNormCounts(seqfish_data_sample2) # log transform variance stabilising 
-rownames(seqfish_data_sample2) <- rowData(seqfish_data_sample2)[,"SYMBOL"] # change rownames to gene symbols that are consistent across Google 
-sample2_exprs = t(assay(seqfish_data_sample2, "logcounts")) # extract matrix of gene expressions 
+#seqfish_data_sample2 <- LohoffSeqFISHData(samples = 2)
+#seqfish_data_sample2 = logNormCounts(seqfish_data_sample2) # log transform variance stabilising 
+#rownames(seqfish_data_sample2) <- rowData(seqfish_data_sample2)[,"SYMBOL"] # change rownames to gene symbols that are consistent across Google 
+#sample2_exprs = t(assay(seqfish_data_sample2, "logcounts")) # extract matrix of gene expressions 
+
+load("data/MouseData.Rdata")
 ```
 
 # Supervised dimension reduction with WSIR
