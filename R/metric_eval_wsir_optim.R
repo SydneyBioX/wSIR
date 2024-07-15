@@ -21,6 +21,8 @@
 #'
 #' @return Average metric value for the given metric over each train/test split.
 #'
+#' @importFrom stats cor dist
+#'
 #' @keywords internal
 
 metric_eval_wsir_optim = function(exprs,

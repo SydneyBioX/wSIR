@@ -27,8 +27,8 @@ library(wSIR) # package itself
 library(tidyverse) # for %>%, ggplot
 library(vctrs) # vec_rep_each
 library(umap) # umap
-library(scran) # logNormCounts
-library(MouseGastrulationData) # load the data for this vignette
+#library(scran) # logNormCounts
+#library(MouseGastrulationData) # load the data for this vignette
 ```
 
 ```{r}

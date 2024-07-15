@@ -15,6 +15,8 @@
 #' expression data, coloured by their value for each of the genes found by top_genes.
 #'
 #' @importFrom umap umap
+#' @importFrom vctrs vec_rep_each
+#' @importFrom tidyverse ggplot aes geom_point facet_wrap %>%
 #'
 #' @examples
 #' data(MouseData)

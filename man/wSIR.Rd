@@ -78,6 +78,7 @@ response value. Incorporates weighting mechanism into SIR algorithm to generate 
 the data and allow for projection of new single-cell gene expression data into low-dimensional space.
 }
 \examples{
+data(MouseData)
 wsir_obj = wSIR(exprs = sample1_exprs, coords = sample1_coords) # create wsir object
 
 }

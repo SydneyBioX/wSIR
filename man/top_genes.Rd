@@ -25,6 +25,7 @@ A function to find and visualise the genes with the highest (in absolute value) 
 These genes contribute the most to the first low-dimensional direction.
 }
 \examples{
+data(MouseData)
 wsir_obj = wSIR(exprs = sample1_exprs, coords = sample1_coords) # create wsir object
 top_genes_obj = top_genes(WSIR = wsir_obj, highest = 8) # create top genes object
 top_genes_plot = top_genes_obj$plot # select plot

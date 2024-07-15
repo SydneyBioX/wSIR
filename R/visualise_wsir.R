@@ -17,6 +17,9 @@
 #' @return Grid of plots with dirs number of plots. Each shows the cells at their spatial positions
 #' coloured by their value for each of the first 'dirs' WSIR directions.
 #'
+#' @importFrom tidyverse %>% ggplot aes geom_point theme_classic facet_wrap ggtitle scale_color_gradient
+#' @importFrom vctrs vec_rep_each
+#'
 #' @examples
 #' data(MouseData)
 #' wsir_obj = wSIR(exprs = sample1_exprs, coords = sample1_coords) # create wsir object

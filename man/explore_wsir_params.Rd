@@ -58,6 +58,7 @@ it will visualise the performance of WSIR with varying function parameters based
 This pair of slices and alpha can be used for your downstream tasks.
 }
 \examples{
+data(MouseData)
 explore_params = explore_wsir_params(exprs = sample1_exprs, coords = sample1_coords, alpha_vals = c(0,2,4,8), slice_vals = c(3,6,10))
 explore_params$plot
 explore_params$message
