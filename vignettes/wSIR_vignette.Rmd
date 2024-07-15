@@ -60,7 +60,7 @@ Load data from https://www.nature.com/articles/s41587-021-01006-2 . Commented ou
 #rownames(seqfish_data_sample2) <- rowData(seqfish_data_sample2)[,"SYMBOL"] # change rownames to gene symbols that are consistent across Google 
 #sample2_exprs = t(assay(seqfish_data_sample2, "logcounts")) # extract matrix of gene expressions 
 
-load("data/MouseData.Rdata")
+data(MouseData)
 ```
 
 # Supervised dimension reduction with WSIR
