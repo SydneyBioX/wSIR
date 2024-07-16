@@ -12,7 +12,7 @@
 #'
 #' @examples
 #' data(MouseData)
-#' wsir_obj = wSIR(exprs = sample1_exprs, coords = sample1_coords)
+#' wsir_obj = wSIR(X = sample1_exprs, coords = sample1_coords)
 #' sample2_low_dim_exprs = project_wSIR(wsir = wsir_obj, newdata = sample2_exprs)
 #'
 #' @export

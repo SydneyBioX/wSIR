@@ -24,9 +24,12 @@
 #'
 #' @examples
 #' data(MouseData)
-#' wsir_obj = wSIR(exprs = sample1_exprs, coords = sample1_coords) # create wsir object
+#' wsir_obj = wSIR(X = sample1_exprs, coords = sample1_coords) # create wsir object
 #' top_genes_obj = top_genes(WSIR = wsir_obj, highest = 4) # create top genes object
-#' umap_plots = vis_umap(exprs = sample1_exprs, WSIR = wsir_obj, highest_genes = top_genes_obj, n_genes = 4)
+#' umap_plots = vis_umap(exprs = sample1_exprs,
+#'   WSIR = wsir_obj,
+#'   highest_genes = top_genes_obj,
+#'   n_genes = 4)
 #' umap_plots
 #'
 #' @export
