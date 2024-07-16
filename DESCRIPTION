@@ -28,7 +28,8 @@ Depends: R (>= 4.4.0),
 Imports: 
     Rfast,
     patchwork,
-    tidyverse,
+    magrittr,
+    ggplot2,
     doBy,
     umap,
     vctrs

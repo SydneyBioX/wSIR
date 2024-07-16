@@ -16,7 +16,11 @@
 #'
 #' @importFrom umap umap
 #' @importFrom vctrs vec_rep_each
-#' @importFrom tidyverse ggplot aes geom_point facet_wrap %>%
+#' @importFrom ggplot2 facet_wrap
+#' @importFrom ggplot2 ggplot
+#' @importFrom ggplot2 aes
+#' @importFrom ggplot2 geom_point
+#' @importFrom magrittr %>%
 #'
 #' @examples
 #' data(MouseData)

@@ -21,7 +21,8 @@
 #'
 #' @return Average metric value for the given metric over each train/test split.
 #'
-#' @importFrom stats cor dist
+#' @importFrom stats cor
+#' @importFrom stats dist
 #'
 #' @keywords internal
 

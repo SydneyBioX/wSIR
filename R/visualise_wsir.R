@@ -17,7 +17,14 @@
 #' @return Grid of plots with dirs number of plots. Each shows the cells at their spatial positions
 #' coloured by their value for each of the first 'dirs' WSIR directions.
 #'
-#' @importFrom tidyverse %>% ggplot aes geom_point theme_classic facet_wrap ggtitle scale_color_gradient
+#' @importFrom magrittr %>%
+#' @importFrom ggplot2 ggplot
+#' @importFrom ggplot2 aes
+#' @importFrom ggplot2 geom_point
+#' @importFrom ggplot2 theme_classic
+#' @importFrom ggplot2 facet_wrap
+#' @importFrom ggplot2 ggtitle
+#' @importFrom ggplot2 scale_color_gradient
 #' @importFrom vctrs vec_rep_each
 #'
 #' @examples

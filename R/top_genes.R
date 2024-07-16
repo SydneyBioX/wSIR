@@ -15,7 +15,15 @@
 #' (in absolute value) loading in low-dimensional direction 1. Length is parameter highest.
 #'
 #' @importFrom doBy which.maxn
-#' @importFrom tidyverse %>% ggplot aes geom_col theme_minimal labs geom_hline ggtitle facet_wrap
+#' @importFrom magrittr %>%
+#' @importFrom ggplot2 ggplot
+#' @importFrom ggplot2 aes
+#' @importFrom ggplot2 geom_col
+#' @importFrom ggplot2 theme_minimal
+#' @importFrom ggplot2 labs
+#' @importFrom ggplot2 geom_hline
+#' @importFrom ggplot2 ggtitle
+#' @importFrom ggplot2 facet_wrap
 #' @importFrom stats reorder
 #' @importFrom vctrs vec_rep_each
 #'

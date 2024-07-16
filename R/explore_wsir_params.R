@@ -36,7 +36,12 @@
 #' explore_params$message
 #' wsir_obj = wSIR(X = sample1_exprs, coords = sample1_coords, alpha = best_alpha, slices = best_slices)
 #'
-#' @importFrom tidyverse %>% ggplot aes geom_point theme_classic ggtitle
+#' @importFrom magrittr %>%
+#' @importFrom ggplot2 ggplot
+#' @importFrom ggplot2 aes
+#' @importFrom ggplot2 geom_point
+#' @importFrom ggplot2 theme_classic
+#' @importFrom ggplot2 ggtitle
 #' @importFrom vctrs vec_rep_each
 #'
 #' @export
