@@ -61,7 +61,6 @@ This pair of slices and alpha can be used for your downstream tasks.
 data(MouseData)
 explore_params = explore_wsir_params(exprs = sample1_exprs,
   coords = sample1_coords,
-  optim_params = TRUE,
   alpha_vals = c(0,2,4,8),
   slice_vals = c(3,6,10))
 explore_params$plot
