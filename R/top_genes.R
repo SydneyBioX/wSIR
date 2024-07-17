@@ -29,7 +29,11 @@
 #'
 #' @examples
 #' data(MouseData)
-#' wsir_obj = wSIR(X = sample1_exprs, coords = sample1_coords) # create wsir object
+#' wsir_obj = wSIR(X = sample1_exprs,
+#'   coords = sample1_coords,
+#'   optim_params = FALSE,
+#'   alpha = 4,
+#'   slices = 6) # create wsir object
 #' top_genes_obj = top_genes(WSIR = wsir_obj, highest = 8) # create top genes object
 #' top_genes_plot = top_genes_obj$plot # select plot
 #' top_genes_plot # print plot

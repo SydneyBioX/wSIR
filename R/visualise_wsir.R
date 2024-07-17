@@ -29,7 +29,11 @@
 #'
 #' @examples
 #' data(MouseData)
-#' wsir_obj = wSIR(X = sample1_exprs, coords = sample1_coords) # create wsir object
+#' wsir_obj = wSIR(X = sample1_exprs,
+#'   coords = sample1_coords,
+#'   optim_params = FALSE,
+#'   alpha = 4,
+#'   slices = 6) # create wsir object
 #' vis_obj = visualise_wsir(coords = sample1_coords, WSIR = wsir_obj, dirs = 8) # create visualisations
 #' vis_obj
 #'

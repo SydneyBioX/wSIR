@@ -24,7 +24,11 @@
 #'
 #' @examples
 #' data(MouseData)
-#' wsir_obj = wSIR(X = sample1_exprs, coords = sample1_coords) # create wsir object
+#' wsir_obj = wSIR(X = sample1_exprs,
+#'   coords = sample1_coords,
+#'   optim_params = FALSE,
+#'   alpha = 4,
+#'   slices = 6) # create wsir object
 #' top_genes_obj = top_genes(WSIR = wsir_obj, highest = 4) # create top genes object
 #' umap_plots = vis_umap(exprs = sample1_exprs,
 #'   WSIR = wsir_obj,
@@ -51,7 +55,7 @@ vis_umap <- function(exprs,
   umap_df$UMAP1 <- rep(umap_obj$layout[,1], n_genes)
   umap_df$UMAP2 <- rep(umap_obj$layout[,2], n_genes)
   umap_df$gene <- vec_rep_each(gene_names, nrow(exprs))
-  umap_df$expression <- exprs[, gene_inds] %>% as.vector()
+  umap_df$expression <- as.matrix(exprs)[, gene_inds] %>% as.vector()
 
   # create plot
   plot = ggplot(data = umap_df, aes(x = UMAP1, y = UMAP2, colour = expression)) +

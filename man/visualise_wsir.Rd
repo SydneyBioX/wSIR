@@ -31,7 +31,7 @@ The plots give an intuition about what biological signals are contained in the W
 }
 \examples{
 data(MouseData)
-wsir_obj = wSIR(exprs = sample1_exprs, coords = sample1_coords) # create wsir object
+wsir_obj = wSIR(X = sample1_exprs, coords = sample1_coords) # create wsir object
 vis_obj = visualise_wsir(coords = sample1_coords, WSIR = wsir_obj, dirs = 8) # create visualisations
 vis_obj
 

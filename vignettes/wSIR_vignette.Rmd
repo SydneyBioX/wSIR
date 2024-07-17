@@ -24,11 +24,15 @@ knitr::opts_chunk$set(
 
 ```{r setup, message=FALSE, warning=FALSE}
 library(wSIR) # package itself
-library(tidyverse) # for %>%, ggplot
-library(vctrs) # vec_rep_each
-library(umap) # umap
-#library(scran) # logNormCounts
-#library(MouseGastrulationData) # load the data for this vignette
+library(magrittr) # for %>% 
+library(ggplot2) # for ggplot
+library(Rfast) # for distance correlation
+library(doBy) # for which.maxn
+library(vctrs) # for vec_rep_each
+library(umap) # for umap
+
+#library(scran) # for logNormCounts
+#library(MouseGastrulationData) # to download the data for this vignette
 ```
 
 ```{r}
@@ -115,6 +119,7 @@ Projecting sample2_exprs into low-dimensional space using project_wSIR function.
 
 ```{r}
 sample2_low_dim_exprs = project_wSIR(wsir = wsir_obj, newdata = sample2_exprs)
+dim(sample2_low_dim_exprs)
 ```
 
 <details>
