@@ -65,6 +65,8 @@ explore_params = explore_wsir_params(exprs = sample1_exprs,
   slice_vals = c(3,6,10))
 explore_params$plot
 explore_params$message
+best_alpha = explore_params$best_alpha
+best_slices = explore_params$best_slices
 wsir_obj = wSIR(X = sample1_exprs,
   coords = sample1_coords,
   optim_params = FALSE,
