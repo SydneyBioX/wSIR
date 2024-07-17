@@ -21,7 +21,11 @@ function to project new gene expression data into low-dimensional space
 }
 \examples{
 data(MouseData)
-wsir_obj = wSIR(X = sample1_exprs, coords = sample1_coords)
+wsir_obj = wSIR(X = sample1_exprs,
+  coords = sample1_coords,
+  optim_params = FALSE,
+  alpha = 4,
+  slices = 6)
 sample2_low_dim_exprs = project_wSIR(wsir = wsir_obj, newdata = sample2_exprs)
 
 }

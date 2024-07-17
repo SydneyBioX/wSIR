@@ -79,6 +79,10 @@ the data and allow for projection of new single-cell gene expression data into l
 }
 \examples{
 data(MouseData)
-wsir_obj = wSIR(X = sample1_exprs, coords = sample1_coords) # create wsir object
+wsir_obj = wSIR(X = sample1_exprs,
+  coords = sample1_coords,
+  optim_params = TRUE,
+  alpha_vals = c(0,2,4),
+  slice_vals = c(3,6,10)) # create wsir object
 
 }

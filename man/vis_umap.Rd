@@ -32,7 +32,11 @@ their value for the genes with highest (in absolute value) loading in WSIR1.
 }
 \examples{
 data(MouseData)
-wsir_obj = wSIR(X = sample1_exprs, coords = sample1_coords) # create wsir object
+wsir_obj = wSIR(X = sample1_exprs,
+  coords = sample1_coords,
+  optim_params = FALSE,
+  alpha = 4,
+  slices = 6) # create wsir object
 top_genes_obj = top_genes(WSIR = wsir_obj, highest = 4) # create top genes object
 umap_plots = vis_umap(exprs = sample1_exprs,
   WSIR = wsir_obj,
