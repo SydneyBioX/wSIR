@@ -109,7 +109,7 @@ Visualise UMAP plots of low-dimensional representation of sample1_exprs after WS
 
 ```{r}
 umap_coords = generate_umap(WSIR = wsir_obj)
-umap_plots = plot_umap(exprs = m1_exprs,
+umap_plots = plot_umap(exprs = sample1_exprs,
                        umap_coords = umap_coords,
                        highest_genes = top_genes_obj,
                        n_genes = 6)
