@@ -34,7 +34,7 @@ createWeightMatrix <- function(coords, labels, alpha = 4) {
   k <- eig$values > 1e-8
   weight_mat <- eig$vectors[, k, drop = FALSE] %*%
     diag(eig$values[k]) %*%
-    t(eig$vectors[, k, drop = F])
+    t(eig$vectors[, k, drop = FALSE])
 
   weight_mat[!is.finite(weight_mat)] <- 0 #(-1)
 
