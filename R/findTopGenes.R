@@ -1,4 +1,4 @@
-#' top_genes
+#' findTopGenes
 #'
 #' @description
 #' A function to find and visualise the genes with the highest (in absolute value) loading in WSIR1.
@@ -34,13 +34,13 @@
 #'   optim_params = FALSE,
 #'   alpha = 4,
 #'   slices = 6) # create wsir object
-#' top_genes_obj = top_genes(WSIR = wsir_obj, highest = 8) # create top genes object
+#' top_genes_obj = findTopGenes(WSIR = wsir_obj, highest = 8) # create top genes object
 #' top_genes_plot = top_genes_obj$plot # select plot
 #' top_genes_plot # print plot
 #'
 #' @export
 
-top_genes <- function(WSIR, highest = 10, dirs = 1) {
+findTopGenes <- function(WSIR, highest = 10, dirs = 1) {
 
   wsir_dirs_df <- WSIR$directions %>% as.data.frame()
   wsir_dirs_df$gene <- rownames(WSIR$directions)

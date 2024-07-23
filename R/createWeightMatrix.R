@@ -1,4 +1,4 @@
-#' cells_weight_matrix2
+#' createWeightMatrix
 #'
 #' @description
 #' A function to create the weight matrix given the location of the cells, tile allocations and desired spatial weighting strength. Weight matrix entries represent level of spatial correlation between all pairs of tiles.
@@ -11,11 +11,10 @@
 #'
 #' @keywords internal
 
-cells_weight_matrix2 <- function(coords, labels, alpha = 4) {
+createWeightMatrix <- function(coords, labels, alpha = 4) {
   alpha = 4/alpha # alpha_old = 0 (function argument = 0) gives alpha_new = Inf (rather than undefined) which equals SIR
 
-  #browser()
-  avg_coords <- slicer_categorical(coords, labels)
+  avg_coords <- slicerCategorical(coords, labels)
 
   avg_coords_groups <- gsub(".*, ", "", rownames(avg_coords))
 
@@ -30,7 +29,6 @@ cells_weight_matrix2 <- function(coords, labels, alpha = 4) {
   dist_norm <- (1 - dist_mat_new / max(dist_mat, na.rm = TRUE))^alpha
   weight_mat <- dist_norm
   weight_mat[!is.finite(weight_mat)] <- 0 # turn -inf into 0
-  #weight_mat <- (dist_norm^alpha* 2) - 1
   # ensure it is psd
   eig <- eigen(weight_mat)
   k <- eig$values > 1e-8

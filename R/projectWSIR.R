@@ -1,4 +1,4 @@
-#' project_wSIR
+#' projectWSIR
 #'
 #' @description
 #' function to project new gene expression data into low-dimensional space
@@ -17,11 +17,11 @@
 #'   optim_params = FALSE,
 #'   alpha = 4,
 #'   slices = 6)
-#' sample2_low_dim_exprs = project_wSIR(wsir = wsir_obj, newdata = sample2_exprs)
+#' sample2_low_dim_exprs = projectWSIR(wsir = wsir_obj, newdata = sample2_exprs)
 #'
 #' @export
 
-project_wSIR = function(wsir, newdata) {
+projectWSIR = function(wsir, newdata) {
   proj = newdata %*% wsir[[2]]
   return(proj)
 }

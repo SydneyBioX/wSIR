@@ -1,8 +1,8 @@
-#' visualise_wsir
+#' visualiseWSIRDirections
 #'
 #' @description
 #' A function to easily visualise the low-dimensional gene expression data. This function plots
-#' each cell at its true spatial coordinates, coloured by its value for WSIR1 / WSIR2 / ... .
+#' each cell at its true spatial coordinates, coloured by their values for WSIR1 / WSIR2 / ... .
 #' The plots give an intuition about what biological signals are contained in the WSIR directions.
 #'
 #' @param coords dataframe containing spatial positions of n cells in 2D space. Dimension n * 2. Column names must be c("x", "y").
@@ -34,12 +34,12 @@
 #'   optim_params = FALSE,
 #'   alpha = 4,
 #'   slices = 6) # create wsir object
-#' vis_obj = visualise_wsir(coords = sample1_coords, WSIR = wsir_obj, dirs = 8) # create visualisations
+#' vis_obj = visualiseWSIRDirections(coords = sample1_coords, WSIR = wsir_obj, dirs = 8) # create visualisations
 #' vis_obj
 #'
 #' @export
 
-visualise_wsir <- function(coords, WSIR, dirs = 6, mincol = "blue", maxcol = "red") {
+visualiseWSIRDirections <- function(coords, WSIR, dirs = 6, mincol = "blue", maxcol = "red") {
   dirs <- min(dirs, ncol(WSIR$scores)) # make sure it is a valid value
 
   # initiliase empty long df

@@ -1,4 +1,4 @@
-#' metric_eval_wsir_optim
+#' wSIROptimisation
 #'
 #' @description
 #' This function is used for parameter optimisation in WSIR. with provided parameter values, exprs and coords, this function splits the data into equal train/test
@@ -8,10 +8,10 @@
 #' @param exprs matrix of normalised gene expression data for n genes across p cells.
 #' @param coords dataframe containing spatial positions of n cells in 2D space. Dimension n * 2. Column names must be c("x", "y").
 #' @param slices integer for number of slices on each axis of tissue. For example, slices = 4 creates 4 slices along each spatial axis, yielding 4^2 = 16 tiles.
-#' Default is 8, suggested minimum of 3. Suggest to tune this parameter using explore_wsir_params() function.
+#' Default is 8, suggested minimum of 3. Suggest to tune this parameter using exploreWSIRParams() function.
 #' @param alpha integer to specify desired strength of spatial correlation. alpha = 0 gives SIR implementation. Larger values give stronger spatial correlations.
 #' Default value is 4, at which weight matrix value for a pair of tiles is inversely proportional to the physical distance between them. Suggest to tune this
-#' parameter using explore_wsir_params() function.
+#' parameter using exploreWSIRParams() function.
 #' @param maxDirections integer for the maximum number of directions to include in the low-dimenensional embedding. Default is 50.
 #' @param varThreshold numeric proportion of variance in \code{t(X_H) \%*\% W \%*\% X_H} to retain. Must be between 0 and 1. Default is 0.95.
 #' Select higher threshold to include more dimensions, lower threshold to include less dimensions.
@@ -26,14 +26,14 @@
 #'
 #' @keywords internal
 
-metric_eval_wsir_optim = function(exprs,
-                                  coords,
-                                  slices,
-                                  alpha,
-                                  maxDirections,
-                                  varThreshold,
-                                  metric,
-                                  nrep = 3) {
+wSIROptimisation = function(exprs,
+                            coords,
+                            slices,
+                            alpha,
+                            maxDirections,
+                            varThreshold,
+                            metric,
+                            nrep = 3) {
   metric_vals <- rep(0, nrep)
   for (i in 1:nrep) {
     keep <- sample(c(TRUE, FALSE), nrow(exprs), replace = TRUE)
@@ -50,11 +50,11 @@ metric_eval_wsir_optim = function(exprs,
                     maxDirections = maxDirections,
                     varThreshold = varThreshold,
                     optim_params = FALSE)
-    projected_test = project_wSIR(wsir = wsir_obj, newdata = exprs_test)
+    projected_test = projectWSIR(wsir = wsir_obj, newdata = exprs_test)
 
     if (metric == "CD") {
-      current_metric = cor(subset_lower_tri(dist(projected_test)),
-                           subset_lower_tri(dist(coords_test)),
+      current_metric = cor(subsetLowerTri(dist(projected_test)),
+                           subsetLowerTri(dist(coords_test)),
                            method = "spearman",
                            use = "pairwise.complete")
     } else if (metric == "DC") {

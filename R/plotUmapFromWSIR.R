@@ -1,17 +1,16 @@
-#' plot_umap
+#' plotUmapFromWSIR
 #'
 #' @description
 #' A function to plot a UMAP generated on the low-dimensional embedding of the gene expression data. The points are coloured by
 #' their value for the genes with highest (in absolute value) loading in a selected WSIR direction, by default WSIR1.
 #'
 #' @param exprs matrix containing normalised gene expression data including n cells and p genes, dimension n * p.
-#' @param umap_coords UMAP coordinates for each cell that is output of generate_umap function. The UMAP coordinates can be
+#' @param umap_coords UMAP coordinates for each cell that is output of generateUmapFromWSIR function. The UMAP coordinates can be
 #' based on any dimension reduction method, e.g they could be the UMAP coordinates computed on the WSIR dimension reduction
 #' of the gene expression data, or on the PCs (principal components), or on any other low-dimensional matrix. Must be
 #' a matrix of dimension nrow(exprs) * 2.
-#' @param highest_genes output from top_genes function. Ensure that you only used a single WSIR direction in the top_genes
-#' function, otherwise some genes are likely to be displayed multiple times in the resulting plots from this function.
-#' Default is NULL so an error message can easily be thrown if genes and highest_genes are both not provided.
+#' @param highest_genes output from findTopGenes function. Default is NULL so an error message can easily be thrown if genes
+#' and highest_genes are both not provided.
 #' @param genes vector with gene names (must all be in colnames(exprs)) you wish to show in the UMAP plot. The cells
 #' in those plots will be coloured by their expression values for the genes you provide here. Must provide either genes
 #' or highest_genes parameter (not both): provide genes if you want to visualise a few specific genes, provide highest_genes
@@ -39,9 +38,9 @@
 #'   optim_params = FALSE,
 #'   alpha = 4,
 #'   slices = 6) # create wsir object
-#' umap_coords = generate_umap(WSIR = wsir_obj)
-#' top_genes_obj = top_genes(WSIR = wsir_obj, highest = 4) # create top genes object
-#' umap_plot = plot_umap(umap_coords = umap_coords,
+#' umap_coords = generateUmapFromWSIR(WSIR = wsir_obj)
+#' top_genes_obj = findTopGenes(WSIR = wsir_obj, highest = 4) # create top genes object
+#' umap_plot = plotUmapFromWSIR(umap_coords = umap_coords,
 #'   exprs = sample1_exprs,
 #'   highest_genes = top_genes_obj,
 #'   n_genes = 4)
@@ -49,7 +48,7 @@
 #'
 #' @export
 
-plot_umap <- function(exprs,
+plotUmapFromWSIR <- function(exprs,
                      umap_coords,
                      highest_genes = NULL,
                      genes = NULL,

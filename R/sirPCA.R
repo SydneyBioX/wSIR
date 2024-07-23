@@ -1,12 +1,12 @@
-#' sir_PCA
+#' sirPCA
 #'
 #' @description
 #' This function performs eigendecomposition on (X^H)^t %*% W %*% (X^H), where X^H is matrix of scaled slice means.
 #'
 #' @param sliced_data matrix of scaled slice means
 #' @param directions integer, number of directions we want in our final low-dimensional Z.
-#' @param W matrix of slice weights. Output of cells_weight_matrix2 function.
-#' @param varThreshold numeric proportion of eigenvalues of variance in t(X_H) %*% W %*% X_H to retain. 
+#' @param W matrix of slice weights. Output of createWeightMatrix function.
+#' @param varThreshold numeric proportion of eigenvalues of variance in t(X_H) %*% W %*% X_H to retain.
 #' Default is 0.95. Select higher threshold to include more dimensions, lower threshold to include less dimensions.
 #'
 #' @return list containing: 1) "eigenvectors" matrix of eigenvectors of (X^H)^t %*% W %*% (X^H)
@@ -15,7 +15,7 @@
 #'
 #' @keywords internal
 
-sir_PCA <- function(sliced_data,
+sirPCA <- function(sliced_data,
                     directions,
                     W = diag(nrow(sliced_data)),
                     varThreshold = 0.95) {

@@ -67,15 +67,15 @@ wSIR = function(X,
                 nrep = 5) {
 
   if (optim_params) {
-    optim_obj = explore_wsir_params(exprs = X,
-                                    coords = coords,
-                                    alpha_vals = alpha_vals,
-                                    slice_vals = slice_vals,
-                                    varThreshold = varThreshold,
-                                    maxDirections = maxDirections,
-                                    metric = metric,
-                                    nrep = nrep,
-                                    verbose = verbose)
+    optim_obj = exploreWSIRParams(exprs = X,
+                                  coords = coords,
+                                  alpha_vals = alpha_vals,
+                                  slice_vals = slice_vals,
+                                  varThreshold = varThreshold,
+                                  maxDirections = maxDirections,
+                                  metric = metric,
+                                  nrep = nrep,
+                                  verbose = verbose)
     alpha = optim_obj$best_alpha
     slices = optim_obj$best_slices
   }
@@ -83,7 +83,7 @@ wSIR = function(X,
   #browser()
   coords_split = split.data.frame(coords, groups)
 
-  tile_allocations = lapply(coords_split, spatial_allocator2, slices = slices)
+  tile_allocations = lapply(coords_split, spatialAllocator, slices = slices)
 
   tile_allocation = do.call(rbind, tile_allocations)
 
@@ -101,15 +101,15 @@ wSIR = function(X,
   H = table(tile_allocation$coordinate)
   Dmatrix <- diag(sqrt(H)/nrow(X), ncol = length(H))
 
-  corrMatrix = cells_weight_matrix2(coords, labels = labels, alpha = alpha)
+  corrMatrix = createWeightMatrix(coords, labels = labels, alpha = alpha)
 
   W <- Dmatrix %*% corrMatrix %*% Dmatrix
 
 
-  wsir_obj <- sir_categorical(X = X,
-                              Y = tile_allocation,
-                              directions = maxDirections,
-                              W = W,
-                              varThreshold = varThreshold)
+  wsir_obj <- sirCategorical(X = X,
+                             Y = tile_allocation,
+                             directions = maxDirections,
+                             W = W,
+                             varThreshold = varThreshold)
   return(wsir_obj)
 }

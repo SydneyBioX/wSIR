@@ -72,7 +72,7 @@ data(MouseData)
 Tune parameters to find optimal values for parameters slices, alpha
 
 ```{r}
-optim_obj = explore_wsir_params(exprs = sample1_exprs, 
+optim_obj = exploreWSIRParams(exprs = sample1_exprs, 
                            coords = sample1_coords, 
                            alpha_vals = c(0,2,4,8), 
                            slice_vals = c(3,6,10),
@@ -93,7 +93,7 @@ wsir_obj = wSIR(X = sample1_exprs,
 Observe the genes that contribute the most to WSIR1 (first direction of WSIR) using top_genes function
 
 ```{r}
-top_genes_obj = top_genes(WSIR = wsir_obj, highest = 8) # create top genes object
+top_genes_obj = findTopGenes(WSIR = wsir_obj, highest = 8) # create top genes object
 top_genes_plot = top_genes_obj$plot # select plot
 top_genes_plot # print plot
 ```
@@ -101,25 +101,25 @@ top_genes_plot # print plot
 Visualise the WSIR directions using visualise_wsir function
 
 ```{r}
-vis_obj = visualise_wsir(coords = sample1_coords, WSIR = wsir_obj, dirs = 8) # create visualisations
+vis_obj = visualiseWSIRDirections(coords = sample1_coords, WSIR = wsir_obj, dirs = 8) # create visualisations
 vis_obj
 ```
 
 Visualise UMAP plots of low-dimensional representation of sample1_exprs after WSIR, colouring points by the 4 genes that contribute the most to WSIR1 using vis_umap function
 
 ```{r}
-umap_coords = generate_umap(WSIR = wsir_obj)
-umap_plots = plot_umap(exprs = sample1_exprs,
-                       umap_coords = umap_coords,
-                       highest_genes = top_genes_obj,
-                       n_genes = 6)
+umap_coords = generateUmapFromWSIR(WSIR = wsir_obj)
+umap_plots = plotUmapFromWSIR(exprs = sample1_exprs,
+                              umap_coords = umap_coords,
+                              highest_genes = top_genes_obj,
+                              n_genes = 6)
 umap_plots
 ```
 
 Projecting sample2_exprs into low-dimensional space using project_wSIR function. This low-dimensional embedding retains the ability to predict a cell's spatial location that was already present in the gene expression data.
 
 ```{r}
-sample2_low_dim_exprs = project_wSIR(wsir = wsir_obj, newdata = sample2_exprs)
+sample2_low_dim_exprs = projectWSIR(wsir = wsir_obj, newdata = sample2_exprs)
 dim(sample2_low_dim_exprs)
 ```
 

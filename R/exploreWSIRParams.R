@@ -1,4 +1,4 @@
-#' explore_wsir_params function
+#' exploreWSIRParams function
 #'
 #' @description
 #' This function is used to select the optimal values for parameters slices and alpha in weighted sliced inverse regression
@@ -31,7 +31,7 @@
 #'
 #' @examples
 #' data(MouseData)
-#' explore_params = explore_wsir_params(exprs = sample1_exprs,
+#' explore_params = exploreWSIRParams(exprs = sample1_exprs,
 #'   coords = sample1_coords,
 #'   alpha_vals = c(0,2,4,8),
 #'   slice_vals = c(3,6,10))
@@ -54,15 +54,15 @@
 #' @importFrom vctrs vec_rep_each
 #'
 #' @export
-explore_wsir_params = function(exprs,
-                               coords,
-                               alpha_vals = c(0,1,2,4,8,12),
-                               slice_vals = c(3,5,7,10,15,20),
-                               varThreshold = 0.95,
-                               maxDirections = 50,
-                               metric = "DC",
-                               nrep = 5,
-                               verbose = FALSE) {
+exploreWSIRParams = function(exprs,
+                             coords,
+                             alpha_vals = c(0,1,2,4,8,12),
+                             slice_vals = c(3,5,7,10,15,20),
+                             varThreshold = 0.95,
+                             maxDirections = 50,
+                             metric = "DC",
+                             nrep = 5,
+                             verbose = FALSE) {
 
   metric_vals <- c()
 
@@ -74,14 +74,14 @@ explore_wsir_params = function(exprs,
       if (verbose) {
         print(paste("current slices:", slices))
       }
-      metric_current <- metric_eval_wsir_optim(exprs = exprs,
-                                               coords = coords,
-                                               alpha = alpha,
-                                               slices = slices,
-                                               varThreshold = varThreshold,
-                                               maxDirections = maxDirections,
-                                               metric = metric,
-                                               nrep = nrep)
+      metric_current <- wSIROptimisation(exprs = exprs,
+                                         coords = coords,
+                                         alpha = alpha,
+                                         slices = slices,
+                                         varThreshold = varThreshold,
+                                         maxDirections = maxDirections,
+                                         metric = metric,
+                                         nrep = nrep)
       metric_vals <- metric_vals %>% append(metric_current)
     }
   }
