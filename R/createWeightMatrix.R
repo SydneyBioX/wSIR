@@ -32,7 +32,7 @@ createWeightMatrix <- function(coords, labels, alpha = 4) {
   # ensure it is psd
   eig <- eigen(weight_mat)
   k <- eig$values > 1e-8
-  weight_mat <- eig$vectors[, k, drop = F] %*%
+  weight_mat <- eig$vectors[, k, drop = FALSE] %*%
     diag(eig$values[k]) %*%
     t(eig$vectors[, k, drop = F])
 
