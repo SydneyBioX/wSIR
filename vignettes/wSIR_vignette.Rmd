@@ -31,12 +31,8 @@ library(doBy) # for which.maxn
 library(vctrs) # for vec_rep_each
 library(umap) # for umap
 
-#library(scran) # for logNormCounts
-#library(MouseGastrulationData) # to download the data for this vignette
-```
-
-```{r}
-set.seed(2024)
+library(scran) # for logNormCounts
+library(MouseGastrulationData) # to download the data for this vignette
 ```
 
 # Introduction
@@ -51,6 +47,8 @@ In this vignette, we will demonstrate how to use WSIR to obtain a low-dimensiona
 
 Load data from https://www.nature.com/articles/s41587-021-01006-2 . Commented out is the code to download it yourself (requiring packages MouseGastrulationData and scran). For this vignette and the examples in the .R function files, we simply load the data as it has been already saved at data/MouseData.Rdata.
 
+Note: there is a BioConductor limit on the size of data that can be used for examples and vignettes. To stay under that, we randomly sample half of the cells from the two samples.
+
 ```{r}
 #seqfish_data_sample1 <- LohoffSeqFISHData(samples = 1)
 #seqfish_data_sample1 = logNormCounts(seqfish_data_sample1) # log transform variance stabilising 
@@ -63,6 +61,14 @@ Load data from https://www.nature.com/articles/s41587-021-01006-2 . Commented ou
 #seqfish_data_sample2 = logNormCounts(seqfish_data_sample2) # log transform variance stabilising 
 #rownames(seqfish_data_sample2) <- rowData(seqfish_data_sample2)[,"SYMBOL"] # change rownames to gene symbols that are consistent across Google 
 #sample2_exprs = t(assay(seqfish_data_sample2, "logcounts")) # extract matrix of gene expressions 
+
+#set.seed(2024)
+#keep1 = sample(c(TRUE, FALSE), nrow(sample1_exprs), replace = TRUE)
+#keep2 = sample(c(TRUE, FALSE), nrow(sample2_exprs), replace = TRUE)
+
+#sample1_exprs = sample1_exprs[keep1,]
+#sample1_coords = sample1_coords[keep1,]
+#sample2_exprs = sample2_exprs[keep2,]
 
 data(MouseData)
 ```
