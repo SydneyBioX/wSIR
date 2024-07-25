@@ -7,6 +7,11 @@
 #'
 #' @param exprs matrix of normalised gene expression data for n genes across p cells.
 #' @param coords dataframe containing spatial positions of n cells in 2D space. Dimension n * 2. Column names must be c("x", "y").
+#' @param samples sample ID of each cell. In total, must have length equal to the number of cells. For example, if
+#' your dataset has 10000 cells, the first 5000 from sample 1 and the remaining 5000 from sample 2, you would write
+#' samples = c(rep(1, 5000), rep(2, 5000)) to specify that the first 5000 cells are sample 1 and the remaining are sample 2.
+#' Default is that all cells are from sample 1. Sample IDs can be of any format: for the previous example, you could write
+#' samples = c(rep("sample 1", 5000), rep("sample 2", 5000)), and the result would be the same.
 #' @param slices integer for number of slices on each axis of tissue. For example, slices = 4 creates 4 slices along each spatial axis, yielding 4^2 = 16 tiles.
 #' Default is 8, suggested minimum of 3. Suggest to tune this parameter using exploreWSIRParams() function.
 #' @param alpha integer to specify desired strength of spatial correlation. alpha = 0 gives SIR implementation. Larger values give stronger spatial correlations.
@@ -28,6 +33,7 @@
 
 wSIROptimisation = function(exprs,
                             coords,
+                            samples = rep(1, nrow(coords)),
                             slices,
                             alpha,
                             maxDirections,
@@ -39,17 +45,18 @@ wSIROptimisation = function(exprs,
     keep <- sample(c(TRUE, FALSE), nrow(exprs), replace = TRUE)
     exprs_train <- exprs[keep,]
     coords_train <- coords[keep,]
+    samples_train <- samples[keep]
 
     exprs_test <- exprs[!keep,]
     coords_test <- coords[!keep,]
 
-    wsir_obj = wSIR(X = exprs_train,
-                    coords = coords_train,
-                    slices = slices,
-                    alpha = alpha,
-                    maxDirections = maxDirections,
-                    varThreshold = varThreshold,
-                    optim_params = FALSE)
+    wsir_obj = wSIRSpecifiedParams(X = exprs_train,
+                                   coords = coords_train,
+                                   samples = samples_train,
+                                   slices = slices,
+                                   alpha = alpha,
+                                   maxDirections = maxDirections,
+                                   varThreshold = varThreshold)
     projected_test = projectWSIR(wsir = wsir_obj, newdata = exprs_test)
 
     if (metric == "CD") {

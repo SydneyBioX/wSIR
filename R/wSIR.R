@@ -7,7 +7,11 @@
 #'
 #' @param X matrix containing normalised gene expression data including n cells and p genes, dimension n * p.
 #' @param coords dataframe containing spatial positions of n cells in 2D space. Dimension n * 2. Column names must be c("x", "y").
-#' @param groups unsure purpose, to fill when confirmed
+#' @param samples sample ID of each cell. In total, must have length equal to the number of cells. For example, if
+#' your dataset has 10000 cells, the first 5000 from sample 1 and the remaining 5000 from sample 2, you would write
+#' samples = c(rep(1, 5000), rep(2, 5000)) to specify that the first 5000 cells are sample 1 and the remaining are sample 2.
+#' Default is that all cells are from sample 1. Sample IDs can be of any format: for the previous example, you could write
+#' samples = c(rep("sample 1", 5000), rep("sample 2", 5000)), and the result would be the same.
 #' @param slices integer for number of slices on each axis of tissue. For example, slices = 4 creates 4 slices along
 #' each spatial axis, yielding 4^2 = 16 tiles. Default is 8, suggested minimum of 3. Suggest to tune this parameter.
 #' @param alpha integer to specify desired strength of spatial correlation. Suggest to tune this parameter on testing
@@ -54,7 +58,7 @@
 #' @export
 wSIR = function(X,
                 coords,
-                groups = rep(1, nrow(coords)),
+                samples = rep(1, nrow(coords)),
                 slices = 8,
                 alpha = 4,
                 maxDirections = 50,
@@ -69,6 +73,7 @@ wSIR = function(X,
   if (optim_params) {
     optim_obj = exploreWSIRParams(exprs = X,
                                   coords = coords,
+                                  samples = samples,
                                   alpha_vals = alpha_vals,
                                   slice_vals = slice_vals,
                                   varThreshold = varThreshold,
@@ -80,36 +85,12 @@ wSIR = function(X,
     slices = optim_obj$best_slices
   }
 
-  #browser()
-  coords_split = split.data.frame(coords, groups)
-
-  tile_allocations = lapply(coords_split, spatialAllocator, slices = slices)
-
-  tile_allocation = do.call(rbind, tile_allocations)
-
-  tile_allocation$coordinate <- paste0(tile_allocation$coordinate,
-                                       ", ",
-                                       as.integer(factor(groups)))
-
-  # tile_allocation <- spatial_allocator2(coords = coords, slices = slices)
-
-  sliceName = "coordinate"
-  labels = tile_allocation[,sliceName,drop = FALSE]
-
-
-  # This Dmatrix is for the proportion
-  H = table(tile_allocation$coordinate)
-  Dmatrix <- diag(sqrt(H)/nrow(X), ncol = length(H))
-
-  corrMatrix = createWeightMatrix(coords, labels = labels, alpha = alpha)
-
-  W <- Dmatrix %*% corrMatrix %*% Dmatrix
-
-
-  wsir_obj <- sirCategorical(X = X,
-                             Y = tile_allocation,
-                             directions = maxDirections,
-                             W = W,
-                             varThreshold = varThreshold)
+  wsir_obj <- wSIRSpecifiedParams(X = X,
+                                  coords = coords,
+                                  samples = samples,
+                                  alpha = alpha,
+                                  slices = slices,
+                                  maxDirections = maxDirections,
+                                  varThreshold = varThreshold)
   return(wsir_obj)
 }

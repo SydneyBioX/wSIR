@@ -7,6 +7,7 @@
 exploreWSIRParams(
   exprs,
   coords,
+  samples = rep(1, nrow(coords)),
   alpha_vals = c(0, 1, 2, 4, 8, 12),
   slice_vals = c(3, 5, 7, 10, 15, 20),
   varThreshold = 0.95,
@@ -20,6 +21,12 @@ exploreWSIRParams(
 \item{exprs}{matrix containing normalised gene expression data including n cells and p genes, dimension n * p.}
 
 \item{coords}{dataframe containing spatial positions of n cells in 2D space. Dimension n * 2. Column names must be c("x", "y").}
+
+\item{samples}{sample ID of each cell. In total, must have length equal to the number of cells. For example, if
+your dataset has 10000 cells, the first 5000 from sample 1 and the remaining 5000 from sample 2, you would write
+samples = c(rep(1, 5000), rep(2, 5000)) to specify that the first 5000 cells are sample 1 and the remaining are sample 2.
+Default is that all cells are from sample 1. Sample IDs can be of any format: for the previous example, you could write
+samples = c(rep("sample 1", 5000), rep("sample 2", 5000)), and the result would be the same.}
 
 \item{alpha_vals}{vector of numbers as the values of parameter alpha to use in WSIR. 0 gives Sliced Inverse Regression
 (SIR) implementation, and larger values represent stronger spatial correlation. Suggest to use integers for interpretability,
