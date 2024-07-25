@@ -31,8 +31,8 @@ library(doBy) # for which.maxn
 library(vctrs) # for vec_rep_each
 library(umap) # for umap
 
-library(scran) # for logNormCounts
-library(MouseGastrulationData) # to download the data for this vignette
+#library(scran) # for logNormCounts
+#library(MouseGastrulationData) # to download the data for this vignette
 ```
 
 # Introduction
