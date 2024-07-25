@@ -3,10 +3,10 @@ Type: Package
 Title: Weighted Sliced Inverse Regression (WSIR) for supervised dimension reduction of spatial transcriptomics and single cell gene expression data
 Version: 0.1.2
 Authors@R: c(
-    person("Max", "Woollard", , "mwoo5086@uni.sydney.edu.au", role = c("aut", "ctb")),
+    person("Max", "Woollard", , "mwoo5086@uni.sydney.edu.au", role = c("aut", "cre", "ctb")),
     person("Pratibha", "Panwar", role = c("ctb")),
     person("Linh", "Nghiem", role = c("aut","ctb")),
-    person("Shila", "Ghazanfar", , "shazanfar@gmail.com", role = c("aut", "cre", "ctb"))
+    person("Shila", "Ghazanfar", , "shazanfar@gmail.com", role = c("aut", "ctb"))
     )
 Description: Weighted Sliced Inverse Regression (WSIR) is a supervised dimension 
     reduction algorithm for spatial transcriptomics gene expression data. For a 
