@@ -31,8 +31,6 @@
 #' @param slice_vals If you have optim_params = TRUE, then this is the values of slices to optimise over in WSIR.
 #' Suggest maximum value in the vector to be no more than around \eqn{\sqrt{n/20}}, as this upper bound ensures an
 #' average of at least 10 cells per tile in the training set.
-#' @param verbose Logical, use if optim_params = TRUE. If TRUE, prints the current values of slices and alpha as the
-#' tuning gets up to performing WSIR with each value. If FALSE, then no progress updates. Default is FALSE.
 #' @param metric If optim_params = TRUE, this is the evaluation metric to use for parameter tuning. String,
 #' either "DC" to use distance correlation or "CD" to use correlation of distances. Default is "DC".
 #' @param nrep If optim_params = TRUE, this is the integer for the number of train/test splits of the data to
@@ -66,7 +64,6 @@ wSIR = function(X,
                 optim_params = TRUE,
                 alpha_vals = c(0,1,2,4,8,12),
                 slice_vals = c(3,5,7,10,15,20),
-                verbose = FALSE,
                 metric = "DC",
                 nrep = 5) {
 
@@ -79,8 +76,7 @@ wSIR = function(X,
                                   varThreshold = varThreshold,
                                   maxDirections = maxDirections,
                                   metric = metric,
-                                  nrep = nrep,
-                                  verbose = verbose)
+                                  nrep = nrep)
     alpha = optim_obj$best_alpha
     slices = optim_obj$best_slices
   }

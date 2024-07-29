@@ -13,8 +13,7 @@ exploreWSIRParams(
   varThreshold = 0.95,
   maxDirections = 50,
   metric = "DC",
-  nrep = 5,
-  verbose = FALSE
+  nrep = 5
 )
 }
 \arguments{
@@ -44,9 +43,6 @@ Select higher threshold to include more dimensions, lower threshold to include l
 correlation of distances. Default is "DC".}
 
 \item{nrep}{integer for the number of train/test splits of the data to perform.}
-
-\item{verbose}{logical If TRUE, prints the current values of slices and alpha as the tuning gets up to performing WSIR
-with each value. If FALSE, then no progress updates. Default is FALSE.}
 }
 \value{
 List with four slots, named "plot" and "message".

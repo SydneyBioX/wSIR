@@ -24,8 +24,6 @@
 #' @param metric evaluation metric to use for parameter tuning. String, either "DC" to use distance correlation or "CD" to use
 #' correlation of distances. Default is "DC".
 #' @param nrep integer for the number of train/test splits of the data to perform.
-#' @param verbose logical If TRUE, prints the current values of slices and alpha as the tuning gets up to performing WSIR
-#' with each value. If FALSE, then no progress updates. Default is FALSE.
 #'
 #' @return List with four slots, named "plot" and "message".
 #' 1) "Plot" shows the average metric value across the nrep iterations for every combination of parameters slices and alpha.
@@ -67,31 +65,21 @@ exploreWSIRParams = function(exprs,
                              varThreshold = 0.95,
                              maxDirections = 50,
                              metric = "DC",
-                             nrep = 5,
-                             verbose = FALSE) {
+                             nrep = 5) {
 
-  metric_vals <- c()
-
-  for (alpha in alpha_vals) {
-    if (verbose) {
-      print(paste("current alpha:", alpha))
-    }
-    for (slices in slice_vals) {
-      if (verbose) {
-        print(paste("current slices:", slices))
-      }
-      metric_current <- wSIROptimisation(exprs = exprs,
-                                         coords = coords,
-                                         samples = samples,
-                                         alpha = alpha,
-                                         slices = slices,
-                                         varThreshold = varThreshold,
-                                         maxDirections = maxDirections,
-                                         metric = metric,
-                                         nrep = nrep)
-      metric_vals <- metric_vals %>% append(metric_current)
-    }
-  }
+  metric_vals_list = bplapply(alpha_vals, function(alpha) {
+    bplapply(slice_vals, function(slices) {
+      wSIROptimisation(exprs = exprs,
+                       coords = coords,
+                       alpha = alpha,
+                       slices = slices,
+                       varThreshold = varThreshold,
+                       maxDirections = maxDirections,
+                       metric = metric,
+                       nrep = nrep)
+    })
+  })
+  metric_vals <- unlist(metric_vals_list)
 
   res_df <- matrix(NA, nrow = length(alpha_vals)*length(slice_vals), ncol = 3) %>% as.data.frame()
   colnames(res_df) <- c("alpha", "slices", "metric")

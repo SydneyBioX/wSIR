@@ -15,7 +15,6 @@ wSIR(
   optim_params = TRUE,
   alpha_vals = c(0, 1, 2, 4, 8, 12),
   slice_vals = c(3, 5, 7, 10, 15, 20),
-  verbose = FALSE,
   metric = "DC",
   nrep = 5
 )
@@ -56,9 +55,6 @@ Suggest to use integers for interpretability, but can use non-integers. Values m
 \item{slice_vals}{If you have optim_params = TRUE, then this is the values of slices to optimise over in WSIR.
 Suggest maximum value in the vector to be no more than around \eqn{\sqrt{n/20}}, as this upper bound ensures an
 average of at least 10 cells per tile in the training set.}
-
-\item{verbose}{Logical, use if optim_params = TRUE. If TRUE, prints the current values of slices and alpha as the
-tuning gets up to performing WSIR with each value. If FALSE, then no progress updates. Default is FALSE.}
 
 \item{metric}{If optim_params = TRUE, this is the evaluation metric to use for parameter tuning. String,
 either "DC" to use distance correlation or "CD" to use correlation of distances. Default is "DC".}
