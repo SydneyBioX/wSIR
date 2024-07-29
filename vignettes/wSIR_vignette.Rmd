@@ -30,6 +30,7 @@ library(Rfast) # for distance correlation
 library(doBy) # for which.maxn
 library(vctrs) # for vec_rep_each
 library(umap) # for umap
+library(BiocParallel)
 
 #library(scran) # for logNormCounts
 #library(MouseGastrulationData) # to download the data for this vignette
@@ -81,8 +82,7 @@ Tune parameters to find optimal values for parameters slices, alpha
 optim_obj = exploreWSIRParams(exprs = sample1_exprs, 
                            coords = sample1_coords, 
                            alpha_vals = c(0,2,4,8), 
-                           slice_vals = c(3,6,10),
-                           verbose = TRUE)
+                           slice_vals = c(3,6,10))
 optim_obj$plot
 ```
 
