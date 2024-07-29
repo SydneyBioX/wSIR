@@ -31,7 +31,8 @@ Imports:
     ggplot2,
     doBy,
     umap,
-    vctrs
+    vctrs,
+    BiocParallel
 Suggests:
     knitr
 VignetteBuilder: knitr

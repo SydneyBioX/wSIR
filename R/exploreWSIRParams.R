@@ -55,6 +55,7 @@
 #' @importFrom ggplot2 theme_classic
 #' @importFrom ggplot2 ggtitle
 #' @importFrom vctrs vec_rep_each
+#' @importFrom BiocParallel bplapply
 #'
 #' @export
 exploreWSIRParams = function(exprs,
