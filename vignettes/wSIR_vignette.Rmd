@@ -30,7 +30,7 @@ library(Rfast) # for distance correlation
 library(doBy) # for which.maxn
 library(vctrs) # for vec_rep_each
 library(umap) # for umap
-library(BiocParallel)
+library(BiocParallel) # for parallel computing in exploreWSIRParams with BiocParallel
 
 #library(scran) # for logNormCounts
 #library(MouseGastrulationData) # to download the data for this vignette
@@ -38,15 +38,23 @@ library(BiocParallel)
 
 # Introduction
 
-Weighted Sliced Inverse Regression (wSIR) is a supervised dimension reduction technique for spatial transcriptomics data. It creates a low-dimensional representation of the gene expression data using its spatial coordinates to obtain information about spatial patterns present in the gene expression data. It can be used to project new single-cell gene expression data into a low-dimensional space in such a way as to preserve the ability to predict a cell's spatial location from its low-dimensional embedding. 
+Weighted Sliced Inverse Regression (wSIR) is a supervised dimension reduction technique for spatial transcriptomics data. This method uses each cell's gene expression values as covariates and spatial position as the response. This allows us to create a low-dimensional representation of the gene expression data that retains the information about spatial patterns that is present in the gene expression data. The resulting mapping from gene expression data to a spatially aware low-dimensional embedding can be used to project new single-cell gene expression data into a low-dimensional space which preserves the ability to predict each cell's spatial location from its low-dimensional embedding. 
+
+## Method Overview
+
+wSIR is an extension of the supervised dimension technique of Sliced Inverse Regression (SIR). 
+
+To understand the innovation of wSIR, we must first go over SIR. SIR is an existing supervised dimension reduction method which works by grouping together the observations with similar values for the response. For spatial transcriptomics data, this means grouping all the cells into a certain number of tiles based on their spatial position. For example, if we use 4 tiles, then the cells in the top right quadrant go to one group, those in the top left to another, and so on. Each of those groups is then summarised by averaging the expresssion level of all cells in each group for each of the genes. From there, PCA is performed (not exactly but pretty much) on the resulting matrix of tile-gene means, then returning the SIR directions (PC directions) and SIR scores (PCs).
+
+The motivation behind wSIR is that SIR only uses each cell's spatial position when we are separating the cells into the given number of groups/tiles. Once those groups are created, we lose the fact that some groups may be more spatially related (if they come from adjacent tiles) than other groups (if they come from opposite sides of the tissue). wSIR uses a weight matrix to incorporate the spatial correlation between all pairs of cells in the SIR algorithm. This matrix has dimension H*H, where H is the number of tiles, and the (i,j)th entry represents the distance between tiles i and j. 
 
 ## Vignette Goals
 
-In this vignette, we will demonstrate how to use WSIR to obtain a low-dimensional embedding of gene expression data. We will then explore this embedding using the in-built functions in the package, but this low-dimensional matrix is more importantly used for your own downstream tasks that would benefit from a lower-dimensional representation of gene expression data that preserves information about each cell's spatial location. 
+In this vignette, we will demonstrate how to use WSIR to obtain a low-dimensional embedding of gene expression data. We will then explore this embedding using the package's built-in functions. However, this low-dimensional matrix is more importantly used for your own downstream tasks that would benefit from a lower-dimensional representation of gene expression data that preserves information about each cell's spatial location. We perform some basic downstream analysis to demonstrate the practicality of wSIR.
 
 # Load Data
 
-Load data from https://www.nature.com/articles/s41587-021-01006-2 . Commented out is the code to download it yourself (requiring packages MouseGastrulationData and scran). For this vignette and the examples in the .R function files, we simply load the data as it has been already saved at data/MouseData.Rdata.
+We use data from https://www.nature.com/articles/s41587-021-01006-2 . I have commented out the code to download it yourself (which requires packages MouseGastrulationData and scran). For this vignette and the examples in the .R function files, we simply load this data that has already been saved at data/MouseData.Rdata.
 
 Note: there is a BioConductor limit on the size of data that can be used for examples and vignettes. To stay under that, we randomly sample half of the cells from the two samples.
 
