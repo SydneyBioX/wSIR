@@ -6,6 +6,9 @@
 \alias{sample1_exprs}
 \alias{sample1_coords}
 \alias{sample2_exprs}
+\alias{sample2_coords}
+\alias{sample3_exprs}
+\alias{sample3_coords}
 \title{MouseGastrulationData}
 \format{
 \code{sample1_exprs} has a row for each cell in sample 1 and a column for the

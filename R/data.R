@@ -7,7 +7,7 @@
 #'
 #'
 #' @name MouseData
-#' @aliases sample1_exprs sample1_coords sample2_exprs
+#' @aliases sample1_exprs sample1_coords sample2_exprs sample2_coords sample3_exprs sample3_coords
 #' @docType data
 #' @format \code{sample1_exprs} has a row for each cell in sample 1 and a column for the
 #' expression level of each gene. \code{sample1_coords} has a row for each cell in sample 1
