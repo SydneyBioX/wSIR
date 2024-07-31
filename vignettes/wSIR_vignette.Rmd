@@ -32,8 +32,8 @@ library(vctrs) # for vec_rep_each
 library(umap) # for umap
 library(BiocParallel) # for parallel computing in exploreWSIRParams with BiocParallel
 
-library(scran) # for logNormCounts
-library(MouseGastrulationData) # to download the data for this vignette
+#library(scran) # for logNormCounts
+#library(MouseGastrulationData) # to download the data for this vignette
 ```
 
 # Introduction
@@ -56,33 +56,45 @@ In this vignette, we will demonstrate how to use WSIR to obtain a low-dimensiona
 
 We use data from https://www.nature.com/articles/s41587-021-01006-2 . I have commented out the code to download it yourself (which requires packages MouseGastrulationData and scran). For this vignette and the examples in the .R function files, we simply load this data that has already been saved at data/MouseData.Rdata.
 
-Note: there is a BioConductor limit on the size of data that can be used for examples and vignettes. To stay under that, we randomly sample half of the cells from the two samples.
+Note: there is a BioConductor limit on the size of data that can be used for examples and vignettes. To stay under that, we randomly sample half of the cells from each of the three samples.
 
 ```{r}
-seqfish_data_sample1 <- LohoffSeqFISHData(samples = 1)
-seqfish_data_sample1 = logNormCounts(seqfish_data_sample1) # log transform variance stabilising 
-rownames(seqfish_data_sample1) <- rowData(seqfish_data_sample1)[,"SYMBOL"] # change rownames to gene symbols that are consistent across Google 
-sample1_exprs = t(assay(seqfish_data_sample1, "logcounts")) # extract matrix of gene expressions 
-sample1_coords = spatialCoords(seqfish_data_sample1)[,1:2] %>% as.data.frame()
-colnames(sample1_coords) = c("x", "y")
+#seqfish_data_sample1 <- LohoffSeqFISHData(samples = 1)
+#seqfish_data_sample1 = logNormCounts(seqfish_data_sample1) # log transform variance stabilising 
+#rownames(seqfish_data_sample1) <- rowData(seqfish_data_sample1)[,"SYMBOL"] # change rownames to gene symbols that are consistent across Google 
+#sample1_exprs = t(assay(seqfish_data_sample1, "logcounts")) # extract matrix of gene expressions 
+#sample1_coords = spatialCoords(seqfish_data_sample1)[,1:2] %>% as.data.frame()
+#colnames(sample1_coords) = c("x", "y")
 
-seqfish_data_sample2 <- LohoffSeqFISHData(samples = 2)
-seqfish_data_sample2 = logNormCounts(seqfish_data_sample2) # log transform variance stabilising 
-rownames(seqfish_data_sample2) <- rowData(seqfish_data_sample2)[,"SYMBOL"] # change rownames to gene symbols that are consistent across Google 
-sample2_exprs = t(assay(seqfish_data_sample2, "logcounts")) # extract matrix of gene expressions 
-sample2_coords = spatialCoords(seqfish_data_sample2)[,1:2] %>% as.data.frame()
-colnames(sample2_coords) = c("x", "y")
+#seqfish_data_sample2 <- LohoffSeqFISHData(samples = 2)
+#seqfish_data_sample2 = logNormCounts(seqfish_data_sample2) # log transform variance stabilising 
+#rownames(seqfish_data_sample2) <- rowData(seqfish_data_sample2)[,"SYMBOL"] # change rownames to gene symbols that are consistent across Google 
+#sample2_exprs = t(assay(seqfish_data_sample2, "logcounts")) # extract matrix of gene expressions 
+#sample2_coords = spatialCoords(seqfish_data_sample2)[,1:2] %>% as.data.frame()
+#colnames(sample2_coords) = c("x", "y")
 
-seqfish_data_sample3 <- LohoffSeqFISHData(samples = 3)
-seqfish_data_sample3 = logNormCounts(seqfish_data_sample3) # log transform variance stabilising 
-rownames(seqfish_data_sample3) <- rowData(seqfish_data_sample3)[,"SYMBOL"] # change rownames to gene symbols that are consistent across Google 
-sample3_exprs = t(assay(seqfish_data_sample3, "logcounts")) # extract matrix of gene expressions 
-sample3_coords = spatialCoords(seqfish_data_sample3)[,1:2] %>% as.data.frame()
-colnames(sample3_coords) = c("x", "y")
+#seqfish_data_sample3 <- LohoffSeqFISHData(samples = 3)
+#seqfish_data_sample3 = logNormCounts(seqfish_data_sample3) # log transform variance stabilising 
+#rownames(seqfish_data_sample3) <- rowData(seqfish_data_sample3)[,"SYMBOL"] # change rownames to gene symbols that are consistent across Google 
+#sample3_exprs = t(assay(seqfish_data_sample3, "logcounts")) # extract matrix of gene expressions 
+#sample3_coords = spatialCoords(seqfish_data_sample3)[,1:2] %>% as.data.frame()
+#colnames(sample3_coords) = c("x", "y")
 
-data(MouseData)
+#set.seed(2024)
+#keep1 = sample(c(TRUE, FALSE), nrow(sample1_exprs), replace = TRUE)
+#keep2 = sample(c(TRUE, FALSE), nrow(sample2_exprs), replace = TRUE)
+#keep3 = sample(c(TRUE, FALSE), nrow(sample3_exprs), replace = TRUE)
+
+#sample1_exprs = sample1_exprs[keep1,]
+#sample1_coords = sample1_coords[keep1,]
+#sample2_exprs = sample2_exprs[keep2,]
+#sample2_coords = sample2_coords[keep2,]
+#sample3_exprs = sample3_exprs[keep3,]
+#sample3_coords = sample3_coords[keep3,]
 
 #save(sample1_exprs, sample1_coords, sample2_exprs, sample2_coords, sample3_exprs, sample3_coords, file = "MouseData.RData", compress = "xz")
+
+data(MouseData)
 ```
 
 # Supervised dimension reduction with WSIR
