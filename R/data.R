@@ -13,6 +13,10 @@
 #' expression level of each gene. \code{sample1_coords} has a row for each cell in sample 1
 #' and a column for its position in each of the two spatial axes. \code{sample2_exprs} has
 #' a row for each cell in sample 2 and a column for the expression level of each gene.
+#' \code{sample2_coords} has a row for each cell in sample 2 and a column for its position
+#' in each of the two spatial axes. \code{sample3_exprs} has a row for each cell in sample 3
+#' and a column for the expression level of each gene. \code{sample3_coords} has a row for
+#' each cell in sample 3 and a column for its position in each of the two spatial axes.
 #' @source Integration of spatial and single-cell transcriptomic data elucidates mouse
 #' organogenesis, \emph{Nature Biotechnology}, 2022.  Webpage:
 #' \url{https://www.nature.com/articles/s41587-021-01006-2}

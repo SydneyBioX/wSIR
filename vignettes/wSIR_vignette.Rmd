@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup, message=FALSE, warning=FALSE}
+```{r, message=FALSE, warning=FALSE}
 library(wSIR) # package itself
 library(magrittr) # for %>% 
 library(ggplot2) # for ggplot
@@ -81,9 +81,9 @@ Note: there is a BioConductor limit on the size of data that can be used for exa
 #colnames(sample3_coords) = c("x", "y")
 
 #set.seed(2024)
-#keep1 = sample(c(TRUE, FALSE), nrow(sample1_exprs), replace = TRUE)
-#keep2 = sample(c(TRUE, FALSE), nrow(sample2_exprs), replace = TRUE)
-#keep3 = sample(c(TRUE, FALSE), nrow(sample3_exprs), replace = TRUE)
+#keep1 = sample(c(TRUE, FALSE), nrow(sample1_exprs), replace = TRUE, prob = c(0.2, 0.8))
+#keep2 = sample(c(TRUE, FALSE), nrow(sample2_exprs), replace = TRUE, prob = c(0.2, 0.8))
+#keep3 = sample(c(TRUE, FALSE), nrow(sample3_exprs), replace = TRUE, prob = c(0.2, 0.8))
 
 #sample1_exprs = sample1_exprs[keep1,]
 #sample1_coords = sample1_coords[keep1,]
