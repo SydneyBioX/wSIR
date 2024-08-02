@@ -45,13 +45,17 @@ correlation of distances. Default is "DC".}
 \item{nrep}{integer for the number of train/test splits of the data to perform.}
 }
 \value{
-List with four slots, named "plot" and "message".
+List with five slots, named "plot", "message", "best_alpha", "best_slices" and "results_dataframe".
 \enumerate{
-\item "Plot" shows the average metric value across the nrep iterations for every combination of parameters slices and alpha.
+\item "plot" shows the average metric value across the nrep iterations for every combination of parameters slices and alpha.
 Larger circles for a slices/alpha combination indicates better performance for that pair of values.
 \item "message" tells you the parameter combination with highest metric value.
 \item "best_alpha" returns the integer for the best alpha values among the values that were tested.
 \item "best_slices" returns the integer for the best slices value among the values that were tested.
+\item "results_dataframe" returns the results dataframe used to create "plot". This dataframe has length(alpha_vals)*length(slice_vals) rows,
+where one is for each combination of parameters slices and alpha. There are 3 columns, named "alpha", "slices" and "metric". Column
+"alpha" includes the value for parameter alpha, column "slices" includes the value for parameter slices, and column
+"metric" includes the value for the specified metric, either Distance Correlation ("DC") or Correlation of Distances ("CD").
 }
 }
 \description{
