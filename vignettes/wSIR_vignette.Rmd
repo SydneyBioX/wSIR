@@ -100,6 +100,11 @@ data(MouseData)
 
 # Supervised dimension reduction with WSIR
 
+WSIR contains two parameters, alpha and slices. Parameter "slices" is the number of groups along each spatial axis into which we split the observations in the wSIR algorithm. More slices means we could pick up more spatial information in the gene expression data, but we risk overfitting on the training set. Parameter "alpha" modifies the strength of the weight matrix. Alpha = 0 gives no spatial weighting, meaning the weight matrix becomes the identity matrix. This is equivalent to SIR. Larger alpha values means there is more weight given to spatial correlation rather than gene expression differences alone in the computation of the wSIR directions. 
+
+These parameters should both be tuned over some reasonable values. The function exploreWSIRParams computes and visualises the performance of wSIR for all given combinations of "slices" and "alpha". The performance is computed from the following procedure:
+- 
+
 Tune parameters to find optimal values for parameters slices, alpha
 
 ```{r}
