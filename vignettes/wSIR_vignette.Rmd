@@ -49,7 +49,7 @@ SIR is an existing supervised dimension reduction method which works by grouping
 
 The motivation behind wSIR is that SIR only uses each cell's spatial position when we are separating the cells into the given number of groups/tiles. Once those groups are created, we lose the fact that some groups may be more spatially related (if they come from adjacent tiles) than other groups (if they come from opposite sides of the tissue). wSIR uses a weight matrix to incorporate the spatial correlation between all pairs of cells in the SIR algorithm. This matrix has dimension H*H, where H is the number of tiles, and the (i,j)th entry represents the distance between tiles i and j. This metrix is incorporated into the eigendeomposition step. The wSIR output has the same structure as the SIR output. 
 
-## Vignette Goals
+## Vignette Overview
 
 In this vignette, we will demonstrate how to use WSIR to obtain a low-dimensional embedding of gene expression data. We will then explore this embedding using the package's built-in functions. However, this low-dimensional matrix is more importantly used for your own downstream tasks that would benefit from a lower-dimensional representation of gene expression data that preserves information about each cell's spatial location. We perform some basic downstream analysis to demonstrate the practicality of wSIR.
 
@@ -57,7 +57,7 @@ In this vignette, we will demonstrate how to use WSIR to obtain a low-dimensiona
 
 We use data from https://www.nature.com/articles/s41587-021-01006-2 . I have commented out the code to download it yourself (which requires packages MouseGastrulationData and scran). For this vignette and the examples in the .R function files, we simply load this data that has already been saved at data/MouseData.Rdata.
 
-Note: there is a BioConductor limit on the size of data that can be used for examples and vignettes. To stay under that, we randomly sample 20% of the cells from each of the three samples. 
+Note: there is a BioConductor limit on the size of data that can be used for examples and vignettes. To stay under that, we randomly sample 20% of the cells from each of the three samples. This random sampling is also commented out.
 
 ```{r}
 #seqfish_data_sample1 <- LohoffSeqFISHData(samples = 1)
@@ -100,12 +100,22 @@ data(MouseData)
 
 # Supervised dimension reduction with WSIR
 
+## Parameter Study
+
 WSIR contains two parameters, alpha and slices. Parameter "slices" is the number of groups along each spatial axis into which we split the observations in the wSIR algorithm. More slices means we could pick up more spatial information in the gene expression data, but we risk overfitting on the training set. Parameter "alpha" modifies the strength of the weight matrix. Alpha = 0 gives no spatial weighting, meaning the weight matrix becomes the identity matrix. This is equivalent to SIR. Larger alpha values means there is more weight given to spatial correlation rather than gene expression differences alone in the computation of the wSIR directions. 
 
-These parameters should both be tuned over some reasonable values. The function exploreWSIRParams computes and visualises the performance of wSIR for all given combinations of "slices" and "alpha". The performance is computed from the following procedure:
-- 
+For this parameter study, we will use sample 1 only.
 
-Tune parameters to find optimal values for parameters slices, alpha
+These parameters should both be tuned over some reasonable values. The function exploreWSIRParams computes and visualises the performance of wSIR for all given combinations of "slices" and "alpha". The performance is computed from the following procedure:
+1) For each combination of slices and alpha, split the data into 50% train and 50% test (where train and test halves both include gene expression data and cell coordinates). 
+2) Perform WSIR on the training set using the current combination of slices and alpha. 
+3) Project the gene expression data of the testing set into low-dimensional space using the wSIR results from step 2.
+4) Evaluate wSIR's performance by computing either the distance correlation or the correlation of distances between the projected gene expression data of the test set and the test coordinates. The evaluation metric depends whether you use "DC" or "CD" for the "metric" parameter in exploreWSIRParams. Default is "DC" (distance correlation).
+5) Repeat steps 2-4 until it has been done "nrep" times ("nrep" is a parameter whose default is 5). Find the average metric value over each of the nrep iterations for this combination of slices and alpha.
+6) Repeat steps 1-5 with all other combinations of "slices" and "alpha" to get an average metric value for each combination. 
+7) Return the combination with highest average metric value and a plot showing the performance for every combination of parameters.
+
+Note: a key advantage of wSIR over SIR is parameter robustness. SIR's performance deteriorates as you use larger values for "slices". However, wSIR's performance is relatively stable as you vary both "slices" and "alpha" among reasonable valuess (e.g among the default values we optimise over). In the following plot, the metric value becomes smaller as we increase the number of slices for alpha = 0 (which corresponds to SIR). Performance is stable for all non-zero alpha and slice combinations (which correspond to wSIR). 
 
 ```{r}
 optim_obj = exploreWSIRParams(exprs = sample1_exprs, 
@@ -115,17 +125,27 @@ optim_obj = exploreWSIRParams(exprs = sample1_exprs,
 optim_obj$plot
 ```
 
-Perform WSIR
+## WSIR Computation
+
+We next perform wSIR using the optimal parameter combination that we found in the previous section. We use the gene expression matrix and spatial coordinates from sample 1 here. This returns a list of results with 5 (named) slots, whose details can be found at ?wSIR::wSIR. 
 
 ```{r}
 wsir_obj = wSIR(X = sample1_exprs, 
                 coords = sample1_coords, 
                 slices = optim_obj$best_slices, 
                 alpha = optim_obj$best_alpha,
-                optim_params = FALSE) # create wsir object using optimal values for slices, alpha
+                optim_params = FALSE)
 ```
 
-Observe the genes that contribute the most to WSIR1 (first direction of WSIR) using top_genes function
+# WSIR Results Analysis
+
+In this section, we will demonstrate how to use the built-in analysis functions to better understand how wSIR creates a spatially-informed low-dimensional embedding. These functions all use a wSIR result as an input. Here, we use the output from the previous section, meaning we are therefore studying the result of performing wSIR on sample 1 only.
+
+## WSIR Top Genes
+
+The findTopGenes function finds and plots the genes with highest loading in the specified wSIR directions (default is just direction 1). If a gene has high loading (in terms of absolute value), it is more important to the wSIR direction. Since the wSIR directions are designed to retain information about each cell's spatial position, the genes with high loading should be spatially-related genes. 
+
+In the plot below, we can see which gene
 
 ```{r}
 top_genes_obj = findTopGenes(WSIR = wsir_obj, highest = 8) # create top genes object
