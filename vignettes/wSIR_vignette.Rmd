@@ -145,7 +145,7 @@ In this section, we will demonstrate how to use the built-in analysis functions 
 
 The findTopGenes function finds and plots the genes with highest loading in the specified wSIR directions (default is just direction 1). If a gene has high loading (in terms of absolute value), it is more important to the wSIR direction. Since the wSIR directions are designed to retain information about each cell's spatial position, the genes with high loading should be spatially-related genes. 
 
-In the plot below, we can see which gene
+In the plot below, we can see which genes have the highest loading in wSIR direction 1. This is useful as it gives us an intuition about how wSIR creates the low-dimensional embedding. We can see that some of the genes are known spatial genes (e.g Cdx2, Hox-), which is what we would hope to see. 
 
 ```{r}
 top_genes_obj = findTopGenes(WSIR = wsir_obj, highest = 8) # create top genes object
@@ -153,14 +153,24 @@ top_genes_plot = top_genes_obj$plot # select plot
 top_genes_plot # print plot
 ```
 
-Visualise the WSIR directions using visualise_wsir function
+## Visualising WSIR Scores 
+
+The visualiseWSIRDirections function plots each cell at its spatial position, coloured by its value for each of the specified WSIR columns. This gives us an understanding of what each column of the low-dimensional embedding represents. 
+
+Below, we visualise the cells at their spatial positions, coloured by each of the 5 wSIR columns. The top left plot illustrates how, for this example, wSIR column one captures information about the "y" spatial axis, since cells with higher "y" coordinate have low wSIR1 value, while cells with lower "y" coordinate have higher wSIR1 value. wSIR2 is shown in the next plot over (the one titled "2"), and we can see that wSIR column two appears to capture information about the "x" spatial coordinate. The remaining three wSIR columns all contain information about cell types, which we can tell by the regions of high and low wSIR column values spread across the tissue. 
 
 ```{r}
 vis_obj = visualiseWSIRDirections(coords = sample1_coords, WSIR = wsir_obj, dirs = 8) # create visualisations
 vis_obj
 ```
 
-Visualise UMAP plots of low-dimensional representation of sample1_exprs after WSIR, colouring points by the 4 genes that contribute the most to WSIR1 using vis_umap function
+## UMAP on low-dimensional embedding
+
+The two functions generateUmapFromWSIR and plotUmapFromWSIR create and show UMAP dimension reduction calculated on the wSIR low-dimensional embedding. We can colour each point in the UMAP plot (where each represents a cell) by its value for various genes of interest. This visualises the structure of the wSIR dimension reduction space, which is useful to gain more intuition about what the space represents. Specifically, we can see if the wSIR space contains neighbourhoods of high expression for specific genes, thus better understanding how this space is made. 
+
+To specify which genes we would like to include, we can use the output from the findTopGenes function, which automatically finds spatially-related genes by finding those with the highest loading in relevant wSIR directions. This output is then the value for the highest_genes parameter. Otherwise, we could also specify our own genes of interest if there are some specific genes we would like to see. For example, if we wanted to visualise the expression distribution for Cdx2 and Hoxb4, we could use genes = c("Cdx2", "Hoxb4") as an argument in plotUmapFromWSIR (and leave highest_genes blank). 
+
+Below, we use the UMAP function to visualise the wSIR space computed on the gene expression data from sample 1. We colour each cell by their values for the 6 genes with highest value in wSIR direction 1 (as found by the findTopGenes function previously). We can see that for some of these genes, there are specific regions of high expression in the UMAP plots, suggesting that the wSIR space separates cells based on their expression for thos genes.
 
 ```{r}
 umap_coords = generateUmapFromWSIR(WSIR = wsir_obj)
@@ -170,6 +180,12 @@ umap_plots = plotUmapFromWSIR(exprs = sample1_exprs,
                               n_genes = 6)
 umap_plots
 ```
+
+# Projection of new data with wSIR
+
+A key functionality of the wSIR algorithm is the ability to project new single-cell data into the wSIR low-dimensional space. This will allow for a low-dimensional representation of gene expression data that contains information about each cell's spatial position even though we do not have access to the spatial coordinates for this new data. This low-dimensional wSIR embedding would be especially useful for downstream applications, like spatial alignment or spatial clustering (where we don't have spatial coordinates). 
+
+Here, we will demonstrate the steps for that, as well as a specific application. 
 
 Projecting sample2_exprs into low-dimensional space using project_wSIR function. This low-dimensional embedding retains the ability to predict a cell's spatial location that was already present in the gene expression data.
 
