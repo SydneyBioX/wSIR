@@ -183,16 +183,36 @@ umap_plots
 
 # Projection of new data with wSIR
 
-A key functionality of the wSIR algorithm is the ability to project new single-cell data into the wSIR low-dimensional space. This will allow for a low-dimensional representation of gene expression data that contains information about each cell's spatial position even though we do not have access to the spatial coordinates for this new data. This low-dimensional wSIR embedding would be especially useful for downstream applications, like spatial alignment or spatial clustering (where we don't have spatial coordinates). 
+A key functionality of the wSIR package is the ability to project new single-cell data into the wSIR low-dimensional space. This will allow for a low-dimensional representation of gene expression data that contains information about each cell's spatial position even though we do not have access to the spatial coordinates for this new data. This low-dimensional wSIR embedding would be especially useful for downstream applications, like spatial alignment or spatial clustering (where we don't have spatial coordinates). 
 
 Here, we will demonstrate the steps for that, as well as a specific application. 
 
-Projecting sample2_exprs into low-dimensional space using project_wSIR function. This low-dimensional embedding retains the ability to predict a cell's spatial location that was already present in the gene expression data.
+For each projection example, we will perform wSIR on a spatial transcriptomics dataset which includes gene expression data and spatial coordinates. We will then project a "single-cell" dataset, which only contains the gene expression matrix, into wSIR low-dimensional space. 
+
+## Single-sample spatial dataset, single-sample single-cell dataset
+
+Here, we demonstrate the steps to project a new sample single-cell dataset into wSIR low-dimensional space having already performed wSIR on the spatial transcriptomics dataset from the first sample. 
+
+We have already performed wSIR on sample 1, so here we project sample 2's gene expression matrix into the wSIR low-dimensional space, which will therefore have an ability to predict sample 2's (unknown at this stage) spatial locations.
 
 ```{r}
 sample2_low_dim_exprs = projectWSIR(wsir = wsir_obj, newdata = sample2_exprs)
+```
+
+Check the dimension of sample 2's low-dimensional gene expression data:
+
+```{r}
 dim(sample2_low_dim_exprs)
 ```
+
+Observe some of sample 2's low-dimensional gene expression data:
+
+```{r}
+head(sample2_low_dim_exprs)
+```
+
+This low-dimensional gene expression data can then be used for further tasks which would benefit from a low-dimensional gene expression dataset
+
 
 <details>
   <summary>**Session Info**</summary>
