@@ -60,6 +60,8 @@ We use data from https://www.nature.com/articles/s41587-021-01006-2 . I have com
 Note: there is a BioConductor limit on the size of data that can be used for examples and vignettes. To stay under that, we randomly sample 20% of the cells from each of the three samples. This random sampling is also commented out.
 
 ```{r}
+set.seed(2024)
+
 #seqfish_data_sample1 <- LohoffSeqFISHData(samples = 1)
 #seqfish_data_sample1 = logNormCounts(seqfish_data_sample1) # log transform variance stabilising 
 #rownames(seqfish_data_sample1) <- rowData(seqfish_data_sample1)[,"SYMBOL"] # change rownames to gene symbols that are consistent across Google 
@@ -81,7 +83,6 @@ Note: there is a BioConductor limit on the size of data that can be used for exa
 #sample3_coords = spatialCoords(seqfish_data_sample3)[,1:2] %>% as.data.frame()
 #colnames(sample3_coords) = c("x", "y")
 
-#set.seed(2024)
 #keep1 = sample(c(TRUE, FALSE), nrow(sample1_exprs), replace = TRUE, prob = c(0.2, 0.8))
 #keep2 = sample(c(TRUE, FALSE), nrow(sample2_exprs), replace = TRUE, prob = c(0.2, 0.8))
 #keep3 = sample(c(TRUE, FALSE), nrow(sample3_exprs), replace = TRUE, prob = c(0.2, 0.8))
@@ -211,8 +212,21 @@ Observe some of sample 2's low-dimensional gene expression data:
 head(sample2_low_dim_exprs)
 ```
 
-This low-dimensional gene expression data can then be used for further tasks which would benefit from a low-dimensional gene expression dataset
+This low-dimensional gene expression data can then be used for any later tasks which would benefit from a low-dimensional embedding of the gene expression data rather than the whole gene expression data. 
 
+## Multi-sample spatial dataset, single-sample single-cell dataset
+
+```{r}
+wsir_obj_samples12 <- wSIR(X = rbind(sample1_exprs, sample2_exprs),
+                           coords = rbind(sample1_coords, sample2_coords),
+                           samples = c(rep(1, nrow(sample1_coords)), rep(2, nrow(sample2_coords))),
+                           slices = optim_obj$best_slices, 
+                           alpha = optim_obj$best_alpha,
+                           optim_params = FALSE)
+
+sample3_low_dim_exprs <- projectWSIR(wsir = wsir_obj_samples12, newdata = sample3_exprs)
+dim(sample3_low_dim_exprs)
+```
 
 <details>
   <summary>**Session Info**</summary>
