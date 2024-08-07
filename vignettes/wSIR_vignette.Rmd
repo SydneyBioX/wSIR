@@ -120,9 +120,9 @@ Note: a key advantage of wSIR over SIR is parameter robustness. SIR's performanc
 
 ```{r}
 optim_obj = exploreWSIRParams(exprs = sample1_exprs, 
-                           coords = sample1_coords, 
-                           alpha_vals = c(0,2,4,8), 
-                           slice_vals = c(3,6,10))
+                              coords = sample1_coords, 
+                              alpha_vals = c(0,2,4,8), 
+                              slice_vals = c(3,6,10))
 optim_obj$plot
 ```
 
