@@ -62,21 +62,21 @@ Note: there is a BioConductor limit on the size of data that can be used for exa
 ```{r}
 set.seed(2024)
 
-#seqfish_data_sample1 <- LohoffSeqFISHData(samples = 1)
+#seqfish_data_sample1 <- LohoffSeqFISHData(samples = c(1,2))
 #seqfish_data_sample1 = logNormCounts(seqfish_data_sample1) # log transform variance stabilising 
 #rownames(seqfish_data_sample1) <- rowData(seqfish_data_sample1)[,"SYMBOL"] # change rownames to gene symbols that are consistent across Google 
 #sample1_exprs = t(assay(seqfish_data_sample1, "logcounts")) # extract matrix of gene expressions 
 #sample1_coords = spatialCoords(seqfish_data_sample1)[,1:2] %>% as.data.frame()
 #colnames(sample1_coords) = c("x", "y")
 
-#seqfish_data_sample2 <- LohoffSeqFISHData(samples = 2)
+#seqfish_data_sample2 <- LohoffSeqFISHData(samples = c(3,4))
 #seqfish_data_sample2 = logNormCounts(seqfish_data_sample2) # log transform variance stabilising 
 #rownames(seqfish_data_sample2) <- rowData(seqfish_data_sample2)[,"SYMBOL"] # change rownames to gene symbols that are consistent across Google 
 #sample2_exprs = t(assay(seqfish_data_sample2, "logcounts")) # extract matrix of gene expressions 
 #sample2_coords = spatialCoords(seqfish_data_sample2)[,1:2] %>% as.data.frame()
 #colnames(sample2_coords) = c("x", "y")
 
-#seqfish_data_sample3 <- LohoffSeqFISHData(samples = 3)
+#seqfish_data_sample3 <- LohoffSeqFISHData(samples = c(5,6))
 #seqfish_data_sample3 = logNormCounts(seqfish_data_sample3) # log transform variance stabilising 
 #rownames(seqfish_data_sample3) <- rowData(seqfish_data_sample3)[,"SYMBOL"] # change rownames to gene symbols that are consistent across Google 
 #sample3_exprs = t(assay(seqfish_data_sample3, "logcounts")) # extract matrix of gene expressions 
@@ -94,7 +94,7 @@ set.seed(2024)
 #sample3_exprs = sample3_exprs[keep3,]
 #sample3_coords = sample3_coords[keep3,]
 
-#save(sample1_exprs, sample1_coords, sample2_exprs, sample2_coords, sample3_exprs, sample3_coords, file = "MouseData.RData", compress = "xz")
+#save(sample1_exprs, sample1_coords, sample2_exprs, sample2_coords, sample3_exprs, sample3_coords, file = "MouseData.rda", compress = "xz")
 
 data(MouseData)
 ```
