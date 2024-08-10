@@ -1,5 +1,5 @@
 ---
-title: "Weighted Sliced Inverse Regression (WSIR): supervised dimension reduction for spatial transcriptomics data"
+title: "Weighted Sliced Inverse Regression (WSIR)"
 author:
   - Max Woollard
   - Linh Nghiem
