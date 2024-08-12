@@ -153,7 +153,7 @@ also commented out.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">2024</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co">#seqfish_data_sample1 &lt;- LohoffSeqFISHData(samples = c(1,2))</span></span>
+<span><span class="co">#seqfish_data_sample1 &lt;- LohoffSeqFISHData(samples = c(1,2)) # Note the samples titled 1 and two are actually both from sample1. They are referring to the two z slices for sample 1</span></span>
 <span><span class="co">#seqfish_data_sample1 = logNormCounts(seqfish_data_sample1) # log transform variance stabilising </span></span>
 <span><span class="co">#rownames(seqfish_data_sample1) &lt;- rowData(seqfish_data_sample1)[,"SYMBOL"] # change rownames to gene symbols that are consistent across Google </span></span>
 <span><span class="co">#sample1_exprs = t(assay(seqfish_data_sample1, "logcounts")) # extract matrix of gene expressions </span></span>
@@ -407,6 +407,16 @@ gene expression data rather than the whole gene expression data.</p>
 <div class="section level3">
 <h3 id="multi-sample-spatial-dataset-single-sample-single-cell-dataset">Multi-sample spatial dataset, single-sample single-cell dataset<a class="anchor" aria-label="anchor" href="#multi-sample-spatial-dataset-single-sample-single-cell-dataset"></a>
 </h3>
+<p>Here, we perform wSIR on samples 1 and 2 together. This requires the
+gene expression matrices from both samples joined together into one
+matrix, and the coords dataframes joined into one dataframe. We do this
+concatenation using rbind. We then specify the sample IDs for each row
+in the joined expression matrix and coordinates dataframe using the
+samples argument. This is a vector with a “1” for each row in sample 1
+and a “2” for each row in sample 2.</p>
+<p>We use the resulting wSIR output to project the gene expression data
+from sample 3 into low-dimensional space. We check the dimension of the
+resulting matrix.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">wsir_obj_samples12</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/wSIR.html">wSIR</a></span><span class="op">(</span>X <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">sample1_exprs</span>, <span class="va">sample2_exprs</span><span class="op">)</span>,</span>
 <span>                           coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">sample1_coords</span>, <span class="va">sample2_coords</span><span class="op">)</span>,</span>
@@ -418,6 +428,10 @@ gene expression data rather than the whole gene expression data.</p>
 <span><span class="va">sample3_low_dim_exprs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/projectWSIR.html">projectWSIR</a></span><span class="op">(</span>wsir <span class="op">=</span> <span class="va">wsir_obj_samples12</span>, newdata <span class="op">=</span> <span class="va">sample3_exprs</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">sample3_low_dim_exprs</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 4607    6</span></span></code></pre>
+<p>This low-dimensional gene expression matrix can then be used for
+downstream tasks which would benefit from a low-dimensional embedding of
+sample 3’s gene expression matrix that contains information about each
+cell’s location. Examples for downstream use include</p>
 <details><summary><strong>Session Info</strong>
 </summary><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
