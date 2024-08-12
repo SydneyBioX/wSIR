@@ -340,6 +340,10 @@ This low-dimensional gene expression data can then be used for any later tasks w
 
 ## Multi-sample spatial dataset, single-sample single-cell dataset
 
+Here, we perform wSIR on samples 1 and 2 together. This requires the gene expression matrices from both samples joined together into one matrix, and the coords dataframes joined into one dataframe. We do this concatenation using rbind. We then specify the sample IDs for each row in the joined expression matrix and coordinates dataframe using the samples argument. This is a vector with a "1" for each row in sample 1 and a "2" for each row in sample 2.
+
+We use the resulting wSIR output to project the gene expression data from sample 3 into low-dimensional space. We check the dimension of the resulting matrix.  
+
 ```{r}
 wsir_obj_samples12 <- wSIR(X = rbind(sample1_exprs, sample2_exprs),
                            coords = rbind(sample1_coords, sample2_coords),
@@ -351,6 +355,8 @@ wsir_obj_samples12 <- wSIR(X = rbind(sample1_exprs, sample2_exprs),
 sample3_low_dim_exprs <- projectWSIR(wsir = wsir_obj_samples12, newdata = sample3_exprs)
 dim(sample3_low_dim_exprs)
 ```
+
+This low-dimensional gene expression matrix can then be used for downstream tasks which would benefit from a low-dimensional embedding of sample 3's gene expression matrix that contains information about each cell's location. Examples for downstream use include 
 
 <details>
 <summary>**Session Info**</summary>
