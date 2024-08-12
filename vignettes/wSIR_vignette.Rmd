@@ -130,7 +130,7 @@ sample3_exprs = sample3_exprs[keep3,]
 sample3_coords = sample3_coords[keep3,]
 
 save(sample1_exprs, sample1_coords, sample2_exprs, sample2_coords, 
-sample3_exprs, sample3_coords, file = "MouseData.rda", compress = "xz")
+sample3_exprs, sample3_coords, file = "../data/MouseData.rda", compress = "xz")
 ```
 
 For this vignette and the examples for each function in wSIR, we simply load 
