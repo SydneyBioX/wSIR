@@ -5,12 +5,12 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Weighted Sliced Inverse Regression (WSIR) • wSIR</title>
+<title> • wSIR</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Weighted Sliced Inverse Regression (WSIR)">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -33,7 +33,7 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/wSIR_vignette.html">Weighted Sliced Inverse Regression (WSIR)</a></li>
+<li><a class="dropdown-item" href="../articles/wSIR_vignette.html">UNKNOWN TITLE</a></li>
   </ul>
 </li>
       </ul>
@@ -55,15 +55,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
-      <h1>Weighted Sliced Inverse Regression (WSIR)</h1>
-                        <h4 data-toc-skip class="author">Max
-Woollard</h4>
-                        <h4 data-toc-skip class="author">Linh
-Nghiem</h4>
-                        <h4 data-toc-skip class="author">Shila
-Ghazanfar</h4>
-                        <h4 data-toc-skip class="author">Pratibha
-Panwar</h4>
+      <h1></h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/sydneybiox/wSIR/blob/main/vignettes/wSIR_vignette.Rmd" class="external-link"><code>vignettes/wSIR_vignette.Rmd</code></a></small>
@@ -72,6 +64,53 @@ Panwar</h4>
 
     
     
+<table class="table"><tbody>
+<tr class="odd">
+<td>title: “Weighted Sliced Inverse Regression (WSIR)”</td>
+</tr>
+<tr class="even">
+<td>author:</td>
+</tr>
+<tr class="odd">
+<td>- Max Woollard</td>
+</tr>
+<tr class="even">
+<td>- Linh Nghiem</td>
+</tr>
+<tr class="odd">
+<td>- Shila Ghazanfar</td>
+</tr>
+<tr class="even">
+<td>- Pratibha Panwar</td>
+</tr>
+<tr class="odd">
+<td>output:</td>
+</tr>
+<tr class="even">
+<td>BiocStyle::html_document:</td>
+</tr>
+<tr class="odd">
+<td>toc_float: true</td>
+</tr>
+<tr class="even">
+<td>BiocStyle::pdf_document: default</td>
+</tr>
+<tr class="odd">
+<td>package: wSIR</td>
+</tr>
+<tr class="even">
+<td>vignette: |</td>
+</tr>
+<tr class="odd">
+<td>%</td>
+</tr>
+<tr class="even">
+<td>%</td>
+</tr>
+<tr class="odd">
+<td>%</td>
+</tr>
+</tbody></table>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://sydneybiox.github.io/wSIR">wSIR</a></span><span class="op">)</span> <span class="co"># package itself</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org" class="external-link">magrittr</a></span><span class="op">)</span> <span class="co"># for %&gt;% </span></span>
@@ -80,11 +119,7 @@ Panwar</h4>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">doBy</span><span class="op">)</span> <span class="co"># for which.maxn</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://vctrs.r-lib.org/" class="external-link">vctrs</a></span><span class="op">)</span> <span class="co"># for vec_rep_each</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tkonopka/umap" class="external-link">umap</a></span><span class="op">)</span> <span class="co"># for umap</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Bioconductor/BiocParallel" class="external-link">BiocParallel</a></span><span class="op">)</span> <span class="co"># for parallel computing in exploreWSIRParams with BiocParallel</span></span>
-<span></span>
-<span><span class="co"># Packages needed to download data</span></span>
-<span><span class="co">#library(scran) # for logNormCounts</span></span>
-<span><span class="co">#library(MouseGastrulationData) # to download the data for this vignette</span></span></code></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Bioconductor/BiocParallel" class="external-link">BiocParallel</a></span><span class="op">)</span> <span class="co"># for parallel computing in exploreWSIRParams with BiocParallel</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
@@ -121,7 +156,7 @@ than other groups (if they come from opposite sides of the tissue). wSIR
 uses a weight matrix to incorporate the spatial correlation between all
 pairs of cells in the SIR algorithm. This matrix has dimension H*H,
 where H is the number of tiles, and the (i,j)th entry represents the
-distance between tiles i and j. This metrix is incorporated into the
+distance between tiles i and j. This matrix is incorporated into the
 eigendeomposition step. The wSIR output has the same structure as the
 SIR output.</p>
 </div>
@@ -141,101 +176,111 @@ practicality of wSIR.</p>
 <div class="section level2">
 <h2 id="data">Data<a class="anchor" aria-label="anchor" href="#data"></a>
 </h2>
-<p>We use data from <a href="https://www.nature.com/articles/s41587-021-01006-2" class="external-link uri">https://www.nature.com/articles/s41587-021-01006-2</a> . I
-have commented out the code to download it yourself (which requires
-packages MouseGastrulationData and scran). For this vignette and the
-examples in the .R function files, we simply load this data that has
-already been saved at data/MouseData.Rdata.</p>
-<p>Note: there is a BioConductor limit on the size of data that can be
-used for examples and vignettes. To stay under that, we randomly sample
-20% of the cells from each of the three samples. This random sampling is
-also commented out.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">2024</span><span class="op">)</span></span>
+<p>We use data from <a href="https://www.nature.com/articles/s41587-021-01006-2" class="external-link">Lohoff et al,
+2021</a>. The code below would allow you to download the mouse data
+yourself using the MouseGastrulationData and scran R packages. We
+randomly sample 20% of the cells from each of the three biological
+replicate samples.</p>
+<pre><code><span><span class="co"># Packages needed to download data</span></span>
+<span><span class="co">#library(scran) # for logNormCounts</span></span>
+<span><span class="co">#library(MouseGastrulationData) # to download the data for this vignette</span></span>
 <span></span>
-<span><span class="co">#seqfish_data_sample1 &lt;- LohoffSeqFISHData(samples = c(1,2)) # Note the samples titled 1 and two are actually both from sample1. They are referring to the two z slices for sample 1</span></span>
-<span><span class="co">#seqfish_data_sample1 = logNormCounts(seqfish_data_sample1) # log transform variance stabilising </span></span>
-<span><span class="co">#rownames(seqfish_data_sample1) &lt;- rowData(seqfish_data_sample1)[,"SYMBOL"] # change rownames to gene symbols that are consistent across Google </span></span>
-<span><span class="co">#sample1_exprs = t(assay(seqfish_data_sample1, "logcounts")) # extract matrix of gene expressions </span></span>
-<span><span class="co">#sample1_coords = spatialCoords(seqfish_data_sample1)[,1:2] %&gt;% as.data.frame()</span></span>
-<span><span class="co">#colnames(sample1_coords) = c("x", "y")</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">2024</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co">#seqfish_data_sample2 &lt;- LohoffSeqFISHData(samples = c(3,4))</span></span>
-<span><span class="co">#seqfish_data_sample2 = logNormCounts(seqfish_data_sample2) # log transform variance stabilising </span></span>
-<span><span class="co">#rownames(seqfish_data_sample2) &lt;- rowData(seqfish_data_sample2)[,"SYMBOL"] # change rownames to gene symbols that are consistent across Google </span></span>
-<span><span class="co">#sample2_exprs = t(assay(seqfish_data_sample2, "logcounts")) # extract matrix of gene expressions </span></span>
-<span><span class="co">#sample2_coords = spatialCoords(seqfish_data_sample2)[,1:2] %&gt;% as.data.frame()</span></span>
-<span><span class="co">#colnames(sample2_coords) = c("x", "y")</span></span>
+<span><span class="va">seqfish_data_sample1</span> <span class="op">&lt;-</span> <span class="fu">LohoffSeqFISHData</span><span class="op">(</span>samples <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">seqfish_data_sample1</span> <span class="op">=</span> <span class="fu">logNormCounts</span><span class="op">(</span><span class="va">seqfish_data_sample1</span><span class="op">)</span> <span class="co"># log transform variance stabilising</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">seqfish_data_sample1</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu">rowData</span><span class="op">(</span><span class="va">seqfish_data_sample1</span><span class="op">)</span><span class="op">[</span>,<span class="st">"SYMBOL"</span><span class="op">]</span> <span class="co"># change rownames to gene symbols that are consistent</span></span>
+<span><span class="va">sample1_exprs</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="fu">assay</span><span class="op">(</span><span class="va">seqfish_data_sample1</span>, <span class="st">"logcounts"</span><span class="op">)</span><span class="op">)</span> <span class="co"># extract matrix of gene expressions</span></span>
+<span><span class="va">sample1_coords</span> <span class="op">=</span> <span class="fu">spatialCoords</span><span class="op">(</span><span class="va">seqfish_data_sample1</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">sample1_coords</span><span class="op">)</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co">#seqfish_data_sample3 &lt;- LohoffSeqFISHData(samples = c(5,6))</span></span>
-<span><span class="co">#seqfish_data_sample3 = logNormCounts(seqfish_data_sample3) # log transform variance stabilising </span></span>
-<span><span class="co">#rownames(seqfish_data_sample3) &lt;- rowData(seqfish_data_sample3)[,"SYMBOL"] # change rownames to gene symbols that are consistent across Google </span></span>
-<span><span class="co">#sample3_exprs = t(assay(seqfish_data_sample3, "logcounts")) # extract matrix of gene expressions </span></span>
-<span><span class="co">#sample3_coords = spatialCoords(seqfish_data_sample3)[,1:2] %&gt;% as.data.frame()</span></span>
-<span><span class="co">#colnames(sample3_coords) = c("x", "y")</span></span>
+<span><span class="va">seqfish_data_sample2</span> <span class="op">&lt;-</span> <span class="fu">LohoffSeqFISHData</span><span class="op">(</span>samples <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">seqfish_data_sample2</span> <span class="op">=</span> <span class="fu">logNormCounts</span><span class="op">(</span><span class="va">seqfish_data_sample2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">seqfish_data_sample2</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu">rowData</span><span class="op">(</span><span class="va">seqfish_data_sample2</span><span class="op">)</span><span class="op">[</span>,<span class="st">"SYMBOL"</span><span class="op">]</span></span>
+<span><span class="va">sample2_exprs</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="fu">assay</span><span class="op">(</span><span class="va">seqfish_data_sample2</span>, <span class="st">"logcounts"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">sample2_coords</span> <span class="op">=</span> <span class="fu">spatialCoords</span><span class="op">(</span><span class="va">seqfish_data_sample2</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">sample2_coords</span><span class="op">)</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co">#keep1 = sample(c(TRUE, FALSE), nrow(sample1_exprs), replace = TRUE, prob = c(0.2, 0.8))</span></span>
-<span><span class="co">#keep2 = sample(c(TRUE, FALSE), nrow(sample2_exprs), replace = TRUE, prob = c(0.2, 0.8))</span></span>
-<span><span class="co">#keep3 = sample(c(TRUE, FALSE), nrow(sample3_exprs), replace = TRUE, prob = c(0.2, 0.8))</span></span>
+<span><span class="va">seqfish_data_sample3</span> <span class="op">&lt;-</span> <span class="fu">LohoffSeqFISHData</span><span class="op">(</span>samples <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">6</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">seqfish_data_sample3</span> <span class="op">=</span> <span class="fu">logNormCounts</span><span class="op">(</span><span class="va">seqfish_data_sample3</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">seqfish_data_sample3</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu">rowData</span><span class="op">(</span><span class="va">seqfish_data_sample3</span><span class="op">)</span><span class="op">[</span>,<span class="st">"SYMBOL"</span><span class="op">]</span></span>
+<span><span class="va">sample3_exprs</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="fu">assay</span><span class="op">(</span><span class="va">seqfish_data_sample3</span>, <span class="st">"logcounts"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">sample3_coords</span> <span class="op">=</span> <span class="fu">spatialCoords</span><span class="op">(</span><span class="va">seqfish_data_sample3</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">sample3_coords</span><span class="op">)</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co">#sample1_exprs = sample1_exprs[keep1,]</span></span>
-<span><span class="co">#sample1_coords = sample1_coords[keep1,]</span></span>
-<span><span class="co">#sample2_exprs = sample2_exprs[keep2,]</span></span>
-<span><span class="co">#sample2_coords = sample2_coords[keep2,]</span></span>
-<span><span class="co">#sample3_exprs = sample3_exprs[keep3,]</span></span>
-<span><span class="co">#sample3_coords = sample3_coords[keep3,]</span></span>
+<span><span class="va">keep1</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">sample1_exprs</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">TRUE</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">0.8</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">keep2</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">sample2_exprs</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">TRUE</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">0.8</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">keep3</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">sample3_exprs</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">TRUE</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">0.8</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co">#save(sample1_exprs, sample1_coords, sample2_exprs, sample2_coords, sample3_exprs, sample3_coords, file = "MouseData.rda", compress = "xz")</span></span>
+<span><span class="va">sample1_exprs</span> <span class="op">=</span> <span class="va">sample1_exprs</span><span class="op">[</span><span class="va">keep1</span>,<span class="op">]</span></span>
+<span><span class="va">sample1_coords</span> <span class="op">=</span> <span class="va">sample1_coords</span><span class="op">[</span><span class="va">keep1</span>,<span class="op">]</span></span>
+<span><span class="va">sample2_exprs</span> <span class="op">=</span> <span class="va">sample2_exprs</span><span class="op">[</span><span class="va">keep2</span>,<span class="op">]</span></span>
+<span><span class="va">sample2_coords</span> <span class="op">=</span> <span class="va">sample2_coords</span><span class="op">[</span><span class="va">keep2</span>,<span class="op">]</span></span>
+<span><span class="va">sample3_exprs</span> <span class="op">=</span> <span class="va">sample3_exprs</span><span class="op">[</span><span class="va">keep3</span>,<span class="op">]</span></span>
+<span><span class="va">sample3_coords</span> <span class="op">=</span> <span class="va">sample3_coords</span><span class="op">[</span><span class="va">keep3</span>,<span class="op">]</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">MouseData</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/base/save.html" class="external-link">save</a></span><span class="op">(</span><span class="va">sample1_exprs</span>, <span class="va">sample1_coords</span>, <span class="va">sample2_exprs</span>, <span class="va">sample2_coords</span>, </span>
+<span><span class="va">sample3_exprs</span>, <span class="va">sample3_coords</span>, file <span class="op">=</span> <span class="st">"MouseData.rda"</span>, compress <span class="op">=</span> <span class="st">"xz"</span><span class="op">)</span></span></code></pre>
+<p>For this vignette and the examples for each function in wSIR, we
+simply load this data that has already been saved at
+<code>data/MouseData.rda</code>.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">MouseData</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="supervised-dimension-reduction-with-wsir">Supervised dimension reduction with WSIR<a class="anchor" aria-label="anchor" href="#supervised-dimension-reduction-with-wsir"></a>
+<h2 id="supervised-dimension-reduction-with-wsir">Supervised dimension reduction with wSIR<a class="anchor" aria-label="anchor" href="#supervised-dimension-reduction-with-wsir"></a>
 </h2>
 <div class="section level3">
 <h3 id="parameter-study">Parameter Study<a class="anchor" aria-label="anchor" href="#parameter-study"></a>
 </h3>
-<p>WSIR contains two parameters, alpha and slices. Parameter “slices” is
-the number of groups along each spatial axis into which we split the
-observations in the wSIR algorithm. More slices means we could pick up
-more spatial information in the gene expression data, but we risk
-overfitting on the training set. Parameter “alpha” modifies the strength
-of the weight matrix. Alpha = 0 gives no spatial weighting, meaning the
-weight matrix becomes the identity matrix. This is equivalent to SIR.
-Larger alpha values means there is more weight given to spatial
-correlation rather than gene expression differences alone in the
-computation of the wSIR directions.</p>
-<p>For this parameter study, we will use sample 1 only.</p>
+<p>wSIR contains two parameters, <code>alpha</code> and
+<code>slices</code>. Parameter <code>slices</code> is the number of
+groups along each spatial axis into which we split the observations in
+the wSIR algorithm. More slices means we could pick up more spatial
+information in the gene expression data, but we risk overfitting on the
+training set. Parameter <code>alpha</code> modifies the strength of the
+weight matrix. <code>alpha = 0</code> is equivalent to no spatial
+weighting, meaning the weight matrix becomes the identity matrix. This
+is equivalent to SIR. Larger <code>alpha</code> values means there is
+more weight given to spatial correlation rather than gene expression
+differences alone in the computation of the wSIR directions.</p>
+<p>The function <code>exploreWSIRParams</code> performs wSIR over many
+choices of <code>alpha</code> and <code>slices</code> to identify the
+most appropriate parameters moving forward. Here, we will use sample 1
+only.</p>
 <p>These parameters should both be tuned over some reasonable values.
-The function exploreWSIRParams computes and visualises the performance
-of wSIR for all given combinations of “slices” and “alpha”. The
-performance is computed from the following procedure: 1) For each
-combination of slices and alpha, split the data into 50% train and 50%
-test (where train and test halves both include gene expression data and
-cell coordinates). 2) Perform WSIR on the training set using the current
+The function <code>exploreWSIRParams</code> computes and visualises the
+performance of wSIR for all given combinations of <code>slices</code>
+and <code>alpha</code>. The performance is computed from the following
+procedure: 1) For each combination of <code>slices</code> and
+<code>alpha</code>, split the data into 50% train and 50% test (where
+train and test halves both include gene expression data and cell
+coordinates). 2) Perform wSIR on the training set using the current
 combination of slices and alpha. 3) Project the gene expression data of
 the testing set into low-dimensional space using the wSIR results from
 step 2. 4) Evaluate wSIR’s performance by computing either the distance
-correlation or the correlation of distances between the projected gene
-expression data of the test set and the test coordinates. The evaluation
-metric depends whether you use “DC” or “CD” for the “metric” parameter
-in exploreWSIRParams. Default is “DC” (distance correlation). 5) Repeat
-steps 2-4 until it has been done “nrep” times (“nrep” is a parameter
-whose default is 5). Find the average metric value over each of the nrep
-iterations for this combination of slices and alpha. 6) Repeat steps 1-5
-with all other combinations of “slices” and “alpha” to get an average
-metric value for each combination. 7) Return the combination with
-highest average metric value and a plot showing the performance for
-every combination of parameters.</p>
-<p>Note: a key advantage of wSIR over SIR is parameter robustness. SIR’s
-performance deteriorates as you use larger values for “slices”. However,
-wSIR’s performance is relatively stable as you vary both “slices” and
-“alpha” among reasonable valuess (e.g among the default values we
-optimise over). In the following plot, the metric value becomes smaller
-as we increase the number of slices for alpha = 0 (which corresponds to
-SIR). Performance is stable for all non-zero alpha and slice
-combinations (which correspond to wSIR).</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+correlation (“DC”, default), or the correlation of distances (“CD”)
+between the projected gene expression data of the test set and the test
+coordinates, according to parameter <code>metric</code>. 5) Repeat steps
+2-4 until it has been done <code>nrep</code> times (<code>nrep</code> is
+a parameter whose default is 5). Calculate the average metric value over
+each of the <code>nrep</code> iterations for this combination of slices
+and alpha. 6) Repeat steps 1-5 with all other combinations of
+<code>slices</code> and <code>alpha</code> to obtain an average metric
+value for each combination. 7) Return the combination of
+<code>slices</code> and <code>alpha</code> with the highest average
+metric value and display a plot showing the performance for every
+combination of parameters.</p>
+<p>Note: a key advantage of wSIR over SIR is parameter robustness. Here,
+we can see that SIR’sperformance deteriorates as you use larger values
+for <code>slices</code>. However, wSIR’s performance is relatively
+stable as you vary both <code>slices</code> and <code>alpha</code>
+across reasonable values (e.g. among the default values we optimise
+over). In the following plot, the metric value becomes smaller as we
+increase the number of slices for alpha = 0 (which corresponds to SIR).
+Performance is stable for all non-zero alpha and slice combinations
+(which correspond to wSIR).</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">optim_obj</span> <span class="op">=</span> <span class="fu"><a href="../reference/exploreWSIRParams.html">exploreWSIRParams</a></span><span class="op">(</span>exprs <span class="op">=</span> <span class="va">sample1_exprs</span>, </span>
 <span>                              coords <span class="op">=</span> <span class="va">sample1_coords</span>, </span>
 <span>                              alpha_vals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">2</span>,<span class="fl">4</span>,<span class="fl">8</span><span class="op">)</span>, </span>
@@ -244,66 +289,77 @@ combinations (which correspond to wSIR).</p>
 <p><img src="wSIR_vignette_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 </div>
 <div class="section level3">
-<h3 id="wsir-computation">WSIR Computation<a class="anchor" aria-label="anchor" href="#wsir-computation"></a>
+<h3 id="wsir-computation">wSIR Computation<a class="anchor" aria-label="anchor" href="#wsir-computation"></a>
 </h3>
 <p>We next perform wSIR using the optimal parameter combination that we
 found in the previous section. We use the gene expression matrix and
 spatial coordinates from sample 1 here. This returns a list of results
-with 5 (named) slots, whose details can be found at ?wSIR::wSIR.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+with 5 (named) slots, whose details can be found at
+<code><a href="../reference/wSIR.html">?wSIR::wSIR</a></code>.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">wsir_obj</span> <span class="op">=</span> <span class="fu"><a href="../reference/wSIR.html">wSIR</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">sample1_exprs</span>, </span>
 <span>                coords <span class="op">=</span> <span class="va">sample1_coords</span>, </span>
 <span>                slices <span class="op">=</span> <span class="va">optim_obj</span><span class="op">$</span><span class="va">best_slices</span>, </span>
 <span>                alpha <span class="op">=</span> <span class="va">optim_obj</span><span class="op">$</span><span class="va">best_alpha</span>,</span>
-<span>                optim_params <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<span>                optim_params <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">wsir_obj</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "scores"     "directions" "estd"       "W"          "evalues"</span></span></code></pre>
 </div>
 </div>
 <div class="section level2">
-<h2 id="wsir-results-analysis">WSIR Results Analysis<a class="anchor" aria-label="anchor" href="#wsir-results-analysis"></a>
+<h2 id="wsir-results-analysis">wSIR Results Analysis<a class="anchor" aria-label="anchor" href="#wsir-results-analysis"></a>
 </h2>
 <p>In this section, we will demonstrate how to use the built-in analysis
 functions to better understand how wSIR creates a spatially-informed
 low-dimensional embedding. These functions all use a wSIR result as an
 input. Here, we use the output from the previous section, meaning we are
-therefore studying the result of performing wSIR on sample 1 only.</p>
+studying the result of performing wSIR on sample 1 only.</p>
 <div class="section level3">
-<h3 id="wsir-top-genes">WSIR Top Genes<a class="anchor" aria-label="anchor" href="#wsir-top-genes"></a>
+<h3 id="wsir-top-genes">wSIR Top Genes<a class="anchor" aria-label="anchor" href="#wsir-top-genes"></a>
 </h3>
-<p>The findTopGenes function finds and plots the genes with highest
-loading in the specified wSIR directions (default is just direction 1).
-If a gene has high loading (in terms of absolute value), it is more
+<p>The <code>findTopGenes</code> function finds and plots the genes with
+highest loading in the specified wSIR directions (default is direction
+1). If a gene has high loading (in terms of magnitude), it is more
 important to the wSIR direction. Since the wSIR directions are designed
 to retain information about each cell’s spatial position, the genes with
 high loading should be spatially-related genes.</p>
 <p>In the plot below, we can see which genes have the highest loading in
 wSIR direction 1. This is useful as it gives us an intuition about how
 wSIR creates the low-dimensional embedding. We can see that some of the
-genes are known spatial genes (e.g Cdx2, Hox-), which is what we would
-hope to see.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+genes are known spatial genes (e.g. Cdx2, Hox-), which is what we would
+expect to see.</p>
+<p>We can simultaneously plot top genes for multiple directions, and
+utilise the</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">top_genes_obj</span> <span class="op">=</span> <span class="fu"><a href="../reference/findTopGenes.html">findTopGenes</a></span><span class="op">(</span>WSIR <span class="op">=</span> <span class="va">wsir_obj</span>, highest <span class="op">=</span> <span class="fl">8</span><span class="op">)</span> <span class="co"># create top genes object</span></span>
 <span><span class="va">top_genes_plot</span> <span class="op">=</span> <span class="va">top_genes_obj</span><span class="op">$</span><span class="va">plot</span> <span class="co"># select plot</span></span>
 <span><span class="va">top_genes_plot</span> <span class="co"># print plot</span></span></code></pre></div>
 <p><img src="wSIR_vignette_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">top_genes_obj</span> <span class="op">=</span> <span class="fu"><a href="../reference/findTopGenes.html">findTopGenes</a></span><span class="op">(</span>WSIR <span class="op">=</span> <span class="va">wsir_obj</span>, highest <span class="op">=</span> <span class="fl">8</span>, dirs <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span></span>
+<span><span class="va">top_genes_plot</span> <span class="op">=</span> <span class="va">top_genes_obj</span><span class="op">$</span><span class="va">plot</span></span>
+<span><span class="va">top_genes_plot</span></span></code></pre></div>
+<p><img src="wSIR_vignette_files/figure-html/unnamed-chunk-6-2.png" width="700"></p>
 </div>
 <div class="section level3">
-<h3 id="visualising-wsir-scores">Visualising WSIR Scores<a class="anchor" aria-label="anchor" href="#visualising-wsir-scores"></a>
+<h3 id="visualising-wsir-scores">Visualising wSIR Scores<a class="anchor" aria-label="anchor" href="#visualising-wsir-scores"></a>
 </h3>
-<p>The visualiseWSIRDirections function plots each cell at its spatial
-position, coloured by its value for each of the specified WSIR columns.
-This gives us an understanding of what each column of the
+<p>The <code>visualiseWSIRDirections</code> function plots each cell at
+its spatial position, coloured by its value for each of the specified
+wSIR columns. This gives us an understanding of what each column of the
 low-dimensional embedding represents.</p>
 <p>Below, we visualise the cells at their spatial positions, coloured by
-each of the 5 wSIR columns. The top left plot illustrates how, for this
-example, wSIR column one captures information about the “y” spatial
-axis, since cells with higher “y” coordinate have low wSIR1 value, while
-cells with lower “y” coordinate have higher wSIR1 value. wSIR2 is shown
-in the next plot over (the one titled “2”), and we can see that wSIR
-column two appears to capture information about the “x” spatial
-coordinate. The remaining three wSIR columns all contain information
-about cell types, which we can tell by the regions of high and low wSIR
-column values spread across the tissue.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+each of the 5 wSIR directions The top left plot illustrates how, for
+this example, wSIR direction 1 captures information about the “y”
+spatial axis, since cells with higher “y” coordinate have low wSIR1
+value, while cells with lower “y” coordinate have higher wSIR1 value.
+wSIR2 is shown in the next plot over (the one titled “2”), and we can
+see that wSIR column two appears to capture information about the “x”
+spatial coordinate. The remaining three wSIR columns all contain
+information about cell types, which we can tell by the regions of high
+and low wSIR column values spread across the tissue.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">vis_obj</span> <span class="op">=</span> <span class="fu"><a href="../reference/visualiseWSIRDirections.html">visualiseWSIRDirections</a></span><span class="op">(</span>coords <span class="op">=</span> <span class="va">sample1_coords</span>, WSIR <span class="op">=</span> <span class="va">wsir_obj</span>, dirs <span class="op">=</span> <span class="fl">8</span><span class="op">)</span> <span class="co"># create visualisations</span></span>
 <span><span class="va">vis_obj</span></span></code></pre></div>
 <p><img src="wSIR_vignette_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
@@ -311,32 +367,34 @@ column values spread across the tissue.</p>
 <div class="section level3">
 <h3 id="umap-on-low-dimensional-embedding">UMAP on low-dimensional embedding<a class="anchor" aria-label="anchor" href="#umap-on-low-dimensional-embedding"></a>
 </h3>
-<p>The two functions generateUmapFromWSIR and plotUmapFromWSIR create
-and show UMAP dimension reduction calculated on the wSIR low-dimensional
-embedding. We can colour each point in the UMAP plot (where each
-represents a cell) by its value for various genes of interest. This
-visualises the structure of the wSIR dimension reduction space, which is
-useful to gain more intuition about what the space represents.
-Specifically, we can see if the wSIR space contains neighbourhoods of
-high expression for specific genes, thus better understanding how this
-space is made.</p>
+<p>The two functions <code>generateUmapFromWSIR</code> and
+<code>plotUmapFromWSIR</code> create and display UMAP dimension
+reduction calculated on the wSIR low-dimensional embedding. We can
+colour the UMAP plot (where each point represents a cell) by its value
+for various genes of interest. This visualises the structure of the wSIR
+dimension reduction space, which is useful to gain more intuition about
+what the space represents. Specifically, we can see if the wSIR space
+contains neighbourhoods of high expression for specific genes, thus
+better understanding how this space is made.</p>
 <p>To specify which genes we would like to include, we can use the
-output from the findTopGenes function, which automatically finds
-spatially-related genes by finding those with the highest loading in
-relevant wSIR directions. This output is then the value for the
-highest_genes parameter. Otherwise, we could also specify our own genes
-of interest if there are some specific genes we would like to see. For
-example, if we wanted to visualise the expression distribution for Cdx2
-and Hoxb4, we could use genes = c(“Cdx2”, “Hoxb4”) as an argument in
-plotUmapFromWSIR (and leave highest_genes blank).</p>
+output from the <code>findTopGenes</code> function from above, which
+finds spatially-related genes by ranking those with the highest loading
+in relevant wSIR directions. This output is then the value for the
+<code>highest_genes</code> parameter. Otherwise, we could also specify
+our own genes of interest if there are some specific genes we would like
+to visualise. For example, if we wanted to visualise the expression
+distribution for Cdx2 and Hoxb4, we could use
+<code>genes = c("Cdx2", "Hoxb4")</code> as an argument in
+<code>plotUmapFromWSIR</code> (and leave <code>highest_genes</code>
+blank).</p>
 <p>Below, we use the UMAP function to visualise the wSIR space computed
 on the gene expression data from sample 1. We colour each cell by their
 values for the 6 genes with highest value in wSIR direction 1 (as found
-by the findTopGenes function previously). We can see that for some of
-these genes, there are specific regions of high expression in the UMAP
-plots, suggesting that the wSIR space separates cells based on their
-expression for thos genes.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+by the <code>findTopGenes</code> function previously). We can see that
+for some of these genes, there are specific regions of high expression
+in the UMAP plots, suggesting that the wSIR space separates cells based
+on their expression for those genes.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">umap_coords</span> <span class="op">=</span> <span class="fu"><a href="../reference/generateUmapFromWSIR.html">generateUmapFromWSIR</a></span><span class="op">(</span>WSIR <span class="op">=</span> <span class="va">wsir_obj</span><span class="op">)</span></span>
 <span><span class="va">umap_plots</span> <span class="op">=</span> <span class="fu"><a href="../reference/plotUmapFromWSIR.html">plotUmapFromWSIR</a></span><span class="op">(</span>exprs <span class="op">=</span> <span class="va">sample1_exprs</span>,</span>
 <span>                              umap_coords <span class="op">=</span> <span class="va">umap_coords</span>,</span>
@@ -375,15 +433,15 @@ the spatial transcriptomics dataset from the first sample.</p>
 2’s gene expression matrix into the wSIR low-dimensional space, which
 will therefore have an ability to predict sample 2’s (unknown at this
 stage) spatial locations.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sample2_low_dim_exprs</span> <span class="op">=</span> <span class="fu"><a href="../reference/projectWSIR.html">projectWSIR</a></span><span class="op">(</span>wsir <span class="op">=</span> <span class="va">wsir_obj</span>, newdata <span class="op">=</span> <span class="va">sample2_exprs</span><span class="op">)</span></span></code></pre></div>
 <p>Check the dimension of sample 2’s low-dimensional gene expression
 data:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">sample2_low_dim_exprs</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 2986    5</span></span></code></pre>
 <p>Observe some of sample 2’s low-dimensional gene expression data:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">sample2_low_dim_exprs</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## 6 x 5 Matrix of class "dgeMatrix"</span></span>
 <span><span class="co">##                                [,1]        [,2]      [,3]       [,4]</span></span>
@@ -417,7 +475,7 @@ and a “2” for each row in sample 2.</p>
 <p>We use the resulting wSIR output to project the gene expression data
 from sample 3 into low-dimensional space. We check the dimension of the
 resulting matrix.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">wsir_obj_samples12</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/wSIR.html">wSIR</a></span><span class="op">(</span>X <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">sample1_exprs</span>, <span class="va">sample2_exprs</span><span class="op">)</span>,</span>
 <span>                           coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">sample1_coords</span>, <span class="va">sample2_coords</span><span class="op">)</span>,</span>
 <span>                           samples <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">sample1_coords</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">sample2_coords</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
@@ -433,7 +491,7 @@ downstream tasks which would benefit from a low-dimensional embedding of
 sample 3’s gene expression matrix that contains information about each
 cell’s location. Examples for downstream use include</p>
 <details><summary><strong>Session Info</strong>
-</summary><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+</summary><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## R version 4.4.1 (2024-06-14)</span></span>
 <span><span class="co">## Platform: x86_64-pc-linux-gnu</span></span>
@@ -459,31 +517,30 @@ cell’s location. Examples for downstream use include</p>
 <span><span class="co">##  [1] BiocParallel_1.38.0 umap_0.2.10.0       vctrs_0.6.5        </span></span>
 <span><span class="co">##  [4] doBy_4.6.22         Rfast_2.1.0         RcppParallel_5.1.8 </span></span>
 <span><span class="co">##  [7] RcppZiggurat_0.1.6  Rcpp_1.0.13         ggplot2_3.5.1      </span></span>
-<span><span class="co">## [10] magrittr_2.0.3      wSIR_0.1.2          BiocStyle_2.32.1   </span></span>
+<span><span class="co">## [10] magrittr_2.0.3      wSIR_0.1.2         </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
 <span><span class="co">##  [1] gtable_0.3.5          xfun_0.46             bslib_0.8.0          </span></span>
 <span><span class="co">##  [4] lattice_0.22-6        tools_4.4.1           generics_0.1.3       </span></span>
 <span><span class="co">##  [7] parallel_4.4.1        tibble_3.2.1          fansi_1.0.6          </span></span>
 <span><span class="co">## [10] highr_0.11            pkgconfig_2.0.3       Matrix_1.7-0         </span></span>
-<span><span class="co">## [13] desc_1.4.3            lifecycle_1.0.4       farver_2.1.2         </span></span>
-<span><span class="co">## [16] compiler_4.4.1        textshaping_0.4.0     microbenchmark_1.4.10</span></span>
+<span><span class="co">## [13] desc_1.4.3            lifecycle_1.0.4       compiler_4.4.1       </span></span>
+<span><span class="co">## [16] farver_2.1.2          textshaping_0.4.0     microbenchmark_1.4.10</span></span>
 <span><span class="co">## [19] munsell_0.5.1         codetools_0.2-20      htmltools_0.5.8.1    </span></span>
-<span><span class="co">## [22] sass_0.4.9            yaml_2.3.10           pillar_1.9.0         </span></span>
-<span><span class="co">## [25] pkgdown_2.1.0         jquerylib_0.1.4       tidyr_1.3.1          </span></span>
-<span><span class="co">## [28] MASS_7.3-60.2         openssl_2.2.0         cachem_1.1.0         </span></span>
-<span><span class="co">## [31] boot_1.3-30           RSpectra_0.16-2       Deriv_4.1.3          </span></span>
-<span><span class="co">## [34] tidyselect_1.2.1      digest_0.6.36         dplyr_1.1.4          </span></span>
-<span><span class="co">## [37] purrr_1.0.2           bookdown_0.40         labeling_0.4.3       </span></span>
-<span><span class="co">## [40] cowplot_1.1.3         fastmap_1.2.0         grid_4.4.1           </span></span>
-<span><span class="co">## [43] colorspace_2.1-1      cli_3.6.3             utf8_1.2.4           </span></span>
-<span><span class="co">## [46] broom_1.0.6           withr_3.0.1           scales_1.3.0         </span></span>
-<span><span class="co">## [49] backports_1.5.0       rmarkdown_2.27        modelr_0.1.11        </span></span>
-<span><span class="co">## [52] reticulate_1.38.0     askpass_1.2.0         ragg_1.3.2           </span></span>
-<span><span class="co">## [55] png_0.1-8             evaluate_0.24.0       knitr_1.48           </span></span>
-<span><span class="co">## [58] rlang_1.1.4           glue_1.7.0            BiocManager_1.30.23  </span></span>
-<span><span class="co">## [61] jsonlite_1.8.8        R6_2.5.1              systemfonts_1.1.0    </span></span>
-<span><span class="co">## [64] fs_1.6.4</span></span></code></pre>
+<span><span class="co">## [22] sass_0.4.9            pillar_1.9.0          pkgdown_2.1.0        </span></span>
+<span><span class="co">## [25] jquerylib_0.1.4       tidyr_1.3.1           MASS_7.3-60.2        </span></span>
+<span><span class="co">## [28] openssl_2.2.0         cachem_1.1.0          boot_1.3-30          </span></span>
+<span><span class="co">## [31] RSpectra_0.16-2       Deriv_4.1.3           tidyselect_1.2.1     </span></span>
+<span><span class="co">## [34] digest_0.6.36         dplyr_1.1.4           purrr_1.0.2          </span></span>
+<span><span class="co">## [37] labeling_0.4.3        cowplot_1.1.3         fastmap_1.2.0        </span></span>
+<span><span class="co">## [40] grid_4.4.1            colorspace_2.1-1      cli_3.6.3            </span></span>
+<span><span class="co">## [43] utf8_1.2.4            broom_1.0.6           withr_3.0.1          </span></span>
+<span><span class="co">## [46] scales_1.3.0          backports_1.5.0       rmarkdown_2.27       </span></span>
+<span><span class="co">## [49] modelr_0.1.11         reticulate_1.38.0     askpass_1.2.0        </span></span>
+<span><span class="co">## [52] ragg_1.3.2            png_0.1-8             evaluate_0.24.0      </span></span>
+<span><span class="co">## [55] knitr_1.48            rlang_1.1.4           glue_1.7.0           </span></span>
+<span><span class="co">## [58] jsonlite_1.8.8        R6_2.5.1              systemfonts_1.1.0    </span></span>
+<span><span class="co">## [61] fs_1.6.4</span></span></code></pre>
 </details>
 </div>
 </div>
