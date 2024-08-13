@@ -21,7 +21,7 @@ License: GPL-2
 Encoding: UTF-8
 URL: https://sydneybiox.github.io/wSIR, https://sydneybiox.github.io/wSIR/
 BugReports: https://github.com/sydneybiox/wSIR/issues
-biocViews: DimensionReduction, Software
+biocViews: 
 LazyData: true
 Roxygen: list(markdown = TRUE)
 Depends: R (>= 4.4.0),
