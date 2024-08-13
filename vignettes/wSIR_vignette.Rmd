@@ -135,9 +135,9 @@ sample2_cell_types = seqfish_data_sample2$celltype[keep2]
 sample3_cell_types = seqfish_data_sample3$celltype[keep3]
 
 save(sample1_exprs, sample1_coords, sample1_cell_types, 
-sample2_exprs, sample2_coords, sample2_cell_types, 
-sample3_exprs, sample3_coords, sample3_cell_types, 
-file = "../data/MouseData.rda", compress = "xz")
+     sample2_exprs, sample2_coords, sample2_cell_types, 
+     sample3_exprs, sample3_coords, sample3_cell_types, 
+     file = "../data/MouseData.rda", compress = "xz")
 ```
 
 For this vignette and the examples for each function in wSIR, we simply load 
