@@ -11,7 +11,7 @@ output:
   BiocStyle::pdf_document: default
 package: wSIR
 vignette: |
-%\VignetteIndexEntry{WSIR supervised dimension reduction}
+  %\VignetteIndexEntry{WSIR supervised dimension reduction}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
