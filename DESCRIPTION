@@ -32,10 +32,10 @@ Imports:
     doBy,
     umap,
     vctrs,
-    BiocParallel
+    BiocParallel,
+    StabMap
 Suggests:
     knitr,
-    BiocStyle,
-    StabMap
+    BiocStyle
 VignetteBuilder: knitr
 RoxygenNote: 7.3.2
