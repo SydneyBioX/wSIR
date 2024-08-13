@@ -14,7 +14,7 @@ vignette: |
 %\VignetteIndexEntry{WSIR supervised dimension reduction}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
-  ---
+---
   
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
