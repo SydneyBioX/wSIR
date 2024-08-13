@@ -25,10 +25,7 @@
 #' expression data, coloured by their value for each of the genes found by top_genes.
 #'
 #' @importFrom vctrs vec_rep_each
-#' @importFrom ggplot2 facet_wrap
-#' @importFrom ggplot2 ggplot
-#' @importFrom ggplot2 aes
-#' @importFrom ggplot2 geom_point
+#' @importFrom ggplot2 facet_wrap ggplot aes geom_point
 #' @importFrom magrittr %>%
 #'
 #' @examples
