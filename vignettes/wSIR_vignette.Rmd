@@ -31,7 +31,7 @@ library(doBy) # for which.maxn
 library(vctrs) # for vec_rep_each
 library(umap) # for umap
 library(BiocParallel) # for parallel computing in exploreWSIRParams with BiocParallel
-library(StabMap) # for example wSIR application
+library(class) # for example wSIR application
 ```
 
 # Introduction
@@ -365,17 +365,17 @@ dim(sample3_low_dim_exprs)
 
 This low-dimensional gene expression matrix can then be used for downstream tasks which would benefit from a low-dimensional embedding of sample 3's gene expression matrix that contains information about each cell's location. Examples for downstream use include spatial alignment of single-cell and spatial gene expression data via [Tangram](https://www.nature.com/articles/s41592-021-01264-7), using the wSIR scores as the input rather than the (unreduced) gene expression matrix. This application will be discussed in our manuscript that will be available at a later date.
 
-An example of a simple application is using the wSIR scores as an input to a KNN cell type classification algorithm from the [StabMap](https://sydneybiox.github.io/StabMap/) package. This is demonstrated below. 
+An example of a very simple application is using the wSIR scores as an input to a KNN cell type classification algorithm. This is demonstrated below, using the 'knn' function from 'class' package.
 
 ```{r}
-all_low_dim_exprs = rbind(wsir_obj_samples12$scores, sample3_low_dim_exprs)
 samples12_cell_types = append(sample1_cell_types, sample2_cell_types)
-names(samples12_cell_types) <- append(rownames(sample1_exprs), rownames(sample2_exprs))
 
-stabmap_classification_object <- classifyEmbedding(coords = all_low_dim_exprs,
-                                                   labels = samples12_cell_types)
+knn_classification_object = knn(train = wsir_obj_samples12$scores, 
+                                test = sample3_low_dim_exprs,
+                                cl = samples12_cell_types,
+                                k = 10)
 
-tail(stabmap_classification_object)
+head(knn_classification_object)
 ```
 
 In the above code, we use the wSIR scores as input for StabMap's KNN-based cell type classification tool. We print the tail of the prediction dataframe, demonstrating how we can use the wSIR-based low-dimensional gene expression data from a new sample as a step in a realistic analysis pipeline. 
