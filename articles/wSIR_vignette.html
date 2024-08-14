@@ -462,14 +462,9 @@ Examples for downstream use include spatial alignment of single-cell and
 spatial gene expression data via <a href="https://www.nature.com/articles/s41592-021-01264-7" class="external-link">Tangram</a>,
 using the wSIR scores as the input rather than the (unreduced) gene
 expression matrix.</p>
-<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD An example of a very simple
-application is using the wSIR scores as an input to a KNN cell type
-classification algorithm. This is demonstrated below, using the ‘knn’
-function from ‘class’ package. ======= An example of a simple
-application is using the wSIR scores as an input to a KNN cell type
-classification algorithm from the <a href="https://bioconductor.org/packages/devel/bioc/html/StabMap.html" class="external-link">StabMap</a>
-package. This is demonstrated below. &gt;&gt;&gt;&gt;&gt;&gt;&gt;
-153f42b2334a02ea08c589e0c07ceca55df1b2c3</p>
+<p>An example of a very simple application is using the wSIR scores as
+an input to a KNN cell type classification algorithm. This is
+demonstrated below, using the ‘knn’ function from ‘class’ package.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">samples12_cell_types</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/append.html" class="external-link">append</a></span><span class="op">(</span><span class="va">sample1_cell_types</span>, <span class="va">sample2_cell_types</span><span class="op">)</span></span>
 <span></span>
@@ -478,14 +473,13 @@ package. This is demonstrated below. &gt;&gt;&gt;&gt;&gt;&gt;&gt;
 <span>                                cl <span class="op">=</span> <span class="va">samples12_cell_types</span>,</span>
 <span>                                k <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">knn_classification_object</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] Gut tube                     Gut tube                    </span></span>
-<span><span class="co">## [3] Low quality                  Forebrain/Midbrain/Hindbrain</span></span>
-<span><span class="co">## [5] Forebrain/Midbrain/Hindbrain Low quality                 </span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="va">knn_classification_object</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] Low quality         Spinal cord         Dermomyotome       </span></span>
+<span><span class="co">## [4] Presomitic mesoderm Spinal cord         Low quality        </span></span>
 <span><span class="co">## 24 Levels: Allantois Anterior somitic tissues ... Surface ectoderm</span></span></code></pre>
-<p>In the above code, we use the wSIR scores as input for StabMap’s
+<p>In the above code, we use the wSIR scores as input for a simple
 KNN-based cell type classification tool. We print the tail of the
-prediction dataframe, demonstrating how we can use the wSIR-based
+prediction vector, demonstrating how we can use the wSIR-based
 low-dimensional gene expression data from a new sample as a step in a
 realistic analysis pipeline.</p>
 <details><summary><strong>Session Info</strong>
