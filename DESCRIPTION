@@ -33,7 +33,8 @@ Imports:
     umap,
     vctrs,
     BiocParallel,
-    class
+    class,
+    stringr
 Suggests:
     knitr,
     BiocStyle
