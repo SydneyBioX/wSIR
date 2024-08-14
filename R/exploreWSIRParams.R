@@ -60,6 +60,7 @@
 #' @importFrom ggplot2 ggtitle
 #' @importFrom vctrs vec_rep_each
 #' @importFrom BiocParallel bplapply
+#' @importFrom stringr word
 #'
 #' @export
 exploreWSIRParams = function(exprs,
