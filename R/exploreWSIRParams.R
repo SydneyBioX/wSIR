@@ -72,18 +72,24 @@ exploreWSIRParams = function(exprs,
                              metric = "DC",
                              nrep = 5) {
 
-  metric_vals_list = bplapply(alpha_vals, function(alpha) {
-    bplapply(slice_vals, function(slices) {
-      wSIROptimisation(exprs = exprs,
-                       coords = coords,
-                       alpha = alpha,
-                       slices = slices,
-                       varThreshold = varThreshold,
-                       maxDirections = maxDirections,
-                       metric = metric,
-                       nrep = nrep)
-    })
+  # vector of all parameter combinations
+  param_combinations = as.vector(outer(slice_vals, alpha_vals, paste, sep = ","))
+
+  # perform bplapply over that list of (pairs of) combinations
+  metric_vals_list = bplapply(param_combinations, function(parameter_pair) {
+    current_slices = as.numeric(word(parameter_pair, 1, sep = ","))
+    current_alpha = as.numeric(word(parameter_pair, 2, sep = ","))
+    optim_result = wSIROptimisation(exprs = exprs,
+                                    coords = coords,
+                                    alpha = current_alpha,
+                                    slices = current_slices,
+                                    varThreshold = varTheshold,
+                                    maxDirections = maxDirections,
+                                    metric = metric,
+                                    nrep = nrep)
+    return(optim_result)
   })
+
   metric_vals <- unlist(metric_vals_list)
 
   res_df <- matrix(NA, nrow = length(alpha_vals)*length(slice_vals), ncol = 3) %>% as.data.frame()
