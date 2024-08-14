@@ -83,6 +83,8 @@ wsir_obj = wSIR(X = sample1_exprs,
   coords = sample1_coords,
   optim_params = TRUE,
   alpha_vals = c(0,2,4),
-  slice_vals = c(3,6,10)) # create wsir object
+  slice_vals = c(3,6,10),
+  metric = "CD",
+  nrep = 1) # create wsir object
 
 }

@@ -393,14 +393,7 @@ use include spatial alignment of single-cell and spatial gene expression data
 via [Tangram](https://www.nature.com/articles/s41592-021-01264-7), using the 
 wSIR scores as the input rather than the (unreduced) gene expression matrix. 
 
-<<<<<<< HEAD
 An example of a very simple application is using the wSIR scores as an input to a KNN cell type classification algorithm. This is demonstrated below, using the 'knn' function from 'class' package.
-=======
-An example of a simple application is using the wSIR scores as an input to a 
-KNN cell type classification algorithm from the 
-[StabMap](https://bioconductor.org/packages/devel/bioc/html/StabMap.html) 
-package. This is demonstrated below. 
->>>>>>> 153f42b2334a02ea08c589e0c07ceca55df1b2c3
 
 ```{r}
 samples12_cell_types = append(sample1_cell_types, sample2_cell_types)
@@ -410,11 +403,11 @@ knn_classification_object = knn(train = wsir_obj_samples12$scores,
                                 cl = samples12_cell_types,
                                 k = 10)
 
-head(knn_classification_object)
+tail(knn_classification_object)
 ```
 
-In the above code, we use the wSIR scores as input for StabMap's KNN-based 
-cell type classification tool. We print the tail of the prediction dataframe, 
+In the above code, we use the wSIR scores as input for a simple KNN-based 
+cell type classification tool. We print the tail of the prediction vector, 
 demonstrating how we can use the wSIR-based low-dimensional gene expression 
 data from a new sample as a step in a realistic analysis pipeline. 
 
