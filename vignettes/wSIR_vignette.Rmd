@@ -2,9 +2,9 @@
 title: "Weighted Sliced Inverse Regression (WSIR)"
 author:
   - Max Woollard
+  - Pratibha Panwar
   - Linh Nghiem
   - Shila Ghazanfar
-  - Pratibha Panwar
 output:
   BiocStyle::html_document:
     toc_float: true
@@ -315,17 +315,30 @@ umap_plots
 
 # Projection of new data with wSIR
 
-A key functionality of the wSIR package is the ability to project new single-cell data into the wSIR low-dimensional space. This will allow for a low-dimensional representation of gene expression data that contains information about each cell's spatial position even though we do not have access to the spatial coordinates for this new data. This low-dimensional wSIR embedding would be especially useful for downstream applications, like spatial alignment or spatial clustering (where we don't have spatial coordinates). 
+A key functionality of the wSIR package is the ability to project new 
+single-cell data into the wSIR low-dimensional space. This will allow for a 
+low-dimensional representation of gene expression data that contains 
+information about each cell's spatial position even though we do not have 
+access to the spatial coordinates for this new data. This low-dimensional wSIR 
+embedding would be especially useful for downstream applications, like spatial 
+alignment or spatial clustering (where we don't have spatial coordinates). 
 
 Here, we will demonstrate the steps for that, as well as a specific application. 
 
-For each projection example, we will perform wSIR on a spatial transcriptomics dataset which includes gene expression data and spatial coordinates. We will then project a "single-cell" dataset, which only contains the gene expression matrix, into wSIR low-dimensional space. 
+For each projection example, we will perform wSIR on a spatial transcriptomics 
+dataset which includes gene expression data and spatial coordinates. We will 
+then project a "single-cell" dataset, which only contains the gene expression 
+matrix, into wSIR low-dimensional space. 
 
 ## Single-sample spatial dataset, single-sample single-cell dataset
 
-Here, we demonstrate the steps to project a new sample single-cell dataset into wSIR low-dimensional space having already performed wSIR on the spatial transcriptomics dataset from the first sample. 
+Here, we demonstrate the steps to project a new sample single-cell dataset into 
+wSIR low-dimensional space having already performed wSIR on the spatial 
+transcriptomics dataset from the first sample. 
 
-We have already performed wSIR on sample 1, so here we project sample 2's gene expression matrix into the wSIR low-dimensional space, which will therefore have an ability to predict sample 2's (unknown at this stage) spatial locations.
+We have already performed wSIR on sample 1, so here we project sample 2's gene 
+expression matrix into the wSIR low-dimensional space, which will therefore 
+have an ability to predict sample 2's (unknown at this stage) spatial locations.
 
 ```{r}
 sample2_low_dim_exprs = projectWSIR(wsir = wsir_obj, newdata = sample2_exprs)
@@ -343,13 +356,23 @@ Observe some of sample 2's low-dimensional gene expression data:
 head(sample2_low_dim_exprs)
 ```
 
-This low-dimensional gene expression data can then be used for any later tasks which would benefit from a low-dimensional embedding of the gene expression data rather than the whole gene expression data. 
+This low-dimensional gene expression data can then be used for any later tasks 
+which would benefit from a low-dimensional embedding of the gene expression 
+data for all the samples, rather than just the gene expression data. 
 
 ## Multi-sample spatial dataset, single-sample single-cell dataset
 
-Here, we perform wSIR on samples 1 and 2 together. This requires the gene expression matrices from both samples joined together into one matrix, and the coords dataframes joined into one dataframe. We do this concatenation using rbind. We then specify the sample IDs for each row in the joined expression matrix and coordinates dataframe using the samples argument. This is a vector with a "1" for each row in sample 1 and a "2" for each row in sample 2.
+Here, we perform wSIR on samples 1 and 2 together. This requires the gene 
+expression matrices from both samples joined together into one matrix, and 
+the coords dataframes joined into one dataframe. We do this concatenation 
+using rbind. We then specify the sample IDs for each row in the joined 
+expression matrix and coordinates dataframe using the samples argument. This 
+is a vector with a "1" for each row in sample 1 and a "2" for each row in 
+sample 2.
 
-We use the resulting wSIR output to project the gene expression data from sample 3 into low-dimensional space. We check the dimension of the resulting matrix.  
+We use the resulting wSIR output to project the gene expression data from 
+sample 3 into low-dimensional space. We check the dimension of the resulting 
+matrix.  
 
 ```{r}
 wsir_obj_samples12 <- wSIR(X = rbind(sample1_exprs, sample2_exprs),
@@ -363,9 +386,21 @@ sample3_low_dim_exprs <- projectWSIR(wsir = wsir_obj_samples12, newdata = sample
 dim(sample3_low_dim_exprs)
 ```
 
-This low-dimensional gene expression matrix can then be used for downstream tasks which would benefit from a low-dimensional embedding of sample 3's gene expression matrix that contains information about each cell's location. Examples for downstream use include spatial alignment of single-cell and spatial gene expression data via [Tangram](https://www.nature.com/articles/s41592-021-01264-7), using the wSIR scores as the input rather than the (unreduced) gene expression matrix. This application will be discussed in our manuscript that will be available at a later date.
+This low-dimensional matrix can then be used for downstream tasks which would 
+benefit from a low-dimensional embedding of sample 3's gene expression matrix 
+that contains information about each cell's location. Examples for downstream 
+use include spatial alignment of single-cell and spatial gene expression data 
+via [Tangram](https://www.nature.com/articles/s41592-021-01264-7), using the 
+wSIR scores as the input rather than the (unreduced) gene expression matrix. 
 
+<<<<<<< HEAD
 An example of a very simple application is using the wSIR scores as an input to a KNN cell type classification algorithm. This is demonstrated below, using the 'knn' function from 'class' package.
+=======
+An example of a simple application is using the wSIR scores as an input to a 
+KNN cell type classification algorithm from the 
+[StabMap](https://bioconductor.org/packages/devel/bioc/html/StabMap.html) 
+package. This is demonstrated below. 
+>>>>>>> 153f42b2334a02ea08c589e0c07ceca55df1b2c3
 
 ```{r}
 samples12_cell_types = append(sample1_cell_types, sample2_cell_types)
@@ -378,7 +413,10 @@ knn_classification_object = knn(train = wsir_obj_samples12$scores,
 head(knn_classification_object)
 ```
 
-In the above code, we use the wSIR scores as input for StabMap's KNN-based cell type classification tool. We print the tail of the prediction dataframe, demonstrating how we can use the wSIR-based low-dimensional gene expression data from a new sample as a step in a realistic analysis pipeline. 
+In the above code, we use the wSIR scores as input for StabMap's KNN-based 
+cell type classification tool. We print the tail of the prediction dataframe, 
+demonstrating how we can use the wSIR-based low-dimensional gene expression 
+data from a new sample as a step in a realistic analysis pipeline. 
 
 <details>
 <summary>**Session Info**</summary>
