@@ -12,7 +12,7 @@ wSIROptimisation(
   alpha,
   maxDirections,
   varThreshold,
-  metric,
+  metrics = c("CD", "DC", "ncol"),
   nrep = 3
 )
 }
@@ -39,13 +39,14 @@ parameter using exploreWSIRParams() function.}
 \item{varThreshold}{numeric proportion of variance in \code{t(X_H) \%*\% W \%*\% X_H} to retain. Must be between 0 and 1. Default is 0.95.
 Select higher threshold to include more dimensions, lower threshold to include less dimensions.}
 
-\item{metric}{evaluation metric to use for parameterr tuning. String, either "DC" to use distance correlation or "CD" to use
-correlation of distances. Default is "DC".}
+\item{metrics}{evaluation metrics to use for parameter tuning. String, options are any or all of: "DC" to use distance
+correlation; "CD" to use correlation of distances; "ncol" to use number of columns in low-dimensional embedding. Default is all three,
+specified by metrics = c("DC", "CD", "ncol").}
 
 \item{nrep}{integer for the number of train/test splits of the data to perform.}
 }
 \value{
-Average metric value for the given metric over each train/test split.
+Average metric value for the selected metric(s) over each train/test split.
 }
 \description{
 This function is used for parameter optimisation in WSIR. with provided parameter values, exprs and coords, this function splits the data into equal train/test

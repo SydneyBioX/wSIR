@@ -20,11 +20,12 @@
 #' @param maxDirections integer for the maximum number of directions to include in the low-dimenensional embedding. Default is 50.
 #' @param varThreshold numeric proportion of variance in \code{t(X_H) \%*\% W \%*\% X_H} to retain. Must be between 0 and 1. Default is 0.95.
 #' Select higher threshold to include more dimensions, lower threshold to include less dimensions.
-#' @param metric evaluation metric to use for parameterr tuning. String, either "DC" to use distance correlation or "CD" to use
-#' correlation of distances. Default is "DC".
+#' @param metrics evaluation metrics to use for parameter tuning. String, options are any or all of: "DC" to use distance
+#' correlation; "CD" to use correlation of distances; "ncol" to use number of columns in low-dimensional embedding. Default is all three,
+#' specified by metrics = c("DC", "CD", "ncol").
 #' @param nrep integer for the number of train/test splits of the data to perform.
 #'
-#' @return Average metric value for the given metric over each train/test split.
+#' @return Average metric value for the selected metric(s) over each train/test split.
 #'
 #' @importFrom stats cor
 #' @importFrom stats dist
@@ -38,9 +39,11 @@ wSIROptimisation = function(exprs,
                             alpha,
                             maxDirections,
                             varThreshold,
-                            metric,
+                            metrics = c("CD","DC","ncol"),
                             nrep = 3) {
-  metric_vals <- rep(0, nrep)
+  cd_vals <- rep(0, nrep)
+  dc_vals <- rep(0, nrep)
+  ncol_vals <- rep(0, nrep)
   for (i in 1:nrep) {
     keep <- sample(c(TRUE, FALSE), nrow(exprs), replace = TRUE)
     exprs_train <- exprs[keep,]
@@ -59,17 +62,27 @@ wSIROptimisation = function(exprs,
                                    varThreshold = varThreshold)
     projected_test = projectWSIR(wsir = wsir_obj, newdata = exprs_test)
 
-    if (metric == "CD") {
-      current_metric = cor(subsetLowerTri(dist(projected_test)),
-                           subsetLowerTri(dist(coords_test)),
-                           method = "spearman",
-                           use = "pairwise.complete")
-    } else if (metric == "DC") {
-      current_metric = Rfast::dcor(x = as.matrix(projected_test),
-                                   y = coords_test)$dcor
+    if ("CD" %in% metrics) {
+      current_cd <- cor(subsetLowerTri(dist(projected_test)),
+                       subsetLowerTri(dist(coords_test)),
+                       method = "spearman",
+                       use = "pairwise.complete")
+      cd_vals[i] <- current_cd
     }
-    metric_vals[i] = current_metric
+    if ("DC" %in% metrics) {
+      current_dc <- Rfast::dcor(x = as.matrix(projected_test),
+                               y = coords_test)$dcor
+      dc_vals[i] <- current_dc
+    }
+    if ("ncol" %in% metrics) {
+      current_ncol <- ncol(projected_test)
+      ncol_vals[i] <- current_ncol
+    }
   }
-  avg_metric = mean(metric_vals)
-  return(avg_metric)
+  avg_cd = mean(cd_vals)
+  avg_dc = mean(dc_vals)
+  avg_ncol = mean(ncol_vals)
+  return(c(avg_cd["CD" %in% metrics],
+           avg_dc["DC" %in% metrics],
+           avg_ncol["ncol" %in% metrics]))
 }

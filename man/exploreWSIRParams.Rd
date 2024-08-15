@@ -12,8 +12,10 @@ exploreWSIRParams(
   slice_vals = c(3, 5, 7, 10, 15, 20),
   varThreshold = 0.95,
   maxDirections = 50,
+  metrics = c("DC", "CD", "ncol"),
   metric = "DC",
-  nrep = 5
+  nrep = 5,
+  nCores = 1
 )
 }
 \arguments{
@@ -37,10 +39,15 @@ be no more than around \eqn{\sqrt{n/20}}, as this upper bound ensures an average
 \item{varThreshold}{numeric proportion of variance in \code{t(X_H) \%*\% W \%*\% X_H} to retain. Must be between 0 and 1. Default is 0.95.
 Select higher threshold to include more dimensions, lower threshold to include less dimensions.}
 
-\item{maxDirections}{integer for the maximum number of directions to include in the low-dimenensional embedding. Default is 50.}
+\item{maxDirections}{integer for the maximum number of directions to include in the low-dimensional embedding. Default is 50.}
 
-\item{metric}{evaluation metric to use for parameter tuning. String, either "DC" to use distance correlation or "CD" to use
-correlation of distances. Default is "DC".}
+\item{metrics}{evaluation metrics to display in the plots. In a vector, include any or all of "DC" for distance correlation,
+"CD" for correlation of distances, or "ncol" for number of columns in the low-dimensional embedding. Default is all three, specified
+by metrics = c("DC", "CD", "ncol").}
+
+\item{metric}{evaluation metric to use for parameter tuning to select optimal parameter combination. String, use "DC" to
+use distance correlation, "CD" to use correlation of distances, or "ncol" for the number of dimensions in the low-dimensional
+embedding. Default is "DC".}
 
 \item{nrep}{integer for the number of train/test splits of the data to perform.}
 }
@@ -48,14 +55,16 @@ correlation of distances. Default is "DC".}
 List with five slots, named "plot", "message", "best_alpha", "best_slices" and "results_dataframe".
 \enumerate{
 \item "plot" shows the average metric value across the nrep iterations for every combination of parameters slices and alpha.
-Larger circles for a slices/alpha combination indicates better performance for that pair of values.
-\item "message" tells you the parameter combination with highest metric value.
-\item "best_alpha" returns the integer for the best alpha values among the values that were tested.
-\item "best_slices" returns the integer for the best slices value among the values that were tested.
+Larger circles for a slices/alpha combination indicates better performance for that pair of values. There is one panel per
+evaluation metric selected in "metrics" argument.
+\item "message" tells you the parameter combination with highest metric value according to selected metric.
+\item "best_alpha" returns the integer for the best alpha values among the values that were tested according to selected metric.
+\item "best_slices" returns the integer for the best slices value among the values that were tested according to selected metric.
 \item "results_dataframe" returns the results dataframe used to create "plot". This dataframe has length(alpha_vals)*length(slice_vals) rows,
-where one is for each combination of parameters slices and alpha. There are 3 columns, named "alpha", "slices" and "metric". Column
-"alpha" includes the value for parameter alpha, column "slices" includes the value for parameter slices, and column
-"metric" includes the value for the specified metric, either Distance Correlation ("DC") or Correlation of Distances ("CD").
+where one is for each combination of parameters slices and alpha. There is one column for "alpha", one for "slices" and one
+for each of the evaluation metrics selected in "metrics" argument. Column "alpha" includes the value for parameter alpha,
+column "slices" includes the value for parameter slices, and each metric column includes the value for the specified metric,
+which is either Distance Correlation ("DC"), Correlation of Distances ("CD"), or number of columns in low-dimensional embedding ("ncol").
 }
 }
 \description{
