@@ -109,8 +109,10 @@ exploreWSIRParams = function(exprs,
   res_df$metric <- rep(metrics, length(slice_vals)*length(alpha_vals))
   res_df$value <- metric_vals
 
-  best_alpha = res_df$alpha[which.max(res_df$value[res_df$metric==metric])]
-  best_slices = res_df$slices[which.max(res_df$value[res_df$metric==metric])]
+  chosen_metric_df <- res_df[(res_df$metric == metric),]
+
+  best_alpha = chosen_metric_df$alpha[which.max(chosen_metric_df$alpha)]
+  best_slices = chosen_metric_df$slices[which.max(chosen_metric_df$slices)]
 
   res_df$alpha <- res_df$alpha %>% as.factor()
   res_df$slices <- res_df$slices %>% as.factor()
@@ -121,7 +123,7 @@ exploreWSIRParams = function(exprs,
     geom_point() +
     theme_classic() +
     ggtitle(paste0("Metric value for different parameter combinations (",nrep, " iterations of train/test split)")) +
-    facet_wrap(~metric)
+    facet_wrap(~metric, scales = "free")
 
   return(list(plot = plot,
               message = message,
