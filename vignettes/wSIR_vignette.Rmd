@@ -201,7 +201,7 @@ stable for all non-zero alpha and slice combinations (which correspond to wSIR).
 optim_obj = exploreWSIRParams(exprs = sample1_exprs, 
                               coords = sample1_coords, 
                               alpha_vals = c(0,2,4,8), 
-                              slice_vals = c(3,6,10))
+                              slice_vals = c(5,10,15))
 optim_obj$plot
 ```
 
