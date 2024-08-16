@@ -407,95 +407,32 @@ stage) spatial locations.</p>
 data:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">sample2_low_dim_exprs</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] 2986   50</span></span></code></pre>
+<pre><code><span><span class="co">## [1] 2986   11</span></span></code></pre>
 <p>Observe some of sample 2’s low-dimensional gene expression data:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">sample2_low_dim_exprs</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## 6 x 50 Matrix of class "dgeMatrix"</span></span>
-<span><span class="co">##                                [,1]       [,2]       [,3]       [,4]      [,5]</span></span>
-<span><span class="co">## embryo2_Pos29_cell103_z2  0.4033853  1.1406906  0.9342274 -0.6690855 -1.183150</span></span>
-<span><span class="co">## embryo2_Pos29_cell11_z2  -0.3976906  1.1332231  0.2099434 -0.9262752 -1.452108</span></span>
-<span><span class="co">## embryo2_Pos29_cell110_z2  2.8521104 -0.5786873  1.7263464 -0.4939740 -1.545942</span></span>
-<span><span class="co">## embryo2_Pos29_cell123_z2  3.0851403 -0.8251517  0.6092021 -0.5964077 -1.349482</span></span>
-<span><span class="co">## embryo2_Pos29_cell128_z2  1.7075150  1.5915042 -0.4335929 -0.6712088 -1.829439</span></span>
-<span><span class="co">## embryo2_Pos29_cell129_z2  1.5921375  1.3481260 -0.4065247  0.1631131 -1.854096</span></span>
-<span><span class="co">##                                [,6]       [,7]      [,8]        [,9]</span></span>
-<span><span class="co">## embryo2_Pos29_cell103_z2 -0.4204610  1.6947454 1.2416277  1.59455858</span></span>
-<span><span class="co">## embryo2_Pos29_cell11_z2  -0.3434242 -0.2826430 0.9156203 -0.01792227</span></span>
-<span><span class="co">## embryo2_Pos29_cell110_z2  1.9442965  0.9077402 1.1414361  0.88014085</span></span>
-<span><span class="co">## embryo2_Pos29_cell123_z2  1.1061599  0.8913565 1.5925948  0.98843793</span></span>
-<span><span class="co">## embryo2_Pos29_cell128_z2  1.3707372 -0.8978932 1.5563948 -0.37715216</span></span>
-<span><span class="co">## embryo2_Pos29_cell129_z2  0.2094885 -0.5237807 1.1472571 -0.85171920</span></span>
-<span><span class="co">##                                [,10]      [,11]      [,12]        [,13]</span></span>
-<span><span class="co">## embryo2_Pos29_cell103_z2  0.87866970  0.1545180  0.1226031 -0.007213118</span></span>
-<span><span class="co">## embryo2_Pos29_cell11_z2   0.17127514 -0.6272048 -0.3600095 -0.041998794</span></span>
-<span><span class="co">## embryo2_Pos29_cell110_z2  0.10466509 -1.1003643 -0.2268346 -0.104254143</span></span>
-<span><span class="co">## embryo2_Pos29_cell123_z2  0.55220381 -0.9919387 -1.0468458 -0.535745625</span></span>
-<span><span class="co">## embryo2_Pos29_cell128_z2 -0.29244180 -0.4787738 -0.4219472  0.599094022</span></span>
-<span><span class="co">## embryo2_Pos29_cell129_z2  0.06985137 -0.5388220  0.4363146  1.735954576</span></span>
-<span><span class="co">##                                [,14]      [,15]      [,16]       [,17]</span></span>
-<span><span class="co">## embryo2_Pos29_cell103_z2 -0.26403842 -0.1667892 -0.1674317 -0.84025812</span></span>
-<span><span class="co">## embryo2_Pos29_cell11_z2   0.02027922 -0.1912650  0.4971098 -0.03229449</span></span>
-<span><span class="co">## embryo2_Pos29_cell110_z2 -1.07366605 -0.6264570  1.6476511 -1.85407880</span></span>
-<span><span class="co">## embryo2_Pos29_cell123_z2 -0.26912731  0.1633992  1.3475923 -1.08817836</span></span>
-<span><span class="co">## embryo2_Pos29_cell128_z2 -0.11342803 -0.7663365  0.3608360  1.22403405</span></span>
-<span><span class="co">## embryo2_Pos29_cell129_z2  0.66379966 -1.2086104 -0.1218102  0.83435792</span></span>
-<span><span class="co">##                               [,18]        [,19]      [,20]       [,21]</span></span>
-<span><span class="co">## embryo2_Pos29_cell103_z2 -1.2032348  1.923318769  1.3525301 -0.90228595</span></span>
-<span><span class="co">## embryo2_Pos29_cell11_z2  -0.6919699  0.005947897  0.8091922 -2.27363291</span></span>
-<span><span class="co">## embryo2_Pos29_cell110_z2 -1.2730726  0.277065604 -0.5378237 -0.03316571</span></span>
-<span><span class="co">## embryo2_Pos29_cell123_z2 -0.8927717 -0.104622662  0.3044058  0.39915731</span></span>
-<span><span class="co">## embryo2_Pos29_cell128_z2 -0.8265268 -1.261045070  0.1299859 -1.53565884</span></span>
-<span><span class="co">## embryo2_Pos29_cell129_z2 -1.8961773 -1.151805215  0.6253794 -0.99818155</span></span>
-<span><span class="co">##                                [,22]      [,23]      [,24]       [,25]</span></span>
-<span><span class="co">## embryo2_Pos29_cell103_z2  0.21986234  1.7140137  1.7309975  0.74602409</span></span>
-<span><span class="co">## embryo2_Pos29_cell11_z2   0.20854077 -0.1540283 -1.1164174 -0.05310395</span></span>
-<span><span class="co">## embryo2_Pos29_cell110_z2 -0.27216629 -0.5039993 -0.1865994 -0.79026591</span></span>
-<span><span class="co">## embryo2_Pos29_cell123_z2 -0.54615606 -1.0883485 -0.6943658 -1.00291231</span></span>
-<span><span class="co">## embryo2_Pos29_cell128_z2  0.03956295 -0.5873782  0.1000467 -1.63964609</span></span>
-<span><span class="co">## embryo2_Pos29_cell129_z2  0.14399058 -0.4114348 -0.3822816 -0.54459743</span></span>
-<span><span class="co">##                                [,26]     [,27]      [,28]      [,29]      [,30]</span></span>
-<span><span class="co">## embryo2_Pos29_cell103_z2  0.35040014 1.9244114  1.0994142  0.8017454 0.06630328</span></span>
-<span><span class="co">## embryo2_Pos29_cell11_z2  -0.04033414 2.4342194  0.1775621 -0.4003911 1.99938051</span></span>
-<span><span class="co">## embryo2_Pos29_cell110_z2 -0.16474872 1.2637777  0.1026267 -0.2428714 0.58283064</span></span>
-<span><span class="co">## embryo2_Pos29_cell123_z2 -0.32528226 0.6078707 -0.1877018 -0.3551147 0.25573785</span></span>
-<span><span class="co">## embryo2_Pos29_cell128_z2 -1.00529104 1.7031747  1.2513900 -0.4557731 0.18030373</span></span>
-<span><span class="co">## embryo2_Pos29_cell129_z2 -1.13653850 1.8444441 -0.1379572 -0.2130001 0.62098951</span></span>
-<span><span class="co">##                                 [,31]      [,32]      [,33]       [,34]</span></span>
-<span><span class="co">## embryo2_Pos29_cell103_z2  0.018409306  0.3581564 0.29453308 -1.22243261</span></span>
-<span><span class="co">## embryo2_Pos29_cell11_z2  -0.001305528 -0.2014190 0.32778650 -0.54913966</span></span>
-<span><span class="co">## embryo2_Pos29_cell110_z2  0.195284812 -0.3263791 0.32772422  0.19305454</span></span>
-<span><span class="co">## embryo2_Pos29_cell123_z2 -0.906437879 -0.5392833 0.06349666 -0.32993882</span></span>
-<span><span class="co">## embryo2_Pos29_cell128_z2  0.863123205 -0.2326273 0.49177219 -0.22691262</span></span>
-<span><span class="co">## embryo2_Pos29_cell129_z2  0.555737550  0.5669336 0.12087072  0.00246478</span></span>
-<span><span class="co">##                                [,35]      [,36]       [,37]      [,38]</span></span>
-<span><span class="co">## embryo2_Pos29_cell103_z2 -0.83359997 -0.5626265  0.27147656  0.7485256</span></span>
-<span><span class="co">## embryo2_Pos29_cell11_z2  -1.38506568  0.2047991 -0.55698357 -0.7616677</span></span>
-<span><span class="co">## embryo2_Pos29_cell110_z2 -0.01615896 -0.1681945 -0.03517469 -0.2185019</span></span>
-<span><span class="co">## embryo2_Pos29_cell123_z2 -1.26199626 -0.3987478  0.47164230 -0.1381785</span></span>
-<span><span class="co">## embryo2_Pos29_cell128_z2 -1.14278654 -1.1506724  0.50078317 -0.3879110</span></span>
-<span><span class="co">## embryo2_Pos29_cell129_z2 -0.45564116 -0.2931448  0.29778589 -0.6482173</span></span>
-<span><span class="co">##                                [,39]      [,40]       [,41]     [,42]</span></span>
-<span><span class="co">## embryo2_Pos29_cell103_z2  0.41777984  0.4383434 -2.50295425 0.3573508</span></span>
-<span><span class="co">## embryo2_Pos29_cell11_z2   0.77111513 -1.1546844 -0.50097650 0.6704736</span></span>
-<span><span class="co">## embryo2_Pos29_cell110_z2  0.16336572 -0.3048052 -0.92621527 0.7283678</span></span>
-<span><span class="co">## embryo2_Pos29_cell123_z2 -0.05387757 -0.4122033 -0.09306071 0.7372195</span></span>
-<span><span class="co">## embryo2_Pos29_cell128_z2  0.19807621 -0.5889438 -0.69818005 0.6589139</span></span>
-<span><span class="co">## embryo2_Pos29_cell129_z2  0.20978183 -1.0426766 -1.42117800 0.4702585</span></span>
-<span><span class="co">##                               [,43]      [,44]       [,45]       [,46]</span></span>
-<span><span class="co">## embryo2_Pos29_cell103_z2 -1.6484713 -0.4895815 -0.59446975  0.71408399</span></span>
-<span><span class="co">## embryo2_Pos29_cell11_z2   0.9528671 -0.2195819  0.62827717 -0.52972392</span></span>
-<span><span class="co">## embryo2_Pos29_cell110_z2  0.2140502  0.2567104 -0.48469833  0.12967940</span></span>
-<span><span class="co">## embryo2_Pos29_cell123_z2 -0.0273528  0.1112703  0.02530738 -0.21172745</span></span>
-<span><span class="co">## embryo2_Pos29_cell128_z2  0.4508320  0.2628886  0.19487445 -0.07063846</span></span>
-<span><span class="co">## embryo2_Pos29_cell129_z2  0.2349036  0.9833049 -0.10346168  0.52593553</span></span>
-<span><span class="co">##                                [,47]      [,48]     [,49]       [,50]</span></span>
-<span><span class="co">## embryo2_Pos29_cell103_z2  1.23068370 -0.3799625 0.3894140  0.39796516</span></span>
-<span><span class="co">## embryo2_Pos29_cell11_z2  -1.08694513 -0.5879184 2.0141168  0.02853424</span></span>
-<span><span class="co">## embryo2_Pos29_cell110_z2 -0.37968571 -0.4806475 0.5887303  0.06295446</span></span>
-<span><span class="co">## embryo2_Pos29_cell123_z2 -0.99822491 -0.5224671 0.6332211 -0.44533316</span></span>
-<span><span class="co">## embryo2_Pos29_cell128_z2  0.59261012  0.2320150 0.7073504  0.25872334</span></span>
-<span><span class="co">## embryo2_Pos29_cell129_z2 -0.01375025 -0.1666974 0.5304861  0.23373365</span></span></code></pre>
+<pre><code><span><span class="co">## 6 x 11 Matrix of class "dgeMatrix"</span></span>
+<span><span class="co">##                               [,1]       [,2]       [,3]         [,4]</span></span>
+<span><span class="co">## embryo2_Pos29_cell103_z2 1.0203749  0.3367455 -1.3565745  2.011629895</span></span>
+<span><span class="co">## embryo2_Pos29_cell11_z2  0.8550455 -0.1381868  0.6183848  0.919536065</span></span>
+<span><span class="co">## embryo2_Pos29_cell110_z2 1.3131534  1.1042273 -1.1648193  0.022762202</span></span>
+<span><span class="co">## embryo2_Pos29_cell123_z2 1.7482077  0.6172796 -0.7380985 -0.085068178</span></span>
+<span><span class="co">## embryo2_Pos29_cell128_z2 2.3064166  1.1336468  0.4710416  0.206734258</span></span>
+<span><span class="co">## embryo2_Pos29_cell129_z2 1.5117116  1.6014683  1.2877220 -0.003450743</span></span>
+<span><span class="co">##                                 [,5]        [,6]      [,7]       [,8]</span></span>
+<span><span class="co">## embryo2_Pos29_cell103_z2  0.61390285  1.55456648 -2.516180 -0.8921272</span></span>
+<span><span class="co">## embryo2_Pos29_cell11_z2  -0.07641813 -0.59818316 -1.773504  0.2705088</span></span>
+<span><span class="co">## embryo2_Pos29_cell110_z2  0.98520475 -0.23702497 -2.361843 -0.2183407</span></span>
+<span><span class="co">## embryo2_Pos29_cell123_z2 -0.08182993 -0.25701176 -2.611020  0.2165018</span></span>
+<span><span class="co">## embryo2_Pos29_cell128_z2 -0.61269069 -0.81784047 -1.366283  0.4641900</span></span>
+<span><span class="co">## embryo2_Pos29_cell129_z2 -1.02771287  0.08312281 -1.672021  0.4953510</span></span>
+<span><span class="co">##                                [,9]       [,10]       [,11]</span></span>
+<span><span class="co">## embryo2_Pos29_cell103_z2 -0.4386751  0.31450523 -0.11242577</span></span>
+<span><span class="co">## embryo2_Pos29_cell11_z2   0.8749550  0.43010169 -0.01598857</span></span>
+<span><span class="co">## embryo2_Pos29_cell110_z2 -0.1858788 -0.54826197  1.65810018</span></span>
+<span><span class="co">## embryo2_Pos29_cell123_z2 -0.3540539 -1.00423449  0.78208477</span></span>
+<span><span class="co">## embryo2_Pos29_cell128_z2  0.8305872 -0.05368451  1.59646456</span></span>
+<span><span class="co">## embryo2_Pos29_cell129_z2 -0.2054220  1.14108839  1.35546275</span></span></code></pre>
 <p>This low-dimensional gene expression data can then be used for any
 later tasks which would benefit from a low-dimensional embedding of the
 gene expression data for all the samples, rather than just the gene
@@ -524,7 +461,7 @@ resulting matrix.</p>
 <span></span>
 <span><span class="va">sample3_low_dim_exprs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/projectWSIR.html">projectWSIR</a></span><span class="op">(</span>wsir <span class="op">=</span> <span class="va">wsir_obj_samples12</span>, newdata <span class="op">=</span> <span class="va">sample3_exprs</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">sample3_low_dim_exprs</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] 4607   50</span></span></code></pre>
+<pre><code><span><span class="co">## [1] 4607    7</span></span></code></pre>
 <p>This low-dimensional matrix can then be used for downstream tasks
 which would benefit from a low-dimensional embedding of sample 3’s gene
 expression matrix that contains information about each cell’s location.
@@ -545,7 +482,7 @@ demonstrated below, using the ‘knn’ function from ‘class’ package.</p>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="va">knn_classification_object</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] Presomitic mesoderm Presomitic mesoderm Presomitic mesoderm</span></span>
-<span><span class="co">## [4] Presomitic mesoderm Presomitic mesoderm Presomitic mesoderm</span></span>
+<span><span class="co">## [4] Spinal cord         Spinal cord         Low quality        </span></span>
 <span><span class="co">## 24 Levels: Allantois Anterior somitic tissues ... Surface ectoderm</span></span></code></pre>
 <p>In the above code, we use the wSIR scores as input for a simple
 KNN-based cell type classification tool. We print the tail of the
