@@ -1,6 +1,8 @@
 Package: wSIR
 Type: Package
-Title: Weighted Sliced Inverse Regression (WSIR) for supervised dimension reduction of spatial transcriptomics and single cell gene expression data
+Title: Weighted Sliced Inverse Regression (WSIR) for supervised
+        dimension reduction of spatial transcriptomics and single cell
+        gene expression data
 Version: 0.1.2
 Authors@R: c(
     person("Max", "Woollard", , "mwoo5086@uni.sydney.edu.au", role = c("aut", "cre", "ctb")),
@@ -19,24 +21,23 @@ Description: Weighted Sliced Inverse Regression (WSIR) is a supervised dimension
     information present in the gene expression data.
 License: GPL-2
 Encoding: UTF-8
-URL: https://sydneybiox.github.io/wSIR, https://sydneybiox.github.io/wSIR/
+URL: https://sydneybiox.github.io/wSIR,
+        https://sydneybiox.github.io/wSIR/
 BugReports: https://github.com/sydneybiox/wSIR/issues
-biocViews: DimensionReduction, Software 
+biocViews: DimensionReduction, Software
 LazyData: true
 Roxygen: list(markdown = TRUE)
-Depends: R (>= 4.4.0),
-Imports: 
-    Rfast,
-    magrittr,
-    ggplot2,
-    doBy,
-    umap,
-    vctrs,
-    BiocParallel,
-    class,
-    stringr
-Suggests:
-    knitr,
-    BiocStyle
+Depends: R (>= 4.3.0),
+Imports: Rfast, magrittr, ggplot2, umap, vctrs, class, stringr,
+        distances, BiocStyle, Rcpp (>= 1.0.11), RcppEigen,
+        RcppArmadillo
+LinkingTo: Rcpp, RcppArmadillo, RcppEigen
 VignetteBuilder: knitr
-RoxygenNote: 7.3.2
+RoxygenNote: 7.2.3
+NeedsCompilation: yes
+Packaged: 2024-08-19 05:25:13 UTC; linhnghiem
+Author: Max Woollard [aut, cre, ctb],
+  Pratibha Panwar [ctb],
+  Linh Nghiem [aut, ctb],
+  Shila Ghazanfar [aut, ctb]
+Maintainer: Max Woollard <mwoo5086@uni.sydney.edu.au>

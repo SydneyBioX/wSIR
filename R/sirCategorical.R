@@ -22,10 +22,11 @@ sirCategorical <- function(X, Y, directions = 50, W = NULL, varThreshold = 0.95)
 
   # do the transformation (QR scaling method)
   n <- nrow(X)
-  Xc <- scale(X, center = TRUE, scale = FALSE)
-  qr.Xc <- qr(Xc)
-  R <- qr.R(qr.Xc)
-  Z <- qr.Q(qr.Xc) * sqrt(n)
+  X <- as.matrix(X)
+  RandZ <- computeRandZ(X)
+  b = Sys.time()
+  R <- RandZ[[1]]
+  Z <- RandZ[[2]]
 
   sliced_data <- slicerCategorical(X = Z, Y = Y)
 
@@ -36,13 +37,13 @@ sirCategorical <- function(X, Y, directions = 50, W = NULL, varThreshold = 0.95)
   }
 
   pc_dirs <- sirPCA(sliced_data, directions = directions, W = W, varThreshold = varThreshold)
-
+  
   betas <- backsolve(R, pc_dirs$evectors)
   betas <- apply(betas, 2, function(x) x/sqrt(sum(x^2)))
-  final_XB <- as.matrix(X) %*% betas
-
+  betas <- as.matrix(betas)
   rownames(betas) <- colnames(X)
-
+  final_XB <- matMultArma(X, betas)
+  
   return(list(scores = final_XB,
               directions = betas,
               estd = pc_dirs[[2]],

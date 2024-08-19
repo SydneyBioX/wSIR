@@ -22,10 +22,14 @@ sirPCA <- function(sliced_data,
 
   nslices <- nrow(sliced_data)
   sliced_data <- as.matrix(sliced_data)
-  m <- (t(as.matrix(sliced_data)) %*% W %*% sliced_data)
-  eig_m <- eigen(m)
-  all_pc <- eig_m$vectors
-  eig_m_values <- pmax(eig_m$values, 0)
+  # m <- (t(as.matrix(sliced_data)) %*% W %*% sliced_data)
+  m1 <- matMultArma(t(sliced_data), W) 
+  m <- matMultArma(m1, sliced_data)
+  
+  eig_m <- fastEigen(m)
+  all_pc <- eig_m$vectors[, ncol(m):1]
+  eig_m_values <- pmax(rev(eig_m$values), 0)
+  
   propvariance_explained <- cumsum(eig_m_values)/sum(eig_m_values)
   d <- which(propvariance_explained >= varThreshold)[1]
   d <- min(d, directions) # directions is a maximum number of directions

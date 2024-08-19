@@ -30,7 +30,6 @@ library(Rfast) # for distance correlation
 library(doBy) # for which.maxn
 library(vctrs) # for vec_rep_each
 library(umap) # for umap
-library(BiocParallel) # for parallel computing in exploreWSIRParams with BiocParallel
 library(class) # for example wSIR application
 ```
 
@@ -194,14 +193,17 @@ see that SIR'sperformance deteriorates as you use larger values for `slices`.
 However, wSIR's performance is relatively stable as you vary both `slices` and 
 `alpha` across reasonable values (e.g. among the default values we optimise 
 over). In the following plot, the metric value becomes smaller as we increase 
-the number of slices for alpha = 0 (which corresponds to SIR). Performance is 
+the number of slices for $\alpha = 0$ (which corresponds to SIR). Performance is 
 stable for all non-zero alpha and slice combinations (which correspond to wSIR). 
 
 ```{r}
+a <- Sys.time()
 optim_obj = exploreWSIRParams(exprs = sample1_exprs, 
                               coords = sample1_coords, 
-                              alpha_vals = c(0,2,4,8), 
-                              slice_vals = c(5,10,15))
+                              alpha_vals = c(0,.5, 1,2,4,8), 
+                              slice_vals = c(5,10,15),
+                              nrep = 20, metric = "CD")
+Sys.time()-a
 optim_obj$plot
 ```
 

@@ -12,10 +12,10 @@ exploreWSIRParams(
   slice_vals = c(3, 5, 7, 10, 15, 20),
   varThreshold = 0.95,
   maxDirections = 50,
-  metrics = c("DC", "CD", "ncol"),
   metric = "DC",
-  nrep = 5,
-  nCores = 1
+  nrep = 10,
+  nCores = 1,
+  plot = TRUE
 )
 }
 \arguments{
@@ -41,15 +41,15 @@ Select higher threshold to include more dimensions, lower threshold to include l
 
 \item{maxDirections}{integer for the maximum number of directions to include in the low-dimensional embedding. Default is 50.}
 
-\item{metrics}{evaluation metrics to display in the plots. In a vector, include any or all of "DC" for distance correlation,
-"CD" for correlation of distances, or "ncol" for number of columns in the low-dimensional embedding. Default is all three, specified
-by metrics = c("DC", "CD", "ncol").}
-
 \item{metric}{evaluation metric to use for parameter tuning to select optimal parameter combination. String, use "DC" to
 use distance correlation, "CD" to use correlation of distances, or "ncol" for the number of dimensions in the low-dimensional
 embedding. Default is "DC".}
 
 \item{nrep}{integer for the number of train/test splits of the data to perform.}
+
+\item{metrics}{evaluation metrics to display in the plots. In a vector, include any or all of "DC" for distance correlation,
+"CD" for correlation of distances, or "ncol" for number of columns in the low-dimensional embedding. Default is all three, specified
+by metrics = c("DC", "CD", "ncol").}
 }
 \value{
 List with five slots, named "plot", "message", "best_alpha", "best_slices" and "results_dataframe".

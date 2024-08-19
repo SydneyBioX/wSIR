@@ -30,7 +30,7 @@ createWeightMatrix <- function(coords, labels, alpha = 4) {
   weight_mat <- dist_norm
   weight_mat[!is.finite(weight_mat)] <- 0 # turn -inf into 0
   # ensure it is psd
-  eig <- eigen(weight_mat)
+  eig <- fastEigen(weight_mat)
   k <- eig$values > 1e-8
   weight_mat <- eig$vectors[, k, drop = FALSE] %*%
     diag(eig$values[k]) %*%
