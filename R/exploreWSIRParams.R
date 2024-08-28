@@ -72,14 +72,13 @@
 exploreWSIRParams = function(exprs,
                              coords,
                              samples = rep(1, nrow(coords)),
-                             alpha_vals = c(0,1,2,4,8,12),
-                             slice_vals = c(3,5,7,10,15,20),
+                             alpha_vals = c(0,2,4,10),
+                             slice_vals = c(5,10,15,20),
                              varThreshold = 0.95,
                              maxDirections = 50,
                              metrics = c("DC", "CD", "ncol"),
                              metric = "DC",
-                             nrep = 5,
-                             nCores = 1) {
+                             nrep = 5) {
 
   # vector of all parameter combinations
   param_combinations = as.vector(outer(slice_vals, alpha_vals, paste, sep = ","))
