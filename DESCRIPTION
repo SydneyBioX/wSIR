@@ -30,14 +30,9 @@ Roxygen: list(markdown = TRUE)
 Depends: R (>= 4.3.0),
 Imports: Rfast, magrittr, ggplot2, umap, vctrs, class, stringr,
         distances, BiocStyle, Rcpp (>= 1.0.11), RcppEigen,
-        RcppArmadillo
+        RcppArmadillo, knitr
 LinkingTo: Rcpp, RcppArmadillo, RcppEigen
 VignetteBuilder: knitr
 RoxygenNote: 7.2.3
 NeedsCompilation: yes
 Packaged: 2024-08-19 05:25:13 UTC; linhnghiem
-Author: Max Woollard [aut, cre, ctb],
-  Pratibha Panwar [ctb],
-  Linh Nghiem [aut, ctb],
-  Shila Ghazanfar [aut, ctb]
-Maintainer: Max Woollard <mwoo5086@uni.sydney.edu.au>
