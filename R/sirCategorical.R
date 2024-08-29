@@ -39,8 +39,8 @@ sirCategorical <- function(X, Y, directions = 50, W = NULL, varThreshold = 0.95)
   pc_dirs <- sirPCA(sliced_data, directions = directions, W = W, varThreshold = varThreshold)
   
   betas <- backsolve(R, pc_dirs$evectors)
-  betas <- apply(betas, 2, function(x) x/sqrt(sum(x^2)))
   betas <- as.matrix(betas)
+  betas <- apply(betas, 2, function(x) x/sqrt(sum(x^2)))
   rownames(betas) <- colnames(X)
   final_XB <- matMultArma(X, betas)
   
