@@ -13,9 +13,7 @@ exploreWSIRParams(
   varThreshold = 0.95,
   maxDirections = 50,
   metric = "DC",
-  nrep = 10,
-  nCores = 1,
-  plot = TRUE
+  nrep = 10
 )
 }
 \arguments{
@@ -46,10 +44,6 @@ use distance correlation, "CD" to use correlation of distances, or "ncol" for th
 embedding. Default is "DC".}
 
 \item{nrep}{integer for the number of train/test splits of the data to perform.}
-
-\item{metrics}{evaluation metrics to display in the plots. In a vector, include any or all of "DC" for distance correlation,
-"CD" for correlation of distances, or "ncol" for number of columns in the low-dimensional embedding. Default is all three, specified
-by metrics = c("DC", "CD", "ncol").}
 }
 \value{
 List with five slots, named "plot", "message", "best_alpha", "best_slices" and "results_dataframe".

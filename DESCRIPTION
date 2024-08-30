@@ -30,9 +30,9 @@ Roxygen: list(markdown = TRUE)
 Depends: R (>= 4.3.0),
 Imports: Rfast, magrittr, ggplot2, umap, vctrs, class, stringr,
         distances, BiocStyle, Rcpp (>= 1.0.11), RcppEigen,
-        RcppArmadillo, knitr
+        RcppArmadillo, knitr, doBy
 LinkingTo: Rcpp, RcppArmadillo, RcppEigen
 VignetteBuilder: knitr
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2
 NeedsCompilation: yes
 Packaged: 2024-08-19 05:25:13 UTC; linhnghiem

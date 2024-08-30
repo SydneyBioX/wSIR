@@ -26,6 +26,7 @@ These genes contribute the most to the first low-dimensional direction.
 }
 \examples{
 data(MouseData)
+
 wsir_obj = wSIR(X = sample1_exprs,
   coords = sample1_coords,
   optim_params = FALSE,

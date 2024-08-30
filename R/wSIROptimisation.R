@@ -26,23 +26,24 @@
 #'
 #' @return Average metric value for the selected metric(s) over each train/test split.
 #'
+#'
 #' @importFrom stats cor
 #' @importFrom distances distances
-#' 
+#'
 #'
 #' @keywords internal
 
 wSIROptimisation = function(exprs_train,
                             coords_train,
                             exprs_test,
-                            coords_test, 
+                            coords_test,
                             samples_train,
                             slices,
                             alpha,
                             maxDirections,
                             varThreshold,
                             metrics = c("CD","DC","ncol")) {
-  
+
   results = NULL
   wsir_obj = wSIRSpecifiedParams(X = exprs_train,
                                  coords = coords_train,
@@ -52,7 +53,7 @@ wSIROptimisation = function(exprs_train,
                                  maxDirections = maxDirections,
                                  varThreshold = varThreshold)
   projected_test = projectWSIR(wsir = wsir_obj, newdata = exprs_test)
-    
+
     if ("CD" %in% metrics) {
       # Replace dist by distances
       d1 <- as.matrix(distances::distances(projected_test))
@@ -65,7 +66,7 @@ wSIROptimisation = function(exprs_train,
     if ("DC" %in% metrics) {
       current_dc <- Rfast::dcor(as.matrix(projected_test), as.matrix(coords_test))$dcor
       results <- c(results, dc = current_dc)
-      
+
     }
     if ("ncol" %in% metrics) {
       current_ncol <- ncol(projected_test)

@@ -12,6 +12,7 @@
 #' @return dataframe containing the averages for each column within each category in Y. Dimension h * p,
 #' where h is the number of categories in Y and p is the number of columns in X.
 #'
+#'
 #' @keywords internal
 
 slicerCategorical <- function(X, Y) {

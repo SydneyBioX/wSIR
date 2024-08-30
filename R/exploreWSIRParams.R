@@ -21,9 +21,6 @@
 #' @param varThreshold numeric proportion of variance in \code{t(X_H) \%*\% W \%*\% X_H} to retain. Must be between 0 and 1. Default is 0.95.
 #' Select higher threshold to include more dimensions, lower threshold to include less dimensions.
 #' @param maxDirections integer for the maximum number of directions to include in the low-dimensional embedding. Default is 50.
-#' @param metrics evaluation metrics to display in the plots. In a vector, include any or all of "DC" for distance correlation,
-#' "CD" for correlation of distances, or "ncol" for number of columns in the low-dimensional embedding. Default is all three, specified
-#' by metrics = c("DC", "CD", "ncol").
 #' @param metric evaluation metric to use for parameter tuning to select optimal parameter combination. String, use "DC" to
 #' use distance correlation, "CD" to use correlation of distances, or "ncol" for the number of dimensions in the low-dimensional
 #' embedding. Default is "DC".
@@ -65,7 +62,7 @@
 #' @importFrom ggplot2 theme_classic
 #' @importFrom ggplot2 ggtitle
 #' @importFrom vctrs vec_rep_each
-#' 
+#'
 #'
 #' @export
 exploreWSIRParams = function(exprs,
@@ -76,12 +73,11 @@ exploreWSIRParams = function(exprs,
                              varThreshold = 0.95,
                              maxDirections = 50,
                              metric = "DC",
-                             nrep = 10,
-                             nCores = 1) {
-  
+                             nrep = 10) {
+
   # vector of all parameter combinations
   param_combinations = expand.grid(slice = slice_vals, alpha = alpha_vals, metric = NA)
-  
+
   # Create pre-specified random splits of data, each columns corresponding to one split
   index_rep <- matrix(
     sample(c(TRUE, FALSE), nrow(exprs)*nrep, replace = TRUE),
@@ -94,42 +90,42 @@ exploreWSIRParams = function(exprs,
     samples_train <- samples[keep]
     exprs_test <- exprs[!keep,]
     coords_test <- coords[!keep,]
-    list(exprs_train, coords_train, exprs_test, 
+    list(exprs_train, coords_train, exprs_test,
          coords_test,  samples_train )
   })
   nElements = 5
-  result <- lapply(1:nElements, 
+  result <- lapply(1:nElements,
                    function(i) lapply(split_list, "[[", i))
 
 
   for (ii in 1:nrow(param_combinations)){
     a <- Sys.time()
-    cv_scores <- mapply(function(exprs_train, coords_train, exprs_test, 
+    cv_scores <- mapply(function(exprs_train, coords_train, exprs_test,
                           coords_test,  samples_train){
       wSIROptimisation(as.matrix(exprs_train),
-                       coords_train, as.matrix(exprs_test), 
-                       coords_test, 
+                       coords_train, as.matrix(exprs_test),
+                       coords_test,
                        samples_train, param_combinations$slice[ii], param_combinations$alpha[ii],
                        varThreshold = varThreshold,
                        maxDirections = maxDirections, metric = "DC")
     }, result[[1]], result[[2]], result[[3]], result[[4]], result[[5]])
-   
+
     param_combinations$metric[ii] <- mean(cv_scores, na.rm = TRUE)
     print(Sys.time()-a)
   }
-  
+
   res_df <- param_combinations
   best_metric_index = which.max(res_df[, "metric"])
   best_alpha = res_df[best_metric_index, "alpha"]
   best_slices = res_df[best_metric_index, "slice"]
-  
+
   message = paste0("Optimal (alpha, slices) pair: (", best_alpha, ", ", best_slices, ")")
 
   plot <- ggplot(res_df, mapping = aes(x = alpha, y = slice, size = metric)) +
     geom_point() +
     theme_classic() +
     ggtitle(paste0("Metric value for different parameter combinations (",nrep, " iterations of train/test split)"))
-  
+
   return(list(plot = plot,
               message = message,
               best_alpha = best_alpha,

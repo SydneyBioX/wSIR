@@ -22,6 +22,7 @@
 #'
 #' @examples
 #' data(MouseData)
+#' 
 #' wsir_obj = wSIR(X = sample1_exprs,
 #'   coords = sample1_coords,
 #'   optim_params = FALSE,

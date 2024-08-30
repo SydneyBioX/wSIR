@@ -9,6 +9,8 @@
 #'
 #' @return matrix containing the weight value for all pairs of tiles. Each value is between 0 and 1, with 1 always on the diagonal.
 #'
+#'
+#'
 #' @keywords internal
 
 createWeightMatrix <- function(coords, labels, alpha = 4) {
