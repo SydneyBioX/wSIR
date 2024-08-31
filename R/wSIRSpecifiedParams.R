@@ -37,7 +37,7 @@ wSIRSpecifiedParams = function(X,
                                alpha = 4,
                                maxDirections = 50,
                                varThreshold = 0.95) {
-  
+
   coords_split = split.data.frame(coords, samples)
 
   tile_allocations = lapply(coords_split, spatialAllocator, slices = slices)
@@ -67,6 +67,6 @@ wSIRSpecifiedParams = function(X,
                              directions = maxDirections,
                              W = W,
                              varThreshold = varThreshold)
-  
+
   return(wsir_obj)
 }

@@ -29,9 +29,9 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 Depends: R (>= 4.3.0),
 Imports: Rfast, magrittr, ggplot2, umap, vctrs, class, stringr,
-        distances, BiocStyle, Rcpp (>= 1.0.11), RcppEigen,
+        distances, BiocStyle, Rcpp (>= 1.0.11), 
         RcppArmadillo, knitr, doBy
-LinkingTo: Rcpp, RcppArmadillo, RcppEigen
+LinkingTo: Rcpp, RcppArmadillo
 VignetteBuilder: knitr
 RoxygenNote: 7.3.2
 NeedsCompilation: yes

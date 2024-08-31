@@ -23,6 +23,6 @@
 
 projectWSIR = function(wsir, newdata) {
   newdata = as.matrix(newdata)
-  proj = matMultArma(newdata, wsir[[2]])
+  proj = .matMultArma(newdata, wsir[[2]])
   return(proj)
 }

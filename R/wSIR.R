@@ -45,6 +45,9 @@
 #' 5) evalues vector containing p eigenvalues of t(X_H) %*% W %*% X_H. varThreshold parameter works on these evalues,
 #' such that e.g the first j directions are included if the sum of the first j evalues equals 0.95% of the sum of all evalues.
 #'
+#' @useDynLib wSIR
+#' @importFrom Rcpp evalCpp
+#'
 #' @examples
 #' data(MouseData)
 #' wsir_obj = wSIR(X = sample1_exprs,

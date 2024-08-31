@@ -58,9 +58,9 @@ wSIROptimisation = function(exprs_train,
       # Replace dist by distances
       d1 <- as.matrix(distances::distances(projected_test))
       d2 <- as.matrix(distances::distances(coords_test))
-      k1 <- subsetLowerTri(as.matrix(d1))
-      k2 <- subsetLowerTri(as.matrix(d2))
-      current_cd <- spearman_correlation(k1, k2)
+      k1 <- .subsetLowerTri(as.matrix(d1))
+      k2 <- .subsetLowerTri(as.matrix(d2))
+      current_cd <- .spearman_correlation(k1, k2)
       results <- c(results, cd = current_cd)
     }
     if ("DC" %in% metrics) {
