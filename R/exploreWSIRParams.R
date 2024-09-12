@@ -68,6 +68,7 @@
 #' @importFrom ggplot2 ggtitle
 #' @importFrom vctrs vec_rep_each
 #' @importFrom BiocParallel bplapply
+#' @importFrom BiocParallel MulticoreParam
 #' @importFrom stringr word
 #'
 #' @export
