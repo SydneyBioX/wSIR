@@ -28,6 +28,8 @@
 #' use distance correlation, "CD" to use correlation of distances, or "ncol" for the number of dimensions in the low-dimensional
 #' embedding. Default is "DC".
 #' @param nrep integer for the number of train/test splits of the data to perform.
+#' @param param parallel computing setup for bplapply from BiocParallel package. Default is to use a single core, hence
+#' default value is MulticoreParam(workers = 1)
 #'
 #' @return List with five slots, named "plot", "message", "best_alpha", "best_slices" and "results_dataframe".
 #' 1) "plot" shows the average metric value across the nrep iterations for every combination of parameters slices and alpha.
@@ -78,7 +80,8 @@ exploreWSIRParams = function(exprs,
                              maxDirections = 50,
                              metrics = c("DC", "CD", "ncol"),
                              metric = "DC",
-                             nrep = 5) {
+                             nrep = 5,
+                             param = MulticoreParam(workers = 1)) {
 
   # vector of all parameter combinations
   param_combinations = as.vector(outer(slice_vals, alpha_vals, paste, sep = ","))
@@ -96,7 +99,8 @@ exploreWSIRParams = function(exprs,
                                     metrics = metrics,
                                     nrep = nrep)
     return(optim_result)
-  })
+  },
+  BPPARAM = param)
 
   metric_vals <- unlist(metric_vals_list)
 

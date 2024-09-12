@@ -8,14 +8,14 @@ exploreWSIRParams(
   exprs,
   coords,
   samples = rep(1, nrow(coords)),
-  alpha_vals = c(0, 1, 2, 4, 8, 12),
-  slice_vals = c(3, 5, 7, 10, 15, 20),
+  alpha_vals = c(0, 2, 4, 10),
+  slice_vals = c(5, 10, 15, 20),
   varThreshold = 0.95,
   maxDirections = 50,
   metrics = c("DC", "CD", "ncol"),
   metric = "DC",
   nrep = 5,
-  nCores = 1
+  param = MulticoreParam(workers = 1)
 )
 }
 \arguments{
@@ -50,6 +50,9 @@ use distance correlation, "CD" to use correlation of distances, or "ncol" for th
 embedding. Default is "DC".}
 
 \item{nrep}{integer for the number of train/test splits of the data to perform.}
+
+\item{param}{parallel computing setup for bplapply from BiocParallel package. Default is to use a single core, hence
+default value is MulticoreParam(workers = 1)}
 }
 \value{
 List with five slots, named "plot", "message", "best_alpha", "best_slices" and "results_dataframe".
