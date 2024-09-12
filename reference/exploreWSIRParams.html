@@ -149,21 +149,17 @@ which is either Distance Correlation ("DC"), Correlation of Distances ("CD"), or
 <span class="r-in"><span>  coords <span class="op">=</span> <span class="va">sample1_coords</span>,</span></span>
 <span class="r-in"><span>  alpha_vals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">2</span>,<span class="fl">4</span>,<span class="fl">8</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  slice_vals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">6</span>,<span class="fl">10</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in h(simpleError(msg, call)):</span> error in evaluating the argument 'BPPARAM' in selecting a method for function 'bplapply': could not find function "MulticoreParam"</span>
 <span class="r-in"><span><span class="va">explore_params</span><span class="op">$</span><span class="va">plot</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'explore_params' not found</span>
+<span class="r-plt img"><img src="exploreWSIRParams-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="va">explore_params</span><span class="op">$</span><span class="va">message</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'explore_params' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Optimal (alpha, slices) pair: (8, 10)"</span>
 <span class="r-in"><span><span class="va">best_alpha</span> <span class="op">=</span> <span class="va">explore_params</span><span class="op">$</span><span class="va">best_alpha</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'explore_params' not found</span>
 <span class="r-in"><span><span class="va">best_slices</span> <span class="op">=</span> <span class="va">explore_params</span><span class="op">$</span><span class="va">best_slices</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'explore_params' not found</span>
 <span class="r-in"><span><span class="va">wsir_obj</span> <span class="op">=</span> <span class="fu"><a href="wSIR.html">wSIR</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">sample1_exprs</span>,</span></span>
 <span class="r-in"><span>  coords <span class="op">=</span> <span class="va">sample1_coords</span>,</span></span>
 <span class="r-in"><span>  optim_params <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
 <span class="r-in"><span>  alpha <span class="op">=</span> <span class="va">best_alpha</span>,</span></span>
 <span class="r-in"><span>  slices <span class="op">=</span> <span class="va">best_slices</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'best_slices' not found</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
