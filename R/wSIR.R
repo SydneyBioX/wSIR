@@ -65,12 +65,13 @@ wSIR = function(X,
                 slices = 8,
                 alpha = 4,
                 maxDirections = 50,
-                varThreshold = 0.95,
+                # varThreshold = 0.95,
                 optim_params = TRUE,
                 alpha_vals = c(0,1,2,4,8,12),
                 slice_vals = c(3,5,7,10,15,20),
                 metric = "DC",
-                nrep = 5) {
+                nrep = 5,
+                ...) {
 
   if (optim_params) {
     optim_obj = exploreWSIRParams(exprs = X,
@@ -78,10 +79,11 @@ wSIR = function(X,
                                   samples = samples,
                                   alpha_vals = alpha_vals,
                                   slice_vals = slice_vals,
-                                  varThreshold = varThreshold,
+                                  # varThreshold = varThreshold,
                                   maxDirections = maxDirections,
                                   metric = metric,
-                                  nrep = nrep)
+                                  nrep = nrep,
+                                  ...)
     alpha = optim_obj$best_alpha
     slices = optim_obj$best_slices
   }
@@ -92,6 +94,8 @@ wSIR = function(X,
                                   alpha = alpha,
                                   slices = slices,
                                   maxDirections = maxDirections,
-                                  varThreshold = varThreshold)
+                                  # varThreshold = varThreshold
+                                  ...
+                                  )
   return(wsir_obj)
 }

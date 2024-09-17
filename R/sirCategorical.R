@@ -18,7 +18,13 @@
 #'
 #' @keywords internal
 
-sirCategorical <- function(X, Y, directions = 50, W = NULL, varThreshold = 0.95) {
+sirCategorical <- function(X,
+                           Y,
+                           directions = 50,
+                           W = NULL,
+                           # varThreshold = 0.95
+                           ...
+                           ) {
 
   # do the transformation (QR scaling method)
   n <- nrow(X)
@@ -36,7 +42,12 @@ sirCategorical <- function(X, Y, directions = 50, W = NULL, varThreshold = 0.95)
     W <- diag(table(Y$coordinate), ncol = nrow(sliced_data))/nrow(Y)
   }
 
-  pc_dirs <- sirPCA(sliced_data, directions = directions, W = W, varThreshold = varThreshold)
+  pc_dirs <- sirPCA(sliced_data,
+                    directions = directions,
+                    W = W,
+                    # varThreshold = varThreshold
+                    ...
+                    )
 
   betas <- backsolve(R, pc_dirs$evectors)
   betas <- as.matrix(betas)

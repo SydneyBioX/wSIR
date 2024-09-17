@@ -6,6 +6,7 @@
 #'
 #' @param X matrix containing normalised gene expression data including n cells and p genes, dimension n * p.
 #' @param coords dataframe containing spatial positions of n cells in 2D space. Dimension n * 2. Column names must be c("x", "y").
+#' @param group a factor indicating group level information for cells within and across samples (e.g. cell type).
 #' @param samples sample ID of each cell. In total, must have length equal to the number of cells. For example, if
 #' your dataset has 10000 cells, the first 5000 from sample 1 and the remaining 5000 from sample 2, you would write
 #' samples = c(rep(1, 5000), rep(2, 5000)) to specify that the first 5000 cells are sample 1 and the remaining are sample 2.
@@ -32,13 +33,28 @@
 #' @keywords internal
 wSIRSpecifiedParams = function(X,
                                coords,
+                               group = NULL,
                                samples = rep(1, nrow(coords)),
                                slices = 8,
                                alpha = 4,
                                maxDirections = 50,
-                               varThreshold = 0.95) {
+                               # varThreshold = 0.95
+                               ...
+                               ) {
 
-  coords_split = split.data.frame(coords, samples)
+  if (!is.null(group)) {
+
+    if (class(group) != "factor") {
+      message("group is not a factor, setting as.factor")
+      group <- factor(group)
+    }
+
+    coords2 = cbind(coords, group = group)
+  } else {
+    coords2 = coords
+  }
+
+  coords_split = split.data.frame(coords2, samples)
 
   tile_allocations = lapply(coords_split, spatialAllocator, slices = slices)
 
@@ -66,7 +82,9 @@ wSIRSpecifiedParams = function(X,
                              Y = tile_allocation,
                              directions = maxDirections,
                              W = W,
-                             varThreshold = varThreshold)
+                             # varThreshold = varThreshold
+                             ...
+                             )
 
   return(wsir_obj)
 }
