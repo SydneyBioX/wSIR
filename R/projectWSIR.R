@@ -22,6 +22,7 @@
 #' @export
 
 projectWSIR = function(wsir, newdata) {
-  proj = newdata %*% wsir[[2]]
+  newdata = as.matrix(newdata)
+  proj = .matMultArma(newdata, wsir[[2]])
   return(proj)
 }

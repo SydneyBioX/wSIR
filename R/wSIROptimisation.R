@@ -1,13 +1,13 @@
 #' wSIROptimisation
 #'
 #' @description
-#' This function is used for parameter optimisation in WSIR. with provided parameter values, exprs and coords, this function splits the data into equal train/test
-#' splits a given number of times (nrep times). It computes the selected evaluation metric (distance correlation or correlation of distances) on the current test
-#' set and returns the average value for that metric over all train/test splits.
+#' This function is used to calculate the validation metric on which the best tuning parameters are selected
 #'
-#' @param exprs matrix of normalised gene expression data for n genes across p cells.
-#' @param coords dataframe containing spatial positions of n cells in 2D space. Dimension n * 2. Column names must be c("x", "y").
-#' @param samples sample ID of each cell. In total, must have length equal to the number of cells. For example, if
+#' @param exprs_train matrix of normalised gene expression on the training data.
+#' @param coords_train dataframe containing spatial positions of cells in 2D space on the training data. Dimension n * 2. Column names must be c("x", "y").
+#' @param exprs_test matrix of normalised gene expression on the validation data.
+#' @param coords_train dataframe containing spatial positions of cells in 2D space on the  validation data. Dimension n * 2. Column names must be c("x", "y").
+#' @param samples_train sample ID of each cell in the training data. In total, must have length equal to the number of cells. For example, if
 #' your dataset has 10000 cells, the first 5000 from sample 1 and the remaining 5000 from sample 2, you would write
 #' samples = c(rep(1, 5000), rep(2, 5000)) to specify that the first 5000 cells are sample 1 and the remaining are sample 2.
 #' Default is that all cells are from sample 1. Sample IDs can be of any format: for the previous example, you could write
@@ -23,66 +23,58 @@
 #' @param metrics evaluation metrics to use for parameter tuning. String, options are any or all of: "DC" to use distance
 #' correlation; "CD" to use correlation of distances; "ncol" to use number of columns in low-dimensional embedding. Default is all three,
 #' specified by metrics = c("DC", "CD", "ncol").
-#' @param nrep integer for the number of train/test splits of the data to perform.
 #'
 #' @return Average metric value for the selected metric(s) over each train/test split.
 #'
+#'
 #' @importFrom stats cor
-#' @importFrom stats dist
+#' @importFrom distances distances
+#'
 #'
 #' @keywords internal
 
-wSIROptimisation = function(exprs,
-                            coords,
-                            samples = rep(1, nrow(coords)),
+wSIROptimisation = function(exprs_train,
+                            coords_train,
+                            exprs_test,
+                            coords_test,
+                            samples_train,
                             slices,
                             alpha,
                             maxDirections,
                             varThreshold,
-                            metrics = c("CD","DC","ncol"),
-                            nrep = 3) {
-  cd_vals <- rep(0, nrep)
-  dc_vals <- rep(0, nrep)
-  ncol_vals <- rep(0, nrep)
-  for (i in 1:nrep) {
-    keep <- sample(c(TRUE, FALSE), nrow(exprs), replace = TRUE)
-    exprs_train <- exprs[keep,]
-    coords_train <- coords[keep,]
-    samples_train <- samples[keep]
+                            metrics = c("CD","DC","ncol")) {
 
-    exprs_test <- exprs[!keep,]
-    coords_test <- coords[!keep,]
-
-    wsir_obj = wSIRSpecifiedParams(X = exprs_train,
-                                   coords = coords_train,
-                                   samples = samples_train,
-                                   slices = slices,
-                                   alpha = alpha,
-                                   maxDirections = maxDirections,
-                                   varThreshold = varThreshold)
-    projected_test = projectWSIR(wsir = wsir_obj, newdata = exprs_test)
+  results = NULL
+  wsir_obj = wSIRSpecifiedParams(X = exprs_train,
+                                 coords = coords_train,
+                                 samples = samples_train,
+                                 slices = slices,
+                                 alpha = alpha,
+                                 maxDirections = maxDirections,
+                                 varThreshold = varThreshold)
+  projected_test = projectWSIR(wsir = wsir_obj, newdata = exprs_test)
 
     if ("CD" %in% metrics) {
-      current_cd <- cor(subsetLowerTri(dist(projected_test)),
-                       subsetLowerTri(dist(coords_test)),
-                       method = "spearman",
-                       use = "pairwise.complete")
-      cd_vals[i] <- current_cd
+      # Replace dist by distances
+      d1 <- as.matrix(distances::distances(projected_test))
+      d2 <- as.matrix(distances::distances(coords_test))
+      k1 <- .subsetLowerTri(as.matrix(d1))
+      k2 <- .subsetLowerTri(as.matrix(d2))
+      current_cd <- .spearman_correlation(k1, k2)
+      results <- c(results, cd = current_cd)
     }
     if ("DC" %in% metrics) {
-      current_dc <- Rfast::dcor(x = as.matrix(projected_test),
-                               y = coords_test)$dcor
-      dc_vals[i] <- current_dc
+      current_dc <- Rfast::dcor(as.matrix(projected_test), as.matrix(coords_test))$dcor
+      results <- c(results, dc = current_dc)
+
     }
     if ("ncol" %in% metrics) {
       current_ncol <- ncol(projected_test)
-      ncol_vals[i] <- current_ncol
+      ncol_vals <- current_ncol
+      results <- c(results, ncol = ncol_vals)
     }
-  }
-  avg_cd = mean(cd_vals)
-  avg_dc = mean(dc_vals)
-  avg_ncol = mean(ncol_vals)
-  return(c(avg_cd["CD" %in% metrics],
-           avg_dc["DC" %in% metrics],
-           avg_ncol["ncol" %in% metrics]))
+  # avg_cd = mean(cd_vals, na.rm = TRUE)
+  # avg_dc = mean(dc_vals, na.rm = TRUE)
+  # avg_ncol = mean(ncol_vals, na.rm = TRUE)
+  return(results)
 }

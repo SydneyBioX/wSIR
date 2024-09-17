@@ -21,9 +21,6 @@
 #' @param varThreshold numeric proportion of variance in \code{t(X_H) \%*\% W \%*\% X_H} to retain. Must be between 0 and 1. Default is 0.95.
 #' Select higher threshold to include more dimensions, lower threshold to include less dimensions.
 #' @param maxDirections integer for the maximum number of directions to include in the low-dimensional embedding. Default is 50.
-#' @param metrics evaluation metrics to display in the plots. In a vector, include any or all of "DC" for distance correlation,
-#' "CD" for correlation of distances, or "ncol" for number of columns in the low-dimensional embedding. Default is all three, specified
-#' by metrics = c("DC", "CD", "ncol").
 #' @param metric evaluation metric to use for parameter tuning to select optimal parameter combination. String, use "DC" to
 #' use distance correlation, "CD" to use correlation of distances, or "ncol" for the number of dimensions in the low-dimensional
 #' embedding. Default is "DC".
@@ -79,55 +76,76 @@ exploreWSIRParams = function(exprs,
                              slice_vals = c(5,10,15,20),
                              varThreshold = 0.95,
                              maxDirections = 50,
-                             metrics = c("DC", "CD", "ncol"),
                              metric = "DC",
                              nrep = 5,
                              param = MulticoreParam(workers = 1)) {
 
   # vector of all parameter combinations
-  param_combinations = as.vector(outer(slice_vals, alpha_vals, paste, sep = ","))
+  param_combinations = expand.grid(slice = slice_vals, alpha = alpha_vals, metric = NA)
 
-  # perform bplapply over that list of (pairs of) combinations
-  metric_vals_list = bplapply(param_combinations, function(parameter_pair) {
-    current_slices = as.numeric(word(parameter_pair, 1, sep = ","))
-    current_alpha = as.numeric(word(parameter_pair, 2, sep = ","))
-    optim_result = wSIROptimisation(exprs = exprs,
-                                    coords = coords,
-                                    alpha = current_alpha,
-                                    slices = current_slices,
-                                    varThreshold = varThreshold,
-                                    maxDirections = maxDirections,
-                                    metrics = metrics,
-                                    nrep = nrep)
-    return(optim_result)
-  },
-  BPPARAM = param)
 
-  metric_vals <- unlist(metric_vals_list)
+#  # perform bplapply over that list of (pairs of) combinations
+#  metric_vals_list = bplapply(param_combinations, function(parameter_pair) {
+#    current_slices = as.numeric(word(parameter_pair, 1, sep = ","))
+#    current_alpha = as.numeric(word(parameter_pair, 2, sep = ","))
+#    optim_result = wSIROptimisation(exprs = exprs,
+#                                    coords = coords,
+#                                    alpha = current_alpha,
+#                                    slices = current_slices,
+ #                                   varThreshold = varThreshold,
+ #                                   maxDirections = maxDirections,
+ #                                   metrics = metrics,
+ #                                   nrep = nrep)
+ #   return(optim_result)
+ # },
+ # BPPARAM = param)
 
-  res_df <- matrix(NA, nrow = length(alpha_vals)*length(slice_vals)*length(metrics), ncol = 4) %>% as.data.frame()
-  colnames(res_df) <- c("alpha", "slices", "metric", "value")
+  # Create pre-specified random splits of data, each columns corresponding to one split
+  index_rep <- matrix(
+    sample(c(TRUE, FALSE), nrow(exprs)*nrep, replace = TRUE),
+    nrow = nrow(exprs), ncol = nrep
+  )
+  # create training and test set from each column index
+  split_list <- apply(index_rep, 2,  function(keep){
+    exprs_train <- exprs[keep,]
+    coords_train <- coords[keep,]
+    samples_train <- samples[keep]
+    exprs_test <- exprs[!keep,]
+    coords_test <- coords[!keep,]
+    list(exprs_train, coords_train, exprs_test,
+         coords_test,  samples_train )
+  })
+  nElements = 5
+  result <- lapply(1:nElements,
+                   function(i) lapply(split_list, "[[", i))
 
-  res_df$alpha <- vec_rep_each(alpha_vals, length(slice_vals)*length(metrics))
-  res_df$slices <- rep(vec_rep_each(slice_vals, length(metrics)), length(alpha_vals))
-  res_df$metric <- rep(metrics, length(slice_vals)*length(alpha_vals))
-  res_df$value <- metric_vals
+  for (ii in 1:nrow(param_combinations)){
+    a <- Sys.time()
+    cv_scores <- mapply(function(exprs_train, coords_train, exprs_test,
+                          coords_test,  samples_train){
+      wSIROptimisation(as.matrix(exprs_train),
+                       coords_train, as.matrix(exprs_test),
+                       coords_test,
+                       samples_train, param_combinations$slice[ii], param_combinations$alpha[ii],
+                       varThreshold = varThreshold,
+                       maxDirections = maxDirections, metric = "DC")
+    }, result[[1]], result[[2]], result[[3]], result[[4]], result[[5]])
 
-  chosen_metric_df <- res_df[(res_df$metric == metric),]
+    param_combinations$metric[ii] <- mean(cv_scores, na.rm = TRUE)
+    print(Sys.time()-a)
+  }
 
-  best_alpha = chosen_metric_df$alpha[which.max(chosen_metric_df$value)]
-  best_slices = chosen_metric_df$slices[which.max(chosen_metric_df$value)]
-
-  res_df$alpha <- res_df$alpha %>% as.factor()
-  res_df$slices <- res_df$slices %>% as.factor()
+  res_df <- param_combinations
+  best_metric_index = which.max(res_df[, "metric"])
+  best_alpha = res_df[best_metric_index, "alpha"]
+  best_slices = res_df[best_metric_index, "slice"]
 
   message = paste0("Optimal (alpha, slices) pair: (", best_alpha, ", ", best_slices, ")")
 
-  plot <- ggplot(data = res_df, aes(x = alpha, y = slices, size = value)) +
+  plot <- ggplot(res_df, mapping = aes(x = alpha, y = slice, size = metric)) +
     geom_point() +
     theme_classic() +
-    ggtitle(paste0("Metric value for different parameter combinations (",nrep, " iterations of train/test split)")) +
-    facet_wrap(~metric, scales = "free")
+    ggtitle(paste0("Metric value for different parameter combinations (",nrep, " iterations of train/test split)"))
 
   return(list(plot = plot,
               message = message,

@@ -5,23 +5,26 @@
 \title{wSIROptimisation}
 \usage{
 wSIROptimisation(
-  exprs,
-  coords,
-  samples = rep(1, nrow(coords)),
+  exprs_train,
+  coords_train,
+  exprs_test,
+  coords_test,
+  samples_train,
   slices,
   alpha,
   maxDirections,
   varThreshold,
-  metrics = c("CD", "DC", "ncol"),
-  nrep = 3
+  metrics = c("CD", "DC", "ncol")
 )
 }
 \arguments{
-\item{exprs}{matrix of normalised gene expression data for n genes across p cells.}
+\item{exprs_train}{matrix of normalised gene expression on the training data.}
 
-\item{coords}{dataframe containing spatial positions of n cells in 2D space. Dimension n * 2. Column names must be c("x", "y").}
+\item{coords_train}{dataframe containing spatial positions of cells in 2D space on the  validation data. Dimension n * 2. Column names must be c("x", "y").}
 
-\item{samples}{sample ID of each cell. In total, must have length equal to the number of cells. For example, if
+\item{exprs_test}{matrix of normalised gene expression on the validation data.}
+
+\item{samples_train}{sample ID of each cell in the training data. In total, must have length equal to the number of cells. For example, if
 your dataset has 10000 cells, the first 5000 from sample 1 and the remaining 5000 from sample 2, you would write
 samples = c(rep(1, 5000), rep(2, 5000)) to specify that the first 5000 cells are sample 1 and the remaining are sample 2.
 Default is that all cells are from sample 1. Sample IDs can be of any format: for the previous example, you could write
@@ -42,15 +45,11 @@ Select higher threshold to include more dimensions, lower threshold to include l
 \item{metrics}{evaluation metrics to use for parameter tuning. String, options are any or all of: "DC" to use distance
 correlation; "CD" to use correlation of distances; "ncol" to use number of columns in low-dimensional embedding. Default is all three,
 specified by metrics = c("DC", "CD", "ncol").}
-
-\item{nrep}{integer for the number of train/test splits of the data to perform.}
 }
 \value{
 Average metric value for the selected metric(s) over each train/test split.
 }
 \description{
-This function is used for parameter optimisation in WSIR. with provided parameter values, exprs and coords, this function splits the data into equal train/test
-splits a given number of times (nrep times). It computes the selected evaluation metric (distance correlation or correlation of distances) on the current test
-set and returns the average value for that metric over all train/test splits.
+This function is used to calculate the validation metric on which the best tuning parameters are selected
 }
 \keyword{internal}

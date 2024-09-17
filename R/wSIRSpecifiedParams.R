@@ -62,11 +62,11 @@ wSIRSpecifiedParams = function(X,
 
   W <- Dmatrix %*% corrMatrix %*% Dmatrix
 
-
   wsir_obj <- sirCategorical(X = X,
                              Y = tile_allocation,
                              directions = maxDirections,
                              W = W,
                              varThreshold = varThreshold)
+
   return(wsir_obj)
 }

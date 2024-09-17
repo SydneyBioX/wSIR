@@ -12,7 +12,6 @@ exploreWSIRParams(
   slice_vals = c(5, 10, 15, 20),
   varThreshold = 0.95,
   maxDirections = 50,
-  metrics = c("DC", "CD", "ncol"),
   metric = "DC",
   nrep = 5,
   param = MulticoreParam(workers = 1)
@@ -40,10 +39,6 @@ be no more than around \eqn{\sqrt{n/20}}, as this upper bound ensures an average
 Select higher threshold to include more dimensions, lower threshold to include less dimensions.}
 
 \item{maxDirections}{integer for the maximum number of directions to include in the low-dimensional embedding. Default is 50.}
-
-\item{metrics}{evaluation metrics to display in the plots. In a vector, include any or all of "DC" for distance correlation,
-"CD" for correlation of distances, or "ncol" for number of columns in the low-dimensional embedding. Default is all three, specified
-by metrics = c("DC", "CD", "ncol").}
 
 \item{metric}{evaluation metric to use for parameter tuning to select optimal parameter combination. String, use "DC" to
 use distance correlation, "CD" to use correlation of distances, or "ncol" for the number of dimensions in the low-dimensional
