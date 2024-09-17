@@ -10,12 +10,12 @@ Authors@R: c(
     person("Linh", "Nghiem", role = c("aut","ctb")),
     person("Shila", "Ghazanfar", , "shazanfar@gmail.com", role = c("aut", "ctb"))
     )
-Description: Weighted Sliced Inverse Regression (WSIR) is a supervised dimension 
+Description: Weighted Sliced Inverse Regression (wSIR) is a supervised dimension 
     reduction algorithm for spatial transcriptomics gene expression data. For a 
     provided gene expression matrix and dataframe of each cell's spatial 
-    coordinates, WSIR creates a low-dimensional representation of the gene 
+    coordinates, wSIR creates a low-dimensional representation of the gene 
     expression data that preserves the ability to predict spatial coordinates 
-    that was present in the gene expression data. Furthermore, WSIR provides 
+    that was present in the gene expression data. Furthermore, wSIR provides 
     interpretable loadings which allow for projection of new single-cell gene 
     expression data into a low-dimensional space which preserves the spatial 
     information present in the gene expression data.
@@ -30,7 +30,7 @@ Roxygen: list(markdown = TRUE)
 Depends: R (>= 4.3.0),
 Imports: Rfast, magrittr, ggplot2, umap, vctrs, class, stringr,
         distances, BiocStyle, Rcpp (>= 1.0.11), 
-        RcppArmadillo, knitr, doBy
+        RcppArmadillo, knitr, doBy, BiocParallel
 LinkingTo: Rcpp, RcppArmadillo
 VignetteBuilder: knitr
 RoxygenNote: 7.3.2
