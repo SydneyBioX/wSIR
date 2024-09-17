@@ -115,8 +115,8 @@ exploreWSIRParams = function(exprs,
 
   chosen_metric_df <- res_df[(res_df$metric == metric),]
 
-  best_alpha = chosen_metric_df$alpha[which.max(chosen_metric_df$alpha)]
-  best_slices = chosen_metric_df$slices[which.max(chosen_metric_df$slices)]
+  best_alpha = chosen_metric_df$alpha[which.max(chosen_metric_df$value)]
+  best_slices = chosen_metric_df$slices[which.max(chosen_metric_df$value)]
 
   res_df$alpha <- res_df$alpha %>% as.factor()
   res_df$slices <- res_df$slices %>% as.factor()
