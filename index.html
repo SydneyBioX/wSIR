@@ -51,8 +51,18 @@
   </div>
 </nav><div class="container template-home">
 <div class="row">
-  <main id="main" class="col-md-9">
-Weighted Sliced Inverse Regression (WSIR) is a supervised dimension reduction algorithm for spatial transcriptomics gene expression data. For a provided gene expression matrix and dataframe of each cell's spatial coordinates, WSIR creates a low-dimensional representation of the gene expression data that preserves the ability to predict spatial coordinates that was present in the gene expression data. Furthermore, WSIR provides interpretable loadings which allow for projection of new single-cell gene expression data into a low-dimensional space which preserves the spatial information present in the gene expression data.
+  <main id="main" class="col-md-9"><div class="section level1">
+<div class="page-header"><h1 id="wsir">wSIR<a class="anchor" aria-label="anchor" href="#wsir"></a>
+</h1></div>
+<p>wSIR: <strong><em>W</em></strong>eighted <strong><em>S</em></strong>liced <strong><em>I</em></strong>nverse <strong><em>R</em></strong>egression for supervised dimension reduction of spatial transcriptomics and single cell gene expression data</p>
+<p>This is an R package for computation of the wSIR low-dimensional embedding of gene expression data, using its spatial coordinates. It includes functions to analyse the resulting low-dimensional space, as well as the mapping from high-dimensional gene expression data to low-dimensional space. There is a function to project new gene expression data (where the spatial coordinates are unknown) into a low-dimensional space which has the ability to predict each cell’s spatial location.</p>
+<p>For an overview of the method and examples, see the vignette at this <a href="https://sydneybiox.github.io/wSIR/articles/wSIR_vignette.html">website</a>.</p>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p><code>{r} library(devtools) install_github("SydneyBioX/wSIR")</code></p>
+</div>
+</div>
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
