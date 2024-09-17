@@ -407,32 +407,25 @@ stage) spatial locations.</p>
 data:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">sample2_low_dim_exprs</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] 2986   12</span></span></code></pre>
+<pre><code><span><span class="co">## [1] 2986    9</span></span></code></pre>
 <p>Observe some of sample 2’s low-dimensional gene expression data:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">sample2_low_dim_exprs</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## 6 x 12 Matrix of class "dgeMatrix"</span></span>
-<span><span class="co">##                               [,1]       [,2]       [,3]        [,4]</span></span>
-<span><span class="co">## embryo2_Pos29_cell103_z2 1.2801904  0.2197108 -0.3855284  1.53549504</span></span>
-<span><span class="co">## embryo2_Pos29_cell11_z2  0.9615025 -0.1906379  0.2858762  1.10060284</span></span>
-<span><span class="co">## embryo2_Pos29_cell110_z2 1.3924878  0.8004278 -0.9748308  0.07880280</span></span>
-<span><span class="co">## embryo2_Pos29_cell123_z2 2.0028543  0.4184716 -0.8558484 -0.08064953</span></span>
-<span><span class="co">## embryo2_Pos29_cell128_z2 2.4996190  1.1295389  0.6821401  0.27647208</span></span>
-<span><span class="co">## embryo2_Pos29_cell129_z2 1.5572077  1.6531187  1.3631939 -0.15028030</span></span>
-<span><span class="co">##                                 [,5]       [,6]     [,7]       [,8]       [,9]</span></span>
-<span><span class="co">## embryo2_Pos29_cell103_z2  1.80081848  0.7506041 2.529401 -0.2897938  0.8683389</span></span>
-<span><span class="co">## embryo2_Pos29_cell11_z2  -0.07353863 -0.2741921 1.722554 -0.6290495 -0.7669054</span></span>
-<span><span class="co">## embryo2_Pos29_cell110_z2  0.71114329 -0.8279803 2.084839 -0.6769374  0.4736973</span></span>
-<span><span class="co">## embryo2_Pos29_cell123_z2  0.10842531 -0.2508861 2.292816 -0.5846637  0.4280223</span></span>
-<span><span class="co">## embryo2_Pos29_cell128_z2 -1.00865352 -0.5550848 1.322503 -1.0898992 -0.4802236</span></span>
-<span><span class="co">## embryo2_Pos29_cell129_z2 -0.71386439  0.3633274 1.510209 -0.9204622  0.5873854</span></span>
-<span><span class="co">##                                [,10]      [,11]      [,12]</span></span>
-<span><span class="co">## embryo2_Pos29_cell103_z2 -0.39384303 -0.4728296  1.1398507</span></span>
-<span><span class="co">## embryo2_Pos29_cell11_z2  -0.81884997 -0.1221173 -0.2242224</span></span>
-<span><span class="co">## embryo2_Pos29_cell110_z2  0.74011274 -1.6553569 -0.5234195</span></span>
-<span><span class="co">## embryo2_Pos29_cell123_z2  0.88120148 -0.5456841 -0.1170968</span></span>
-<span><span class="co">## embryo2_Pos29_cell128_z2 -0.06773735 -0.4904016 -2.2386306</span></span>
-<span><span class="co">## embryo2_Pos29_cell129_z2 -1.05604007 -0.8639239 -1.1534537</span></span></code></pre>
+<pre><code><span><span class="co">## 6 x 9 Matrix of class "dgeMatrix"</span></span>
+<span><span class="co">##                                [,1]       [,2]        [,3]         [,4]</span></span>
+<span><span class="co">## embryo2_Pos29_cell103_z2 -1.2044363 -0.3790739 -1.72818610  1.797653672</span></span>
+<span><span class="co">## embryo2_Pos29_cell11_z2  -0.5738578  0.4719606  0.26341538  0.341280096</span></span>
+<span><span class="co">## embryo2_Pos29_cell110_z2 -1.2749872 -0.8741444 -1.34429322 -0.009172746</span></span>
+<span><span class="co">## embryo2_Pos29_cell123_z2 -1.7326508 -0.3322124 -0.55148621 -0.732668048</span></span>
+<span><span class="co">## embryo2_Pos29_cell128_z2 -2.1501634 -0.8665235  0.04544417 -0.779635209</span></span>
+<span><span class="co">## embryo2_Pos29_cell129_z2 -1.2074795 -1.1035173  0.51632770 -1.048309253</span></span>
+<span><span class="co">##                                [,5]        [,6]      [,7]       [,8]       [,9]</span></span>
+<span><span class="co">## embryo2_Pos29_cell103_z2  0.8684785  0.74469382 -3.437305 -0.5718475  0.4848100</span></span>
+<span><span class="co">## embryo2_Pos29_cell11_z2   0.4274574 -0.34500227 -1.304516 -1.7813543 -0.6194540</span></span>
+<span><span class="co">## embryo2_Pos29_cell110_z2 -0.4562988 -0.42206043 -2.313171 -0.0540894  0.3177639</span></span>
+<span><span class="co">## embryo2_Pos29_cell123_z2  0.2272738 -0.30675261 -2.269962 -0.5799911  1.2385839</span></span>
+<span><span class="co">## embryo2_Pos29_cell128_z2  0.4277316 -0.17938548 -0.899609 -1.5397581 -0.1789930</span></span>
+<span><span class="co">## embryo2_Pos29_cell129_z2  1.0852001  0.01835717 -1.244870 -0.5720243 -0.4845666</span></span></code></pre>
 <p>This low-dimensional gene expression data can then be used for any
 later tasks which would benefit from a low-dimensional embedding of the
 gene expression data for all the samples, rather than just the gene
@@ -481,8 +474,8 @@ demonstrated below, using the ‘knn’ function from ‘class’ package.</p>
 <span>                                k <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="va">knn_classification_object</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] Presomitic mesoderm Spinal cord         Presomitic mesoderm</span></span>
-<span><span class="co">## [4] Spinal cord         Spinal cord         Presomitic mesoderm</span></span>
+<pre><code><span><span class="co">## [1] Presomitic mesoderm Dermomyotome        Presomitic mesoderm</span></span>
+<span><span class="co">## [4] Spinal cord         Spinal cord         Low quality        </span></span>
 <span><span class="co">## 24 Levels: Allantois Anterior somitic tissues ... Surface ectoderm</span></span></code></pre>
 <p>In the above code, we use the wSIR scores as input for a simple
 KNN-based cell type classification tool. We print the tail of the
@@ -531,7 +524,7 @@ realistic analysis pipeline.</p>
 <span><span class="co">## [25] pillar_1.9.0         pkgdown_2.1.0        jquerylib_0.1.4     </span></span>
 <span><span class="co">## [28] tidyr_1.3.1          MASS_7.3-60.2        openssl_2.2.1       </span></span>
 <span><span class="co">## [31] cachem_1.1.0         boot_1.3-30          RSpectra_0.16-2     </span></span>
-<span><span class="co">## [34] Deriv_4.1.3          tidyselect_1.2.1     digest_0.6.37       </span></span>
+<span><span class="co">## [34] Deriv_4.1.6          tidyselect_1.2.1     digest_0.6.37       </span></span>
 <span><span class="co">## [37] stringi_1.8.4        dplyr_1.1.4          purrr_1.0.2         </span></span>
 <span><span class="co">## [40] bookdown_0.40        labeling_0.4.3       cowplot_1.1.3       </span></span>
 <span><span class="co">## [43] fastmap_1.2.0        grid_4.4.1           colorspace_2.1-1    </span></span>
