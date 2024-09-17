@@ -59,7 +59,6 @@ This pair of slices and alpha can be used for your downstream tasks.</p>
 <span>  slice_vals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">10</span>, <span class="fl">15</span>, <span class="fl">20</span><span class="op">)</span>,</span>
 <span>  varThreshold <span class="op">=</span> <span class="fl">0.95</span>,</span>
 <span>  maxDirections <span class="op">=</span> <span class="fl">50</span>,</span>
-<span>  metrics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"DC"</span>, <span class="st">"CD"</span>, <span class="st">"ncol"</span><span class="op">)</span>,</span>
 <span>  metric <span class="op">=</span> <span class="st">"DC"</span>,</span>
 <span>  nrep <span class="op">=</span> <span class="fl">5</span>,</span>
 <span>  param <span class="op">=</span> <span class="fu">MulticoreParam</span><span class="op">(</span>workers <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
@@ -106,12 +105,6 @@ Select higher threshold to include more dimensions, lower threshold to include l
 <dd><p>integer for the maximum number of directions to include in the low-dimensional embedding. Default is 50.</p></dd>
 
 
-<dt id="arg-metrics">metrics<a class="anchor" aria-label="anchor" href="#arg-metrics"></a></dt>
-<dd><p>evaluation metrics to display in the plots. In a vector, include any or all of "DC" for distance correlation,
-"CD" for correlation of distances, or "ncol" for number of columns in the low-dimensional embedding. Default is all three, specified
-by metrics = c("DC", "CD", "ncol").</p></dd>
-
-
 <dt id="arg-metric">metric<a class="anchor" aria-label="anchor" href="#arg-metric"></a></dt>
 <dd><p>evaluation metric to use for parameter tuning to select optimal parameter combination. String, use "DC" to
 use distance correlation, "CD" to use correlation of distances, or "ncol" for the number of dimensions in the low-dimensional
@@ -149,6 +142,18 @@ which is either Distance Correlation ("DC"), Correlation of Distances ("CD"), or
 <span class="r-in"><span>  coords <span class="op">=</span> <span class="va">sample1_coords</span>,</span></span>
 <span class="r-in"><span>  alpha_vals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">2</span>,<span class="fl">4</span>,<span class="fl">8</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  slice_vals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">6</span>,<span class="fl">10</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Time difference of 1.402485 secs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Time difference of 0.8596864 secs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Time difference of 1.155762 secs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Time difference of 0.698334 secs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Time difference of 0.9108858 secs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Time difference of 1.011158 secs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Time difference of 0.6715915 secs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Time difference of 0.735317 secs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Time difference of 0.9910295 secs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Time difference of 0.6655736 secs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Time difference of 0.7306316 secs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Time difference of 0.7912464 secs</span>
 <span class="r-in"><span><span class="va">explore_params</span><span class="op">$</span><span class="va">plot</span></span></span>
 <span class="r-plt img"><img src="exploreWSIRParams-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="va">explore_params</span><span class="op">$</span><span class="va">message</span></span></span>

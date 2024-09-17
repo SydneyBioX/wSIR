@@ -80,7 +80,6 @@ Ghazanfar</h4>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">doBy</span><span class="op">)</span> <span class="co"># for which.maxn</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://vctrs.r-lib.org/" class="external-link">vctrs</a></span><span class="op">)</span> <span class="co"># for vec_rep_each</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tkonopka/umap" class="external-link">umap</a></span><span class="op">)</span> <span class="co"># for umap</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Bioconductor/BiocParallel" class="external-link">BiocParallel</a></span><span class="op">)</span> <span class="co"># for parallel computing in exploreWSIRParams with BiocParallel</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://www.stats.ox.ac.uk/pub/MASS4/" class="external-link">class</a></span><span class="op">)</span> <span class="co"># for example wSIR application</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
@@ -245,15 +244,40 @@ for <code>slices</code>. However, wSIR’s performance is relatively
 stable as you vary both <code>slices</code> and <code>alpha</code>
 across reasonable values (e.g. among the default values we optimise
 over). In the following plot, the metric value becomes smaller as we
-increase the number of slices for alpha = 0 (which corresponds to SIR).
-Performance is stable for all non-zero alpha and slice combinations
-(which correspond to wSIR).</p>
+increase the number of slices for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\alpha = 0</annotation></semantics></math>
+(which corresponds to SIR). Performance is stable for all non-zero alpha
+and slice combinations (which correspond to wSIR).</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">optim_obj</span> <span class="op">=</span> <span class="fu"><a href="../reference/exploreWSIRParams.html">exploreWSIRParams</a></span><span class="op">(</span>exprs <span class="op">=</span> <span class="va">sample1_exprs</span>, </span>
+<code class="sourceCode R"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">optim_obj</span> <span class="op">=</span> <span class="fu"><a href="../reference/exploreWSIRParams.html">exploreWSIRParams</a></span><span class="op">(</span>exprs <span class="op">=</span> <span class="va">sample1_exprs</span>, </span>
 <span>                              coords <span class="op">=</span> <span class="va">sample1_coords</span>, </span>
-<span>                              alpha_vals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">2</span>,<span class="fl">4</span>,<span class="fl">8</span><span class="op">)</span>, </span>
-<span>                              slice_vals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">10</span>,<span class="fl">15</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">optim_obj</span><span class="op">$</span><span class="va">plot</span></span></code></pre></div>
+<span>                              alpha_vals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">.5</span>, <span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">4</span>,<span class="fl">8</span><span class="op">)</span>, </span>
+<span>                              slice_vals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">10</span>,<span class="fl">15</span><span class="op">)</span>,</span>
+<span>                              nrep <span class="op">=</span> <span class="fl">20</span>, metric <span class="op">=</span> <span class="st">"CD"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Time difference of 3.78967 secs</span></span>
+<span><span class="co">## Time difference of 4.221525 secs</span></span>
+<span><span class="co">## Time difference of 4.687542 secs</span></span>
+<span><span class="co">## Time difference of 3.058101 secs</span></span>
+<span><span class="co">## Time difference of 3.977093 secs</span></span>
+<span><span class="co">## Time difference of 4.344543 secs</span></span>
+<span><span class="co">## Time difference of 3.07672 secs</span></span>
+<span><span class="co">## Time difference of 3.713682 secs</span></span>
+<span><span class="co">## Time difference of 4.258064 secs</span></span>
+<span><span class="co">## Time difference of 2.928693 secs</span></span>
+<span><span class="co">## Time difference of 3.48256 secs</span></span>
+<span><span class="co">## Time difference of 3.734432 secs</span></span>
+<span><span class="co">## Time difference of 3.002197 secs</span></span>
+<span><span class="co">## Time difference of 3.338149 secs</span></span>
+<span><span class="co">## Time difference of 3.566881 secs</span></span>
+<span><span class="co">## Time difference of 2.860312 secs</span></span>
+<span><span class="co">## Time difference of 3.186858 secs</span></span>
+<span><span class="co">## Time difference of 3.443555 secs</span></span></code></pre>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span><span class="op">-</span><span class="va">a</span></span></code></pre></div>
+<pre><code><span><span class="co">## Time difference of 1.086476 mins</span></span></code></pre>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">optim_obj</span><span class="op">$</span><span class="va">plot</span></span></code></pre></div>
 <p><img src="wSIR_vignette_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 </div>
 <div class="section level3">
@@ -264,7 +288,7 @@ found in the previous section. We use the gene expression matrix and
 spatial coordinates from sample 1 here. This returns a list of results
 with 5 (named) slots, whose details can be found at
 <code><a href="../reference/wSIR.html">?wSIR::wSIR</a></code>.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">wsir_obj</span> <span class="op">=</span> <span class="fu"><a href="../reference/wSIR.html">wSIR</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">sample1_exprs</span>, </span>
 <span>                coords <span class="op">=</span> <span class="va">sample1_coords</span>, </span>
 <span>                slices <span class="op">=</span> <span class="va">optim_obj</span><span class="op">$</span><span class="va">best_slices</span>, </span>
@@ -299,12 +323,12 @@ genes are known spatial genes (e.g. Cdx2, Hox-), which is what we would
 expect to see.</p>
 <p>We can simultaneously plot top genes for multiple directions, and
 utilise the</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">top_genes_obj</span> <span class="op">=</span> <span class="fu"><a href="../reference/findTopGenes.html">findTopGenes</a></span><span class="op">(</span>WSIR <span class="op">=</span> <span class="va">wsir_obj</span>, highest <span class="op">=</span> <span class="fl">8</span><span class="op">)</span> <span class="co"># create top genes object</span></span>
 <span><span class="va">top_genes_plot</span> <span class="op">=</span> <span class="va">top_genes_obj</span><span class="op">$</span><span class="va">plot</span> <span class="co"># select plot</span></span>
 <span><span class="va">top_genes_plot</span> <span class="co"># print plot</span></span></code></pre></div>
 <p><img src="wSIR_vignette_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">top_genes_obj</span> <span class="op">=</span> <span class="fu"><a href="../reference/findTopGenes.html">findTopGenes</a></span><span class="op">(</span>WSIR <span class="op">=</span> <span class="va">wsir_obj</span>, highest <span class="op">=</span> <span class="fl">8</span>, dirs <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span></span>
 <span><span class="va">top_genes_plot</span> <span class="op">=</span> <span class="va">top_genes_obj</span><span class="op">$</span><span class="va">plot</span></span>
 <span><span class="va">top_genes_plot</span></span></code></pre></div>
@@ -327,7 +351,7 @@ see that wSIR column two appears to capture information about the “x”
 spatial coordinate. The remaining three wSIR columns all contain
 information about cell types, which we can tell by the regions of high
 and low wSIR column values spread across the tissue.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">vis_obj</span> <span class="op">=</span> <span class="fu"><a href="../reference/visualiseWSIRDirections.html">visualiseWSIRDirections</a></span><span class="op">(</span>coords <span class="op">=</span> <span class="va">sample1_coords</span>, WSIR <span class="op">=</span> <span class="va">wsir_obj</span>, dirs <span class="op">=</span> <span class="fl">8</span><span class="op">)</span> <span class="co"># create visualisations</span></span>
 <span><span class="va">vis_obj</span></span></code></pre></div>
 <p><img src="wSIR_vignette_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
@@ -362,7 +386,7 @@ by the <code>findTopGenes</code> function previously). We can see that
 for some of these genes, there are specific regions of high expression
 in the UMAP plots, suggesting that the wSIR space separates cells based
 on their expression for those genes.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">umap_coords</span> <span class="op">=</span> <span class="fu"><a href="../reference/generateUmapFromWSIR.html">generateUmapFromWSIR</a></span><span class="op">(</span>WSIR <span class="op">=</span> <span class="va">wsir_obj</span><span class="op">)</span></span>
 <span><span class="va">umap_plots</span> <span class="op">=</span> <span class="fu"><a href="../reference/plotUmapFromWSIR.html">plotUmapFromWSIR</a></span><span class="op">(</span>exprs <span class="op">=</span> <span class="va">sample1_exprs</span>,</span>
 <span>                              umap_coords <span class="op">=</span> <span class="va">umap_coords</span>,</span>
@@ -401,31 +425,30 @@ the spatial transcriptomics dataset from the first sample.</p>
 2’s gene expression matrix into the wSIR low-dimensional space, which
 will therefore have an ability to predict sample 2’s (unknown at this
 stage) spatial locations.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sample2_low_dim_exprs</span> <span class="op">=</span> <span class="fu"><a href="../reference/projectWSIR.html">projectWSIR</a></span><span class="op">(</span>wsir <span class="op">=</span> <span class="va">wsir_obj</span>, newdata <span class="op">=</span> <span class="va">sample2_exprs</span><span class="op">)</span></span></code></pre></div>
 <p>Check the dimension of sample 2’s low-dimensional gene expression
 data:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">sample2_low_dim_exprs</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 2986    9</span></span></code></pre>
 <p>Observe some of sample 2’s low-dimensional gene expression data:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">sample2_low_dim_exprs</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## 6 x 9 Matrix of class "dgeMatrix"</span></span>
-<span><span class="co">##                                [,1]       [,2]        [,3]         [,4]</span></span>
-<span><span class="co">## embryo2_Pos29_cell103_z2 -1.2044363 -0.3790739 -1.72818610  1.797653672</span></span>
-<span><span class="co">## embryo2_Pos29_cell11_z2  -0.5738578  0.4719606  0.26341538  0.341280096</span></span>
-<span><span class="co">## embryo2_Pos29_cell110_z2 -1.2749872 -0.8741444 -1.34429322 -0.009172746</span></span>
-<span><span class="co">## embryo2_Pos29_cell123_z2 -1.7326508 -0.3322124 -0.55148621 -0.732668048</span></span>
-<span><span class="co">## embryo2_Pos29_cell128_z2 -2.1501634 -0.8665235  0.04544417 -0.779635209</span></span>
-<span><span class="co">## embryo2_Pos29_cell129_z2 -1.2074795 -1.1035173  0.51632770 -1.048309253</span></span>
-<span><span class="co">##                                [,5]        [,6]      [,7]       [,8]       [,9]</span></span>
-<span><span class="co">## embryo2_Pos29_cell103_z2  0.8684785  0.74469382 -3.437305 -0.5718475  0.4848100</span></span>
-<span><span class="co">## embryo2_Pos29_cell11_z2   0.4274574 -0.34500227 -1.304516 -1.7813543 -0.6194540</span></span>
-<span><span class="co">## embryo2_Pos29_cell110_z2 -0.4562988 -0.42206043 -2.313171 -0.0540894  0.3177639</span></span>
-<span><span class="co">## embryo2_Pos29_cell123_z2  0.2272738 -0.30675261 -2.269962 -0.5799911  1.2385839</span></span>
-<span><span class="co">## embryo2_Pos29_cell128_z2  0.4277316 -0.17938548 -0.899609 -1.5397581 -0.1789930</span></span>
-<span><span class="co">## embryo2_Pos29_cell129_z2  1.0852001  0.01835717 -1.244870 -0.5720243 -0.4845666</span></span></code></pre>
+<pre><code><span><span class="co">##           [,1]       [,2]        [,3]         [,4]       [,5]        [,6]</span></span>
+<span><span class="co">## [1,] 1.2044363 -0.3790739 -1.72818610 -1.797653672 -0.8684785 -0.74469382</span></span>
+<span><span class="co">## [2,] 0.5738578  0.4719606  0.26341538 -0.341280096 -0.4274574  0.34500227</span></span>
+<span><span class="co">## [3,] 1.2749872 -0.8741444 -1.34429322  0.009172746  0.4562988  0.42206043</span></span>
+<span><span class="co">## [4,] 1.7326508 -0.3322124 -0.55148621  0.732668048 -0.2272738  0.30675261</span></span>
+<span><span class="co">## [5,] 2.1501634 -0.8665235  0.04544417  0.779635209 -0.4277316  0.17938548</span></span>
+<span><span class="co">## [6,] 1.2074795 -1.1035173  0.51632770  1.048309253 -1.0852001 -0.01835717</span></span>
+<span><span class="co">##          [,7]      [,8]       [,9]</span></span>
+<span><span class="co">## [1,] 3.437305 0.5718475 -0.4848100</span></span>
+<span><span class="co">## [2,] 1.304516 1.7813543  0.6194540</span></span>
+<span><span class="co">## [3,] 2.313171 0.0540894 -0.3177639</span></span>
+<span><span class="co">## [4,] 2.269962 0.5799911 -1.2385839</span></span>
+<span><span class="co">## [5,] 0.899609 1.5397581  0.1789930</span></span>
+<span><span class="co">## [6,] 1.244870 0.5720243  0.4845666</span></span></code></pre>
 <p>This low-dimensional gene expression data can then be used for any
 later tasks which would benefit from a low-dimensional embedding of the
 gene expression data for all the samples, rather than just the gene
@@ -444,7 +467,7 @@ and a “2” for each row in sample 2.</p>
 <p>We use the resulting wSIR output to project the gene expression data
 from sample 3 into low-dimensional space. We check the dimension of the
 resulting matrix.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">wsir_obj_samples12</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/wSIR.html">wSIR</a></span><span class="op">(</span>X <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">sample1_exprs</span>, <span class="va">sample2_exprs</span><span class="op">)</span>,</span>
 <span>                           coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">sample1_coords</span>, <span class="va">sample2_coords</span><span class="op">)</span>,</span>
 <span>                           samples <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">sample1_coords</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">sample2_coords</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
@@ -465,7 +488,7 @@ expression matrix.</p>
 <p>An example of a very simple application is using the wSIR scores as
 an input to a KNN cell type classification algorithm. This is
 demonstrated below, using the ‘knn’ function from ‘class’ package.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">samples12_cell_types</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/append.html" class="external-link">append</a></span><span class="op">(</span><span class="va">sample1_cell_types</span>, <span class="va">sample2_cell_types</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">knn_classification_object</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/Rfast/man/knn.html" class="external-link">knn</a></span><span class="op">(</span>train <span class="op">=</span> <span class="va">wsir_obj_samples12</span><span class="op">$</span><span class="va">scores</span>, </span>
@@ -483,7 +506,7 @@ prediction vector, demonstrating how we can use the wSIR-based
 low-dimensional gene expression data from a new sample as a step in a
 realistic analysis pipeline.</p>
 <details><summary><strong>Session Info</strong>
-</summary><div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+</summary><div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## R version 4.4.1 (2024-06-14)</span></span>
 <span><span class="co">## Platform: x86_64-pc-linux-gnu</span></span>
@@ -506,11 +529,9 @@ realistic analysis pipeline.</p>
 <span><span class="co">## [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## other attached packages:</span></span>
-<span><span class="co">##  [1] class_7.3-22        BiocParallel_1.38.0 umap_0.2.10.0      </span></span>
-<span><span class="co">##  [4] vctrs_0.6.5         doBy_4.6.22         Rfast_2.1.0        </span></span>
-<span><span class="co">##  [7] RcppParallel_5.1.9  RcppZiggurat_0.1.6  Rcpp_1.0.13        </span></span>
-<span><span class="co">## [10] ggplot2_3.5.1       magrittr_2.0.3      wSIR_0.1.2         </span></span>
-<span><span class="co">## [13] BiocStyle_2.32.1   </span></span>
+<span><span class="co">##  [1] class_7.3-22       umap_0.2.10.0      vctrs_0.6.5        doBy_4.6.22       </span></span>
+<span><span class="co">##  [5] Rfast_2.1.0        RcppParallel_5.1.9 RcppZiggurat_0.1.6 Rcpp_1.0.13       </span></span>
+<span><span class="co">##  [9] ggplot2_3.5.1      magrittr_2.0.3     wSIR_0.1.2         BiocStyle_2.32.1  </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
 <span><span class="co">##  [1] gtable_0.3.5         xfun_0.47            bslib_0.8.0         </span></span>
@@ -518,15 +539,15 @@ realistic analysis pipeline.</p>
 <span><span class="co">##  [7] parallel_4.4.1       tibble_3.2.1         fansi_1.0.6         </span></span>
 <span><span class="co">## [10] highr_0.11           pkgconfig_2.0.3      Matrix_1.7-0        </span></span>
 <span><span class="co">## [13] desc_1.4.3           lifecycle_1.0.4      farver_2.1.2        </span></span>
-<span><span class="co">## [16] compiler_4.4.1       stringr_1.5.1        textshaping_0.4.0   </span></span>
-<span><span class="co">## [19] microbenchmark_1.5.0 munsell_0.5.1        codetools_0.2-20    </span></span>
-<span><span class="co">## [22] htmltools_0.5.8.1    sass_0.4.9           yaml_2.3.10         </span></span>
-<span><span class="co">## [25] pillar_1.9.0         pkgdown_2.1.0        jquerylib_0.1.4     </span></span>
-<span><span class="co">## [28] tidyr_1.3.1          MASS_7.3-60.2        openssl_2.2.1       </span></span>
+<span><span class="co">## [16] compiler_4.4.1       textshaping_0.4.0    microbenchmark_1.5.0</span></span>
+<span><span class="co">## [19] munsell_0.5.1        codetools_0.2-20     htmltools_0.5.8.1   </span></span>
+<span><span class="co">## [22] sass_0.4.9           yaml_2.3.10          pillar_1.9.0        </span></span>
+<span><span class="co">## [25] pkgdown_2.1.0        jquerylib_0.1.4      tidyr_1.3.1         </span></span>
+<span><span class="co">## [28] MASS_7.3-60.2        openssl_2.2.1        BiocParallel_1.38.0 </span></span>
 <span><span class="co">## [31] cachem_1.1.0         boot_1.3-30          RSpectra_0.16-2     </span></span>
 <span><span class="co">## [34] Deriv_4.1.6          tidyselect_1.2.1     digest_0.6.37       </span></span>
-<span><span class="co">## [37] stringi_1.8.4        dplyr_1.1.4          purrr_1.0.2         </span></span>
-<span><span class="co">## [40] bookdown_0.40        labeling_0.4.3       cowplot_1.1.3       </span></span>
+<span><span class="co">## [37] dplyr_1.1.4          purrr_1.0.2          bookdown_0.40       </span></span>
+<span><span class="co">## [40] labeling_0.4.3       distances_0.1.11     cowplot_1.1.3       </span></span>
 <span><span class="co">## [43] fastmap_1.2.0        grid_4.4.1           colorspace_2.1-1    </span></span>
 <span><span class="co">## [46] cli_3.6.3            utf8_1.2.4           broom_1.0.6         </span></span>
 <span><span class="co">## [49] withr_3.0.1          scales_1.3.0         backports_1.5.0     </span></span>
