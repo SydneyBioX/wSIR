@@ -255,27 +255,27 @@ and slice combinations (which correspond to wSIR).</p>
 <span>                              alpha_vals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">.5</span>, <span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">4</span>,<span class="fl">8</span><span class="op">)</span>, </span>
 <span>                              slice_vals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">10</span>,<span class="fl">15</span><span class="op">)</span>,</span>
 <span>                              nrep <span class="op">=</span> <span class="fl">20</span>, metric <span class="op">=</span> <span class="st">"CD"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Time difference of 3.839898 secs</span></span>
-<span><span class="co">## Time difference of 4.321839 secs</span></span>
-<span><span class="co">## Time difference of 4.727568 secs</span></span>
-<span><span class="co">## Time difference of 3.141339 secs</span></span>
-<span><span class="co">## Time difference of 4.100014 secs</span></span>
-<span><span class="co">## Time difference of 4.466855 secs</span></span>
-<span><span class="co">## Time difference of 3.018357 secs</span></span>
-<span><span class="co">## Time difference of 3.815955 secs</span></span>
-<span><span class="co">## Time difference of 4.298049 secs</span></span>
-<span><span class="co">## Time difference of 2.995081 secs</span></span>
-<span><span class="co">## Time difference of 3.463944 secs</span></span>
-<span><span class="co">## Time difference of 3.742181 secs</span></span>
-<span><span class="co">## Time difference of 2.929425 secs</span></span>
-<span><span class="co">## Time difference of 3.371804 secs</span></span>
-<span><span class="co">## Time difference of 3.656927 secs</span></span>
-<span><span class="co">## Time difference of 3.087192 secs</span></span>
-<span><span class="co">## Time difference of 3.340532 secs</span></span>
-<span><span class="co">## Time difference of 3.520769 secs</span></span></code></pre>
+<pre><code><span><span class="co">## Time difference of 3.932933 secs</span></span>
+<span><span class="co">## Time difference of 4.387144 secs</span></span>
+<span><span class="co">## Time difference of 4.493731 secs</span></span>
+<span><span class="co">## Time difference of 3.365411 secs</span></span>
+<span><span class="co">## Time difference of 4.19184 secs</span></span>
+<span><span class="co">## Time difference of 4.502382 secs</span></span>
+<span><span class="co">## Time difference of 3.462631 secs</span></span>
+<span><span class="co">## Time difference of 4.207857 secs</span></span>
+<span><span class="co">## Time difference of 4.237237 secs</span></span>
+<span><span class="co">## Time difference of 2.842625 secs</span></span>
+<span><span class="co">## Time difference of 3.465169 secs</span></span>
+<span><span class="co">## Time difference of 3.73744 secs</span></span>
+<span><span class="co">## Time difference of 2.925163 secs</span></span>
+<span><span class="co">## Time difference of 3.187351 secs</span></span>
+<span><span class="co">## Time difference of 3.667856 secs</span></span>
+<span><span class="co">## Time difference of 2.88185 secs</span></span>
+<span><span class="co">## Time difference of 3.170469 secs</span></span>
+<span><span class="co">## Time difference of 3.585481 secs</span></span></code></pre>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span><span class="op">-</span><span class="va">a</span></span></code></pre></div>
-<pre><code><span><span class="co">## Time difference of 1.106125 mins</span></span></code></pre>
+<pre><code><span><span class="co">## Time difference of 1.113478 mins</span></span></code></pre>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">optim_obj</span><span class="op">$</span><span class="va">plot</span></span></code></pre></div>
 <p><img src="wSIR_vignette_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
@@ -539,23 +539,24 @@ realistic analysis pipeline.</p>
 <span><span class="co">##  [7] parallel_4.4.1       tibble_3.2.1         fansi_1.0.6         </span></span>
 <span><span class="co">## [10] highr_0.11           pkgconfig_2.0.3      Matrix_1.7-0        </span></span>
 <span><span class="co">## [13] desc_1.4.3           lifecycle_1.0.4      farver_2.1.2        </span></span>
-<span><span class="co">## [16] compiler_4.4.1       textshaping_0.4.0    microbenchmark_1.5.0</span></span>
-<span><span class="co">## [19] munsell_0.5.1        codetools_0.2-20     htmltools_0.5.8.1   </span></span>
-<span><span class="co">## [22] sass_0.4.9           yaml_2.3.10          pillar_1.9.0        </span></span>
-<span><span class="co">## [25] pkgdown_2.1.0        jquerylib_0.1.4      tidyr_1.3.1         </span></span>
-<span><span class="co">## [28] MASS_7.3-60.2        openssl_2.2.1        BiocParallel_1.38.0 </span></span>
-<span><span class="co">## [31] cachem_1.1.0         boot_1.3-30          RSpectra_0.16-2     </span></span>
-<span><span class="co">## [34] Deriv_4.1.6          tidyselect_1.2.1     digest_0.6.37       </span></span>
-<span><span class="co">## [37] dplyr_1.1.4          purrr_1.0.2          bookdown_0.40       </span></span>
-<span><span class="co">## [40] labeling_0.4.3       distances_0.1.11     cowplot_1.1.3       </span></span>
-<span><span class="co">## [43] fastmap_1.2.0        grid_4.4.1           colorspace_2.1-1    </span></span>
-<span><span class="co">## [46] cli_3.6.3            utf8_1.2.4           broom_1.0.6         </span></span>
-<span><span class="co">## [49] withr_3.0.1          scales_1.3.0         backports_1.5.0     </span></span>
-<span><span class="co">## [52] rmarkdown_2.28       modelr_0.1.11        reticulate_1.39.0   </span></span>
-<span><span class="co">## [55] askpass_1.2.0        ragg_1.3.3           png_0.1-8           </span></span>
-<span><span class="co">## [58] evaluate_0.24.0      knitr_1.48           rlang_1.1.4         </span></span>
-<span><span class="co">## [61] glue_1.7.0           BiocManager_1.30.25  jsonlite_1.8.8      </span></span>
-<span><span class="co">## [64] R6_2.5.1             systemfonts_1.1.0    fs_1.6.4</span></span></code></pre>
+<span><span class="co">## [16] compiler_4.4.1       stringr_1.5.1        textshaping_0.4.0   </span></span>
+<span><span class="co">## [19] microbenchmark_1.5.0 munsell_0.5.1        codetools_0.2-20    </span></span>
+<span><span class="co">## [22] htmltools_0.5.8.1    sass_0.4.9           yaml_2.3.10         </span></span>
+<span><span class="co">## [25] pillar_1.9.0         pkgdown_2.1.0        jquerylib_0.1.4     </span></span>
+<span><span class="co">## [28] tidyr_1.3.1          MASS_7.3-60.2        openssl_2.2.1       </span></span>
+<span><span class="co">## [31] BiocParallel_1.38.0  cachem_1.1.0         boot_1.3-30         </span></span>
+<span><span class="co">## [34] RSpectra_0.16-2      Deriv_4.1.6          tidyselect_1.2.1    </span></span>
+<span><span class="co">## [37] digest_0.6.37        stringi_1.8.4        dplyr_1.1.4         </span></span>
+<span><span class="co">## [40] purrr_1.0.2          bookdown_0.40        labeling_0.4.3      </span></span>
+<span><span class="co">## [43] distances_0.1.11     cowplot_1.1.3        fastmap_1.2.0       </span></span>
+<span><span class="co">## [46] grid_4.4.1           colorspace_2.1-1     cli_3.6.3           </span></span>
+<span><span class="co">## [49] utf8_1.2.4           broom_1.0.6          withr_3.0.1         </span></span>
+<span><span class="co">## [52] scales_1.3.0         backports_1.5.0      rmarkdown_2.28      </span></span>
+<span><span class="co">## [55] modelr_0.1.11        reticulate_1.39.0    askpass_1.2.0       </span></span>
+<span><span class="co">## [58] ragg_1.3.3           png_0.1-8            evaluate_0.24.0     </span></span>
+<span><span class="co">## [61] knitr_1.48           rlang_1.1.4          glue_1.7.0          </span></span>
+<span><span class="co">## [64] BiocManager_1.30.25  jsonlite_1.8.8       R6_2.5.1            </span></span>
+<span><span class="co">## [67] systemfonts_1.1.0    fs_1.6.4</span></span></code></pre>
 </details>
 </div>
 </div>
