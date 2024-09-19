@@ -9,7 +9,7 @@ their value for the genes with highest (in absolute value) loading in a selected
 
     <a class="navbar-brand me-2" href="../index.html">wSIR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,7 +46,7 @@ their value for the genes with highest (in absolute value) loading in a selected
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">plotUmapFromWSIR</span><span class="op">(</span></span>
-<span>  <span class="va">exprs</span>,</span>
+<span>  <span class="va">X</span>,</span>
 <span>  <span class="va">umap_coords</span>,</span>
 <span>  highest_genes <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  genes <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -59,7 +59,7 @@ their value for the genes with highest (in absolute value) loading in a selected
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
 
 
-<dl><dt id="arg-exprs">exprs<a class="anchor" aria-label="anchor" href="#arg-exprs"></a></dt>
+<dl><dt id="arg-x">X<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
 <dd><p>matrix containing normalised gene expression data including n cells and p genes, dimension n * p.</p></dd>
 
 
@@ -67,7 +67,7 @@ their value for the genes with highest (in absolute value) loading in a selected
 <dd><p>UMAP coordinates for each cell that is output of generateUmapFromWSIR function. The UMAP coordinates can be
 based on any dimension reduction method, e.g they could be the UMAP coordinates computed on the WSIR dimension reduction
 of the gene expression data, or on the PCs (principal components), or on any other low-dimensional matrix. Must be
-a matrix of dimension nrow(exprs) * 2.</p></dd>
+a matrix of dimension nrow(X) * 2.</p></dd>
 
 
 <dt id="arg-highest-genes">highest_genes<a class="anchor" aria-label="anchor" href="#arg-highest-genes"></a></dt>
@@ -76,7 +76,7 @@ and highest_genes are both not provided.</p></dd>
 
 
 <dt id="arg-genes">genes<a class="anchor" aria-label="anchor" href="#arg-genes"></a></dt>
-<dd><p>vector with gene names (must all be in colnames(exprs)) you wish to show in the UMAP plot. The cells
+<dd><p>vector with gene names (must all be in colnames(X)) you wish to show in the UMAP plot. The cells
 in those plots will be coloured by their expression values for the genes you provide here. Must provide either genes
 or highest_genes parameter (not both): provide genes if you want to visualise a few specific genes, provide highest_genes
 if you want to visualise the genes that are found to be the most important to the WSIR directions. Default is NULL
@@ -110,7 +110,7 @@ expression data, coloured by their value for each of the genes found by top_gene
 <span class="r-in"><span><span class="va">umap_coords</span> <span class="op">=</span> <span class="fu"><a href="generateUmapFromWSIR.html">generateUmapFromWSIR</a></span><span class="op">(</span>WSIR <span class="op">=</span> <span class="va">wsir_obj</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">top_genes_obj</span> <span class="op">=</span> <span class="fu"><a href="findTopGenes.html">findTopGenes</a></span><span class="op">(</span>WSIR <span class="op">=</span> <span class="va">wsir_obj</span>, highest <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="co"># create top genes object</span></span></span>
 <span class="r-in"><span><span class="va">umap_plot</span> <span class="op">=</span> <span class="fu">plotUmapFromWSIR</span><span class="op">(</span>umap_coords <span class="op">=</span> <span class="va">umap_coords</span>,</span></span>
-<span class="r-in"><span>  exprs <span class="op">=</span> <span class="va">sample1_exprs</span>,</span></span>
+<span class="r-in"><span>  X <span class="op">=</span> <span class="va">sample1_exprs</span>,</span></span>
 <span class="r-in"><span>  highest_genes <span class="op">=</span> <span class="va">top_genes_obj</span>,</span></span>
 <span class="r-in"><span>  n_genes <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">umap_plot</span></span></span>
@@ -127,7 +127,7 @@ expression data, coloured by their value for each of the genes found by top_gene
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer></div>

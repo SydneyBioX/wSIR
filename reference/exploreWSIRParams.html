@@ -13,7 +13,7 @@ This pair of slices and alpha can be used for your downstream tasks."></head><bo
 
     <a class="navbar-brand me-2" href="../index.html">wSIR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,16 +52,15 @@ This pair of slices and alpha can be used for your downstream tasks.</p>
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">exploreWSIRParams</span><span class="op">(</span></span>
-<span>  <span class="va">exprs</span>,</span>
+<span>  <span class="va">X</span>,</span>
 <span>  <span class="va">coords</span>,</span>
 <span>  samples <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">coords</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  alpha_vals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">2</span>, <span class="fl">4</span>, <span class="fl">10</span><span class="op">)</span>,</span>
 <span>  slice_vals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">10</span>, <span class="fl">15</span>, <span class="fl">20</span><span class="op">)</span>,</span>
-<span>  varThreshold <span class="op">=</span> <span class="fl">0.95</span>,</span>
-<span>  maxDirections <span class="op">=</span> <span class="fl">50</span>,</span>
 <span>  metric <span class="op">=</span> <span class="st">"DC"</span>,</span>
 <span>  nrep <span class="op">=</span> <span class="fl">5</span>,</span>
-<span>  param <span class="op">=</span> <span class="fu">MulticoreParam</span><span class="op">(</span>workers <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span>  param <span class="op">=</span> <span class="fu">MulticoreParam</span><span class="op">(</span>workers <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,</span>
+<span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -69,7 +68,7 @@ This pair of slices and alpha can be used for your downstream tasks.</p>
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
 
 
-<dl><dt id="arg-exprs">exprs<a class="anchor" aria-label="anchor" href="#arg-exprs"></a></dt>
+<dl><dt id="arg-x">X<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
 <dd><p>matrix containing normalised gene expression data including n cells and p genes, dimension n * p.</p></dd>
 
 
@@ -96,17 +95,8 @@ but can use non-integers. Values must be non-negative.</p></dd>
 be no more than around \(\sqrt{n/20}\), as this upper bound ensures an average of at least 10 cells per tile in the training set.</p></dd>
 
 
-<dt id="arg-varthreshold">varThreshold<a class="anchor" aria-label="anchor" href="#arg-varthreshold"></a></dt>
-<dd><p>numeric proportion of variance in <code>t(X_H) %*% W %*% X_H</code> to retain. Must be between 0 and 1. Default is 0.95.
-Select higher threshold to include more dimensions, lower threshold to include less dimensions.</p></dd>
-
-
-<dt id="arg-maxdirections">maxDirections<a class="anchor" aria-label="anchor" href="#arg-maxdirections"></a></dt>
-<dd><p>integer for the maximum number of directions to include in the low-dimensional embedding. Default is 50.</p></dd>
-
-
 <dt id="arg-metric">metric<a class="anchor" aria-label="anchor" href="#arg-metric"></a></dt>
-<dd><p>evaluation metric to use for parameter tuning to select optimal parameter combination. String, use "DC" to
+<dd><p>character single value. Evaluation metric to use for parameter tuning to select optimal parameter combination. String, use "DC" to
 use distance correlation, "CD" to use correlation of distances, or "ncol" for the number of dimensions in the low-dimensional
 embedding. Default is "DC".</p></dd>
 
@@ -118,6 +108,10 @@ embedding. Default is "DC".</p></dd>
 <dt id="arg-param">param<a class="anchor" aria-label="anchor" href="#arg-param"></a></dt>
 <dd><p>parallel computing setup for bplapply from BiocParallel package. Default is to use a single core, hence
 default value is MulticoreParam(workers = 1)</p></dd>
+
+
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
+<dd><p>arguments passed on to wSIROptimisation</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -138,26 +132,26 @@ which is either Distance Correlation ("DC"), Correlation of Distances ("CD"), or
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">MouseData</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">explore_params</span> <span class="op">=</span> <span class="fu">exploreWSIRParams</span><span class="op">(</span>exprs <span class="op">=</span> <span class="va">sample1_exprs</span>,</span></span>
+<span class="r-in"><span><span class="va">explore_params</span> <span class="op">=</span> <span class="fu">exploreWSIRParams</span><span class="op">(</span>X <span class="op">=</span> <span class="va">sample1_exprs</span>,</span></span>
 <span class="r-in"><span>  coords <span class="op">=</span> <span class="va">sample1_coords</span>,</span></span>
 <span class="r-in"><span>  alpha_vals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">2</span>,<span class="fl">4</span>,<span class="fl">8</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  slice_vals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">6</span>,<span class="fl">10</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Time difference of 1.628118 secs</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Time difference of 0.9077346 secs</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Time difference of 1.16018 secs</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Time difference of 0.7087882 secs</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Time difference of 0.9227376 secs</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Time difference of 1.018222 secs</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Time difference of 0.8205791 secs</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Time difference of 0.7322271 secs</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Time difference of 0.9753475 secs</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Time difference of 0.6757081 secs</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Time difference of 0.7184703 secs</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Time difference of 0.802834 secs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Time difference of 1.569175 secs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Time difference of 0.8919282 secs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Time difference of 1.118085 secs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Time difference of 0.8686008 secs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Time difference of 1.062988 secs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Time difference of 1.002786 secs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Time difference of 0.919801 secs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Time difference of 0.8633406 secs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Time difference of 1.124423 secs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Time difference of 0.7145364 secs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Time difference of 0.8456833 secs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Time difference of 1.124386 secs</span>
 <span class="r-in"><span><span class="va">explore_params</span><span class="op">$</span><span class="va">plot</span></span></span>
 <span class="r-plt img"><img src="exploreWSIRParams-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="va">explore_params</span><span class="op">$</span><span class="va">message</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Optimal (alpha, slices) pair: (8, 3)"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Optimal (alpha, slices) pair: (0, 3)"</span>
 <span class="r-in"><span><span class="va">best_alpha</span> <span class="op">=</span> <span class="va">explore_params</span><span class="op">$</span><span class="va">best_alpha</span></span></span>
 <span class="r-in"><span><span class="va">best_slices</span> <span class="op">=</span> <span class="va">explore_params</span><span class="op">$</span><span class="va">best_slices</span></span></span>
 <span class="r-in"><span><span class="va">wsir_obj</span> <span class="op">=</span> <span class="fu"><a href="wSIR.html">wSIR</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">sample1_exprs</span>,</span></span>
@@ -177,7 +171,7 @@ which is either Distance Correlation ("DC"), Correlation of Distances ("CD"), or
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer></div>
