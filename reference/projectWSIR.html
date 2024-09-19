@@ -20,6 +20,7 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/wSIR_vignette.html">Weighted Sliced Inverse Regression (WSIR)</a></li>
   </ul></li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/sydneybiox/wSIR/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
@@ -50,18 +51,22 @@
 
 
 <dl><dt id="arg-wsir">wsir<a class="anchor" aria-label="anchor" href="#arg-wsir"></a></dt>
-<dd><p>wsir object that is usually the output of wSIR function. If you want to project new data into low-dim space following a
-different DR method, at param wsir use a list with matrix of loadings in slot 2 (e.g PCA loadings) of dimension p * d</p></dd>
+<dd><p>wsir object that is usually the output of wSIR function. If you
+want to project new data into low-dim space following a
+different DR method, at param wsir use a list with matrix of loadings in
+slot 2 (e.g PCA loadings) of dimension p * d</p></dd>
 
 
 <dt id="arg-newdata">newdata<a class="anchor" aria-label="anchor" href="#arg-newdata"></a></dt>
-<dd><p>matrix of new gene expression data to project into low-dimensional space. Must have the same p columns
+<dd><p>matrix of new gene expression data to project into
+low-dimensional space. Must have the same p columns
 as the columns in X argument used to generate wsir.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>matrix of low-dimensional representation of newdata gene expression data</p>
+    <p>matrix of low-dimensional representation of newdata gene
+expression data</p>
     </div>
 
     <div class="section level2">
