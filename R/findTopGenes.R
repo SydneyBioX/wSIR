@@ -19,10 +19,11 @@
 #' @importFrom ggplot2 ggplot aes geom_col theme_minimal labs geom_hline ggtitle facet_wrap
 #' @importFrom stats reorder
 #' @importFrom vctrs vec_rep_each
+#' @importFrom rlang .data
 #'
 #' @examples
 #' data(MouseData)
-#' 
+#'
 #' wsir_obj = wSIR(X = sample1_exprs,
 #'   coords = sample1_coords,
 #'   optim_params = FALSE,
@@ -53,13 +54,13 @@ findTopGenes <- function(WSIR, highest = 10, dirs = 1) {
     j = j + 1
   }
 
-  loadings_plot <- ggplot(aes(x = reorder(gene, -loading, sum), y = loading), data = res_df) +
-    geom_col(width = 0.6) +
-    theme_minimal() +
-    labs(x = "Gene", y = "Loading values from WSIR directions") +
-    geom_hline(yintercept = 0) +
-    ggtitle(paste("Top", highest, "genes with highest/lowest loading in", paste(paste0("WSIR", dirs), collapse = ", "))) +
-    facet_wrap(~direction, nrow = 2, scales = "free")
+  loadings_plot <- ggplot2::ggplot(aes(x = stats::reorder(.data$gene, -.data$loading, sum), y = .data$loading), data = res_df) +
+    ggplot2::geom_col(width = 0.6) +
+    ggplot2::theme_minimal() +
+    ggplot2::labs(x = "Gene", y = "Loading values from WSIR directions") +
+    ggplot2::geom_hline(yintercept = 0) +
+    ggplot2::ggtitle(paste("Top", highest, "genes with highest/lowest loading in", paste(paste0("WSIR", dirs), collapse = ", "))) +
+    ggplot2::facet_wrap(~direction, nrow = 2, scales = "free")
 
   return(list(plot = loadings_plot,
               genes = res_df))

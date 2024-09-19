@@ -6,12 +6,10 @@
 #' @param X matrix of normalised gene expression data for n genes across p cells.
 #' @param Y dataframe with 1 column named "coordinate" that is the tile allocation for each cell. There should
 #' be up to slices^2 unique tile IDs in this column.
-#' @param directions Integer to specify maximum number of directions to retain in thee low-dimensional embedding
+#' @param maxDirections Integer to specify maximum number of directions to retain in thee low-dimensional embedding
 #' of the data. Use if you need at most a certain number for a downstream task.
 #' @param W Weight matrix created by createWeightMatrix. Entry (i,j) represents the spatial correlation level
 #' between tiles i and j. The diagonal values should be all 1. If not provided, SIR implementation will be used.
-#' @param varThreshold numeric value specifying the desired proportion of variance to retain. If e.g 95% (default),
-#' then number of directions used will be such that their eigenvalues add up to 95% of the sum of all eigenvalues.
 #'
 #' @return list of outputs with 5 named slots. They are the same as the output of the wSIR function: this is
 #' the final step in the wSIR function.
@@ -20,7 +18,7 @@
 
 sirCategorical <- function(X,
                            Y,
-                           directions = 50,
+                           maxDirections = 50,
                            W = NULL,
                            # varThreshold = 0.95
                            ...
@@ -43,7 +41,7 @@ sirCategorical <- function(X,
   }
 
   pc_dirs <- sirPCA(sliced_data,
-                    directions = directions,
+                    # maxDirections = maxDirections,
                     W = W,
                     # varThreshold = varThreshold
                     ...

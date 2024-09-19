@@ -4,14 +4,14 @@
 #' A function to plot a UMAP generated on the low-dimensional embedding of the gene expression data. The points are coloured by
 #' their value for the genes with highest (in absolute value) loading in a selected WSIR direction, by default WSIR1.
 #'
-#' @param exprs matrix containing normalised gene expression data including n cells and p genes, dimension n * p.
+#' @param X matrix containing normalised gene expression data including n cells and p genes, dimension n * p.
 #' @param umap_coords UMAP coordinates for each cell that is output of generateUmapFromWSIR function. The UMAP coordinates can be
 #' based on any dimension reduction method, e.g they could be the UMAP coordinates computed on the WSIR dimension reduction
 #' of the gene expression data, or on the PCs (principal components), or on any other low-dimensional matrix. Must be
-#' a matrix of dimension nrow(exprs) * 2.
+#' a matrix of dimension nrow(X) * 2.
 #' @param highest_genes output from findTopGenes function. Default is NULL so an error message can easily be thrown if genes
 #' and highest_genes are both not provided.
-#' @param genes vector with gene names (must all be in colnames(exprs)) you wish to show in the UMAP plot. The cells
+#' @param genes vector with gene names (must all be in colnames(X)) you wish to show in the UMAP plot. The cells
 #' in those plots will be coloured by their expression values for the genes you provide here. Must provide either genes
 #' or highest_genes parameter (not both): provide genes if you want to visualise a few specific genes, provide highest_genes
 #' if you want to visualise the genes that are found to be the most important to the WSIR directions. Default is NULL
@@ -27,6 +27,7 @@
 #' @importFrom vctrs vec_rep_each
 #' @importFrom ggplot2 facet_wrap ggplot aes geom_point
 #' @importFrom magrittr %>%
+#' @importFrom rlang .data
 #'
 #' @examples
 #' data(MouseData)
@@ -38,14 +39,14 @@
 #' umap_coords = generateUmapFromWSIR(WSIR = wsir_obj)
 #' top_genes_obj = findTopGenes(WSIR = wsir_obj, highest = 4) # create top genes object
 #' umap_plot = plotUmapFromWSIR(umap_coords = umap_coords,
-#'   exprs = sample1_exprs,
+#'   X = sample1_exprs,
 #'   highest_genes = top_genes_obj,
 #'   n_genes = 4)
 #' umap_plot
 #'
 #' @export
 
-plotUmapFromWSIR <- function(exprs,
+plotUmapFromWSIR <- function(X,
                      umap_coords,
                      highest_genes = NULL,
                      genes = NULL,
@@ -62,19 +63,19 @@ plotUmapFromWSIR <- function(exprs,
   n_genes <- min(n_genes, length(genes)) # make sure it is a valid number of genes
   gene_names <- genes[1:n_genes]
 
-  gene_inds <- match(gene_names, colnames(exprs)) # identify the relevant columns in the gene expression matrix
+  gene_inds <- match(gene_names, colnames(X)) # identify the relevant columns in the gene expression matrix
 
   # create and fill umap_df
-  umap_df <- matrix(NA, nrow = n_genes*nrow(exprs), ncol = 4) %>% as.data.frame()
+  umap_df <- matrix(NA, nrow = n_genes*nrow(X), ncol = 4) %>% as.data.frame()
   colnames(umap_df) <- c("UMAP1", "UMAP2", "gene", "expression")
 
   umap_df$UMAP1 <- rep(umap_coords[,1], n_genes)
   umap_df$UMAP2 <- rep(umap_coords[,2], n_genes)
-  umap_df$gene <- vec_rep_each(gene_names, nrow(exprs))
-  umap_df$expression <- as.matrix(exprs)[, gene_inds] %>% as.vector()
+  umap_df$gene <- vec_rep_each(gene_names, nrow(X))
+  umap_df$expression <- as.matrix(X)[, gene_inds] %>% as.vector()
 
   # create plot
-  plot = ggplot(data = umap_df, aes(x = UMAP1, y = UMAP2, colour = expression)) +
+  plot = ggplot(data = umap_df, aes(x = .data$UMAP1, y = .data$UMAP2, colour = .data$expression)) +
     geom_point() +
     facet_wrap(~gene) +
     theme_classic()

@@ -13,8 +13,8 @@ wSIROptimisation(
   slices,
   alpha,
   maxDirections,
-  varThreshold,
-  metrics = c("CD", "DC", "ncol")
+  evalmetrics = c("CD", "DC", "ncol"),
+  ...
 )
 }
 \arguments{
@@ -39,12 +39,11 @@ parameter using exploreWSIRParams() function.}
 
 \item{maxDirections}{integer for the maximum number of directions to include in the low-dimenensional embedding. Default is 50.}
 
-\item{varThreshold}{numeric proportion of variance in \code{t(X_H) \%*\% W \%*\% X_H} to retain. Must be between 0 and 1. Default is 0.95.
-Select higher threshold to include more dimensions, lower threshold to include less dimensions.}
-
-\item{metrics}{evaluation metrics to use for parameter tuning. String, options are any or all of: "DC" to use distance
+\item{evalmetrics}{evaluation metrics to use for parameter tuning. String, options are any or all of: "DC" to use distance
 correlation; "CD" to use correlation of distances; "ncol" to use number of columns in low-dimensional embedding. Default is all three,
 specified by metrics = c("DC", "CD", "ncol").}
+
+\item{...}{arguments passed to wSIRSpecifiedParams}
 }
 \value{
 Average metric value for the selected metric(s) over each train/test split.

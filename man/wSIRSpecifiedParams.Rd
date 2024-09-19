@@ -7,17 +7,19 @@
 wSIRSpecifiedParams(
   X,
   coords,
+  group = NULL,
   samples = rep(1, nrow(coords)),
   slices = 8,
   alpha = 4,
-  maxDirections = 50,
-  varThreshold = 0.95
+  ...
 )
 }
 \arguments{
 \item{X}{matrix containing normalised gene expression data including n cells and p genes, dimension n * p.}
 
 \item{coords}{dataframe containing spatial positions of n cells in 2D space. Dimension n * 2. Column names must be c("x", "y").}
+
+\item{group}{a factor indicating group level information for cells within and across samples (e.g. cell type).}
 
 \item{samples}{sample ID of each cell. In total, must have length equal to the number of cells. For example, if
 your dataset has 10000 cells, the first 5000 from sample 1 and the remaining 5000 from sample 2, you would write
@@ -31,11 +33,7 @@ each spatial axis, yielding 4^2 = 16 tiles. Default is 8, suggested minimum of 3
 \item{alpha}{integer to specify desired strength of spatial correlation. Suggest to tune this parameter on testing
 dataset among e.g values c(0,2,4,8). alpha = 0 gives SIR implementation. Larger values give stronger spatial correlations.}
 
-\item{maxDirections}{integer for upper limit on number of directions to include in low-dimensional space. Use if you
-need less than a certain number of dimensions for downstream analyes}
-
-\item{varThreshold}{numeric proportion of eigenvalues of variance in t(X_H) \%\emph{\% W \%}\% X_H to retain. Default is 0.95.
-Select higher threshold to include more dimensions, lower threshold to include less dimensions.}
+\item{...}{arguments passed to sirCategorical}
 }
 \value{
 wSIR object which is a list containing 5 (named) positions. 1) scores matrix containing low-dimensional

@@ -7,16 +7,13 @@
 wSIR(
   X,
   coords,
-  samples = rep(1, nrow(coords)),
-  slices = 8,
-  alpha = 4,
-  maxDirections = 50,
-  varThreshold = 0.95,
-  optim_params = TRUE,
+  optim_params = FALSE,
   alpha_vals = c(0, 1, 2, 4, 8, 12),
   slice_vals = c(3, 5, 7, 10, 15, 20),
   metric = "DC",
-  nrep = 5
+  nrep = 5,
+  verbose = FALSE,
+  ...
 )
 }
 \arguments{
@@ -24,35 +21,17 @@ wSIR(
 
 \item{coords}{dataframe containing spatial positions of n cells in 2D space. Dimension n * 2. Column names must be c("x", "y").}
 
-\item{samples}{sample ID of each cell. In total, must have length equal to the number of cells. For example, if
-your dataset has 10000 cells, the first 5000 from sample 1 and the remaining 5000 from sample 2, you would write
-samples = c(rep(1, 5000), rep(2, 5000)) to specify that the first 5000 cells are sample 1 and the remaining are sample 2.
-Default is that all cells are from sample 1. Sample IDs can be of any format: for the previous example, you could write
-samples = c(rep("sample 1", 5000), rep("sample 2", 5000)), and the result would be the same.}
-
-\item{slices}{integer for number of slices on each axis of tissue. For example, slices = 4 creates 4 slices along
-each spatial axis, yielding 4^2 = 16 tiles. Default is 8, suggested minimum of 3. Suggest to tune this parameter.}
-
-\item{alpha}{integer to specify desired strength of spatial correlation. Suggest to tune this parameter on testing
-dataset among e.g values c(0,2,4,8). alpha = 0 gives SIR implementation. Larger values give stronger spatial correlations.}
-
-\item{maxDirections}{integer for upper limit on number of directions to include in low-dimensional space. Use if you
-need less than a certain number of dimensions for downstream analyes}
-
-\item{varThreshold}{numeric proportion of eigenvalues of variance in t(X_H) \%\emph{\% W \%}\% X_H to retain. Default is 0.95.
-Select higher threshold to include more dimensions, lower threshold to include less dimensions.}
-
-\item{optim_params}{logical, if you would like wSIR to automatically optimise parameters slices and alpha based on
-either distance correlation or correlation of distances as evaluation metric. Default is TRUE. If your downstream
+\item{optim_params}{logical default FALSE. If you would like wSIR to automatically optimise parameters slices and alpha based on
+either distance correlation or correlation of distances as evaluation metric. If your downstream
 task is quite different to either of those metrics, then we suggest you tune those two parameters yourself using
 your specific task and evaluation metric. In that case, determine your optimal slices and alpha values and then use
 them in the relevant function, then setting optim_params = FALSE.}
 
-\item{alpha_vals}{If you have optim_params = TRUE, then this is the values of alpha to optimise over in WSIR. 0
+\item{alpha_vals}{If you have optim_params = TRUE, then this is the values of alpha to optimise over in wSIR. 0
 gives Sliced Inverse Regression (SIR) implementation, and larger values represent stronger spatial correlation.
 Suggest to use integers for interpretability, but can use non-integers. Values must be non-negative.}
 
-\item{slice_vals}{If you have optim_params = TRUE, then this is the values of slices to optimise over in WSIR.
+\item{slice_vals}{If you have optim_params = TRUE, then this is the values of slices to optimise over in wSIR.
 Suggest maximum value in the vector to be no more than around \eqn{\sqrt{n/20}}, as this upper bound ensures an
 average of at least 10 cells per tile in the training set.}
 
@@ -61,15 +40,19 @@ either "DC" to use distance correlation or "CD" to use correlation of distances.
 
 \item{nrep}{If optim_params = TRUE, this is the integer for the number of train/test splits of the data to
 perform during optimisation of parameters slices and alpha.}
+
+\item{verbose}{logical (default FALSE) whether progress messages should be printed}
+
+\item{...}{arguments passing to \code{exploreWSIRParams} and \code{wSIRSpecifiedParams}}
 }
 \value{
 wSIR object which is a list containing 5 (named) positions. 1) scores matrix containing low-dimensional
-representation of X from wSIR algorithm. Dimension n * d, where d is chosen to include at least varThreshold proportion of variance.
-2) directions matrix containing WSIR directions, dimension p * d. Use this to project new data into low-dimensional space via X_new \%\emph{\% directions.
+representation of X from wSIR algorithm. Dimension \code{n * d}, where d is chosen to include at least varThreshold proportion of variance.
+2) directions matrix containing wSIR directions, dimension \code{p * d}. Use this to project new data into low-dimensional space via X_new \%*\% directions.
 3) estd integer stating how many dimensions in the computed low-dimensional space are needed to account for varThreshold
 proportion of variance. Same as number of dimensions in scores.
 4) W matrix weight matrix from cells_weight_matrix2 function
-5) evalues vector containing p eigenvalues of t(X_H) \%}\% W \%*\% X_H. varThreshold parameter works on these evalues,
+5) evalues vector containing p eigenvalues of \code{t(X_H) \%*\% W \%*\% X_H}. varThreshold parameter works on these evalues,
 such that e.g the first j directions are included if the sum of the first j evalues equals 0.95\% of the sum of all evalues.
 }
 \description{
@@ -84,7 +67,7 @@ wsir_obj = wSIR(X = sample1_exprs,
   optim_params = TRUE,
   alpha_vals = c(0,2,4),
   slice_vals = c(3,6,10),
-  metric = "CD",
+  metric = "DC",
   nrep = 1) # create wsir object
 
 }

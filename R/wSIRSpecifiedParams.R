@@ -16,10 +16,7 @@
 #' each spatial axis, yielding 4^2 = 16 tiles. Default is 8, suggested minimum of 3. Suggest to tune this parameter.
 #' @param alpha integer to specify desired strength of spatial correlation. Suggest to tune this parameter on testing
 #' dataset among e.g values c(0,2,4,8). alpha = 0 gives SIR implementation. Larger values give stronger spatial correlations.
-#' @param maxDirections integer for upper limit on number of directions to include in low-dimensional space. Use if you
-#' need less than a certain number of dimensions for downstream analyes
-#' @param varThreshold numeric proportion of eigenvalues of variance in t(X_H) %*% W %*% X_H to retain. Default is 0.95.
-#' Select higher threshold to include more dimensions, lower threshold to include less dimensions.
+#' @param ... arguments passed to sirCategorical
 #'
 #' @return wSIR object which is a list containing 5 (named) positions. 1) scores matrix containing low-dimensional
 #' representation of X from wSIR algorithm. Dimension n * d, where d is chosen to include at least varThreshold proportion of variance.
@@ -30,6 +27,7 @@
 #' 5) evalues vector containing p eigenvalues of t(X_H) %*% W %*% X_H. varThreshold parameter works on these evalues,
 #' such that e.g the first j directions are included if the sum of the first j evalues equals 0.95% of the sum of all evalues.
 #'
+#' @importFrom methods is
 #' @keywords internal
 wSIRSpecifiedParams = function(X,
                                coords,
@@ -37,14 +35,14 @@ wSIRSpecifiedParams = function(X,
                                samples = rep(1, nrow(coords)),
                                slices = 8,
                                alpha = 4,
-                               maxDirections = 50,
+                               # maxDirections = 50,
                                # varThreshold = 0.95
                                ...
                                ) {
 
   if (!is.null(group)) {
 
-    if (class(group) != "factor") {
+    if (methods::is(group, "factor")) {
       message("group is not a factor, setting as.factor")
       group <- factor(group)
     }
@@ -80,8 +78,8 @@ wSIRSpecifiedParams = function(X,
 
   wsir_obj <- sirCategorical(X = X,
                              Y = tile_allocation,
-                             directions = maxDirections,
                              W = W,
+                             # maxDirections = maxDirections,
                              # varThreshold = varThreshold
                              ...
                              )

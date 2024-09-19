@@ -30,7 +30,7 @@ wsir_obj = wSIR(X = sample1_exprs,
 umap_coords = generateUmapFromWSIR(WSIR = wsir_obj)
 top_genes_obj = findTopGenes(WSIR = wsir_obj, highest = 4) # create top genes object
 umap_plot = plotUmapFromWSIR(umap_coords = umap_coords,
-  exprs = sample1_exprs,
+  X = sample1_exprs,
   highest_genes = top_genes_obj,
   n_genes = 4)
 umap_plot

@@ -18,14 +18,9 @@
 #' coloured by their value for each of the first 'dirs' WSIR directions.
 #'
 #' @importFrom magrittr %>%
-#' @importFrom ggplot2 ggplot
-#' @importFrom ggplot2 aes
-#' @importFrom ggplot2 geom_point
-#' @importFrom ggplot2 theme_classic
-#' @importFrom ggplot2 facet_wrap
-#' @importFrom ggplot2 ggtitle
-#' @importFrom ggplot2 scale_color_gradient
+#' @importFrom ggplot2 ggplot aes geom_point theme_classic facet_wrap ggtitle scale_color_gradient
 #' @importFrom vctrs vec_rep_each
+#' @importFrom rlang .data
 #'
 #' @examples
 #' data(MouseData)
@@ -34,7 +29,8 @@
 #'   optim_params = FALSE,
 #'   alpha = 4,
 #'   slices = 6) # create wsir object
-#' vis_obj = visualiseWSIRDirections(coords = sample1_coords, WSIR = wsir_obj, dirs = 8) # create visualisations
+#' vis_obj = visualiseWSIRDirections(coords = sample1_coords,
+#' WSIR = wsir_obj, dirs = 8) # create visualisations
 #' vis_obj
 #'
 #' @export
@@ -53,11 +49,11 @@ visualiseWSIRDirections <- function(coords, WSIR, dirs = 6, mincol = "blue", max
   vis_df_long$WSIR_direction <- as.factor(vec_rep_each(c(1:dirs), nrow(coords)))
 
   # produce plot
-  plot <- ggplot(aes(x = x, y = y, color = value), data = vis_df_long) +
-    geom_point() +
-    theme_classic() +
-    facet_wrap(~WSIR_direction, scales = "fixed") + # one panel per WSIR direction
-    ggtitle("Cells at true positions coloured by WSIR values") +
-    scale_color_gradient(low = mincol, high = maxcol)
+  plot <- ggplot2::ggplot(aes(x = .data$x, y = .data$y, color = .data$value), data = vis_df_long) +
+    ggplot2::geom_point() +
+    ggplot2::theme_classic() +
+    ggplot2::facet_wrap(~WSIR_direction, scales = "fixed") + # one panel per WSIR direction
+    ggplot2::ggtitle("Cells at true positions coloured by WSIR values") +
+    ggplot2::scale_color_gradient(low = mincol, high = maxcol)
   return(plot)
 }

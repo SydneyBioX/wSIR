@@ -6,7 +6,7 @@
 #' it will visualise the performance of WSIR with varying function parameters based on your data, and return the optimal pair.
 #' This pair of slices and alpha can be used for your downstream tasks.
 #'
-#' @param exprs matrix containing normalised gene expression data including n cells and p genes, dimension n * p.
+#' @param X matrix containing normalised gene expression data including n cells and p genes, dimension n * p.
 #' @param coords dataframe containing spatial positions of n cells in 2D space. Dimension n * 2. Column names must be c("x", "y").
 #' @param samples sample ID of each cell. In total, must have length equal to the number of cells. For example, if
 #' your dataset has 10000 cells, the first 5000 from sample 1 and the remaining 5000 from sample 2, you would write
@@ -18,15 +18,13 @@
 #' but can use non-integers. Values must be non-negative.
 #' @param slice_vals vector of integers as the values of parameter slices to use in WSIR. Suggest maximum value in the vector to
 #' be no more than around \eqn{\sqrt{n/20}}, as this upper bound ensures an average of at least 10 cells per tile in the training set.
-#' @param varThreshold numeric proportion of variance in \code{t(X_H) \%*\% W \%*\% X_H} to retain. Must be between 0 and 1. Default is 0.95.
-#' Select higher threshold to include more dimensions, lower threshold to include less dimensions.
-#' @param maxDirections integer for the maximum number of directions to include in the low-dimensional embedding. Default is 50.
-#' @param metric evaluation metric to use for parameter tuning to select optimal parameter combination. String, use "DC" to
+#' @param metric character single value. Evaluation metric to use for parameter tuning to select optimal parameter combination. String, use "DC" to
 #' use distance correlation, "CD" to use correlation of distances, or "ncol" for the number of dimensions in the low-dimensional
 #' embedding. Default is "DC".
 #' @param nrep integer for the number of train/test splits of the data to perform.
 #' @param param parallel computing setup for bplapply from BiocParallel package. Default is to use a single core, hence
 #' default value is MulticoreParam(workers = 1)
+#' @param ... arguments passed on to wSIROptimisation
 #'
 #' @return List with five slots, named "plot", "message", "best_alpha", "best_slices" and "results_dataframe".
 #' 1) "plot" shows the average metric value across the nrep iterations for every combination of parameters slices and alpha.
@@ -43,7 +41,7 @@
 #'
 #' @examples
 #' data(MouseData)
-#' explore_params = exploreWSIRParams(exprs = sample1_exprs,
+#' explore_params = exploreWSIRParams(X = sample1_exprs,
 #'   coords = sample1_coords,
 #'   alpha_vals = c(0,2,4,8),
 #'   slice_vals = c(3,6,10))
@@ -58,27 +56,24 @@
 #'   slices = best_slices)
 #'
 #' @importFrom magrittr %>%
-#' @importFrom ggplot2 ggplot
-#' @importFrom ggplot2 aes
-#' @importFrom ggplot2 geom_point
-#' @importFrom ggplot2 theme_classic
-#' @importFrom ggplot2 ggtitle
+#' @importFrom ggplot2 ggplot aes geom_point theme_classic ggtitle
 #' @importFrom vctrs vec_rep_each
-#' @importFrom BiocParallel bplapply
-#' @importFrom BiocParallel MulticoreParam
+#' @importFrom BiocParallel bplapply MulticoreParam
 #' @importFrom stringr word
 #'
 #' @export
-exploreWSIRParams = function(exprs,
+exploreWSIRParams = function(X,
                              coords,
                              samples = rep(1, nrow(coords)),
                              alpha_vals = c(0,2,4,10),
                              slice_vals = c(5,10,15,20),
-                             varThreshold = 0.95,
-                             maxDirections = 50,
+                             # varThreshold = 0.95,
+                             # maxDirections = 50,
                              metric = "DC",
                              nrep = 5,
-                             param = MulticoreParam(workers = 1)) {
+                             param = MulticoreParam(workers = 1),
+                             ...
+                             ) {
 
   # vector of all parameter combinations
   param_combinations = expand.grid(slice = slice_vals, alpha = alpha_vals, metric = NA)
@@ -102,17 +97,17 @@ exploreWSIRParams = function(exprs,
 
   # Create pre-specified random splits of data, each columns corresponding to one split
   index_rep <- matrix(
-    sample(c(TRUE, FALSE), nrow(exprs)*nrep, replace = TRUE),
-    nrow = nrow(exprs), ncol = nrep
+    sample(c(TRUE, FALSE), nrow(X)*nrep, replace = TRUE),
+    nrow = nrow(X), ncol = nrep
   )
   # create training and test set from each column index
   split_list <- apply(index_rep, 2,  function(keep){
-    exprs_train <- exprs[keep,]
+    X_train <- X[keep,]
     coords_train <- coords[keep,]
     samples_train <- samples[keep]
-    exprs_test <- exprs[!keep,]
+    X_test <- X[!keep,]
     coords_test <- coords[!keep,]
-    list(exprs_train, coords_train, exprs_test,
+    list(X_train, coords_train, X_test,
          coords_test,  samples_train )
   })
   nElements = 5
@@ -121,14 +116,17 @@ exploreWSIRParams = function(exprs,
 
   for (ii in 1:nrow(param_combinations)){
     a <- Sys.time()
-    cv_scores <- mapply(function(exprs_train, coords_train, exprs_test,
+    cv_scores <- mapply(function(X_train, coords_train, X_test,
                           coords_test,  samples_train){
-      wSIROptimisation(as.matrix(exprs_train),
-                       coords_train, as.matrix(exprs_test),
+      wSIROptimisation(as.matrix(X_train),
+                       coords_train, as.matrix(X_test),
                        coords_test,
                        samples_train, param_combinations$slice[ii], param_combinations$alpha[ii],
-                       varThreshold = varThreshold,
-                       maxDirections = maxDirections, metric = "DC")
+                       # varThreshold = varThreshold,
+                       # maxDirections = maxDirections,
+                       # metric = "DC",
+                       evalmetrics = metric,
+                       ...)
     }, result[[1]], result[[2]], result[[3]], result[[4]], result[[5]])
 
     param_combinations$metric[ii] <- mean(cv_scores, na.rm = TRUE)
@@ -142,7 +140,7 @@ exploreWSIRParams = function(exprs,
 
   message = paste0("Optimal (alpha, slices) pair: (", best_alpha, ", ", best_slices, ")")
 
-  plot <- ggplot(res_df, mapping = aes(x = alpha, y = slice, size = metric)) +
+  plot <- ggplot(res_df, mapping = aes(x = .data$alpha, y = .data$slice, size = .data$metric)) +
     geom_point() +
     theme_classic() +
     ggtitle(paste0("Metric value for different parameter combinations (",nrep, " iterations of train/test split)"))

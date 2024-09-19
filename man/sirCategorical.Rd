@@ -4,7 +4,7 @@
 \alias{sirCategorical}
 \title{sirCategorical}
 \usage{
-sirCategorical(X, Y, directions = 50, W = NULL, varThreshold = 0.95)
+sirCategorical(X, Y, maxDirections = 50, W = NULL, ...)
 }
 \arguments{
 \item{X}{matrix of normalised gene expression data for n genes across p cells.}
@@ -12,14 +12,11 @@ sirCategorical(X, Y, directions = 50, W = NULL, varThreshold = 0.95)
 \item{Y}{dataframe with 1 column named "coordinate" that is the tile allocation for each cell. There should
 be up to slices^2 unique tile IDs in this column.}
 
-\item{directions}{Integer to specify maximum number of directions to retain in thee low-dimensional embedding
+\item{maxDirections}{Integer to specify maximum number of directions to retain in thee low-dimensional embedding
 of the data. Use if you need at most a certain number for a downstream task.}
 
 \item{W}{Weight matrix created by createWeightMatrix. Entry (i,j) represents the spatial correlation level
 between tiles i and j. The diagonal values should be all 1. If not provided, SIR implementation will be used.}
-
-\item{varThreshold}{numeric value specifying the desired proportion of variance to retain. If e.g 95\% (default),
-then number of directions used will be such that their eigenvalues add up to 95\% of the sum of all eigenvalues.}
 }
 \value{
 list of outputs with 5 named slots. They are the same as the output of the wSIR function: this is

@@ -5,20 +5,19 @@
 \title{exploreWSIRParams function}
 \usage{
 exploreWSIRParams(
-  exprs,
+  X,
   coords,
   samples = rep(1, nrow(coords)),
   alpha_vals = c(0, 2, 4, 10),
   slice_vals = c(5, 10, 15, 20),
-  varThreshold = 0.95,
-  maxDirections = 50,
   metric = "DC",
   nrep = 5,
-  param = MulticoreParam(workers = 1)
+  param = MulticoreParam(workers = 1),
+  ...
 )
 }
 \arguments{
-\item{exprs}{matrix containing normalised gene expression data including n cells and p genes, dimension n * p.}
+\item{X}{matrix containing normalised gene expression data including n cells and p genes, dimension n * p.}
 
 \item{coords}{dataframe containing spatial positions of n cells in 2D space. Dimension n * 2. Column names must be c("x", "y").}
 
@@ -35,12 +34,7 @@ but can use non-integers. Values must be non-negative.}
 \item{slice_vals}{vector of integers as the values of parameter slices to use in WSIR. Suggest maximum value in the vector to
 be no more than around \eqn{\sqrt{n/20}}, as this upper bound ensures an average of at least 10 cells per tile in the training set.}
 
-\item{varThreshold}{numeric proportion of variance in \code{t(X_H) \%*\% W \%*\% X_H} to retain. Must be between 0 and 1. Default is 0.95.
-Select higher threshold to include more dimensions, lower threshold to include less dimensions.}
-
-\item{maxDirections}{integer for the maximum number of directions to include in the low-dimensional embedding. Default is 50.}
-
-\item{metric}{evaluation metric to use for parameter tuning to select optimal parameter combination. String, use "DC" to
+\item{metric}{character single value. Evaluation metric to use for parameter tuning to select optimal parameter combination. String, use "DC" to
 use distance correlation, "CD" to use correlation of distances, or "ncol" for the number of dimensions in the low-dimensional
 embedding. Default is "DC".}
 
@@ -48,6 +42,8 @@ embedding. Default is "DC".}
 
 \item{param}{parallel computing setup for bplapply from BiocParallel package. Default is to use a single core, hence
 default value is MulticoreParam(workers = 1)}
+
+\item{...}{arguments passed on to wSIROptimisation}
 }
 \value{
 List with five slots, named "plot", "message", "best_alpha", "best_slices" and "results_dataframe".
@@ -73,7 +69,7 @@ This pair of slices and alpha can be used for your downstream tasks.
 }
 \examples{
 data(MouseData)
-explore_params = exploreWSIRParams(exprs = sample1_exprs,
+explore_params = exploreWSIRParams(X = sample1_exprs,
   coords = sample1_coords,
   alpha_vals = c(0,2,4,8),
   slice_vals = c(3,6,10))

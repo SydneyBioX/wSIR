@@ -42,7 +42,8 @@ wsir_obj = wSIR(X = sample1_exprs,
   optim_params = FALSE,
   alpha = 4,
   slices = 6) # create wsir object
-vis_obj = visualiseWSIRDirections(coords = sample1_coords, WSIR = wsir_obj, dirs = 8) # create visualisations
+vis_obj = visualiseWSIRDirections(coords = sample1_coords,
+WSIR = wsir_obj, dirs = 8) # create visualisations
 vis_obj
 
 }

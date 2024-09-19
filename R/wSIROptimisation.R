@@ -18,18 +18,15 @@
 #' Default value is 4, at which weight matrix value for a pair of tiles is inversely proportional to the physical distance between them. Suggest to tune this
 #' parameter using exploreWSIRParams() function.
 #' @param maxDirections integer for the maximum number of directions to include in the low-dimenensional embedding. Default is 50.
-#' @param varThreshold numeric proportion of variance in \code{t(X_H) \%*\% W \%*\% X_H} to retain. Must be between 0 and 1. Default is 0.95.
-#' Select higher threshold to include more dimensions, lower threshold to include less dimensions.
-#' @param metrics evaluation metrics to use for parameter tuning. String, options are any or all of: "DC" to use distance
+#' @param evalmetrics evaluation metrics to use for parameter tuning. String, options are any or all of: "DC" to use distance
 #' correlation; "CD" to use correlation of distances; "ncol" to use number of columns in low-dimensional embedding. Default is all three,
 #' specified by metrics = c("DC", "CD", "ncol").
+#' @param ... arguments passed to wSIRSpecifiedParams
 #'
 #' @return Average metric value for the selected metric(s) over each train/test split.
 #'
-#'
 #' @importFrom stats cor
 #' @importFrom distances distances
-#'
 #'
 #' @keywords internal
 
@@ -41,8 +38,9 @@ wSIROptimisation = function(exprs_train,
                             slices,
                             alpha,
                             maxDirections,
-                            varThreshold,
-                            metrics = c("CD","DC","ncol")) {
+                            # varThreshold,
+                            evalmetrics = c("CD","DC","ncol"),
+                            ...) {
 
   results = NULL
   wsir_obj = wSIRSpecifiedParams(X = exprs_train,
@@ -51,10 +49,11 @@ wSIROptimisation = function(exprs_train,
                                  slices = slices,
                                  alpha = alpha,
                                  maxDirections = maxDirections,
-                                 varThreshold = varThreshold)
+                                 # varThreshold = varThreshold,
+                                 ...)
   projected_test = projectWSIR(wsir = wsir_obj, newdata = exprs_test)
 
-    if ("CD" %in% metrics) {
+    if ("CD" %in% evalmetrics) {
       # Replace dist by distances
       d1 <- as.matrix(distances::distances(projected_test))
       d2 <- as.matrix(distances::distances(coords_test))
@@ -63,12 +62,12 @@ wSIROptimisation = function(exprs_train,
       current_cd <- .spearman_correlation(k1, k2)
       results <- c(results, cd = current_cd)
     }
-    if ("DC" %in% metrics) {
+    if ("DC" %in% evalmetrics) {
       current_dc <- Rfast::dcor(as.matrix(projected_test), as.matrix(coords_test))$dcor
       results <- c(results, dc = current_dc)
 
     }
-    if ("ncol" %in% metrics) {
+    if ("ncol" %in% evalmetrics) {
       current_ncol <- ncol(projected_test)
       ncol_vals <- current_ncol
       results <- c(results, ncol = ncol_vals)
