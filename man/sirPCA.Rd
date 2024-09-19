@@ -14,19 +14,24 @@ sirPCA(
 \arguments{
 \item{sliced_data}{matrix of scaled slice means}
 
-\item{maxDirections}{integer (default 50), number of directions we want in our final low-dimensional Z.}
+\item{maxDirections}{integer (default 50), number of directions we want in
+our final low-dimensional Z.}
 
 \item{W}{matrix of slice weights. Output of createWeightMatrix function.}
 
-\item{varThreshold}{numeric proportion of eigenvalues of variance in \code{t(X_H) \%*\% W \%*\% X_H} to retain.
-Default is 0.99. Select higher threshold to include more dimensions, lower threshold to include less dimensions.}
+\item{varThreshold}{numeric proportion of eigenvalues of variance in
+\code{t(X_H) \%*\% W \%*\% X_H} to retain.
+Default is 0.99. Select higher threshold to include more dimensions,
+lower threshold to include less dimensions.}
 }
 \value{
-list containing: 1) "eigenvectors" matrix of eigenvectors of \code{(X^H)^t \%*\% W \%*\% (X^H)}
+list containing: 1) "eigenvectors" matrix of eigenvectors of
+\code{(X^H)^t \%*\% W \%*\% (X^H)}
 2) "d" integer, selected number of dimensions
 3) "evalues" vector of eigenvalues of \code{(X^H)^t \%*\% W \%*\% (X^H)}
 }
 \description{
-This function performs eigendecomposition on \code{(X^H)^t \%*\% W \%*\% (X^H)}, where \code{X^H} is matrix of scaled slice means.
+This function performs eigendecomposition on \code{(X^H)^t \%*\% W \%*\% (X^H)},
+where \code{X^H} is matrix of scaled slice means.
 }
 \keyword{internal}

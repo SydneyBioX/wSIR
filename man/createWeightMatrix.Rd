@@ -7,16 +7,24 @@
 createWeightMatrix(coords, labels, alpha = 4)
 }
 \arguments{
-\item{coords}{dataframe of dimension n * 2. Column names c("x", "y"). Spatial position of each cell.}
+\item{coords}{dataframe of dimension n * 2. Column names c("x", "y").
+Spatial position of each cell.}
 
-\item{labels}{dataframe of dimension n * 1, column name c("coordinate"). Tile allocation of each cell. This is automatically created in the wSIR function.}
+\item{labels}{dataframe of dimension n * 1, column name c("coordinate").
+Tile allocation of each cell. This is automatically created in the wSIR
+function.}
 
-\item{alpha}{numeric value giving strength of spatial weighting matrix. alpha = 0 returns identity matrix and equals SIR. Large alpha values tend all entries towards 1. Default is 4.}
+\item{alpha}{numeric value giving strength of spatial weighting matrix.
+alpha = 0 returns identity matrix and equals SIR. Large alpha values tend
+all entries towards 1. Default is 4.}
 }
 \value{
-matrix containing the weight value for all pairs of tiles. Each value is between 0 and 1, with 1 always on the diagonal.
+matrix containing the weight value for all pairs of tiles. Each
+value is between 0 and 1, with 1 always on the diagonal.
 }
 \description{
-A function to create the weight matrix given the location of the cells, tile allocations and desired spatial weighting strength. Weight matrix entries represent level of spatial correlation between all pairs of tiles.
+A function to create the weight matrix given the location of the cells,
+tile allocations and desired spatial weighting strength. Weight matrix
+entries represent level of spatial correlation between all pairs of tiles.
 }
 \keyword{internal}

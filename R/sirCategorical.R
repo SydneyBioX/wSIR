@@ -1,17 +1,24 @@
 #' sirCategorical
 #'
 #' @description
-#' This function performs WSIR based on provided gene expression data, tile allocations, and weight matrix.
+#' This function performs WSIR based on provided gene expression data, tile
+#' allocations, and weight matrix.
 #'
-#' @param X matrix of normalised gene expression data for n genes across p cells.
-#' @param Y dataframe with 1 column named "coordinate" that is the tile allocation for each cell. There should
+#' @param X matrix of normalised gene expression data for n genes across p
+#' cells.
+#' @param Y dataframe with 1 column named "coordinate" that is the tile
+#' allocation for each cell. There should
 #' be up to slices^2 unique tile IDs in this column.
-#' @param maxDirections Integer to specify maximum number of directions to retain in thee low-dimensional embedding
+#' @param maxDirections Integer to specify maximum number of directions to
+#' retain in thee low-dimensional embedding
 #' of the data. Use if you need at most a certain number for a downstream task.
-#' @param W Weight matrix created by createWeightMatrix. Entry (i,j) represents the spatial correlation level
-#' between tiles i and j. The diagonal values should be all 1. If not provided, SIR implementation will be used.
+#' @param W Weight matrix created by createWeightMatrix. Entry (i,j)
+#' represents the spatial correlation level
+#' between tiles i and j. The diagonal values should be all 1. If not
+#' provided, SIR implementation will be used.
 #'
-#' @return list of outputs with 5 named slots. They are the same as the output of the wSIR function: this is
+#' @return list of outputs with 5 named slots. They are the same as the
+#' output of the wSIR function: this is
 #' the final step in the wSIR function.
 #'
 #' @keywords internal
@@ -20,34 +27,28 @@ sirCategorical <- function(X,
                            Y,
                            maxDirections = 50,
                            W = NULL,
-                           # varThreshold = 0.95
                            ...
-                           ) {
+) {
 
   # do the transformation (QR scaling method)
   n <- nrow(X)
   X <- as.matrix(X)
   RandZ <- .computeRandZ(X)
-  b = Sys.time()
   R <- RandZ[[1]]
   Z <- RandZ[[2]]
 
   sliced_data <- slicerCategorical(X = Z, Y = Y)
 
-  # define weight matrix if not provided
-  # want to find a better alternative to below
   if (is.null(W)) {
-    W <- diag(table(Y$coordinate), ncol = nrow(sliced_data))/nrow(Y)
+    W <- base::diag(table(Y$coordinate), ncol = nrow(sliced_data))/nrow(Y)
   }
 
   pc_dirs <- sirPCA(sliced_data,
-                    # maxDirections = maxDirections,
                     W = W,
-                    # varThreshold = varThreshold
                     ...
-                    )
+  )
 
-  betas <- backsolve(R, pc_dirs$evectors)
+  betas <- base::backsolve(R, pc_dirs$evectors)
   betas <- as.matrix(betas)
   betas <- apply(betas, 2, function(x) x/sqrt(sum(x^2)))
   rownames(betas) <- colnames(X)
@@ -57,5 +58,5 @@ sirCategorical <- function(X,
               directions = betas,
               estd = pc_dirs[[2]],
               W = W,
-              evalues = pc_dirs$evalues)) # 1 is the transformed X, 2 is the rotation (for new data), 3 is the number of selected dimensions, 4 is the W
+              evalues = pc_dirs$evalues))
 }

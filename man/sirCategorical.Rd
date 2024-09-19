@@ -7,22 +7,29 @@
 sirCategorical(X, Y, maxDirections = 50, W = NULL, ...)
 }
 \arguments{
-\item{X}{matrix of normalised gene expression data for n genes across p cells.}
+\item{X}{matrix of normalised gene expression data for n genes across p
+cells.}
 
-\item{Y}{dataframe with 1 column named "coordinate" that is the tile allocation for each cell. There should
+\item{Y}{dataframe with 1 column named "coordinate" that is the tile
+allocation for each cell. There should
 be up to slices^2 unique tile IDs in this column.}
 
-\item{maxDirections}{Integer to specify maximum number of directions to retain in thee low-dimensional embedding
+\item{maxDirections}{Integer to specify maximum number of directions to
+retain in thee low-dimensional embedding
 of the data. Use if you need at most a certain number for a downstream task.}
 
-\item{W}{Weight matrix created by createWeightMatrix. Entry (i,j) represents the spatial correlation level
-between tiles i and j. The diagonal values should be all 1. If not provided, SIR implementation will be used.}
+\item{W}{Weight matrix created by createWeightMatrix. Entry (i,j)
+represents the spatial correlation level
+between tiles i and j. The diagonal values should be all 1. If not
+provided, SIR implementation will be used.}
 }
 \value{
-list of outputs with 5 named slots. They are the same as the output of the wSIR function: this is
+list of outputs with 5 named slots. They are the same as the
+output of the wSIR function: this is
 the final step in the wSIR function.
 }
 \description{
-This function performs WSIR based on provided gene expression data, tile allocations, and weight matrix.
+This function performs WSIR based on provided gene expression data, tile
+allocations, and weight matrix.
 }
 \keyword{internal}

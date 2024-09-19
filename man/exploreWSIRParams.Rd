@@ -17,54 +17,83 @@ exploreWSIRParams(
 )
 }
 \arguments{
-\item{X}{matrix containing normalised gene expression data including n cells and p genes, dimension n * p.}
+\item{X}{matrix containing normalised gene expression data including n
+cells and p genes, dimension n * p.}
 
-\item{coords}{dataframe containing spatial positions of n cells in 2D space. Dimension n * 2. Column names must be c("x", "y").}
+\item{coords}{dataframe containing spatial positions of n cells in 2D space.
+Dimension n * 2. Column names must be c("x", "y").}
 
-\item{samples}{sample ID of each cell. In total, must have length equal to the number of cells. For example, if
-your dataset has 10000 cells, the first 5000 from sample 1 and the remaining 5000 from sample 2, you would write
-samples = c(rep(1, 5000), rep(2, 5000)) to specify that the first 5000 cells are sample 1 and the remaining are sample 2.
-Default is that all cells are from sample 1. Sample IDs can be of any format: for the previous example, you could write
-samples = c(rep("sample 1", 5000), rep("sample 2", 5000)), and the result would be the same.}
+\item{samples}{sample ID of each cell. In total, must have length equal to
+the number of cells. For example, if
+your dataset has 10000 cells, the first 5000 from sample 1 and the remaining
+5000 from sample 2, you would write
+samples = c(rep(1, 5000), rep(2, 5000)) to specify that the first 5000 cells
+are sample 1 and the remaining are sample 2.
+Default is that all cells are from sample 1. Sample IDs can be of any
+format: for the previous example, you could write
+samples = c(rep("sample 1", 5000), rep("sample 2", 5000)), and the result
+would be the same.}
 
-\item{alpha_vals}{vector of numbers as the values of parameter alpha to use in WSIR. 0 gives Sliced Inverse Regression
-(SIR) implementation, and larger values represent stronger spatial correlation. Suggest to use integers for interpretability,
+\item{alpha_vals}{vector of numbers as the values of parameter alpha to use
+in WSIR. 0 gives Sliced Inverse Regression
+(SIR) implementation, and larger values represent stronger spatial
+correlation. Suggest to use integers for interpretability,
 but can use non-integers. Values must be non-negative.}
 
-\item{slice_vals}{vector of integers as the values of parameter slices to use in WSIR. Suggest maximum value in the vector to
-be no more than around \eqn{\sqrt{n/20}}, as this upper bound ensures an average of at least 10 cells per tile in the training set.}
+\item{slice_vals}{vector of integers as the values of parameter slices to
+use in WSIR. Suggest maximum value in the vector to
+be no more than around \eqn{\sqrt{n/20}}, as this upper bound ensures an
+average of at least 10 cells per tile in the training set.}
 
-\item{metric}{character single value. Evaluation metric to use for parameter tuning to select optimal parameter combination. String, use "DC" to
-use distance correlation, "CD" to use correlation of distances, or "ncol" for the number of dimensions in the low-dimensional
+\item{metric}{character single value. Evaluation metric to use for parameter
+tuning to select optimal parameter combination. String, use "DC" to
+use distance correlation, "CD" to use correlation of distances, or "ncol"
+for the number of dimensions in the low-dimensional
 embedding. Default is "DC".}
 
-\item{nrep}{integer for the number of train/test splits of the data to perform.}
+\item{nrep}{integer for the number of train/test splits of the data to
+perform.}
 
-\item{param}{parallel computing setup for bplapply from BiocParallel package. Default is to use a single core, hence
+\item{param}{parallel computing setup for bplapply from BiocParallel
+package. Default is to use a single core, hence
 default value is MulticoreParam(workers = 1)}
 
 \item{...}{arguments passed on to wSIROptimisation}
 }
 \value{
-List with five slots, named "plot", "message", "best_alpha", "best_slices" and "results_dataframe".
+List with five slots, named "plot", "message", "best_alpha",
+"best_slices" and "results_dataframe".
 \enumerate{
-\item "plot" shows the average metric value across the nrep iterations for every combination of parameters slices and alpha.
-Larger circles for a slices/alpha combination indicates better performance for that pair of values. There is one panel per
+\item "plot" shows the average metric value across the nrep iterations for
+every combination of parameters slices and alpha.
+Larger circles for a slices/alpha combination indicates better performance
+for that pair of values. There is one panel per
 evaluation metric selected in "metrics" argument.
-\item "message" tells you the parameter combination with highest metric value according to selected metric.
-\item "best_alpha" returns the integer for the best alpha values among the values that were tested according to selected metric.
-\item "best_slices" returns the integer for the best slices value among the values that were tested according to selected metric.
-\item "results_dataframe" returns the results dataframe used to create "plot". This dataframe has length(alpha_vals)*length(slice_vals) rows,
-where one is for each combination of parameters slices and alpha. There is one column for "alpha", one for "slices" and one
-for each of the evaluation metrics selected in "metrics" argument. Column "alpha" includes the value for parameter alpha,
-column "slices" includes the value for parameter slices, and each metric column includes the value for the specified metric,
-which is either Distance Correlation ("DC"), Correlation of Distances ("CD"), or number of columns in low-dimensional embedding ("ncol").
+\item "message" tells you the parameter combination with highest metric value
+according to selected metric.
+\item "best_alpha" returns the integer for the best alpha values among the
+values that were tested according to selected metric.
+\item "best_slices" returns the integer for the best slices value among the
+values that were tested according to selected metric.
+\item "results_dataframe" returns the results dataframe used to create "plot".
+This dataframe has length(alpha_vals)*length(slice_vals) rows,
+where one is for each combination of parameters slices and alpha. There is
+one column for "alpha", one for "slices" and one
+for each of the evaluation metrics selected in "metrics" argument. Column
+"alpha" includes the value for parameter alpha,
+column "slices" includes the value for parameter slices, and each metric
+column includes the value for the specified metric,
+which is either Distance Correlation ("DC"), Correlation of Distances
+("CD"), or number of columns in low-dimensional embedding ("ncol").
 }
 }
 \description{
-This function is used to select the optimal values for parameters slices and alpha in weighted sliced inverse regression
-based on your provided gene expression data and corresponding spatial coordinates. For a given evaluation metric,
-it will visualise the performance of WSIR with varying function parameters based on your data, and return the optimal pair.
+This function is used to select the optimal values for parameters slices
+and alpha in weighted sliced inverse regression
+based on your provided gene expression data and corresponding spatial
+coordinates. For a given evaluation metric,
+it will visualise the performance of WSIR with varying function parameters
+based on your data, and return the optimal pair.
 This pair of slices and alpha can be used for your downstream tasks.
 }
 \examples{

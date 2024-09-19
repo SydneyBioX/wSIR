@@ -17,48 +17,74 @@ wSIR(
 )
 }
 \arguments{
-\item{X}{matrix containing normalised gene expression data including n cells and p genes, dimension n * p.}
+\item{X}{matrix containing normalised gene expression data including n
+cells and p genes, dimension n * p.}
 
-\item{coords}{dataframe containing spatial positions of n cells in 2D space. Dimension n * 2. Column names must be c("x", "y").}
+\item{coords}{dataframe containing spatial positions of n cells in 2D
+space. Dimension n * 2. Column names must be c("x", "y").}
 
-\item{optim_params}{logical default FALSE. If you would like wSIR to automatically optimise parameters slices and alpha based on
-either distance correlation or correlation of distances as evaluation metric. If your downstream
-task is quite different to either of those metrics, then we suggest you tune those two parameters yourself using
-your specific task and evaluation metric. In that case, determine your optimal slices and alpha values and then use
+\item{optim_params}{logical default FALSE. If you would like wSIR to
+automatically optimise parameters slices and alpha based on
+either distance correlation or correlation of distances as evaluation
+metric. If your downstream
+task is quite different to either of those metrics, then we suggest you
+tune those two parameters yourself using
+your specific task and evaluation metric. In that case, determine your
+optimal slices and alpha values and then use
 them in the relevant function, then setting optim_params = FALSE.}
 
-\item{alpha_vals}{If you have optim_params = TRUE, then this is the values of alpha to optimise over in wSIR. 0
-gives Sliced Inverse Regression (SIR) implementation, and larger values represent stronger spatial correlation.
-Suggest to use integers for interpretability, but can use non-integers. Values must be non-negative.}
+\item{alpha_vals}{If you have optim_params = TRUE, then this is the
+values of alpha to optimise over in wSIR. 0
+gives Sliced Inverse Regression (SIR) implementation, and larger values
+represent stronger spatial correlation.
+Suggest to use integers for interpretability, but can use non-integers.
+Values must be non-negative.}
 
-\item{slice_vals}{If you have optim_params = TRUE, then this is the values of slices to optimise over in wSIR.
-Suggest maximum value in the vector to be no more than around \eqn{\sqrt{n/20}}, as this upper bound ensures an
+\item{slice_vals}{If you have optim_params = TRUE, then this is the values
+of slices to optimise over in wSIR.
+Suggest maximum value in the vector to be no more than around
+\eqn{\sqrt{n/20}}, as this upper bound ensures an
 average of at least 10 cells per tile in the training set.}
 
-\item{metric}{If optim_params = TRUE, this is the evaluation metric to use for parameter tuning. String,
-either "DC" to use distance correlation or "CD" to use correlation of distances. Default is "DC".}
+\item{metric}{If optim_params = TRUE, this is the evaluation metric to use
+for parameter tuning. String,
+either "DC" to use distance correlation or "CD" to use correlation of
+distances. Default is "DC".}
 
-\item{nrep}{If optim_params = TRUE, this is the integer for the number of train/test splits of the data to
+\item{nrep}{If optim_params = TRUE, this is the integer for the number of
+train/test splits of the data to
 perform during optimisation of parameters slices and alpha.}
 
-\item{verbose}{logical (default FALSE) whether progress messages should be printed}
+\item{verbose}{logical (default FALSE) whether progress messages should be
+printed}
 
 \item{...}{arguments passing to \code{exploreWSIRParams} and \code{wSIRSpecifiedParams}}
 }
 \value{
-wSIR object which is a list containing 5 (named) positions. 1) scores matrix containing low-dimensional
-representation of X from wSIR algorithm. Dimension \code{n * d}, where d is chosen to include at least varThreshold proportion of variance.
-2) directions matrix containing wSIR directions, dimension \code{p * d}. Use this to project new data into low-dimensional space via X_new \%*\% directions.
-3) estd integer stating how many dimensions in the computed low-dimensional space are needed to account for varThreshold
+wSIR object which is a list containing 5 (named) positions.
+\enumerate{
+\item scores matrix containing low-dimensional
+representation of X from wSIR algorithm. Dimension \code{n * d}, where d is
+chosen to include at least varThreshold proportion of variance.
+\item directions matrix containing wSIR directions, dimension \code{p * d}. Use
+this to project new data into low-dimensional space via X_new \%*\% directions.
+\item estd integer stating how many dimensions in the computed
+low-dimensional space are needed to account for varThreshold
 proportion of variance. Same as number of dimensions in scores.
-4) W matrix weight matrix from cells_weight_matrix2 function
-5) evalues vector containing p eigenvalues of \code{t(X_H) \%*\% W \%*\% X_H}. varThreshold parameter works on these evalues,
-such that e.g the first j directions are included if the sum of the first j evalues equals 0.95\% of the sum of all evalues.
+\item W matrix weight matrix from cells_weight_matrix2 function
+\item evalues vector containing p eigenvalues of \code{t(X_H) \%*\% W \%*\% X_H}.
+varThreshold parameter works on these evalues,
+such that e.g the first j directions are included if the sum of the
+first j evalues equals 0.95\% of the sum of all evalues.
+}
 }
 \description{
-A function to perform supervised dimension reduction of a gene expression matrix using coordinates dataframe as
-response value. Incorporates weighting mechanism into SIR algorithm to generate low-dimensional representation of
-the data and allow for projection of new single-cell gene expression data into low-dimensional space.
+A function to perform supervised dimension reduction of a gene expression
+matrix using coordinates dataframe as
+response value. Incorporates weighting mechanism into SIR algorithm to
+generate low-dimensional representation of
+the data and allow for projection of new single-cell gene expression data
+into low-dimensional space.
 }
 \examples{
 data(MouseData)
