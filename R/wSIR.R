@@ -66,8 +66,8 @@
 #' wsir_obj = wSIR(X = sample1_exprs,
 #'   coords = sample1_coords,
 #'   optim_params = TRUE,
-#'   alpha_vals = c(0,2,4),
-#'   slice_vals = c(3,6,10),
+#'   optim_alpha = c(0,2,4),
+#'   optim_slices = c(3,6,10),
 #'   metric = "DC",
 #'   nrep = 1) # create wsir object
 #'
@@ -75,8 +75,8 @@
 wSIR <- function(X,
                  coords,
                  optim_params = FALSE,
-                 alpha_vals = c(0,1,2,4,8,12),
-                 slice_vals = c(3,5,7,10,15,20),
+                 optim_alpha = c(0,1,2,4,8,12),
+                 optim_slices = c(3,5,7,10,15,20),
                  metric = "DC",
                  nrep = 5,
                  verbose = FALSE,
@@ -86,8 +86,8 @@ wSIR <- function(X,
     if (verbose) message("Optimising parameters...")
     optim_obj <- exploreWSIRParams(X = X,
                                    coords = coords,
-                                   alpha_vals = alpha_vals,
-                                   slice_vals = slice_vals,
+                                   optim_alpha = optim_alpha,
+                                   optim_slices = optim_slices,
                                    metric = metric,
                                    nrep = nrep,
                                    ...)

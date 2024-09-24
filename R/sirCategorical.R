@@ -9,9 +9,6 @@
 #' @param Y dataframe with 1 column named "coordinate" that is the tile
 #' allocation for each cell. There should
 #' be up to slices^2 unique tile IDs in this column.
-#' @param maxDirections Integer to specify maximum number of directions to
-#' retain in thee low-dimensional embedding
-#' of the data. Use if you need at most a certain number for a downstream task.
 #' @param W Weight matrix created by createWeightMatrix. Entry (i,j)
 #' represents the spatial correlation level
 #' between tiles i and j. The diagonal values should be all 1. If not
@@ -25,7 +22,7 @@
 
 sirCategorical <- function(X,
                            Y,
-                           maxDirections = 50,
+                           # maxDirections = 50,
                            W = NULL,
                            ...
 ) {

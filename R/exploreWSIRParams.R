@@ -23,12 +23,12 @@
 #' format: for the previous example, you could write
 #' samples = c(rep("sample 1", 5000), rep("sample 2", 5000)), and the result
 #' would be the same.
-#' @param alpha_vals vector of numbers as the values of parameter alpha to use
+#' @param optim_alpha vector of numbers as the values of parameter alpha to use
 #' in WSIR. 0 gives Sliced Inverse Regression
 #' (SIR) implementation, and larger values represent stronger spatial
 #' correlation. Suggest to use integers for interpretability,
 #' but can use non-integers. Values must be non-negative.
-#' @param slice_vals vector of integers as the values of parameter slices to
+#' @param optim_slices vector of integers as the values of parameter slices to
 #' use in WSIR. Suggest maximum value in the vector to
 #' be no more than around \eqn{\sqrt{n/20}}, as this upper bound ensures an
 #' average of at least 10 cells per tile in the training set.
@@ -58,7 +58,7 @@
 #' 4) "best_slices" returns the integer for the best slices value among the
 #' values that were tested according to selected metric.
 #' 5) "results_dataframe" returns the results dataframe used to create "plot".
-#' This dataframe has length(alpha_vals)*length(slice_vals) rows,
+#' This dataframe has length(optim_alpha)*length(optim_slices) rows,
 #' where one is for each combination of parameters slices and alpha. There is
 #' one column for "alpha", one for "slices" and one
 #' for each of the evaluation metrics selected in "metrics" argument. Column
@@ -72,8 +72,8 @@
 #' data(MouseData)
 #' explore_params = exploreWSIRParams(X = sample1_exprs,
 #'   coords = sample1_coords,
-#'   alpha_vals = c(0,2,4,8),
-#'   slice_vals = c(3,6,10))
+#'   optim_alpha = c(0,2,4,8),
+#'   optim_slices = c(3,6,10))
 #' explore_params$plot
 #' explore_params$message
 #' best_alpha = explore_params$best_alpha
@@ -94,8 +94,8 @@
 exploreWSIRParams <- function(X,
                               coords,
                               samples = rep(1, nrow(coords)),
-                              alpha_vals = c(0,2,4,10),
-                              slice_vals = c(5,10,15,20),
+                              optim_alpha = c(0,2,4,10),
+                              optim_slices = c(5,10,15,20),
                               metric = "DC",
                               nrep = 5,
                               param = MulticoreParam(workers = 1),
@@ -103,7 +103,7 @@ exploreWSIRParams <- function(X,
 ) {
 
   # vector of all parameter combinations
-  param_combinations <- expand.grid(slice = slice_vals, alpha = alpha_vals,
+  param_combinations <- expand.grid(slices = optim_slices, alpha = optim_alpha,
                                     metric = NA)
 
 
@@ -149,7 +149,7 @@ exploreWSIRParams <- function(X,
       wSIROptimisation(as.matrix(X_train),
                        coords_train, as.matrix(X_test),
                        coords_test,
-                       samples_train, param_combinations$slice[ii],
+                       samples_train, param_combinations$slices[ii],
                        param_combinations$alpha[ii],
                        evalmetrics = metric,
                        ...)
@@ -161,13 +161,13 @@ exploreWSIRParams <- function(X,
   res_df <- param_combinations
   best_metric_index <- which.max(res_df[, "metric"])
   best_alpha <- res_df[best_metric_index, "alpha"]
-  best_slices <- res_df[best_metric_index, "slice"]
+  best_slices <- res_df[best_metric_index, "slices"]
 
   message <- paste0("Optimal (alpha, slices) pair: (",
                     best_alpha, ", ", best_slices, ")")
 
   plot <- ggplot2::ggplot(res_df, mapping = aes(
-    x = .data$alpha, y = .data$slice, size = .data$metric)) +
+    x = .data$alpha, y = .data$slices, size = .data$metric)) +
     ggplot2::geom_point() +
     ggplot2::theme_classic() +
     ggplot2::ggtitle(
