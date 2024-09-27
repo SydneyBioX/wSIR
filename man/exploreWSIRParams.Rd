@@ -8,11 +8,13 @@ exploreWSIRParams(
   X,
   coords,
   samples = rep(1, nrow(coords)),
-  alpha_vals = c(0, 2, 4, 10),
-  slice_vals = c(5, 10, 15, 20),
+  optim_alpha = c(0, 2, 4, 10),
+  optim_slices = c(5, 10, 15, 20),
   metric = "DC",
   nrep = 5,
-  param = MulticoreParam(workers = 1),
+  BPPARAM = SerialParam(),
+  plot = TRUE,
+  verbose = TRUE,
   ...
 )
 }
@@ -34,13 +36,13 @@ format: for the previous example, you could write
 samples = c(rep("sample 1", 5000), rep("sample 2", 5000)), and the result
 would be the same.}
 
-\item{alpha_vals}{vector of numbers as the values of parameter alpha to use
+\item{optim_alpha}{vector of numbers as the values of parameter alpha to use
 in WSIR. 0 gives Sliced Inverse Regression
 (SIR) implementation, and larger values represent stronger spatial
 correlation. Suggest to use integers for interpretability,
 but can use non-integers. Values must be non-negative.}
 
-\item{slice_vals}{vector of integers as the values of parameter slices to
+\item{optim_slices}{vector of integers as the values of parameter slices to
 use in WSIR. Suggest maximum value in the vector to
 be no more than around \eqn{\sqrt{n/20}}, as this upper bound ensures an
 average of at least 10 cells per tile in the training set.}
@@ -54,9 +56,14 @@ embedding. Default is "DC".}
 \item{nrep}{integer for the number of train/test splits of the data to
 perform.}
 
-\item{param}{parallel computing setup for bplapply from BiocParallel
+\item{BPPARAM}{parallel computing setup for bplapply from BiocParallel
 package. Default is to use a single core, hence
-default value is MulticoreParam(workers = 1)}
+default value is SerialParam()}
+
+\item{plot}{logical whether a dotplot of parameters and metrics should be
+produced, default TRUE}
+
+\item{verbose}{default TRUE}
 
 \item{...}{arguments passed on to wSIROptimisation}
 }
@@ -76,7 +83,7 @@ values that were tested according to selected metric.
 \item "best_slices" returns the integer for the best slices value among the
 values that were tested according to selected metric.
 \item "results_dataframe" returns the results dataframe used to create "plot".
-This dataframe has length(alpha_vals)*length(slice_vals) rows,
+This dataframe has length(optim_alpha)*length(optim_slices) rows,
 where one is for each combination of parameters slices and alpha. There is
 one column for "alpha", one for "slices" and one
 for each of the evaluation metrics selected in "metrics" argument. Column
@@ -100,8 +107,8 @@ This pair of slices and alpha can be used for your downstream tasks.
 data(MouseData)
 explore_params = exploreWSIRParams(X = sample1_exprs,
   coords = sample1_coords,
-  alpha_vals = c(0,2,4,8),
-  slice_vals = c(3,6,10))
+  optim_alpha = c(0,2,4,8),
+  optim_slices = c(3,6,10))
 explore_params$plot
 explore_params$message
 best_alpha = explore_params$best_alpha

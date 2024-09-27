@@ -21,13 +21,13 @@
 #' your specific task and evaluation metric. In that case, determine your
 #' optimal slices and alpha values and then use
 #' them in the relevant function, then setting optim_params = FALSE.
-#' @param alpha_vals If you have optim_params = TRUE, then this is the
+#' @param optim_alpha If you have optim_params = TRUE, then this is the
 #' values of alpha to optimise over in wSIR. 0
 #' gives Sliced Inverse Regression (SIR) implementation, and larger values
 #' represent stronger spatial correlation.
 #' Suggest to use integers for interpretability, but can use non-integers.
 #' Values must be non-negative.
-#' @param slice_vals If you have optim_params = TRUE, then this is the values
+#' @param optim_slices If you have optim_params = TRUE, then this is the values
 #' of slices to optimise over in wSIR.
 #' Suggest maximum value in the vector to be no more than around
 #' \eqn{\sqrt{n/20}}, as this upper bound ensures an
@@ -81,6 +81,12 @@ wSIR <- function(X,
                  nrep = 5,
                  verbose = FALSE,
                  ...) {
+
+  # browser()
+
+  if (is.null(coords)) {
+    stop("coords must be provided")
+  }
 
   if (optim_params) {
     if (verbose) message("Optimising parameters...")

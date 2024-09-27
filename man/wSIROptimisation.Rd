@@ -12,7 +12,6 @@ wSIROptimisation(
   samples_train,
   slices,
   alpha,
-  maxDirections,
   evalmetrics = c("CD", "DC", "ncol"),
   ...
 )
@@ -51,9 +50,6 @@ Default value is 4, at which weight matrix value for a pair of tiles is
 inversely proportional to the physical distance between them. Suggest
 to tune this
 parameter using exploreWSIRParams() function.}
-
-\item{maxDirections}{integer for the maximum number of directions to
-include in the low-dimenensional embedding. Default is 50.}
 
 \item{evalmetrics}{evaluation metrics to use for parameter tuning.
 String, options are any or all of: "DC" to use distance

@@ -8,8 +8,8 @@ wSIR(
   X,
   coords,
   optim_params = FALSE,
-  alpha_vals = c(0, 1, 2, 4, 8, 12),
-  slice_vals = c(3, 5, 7, 10, 15, 20),
+  optim_alpha = c(0, 1, 2, 4, 8, 12),
+  optim_slices = c(3, 5, 7, 10, 15, 20),
   metric = "DC",
   nrep = 5,
   verbose = FALSE,
@@ -33,14 +33,14 @@ your specific task and evaluation metric. In that case, determine your
 optimal slices and alpha values and then use
 them in the relevant function, then setting optim_params = FALSE.}
 
-\item{alpha_vals}{If you have optim_params = TRUE, then this is the
+\item{optim_alpha}{If you have optim_params = TRUE, then this is the
 values of alpha to optimise over in wSIR. 0
 gives Sliced Inverse Regression (SIR) implementation, and larger values
 represent stronger spatial correlation.
 Suggest to use integers for interpretability, but can use non-integers.
 Values must be non-negative.}
 
-\item{slice_vals}{If you have optim_params = TRUE, then this is the values
+\item{optim_slices}{If you have optim_params = TRUE, then this is the values
 of slices to optimise over in wSIR.
 Suggest maximum value in the vector to be no more than around
 \eqn{\sqrt{n/20}}, as this upper bound ensures an
@@ -91,8 +91,8 @@ data(MouseData)
 wsir_obj = wSIR(X = sample1_exprs,
   coords = sample1_coords,
   optim_params = TRUE,
-  alpha_vals = c(0,2,4),
-  slice_vals = c(3,6,10),
+  optim_alpha = c(0,2,4),
+  optim_slices = c(3,6,10),
   metric = "DC",
   nrep = 1) # create wsir object
 

@@ -4,7 +4,7 @@
 \alias{sirCategorical}
 \title{sirCategorical}
 \usage{
-sirCategorical(X, Y, maxDirections = 50, W = NULL, ...)
+sirCategorical(X, Y, W = NULL, ...)
 }
 \arguments{
 \item{X}{matrix of normalised gene expression data for n genes across p
@@ -13,10 +13,6 @@ cells.}
 \item{Y}{dataframe with 1 column named "coordinate" that is the tile
 allocation for each cell. There should
 be up to slices^2 unique tile IDs in this column.}
-
-\item{maxDirections}{Integer to specify maximum number of directions to
-retain in thee low-dimensional embedding
-of the data. Use if you need at most a certain number for a downstream task.}
 
 \item{W}{Weight matrix created by createWeightMatrix. Entry (i,j)
 represents the spatial correlation level

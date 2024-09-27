@@ -49,7 +49,11 @@ Imports: Rfast,
     doBy,
     BiocParallel,
     rlang,
-    methods
+    methods,
+    BiocGenerics,
+    SummarizedExperiment,
+    SingleCellExperiment,
+    SpatialExperiment
 Suggests: knitr,
     BiocStyle,
     class

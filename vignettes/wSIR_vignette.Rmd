@@ -11,7 +11,7 @@ output:
   BiocStyle::pdf_document: default
 package: wSIR
 vignette: |
-  %\VignetteIndexEntry{WSIR supervised dimension reduction}
+  %\VignetteIndexEntry{wSIR supervised dimension reduction}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -200,9 +200,12 @@ stable for all non-zero alpha and slice combinations (which correspond to wSIR).
 a <- Sys.time()
 optim_obj = exploreWSIRParams(X = sample1_exprs, 
                               coords = sample1_coords, 
-                              alpha_vals = c(0,.5, 1,2,4,8), 
-                              slice_vals = c(5,10,15),
-                              nrep = 20, metric = "CD")
+                              # optim_alpha = c(0,.5, 1,2,4,8), 
+                              # optim_slices = c(5,10,15),
+                              optim_alpha = c(0, 4),
+                              optim_slices = c(10, 15),
+                              nrep = 5,
+                              metric = "DC")
 Sys.time()-a
 optim_obj$plot
 ```

@@ -35,8 +35,6 @@
 #' inversely proportional to the physical distance between them. Suggest
 #' to tune this
 #' parameter using exploreWSIRParams() function.
-#' @param maxDirections integer for the maximum number of directions to
-#' include in the low-dimenensional embedding. Default is 50.
 #' @param evalmetrics evaluation metrics to use for parameter tuning.
 #' String, options are any or all of: "DC" to use distance
 #' correlation; "CD" to use correlation of distances; "ncol" to use number
@@ -60,7 +58,6 @@ wSIROptimisation <- function(exprs_train,
                              samples_train,
                              slices,
                              alpha,
-                             maxDirections,
                              evalmetrics = c("CD","DC","ncol"),
                              ...) {
 
@@ -70,7 +67,6 @@ wSIROptimisation <- function(exprs_train,
                                   samples = samples_train,
                                   slices = slices,
                                   alpha = alpha,
-                                  maxDirections = maxDirections,
                                   ...)
   projected_test <- projectWSIR(wsir = wsir_obj, newdata = exprs_test)
 
