@@ -12,7 +12,7 @@ exploreWSIRParams(
   optim_slices = c(5, 10, 15, 20),
   metric = "DC",
   nrep = 5,
-  BPPARAM = SerialParam(),
+  nCores = 1,
   plot = TRUE,
   verbose = TRUE,
   ...
@@ -56,9 +56,8 @@ embedding. Default is "DC".}
 \item{nrep}{integer for the number of train/test splits of the data to
 perform.}
 
-\item{BPPARAM}{parallel computing setup for bplapply from BiocParallel
-package. Default is to use a single core, hence
-default value is SerialParam()}
+\item{nCores}{number of cores for parallel computing setup BiocParallel
+package. Default is to use a single core}
 
 \item{plot}{logical whether a dotplot of parameters and metrics should be
 produced, default TRUE}

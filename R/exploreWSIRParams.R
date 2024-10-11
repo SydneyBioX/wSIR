@@ -39,9 +39,8 @@
 #' embedding. Default is "DC".
 #' @param nrep integer for the number of train/test splits of the data to
 #' perform.
-#' @param BPPARAM parallel computing setup for bplapply from BiocParallel
-#' package. Default is to use a single core, hence
-#' default value is SerialParam()
+#' @param nCores number of cores for parallel computing setup BiocParallel
+#' package. Default is to use a single core
 #' @param plot logical whether a dotplot of parameters and metrics should be
 #' produced, default TRUE
 #' @param verbose default TRUE
@@ -101,7 +100,6 @@ exploreWSIRParams <- function(X,
                               optim_slices = c(5,10,15,20),
                               metric = "DC",
                               nrep = 5,
-                              # BPPARAM = SerialParam(),
                               nCores = 1,
                               plot = TRUE,
                               verbose = TRUE,
@@ -113,25 +111,8 @@ exploreWSIRParams <- function(X,
   # vector of all parameter combinations
   param_combinations <- expand.grid(slices = optim_slices,
                                     alpha = optim_alpha,
-                                    rep = seq_len(nrep)
-                                    # metric = NA)
+                                    rep = seq_len(nrep))
   )
-
-  #  # perform bplapply over that list of (pairs of) combinations
-  #  metric_vals_list = bplapply(param_combinations, function(parameter_pair) {
-  #    current_slices = as.numeric(word(parameter_pair, 1, sep = ","))
-  #    current_alpha = as.numeric(word(parameter_pair, 2, sep = ","))
-  #    optim_result = wSIROptimisation(exprs = exprs,
-  #                                    coords = coords,
-  #                                    alpha = current_alpha,
-  #                                    slices = current_slices,
-  #                                   varThreshold = varThreshold,
-  #                                   maxDirections = maxDirections,
-  #                                   metrics = metrics,
-  #                                   nrep = nrep)
-  #   return(optim_result)
-  # },
-  # BPPARAM = param)
 
   # Create pre-specified random splits of data, each columns
   # corresponding to one split
@@ -152,67 +133,38 @@ exploreWSIRParams <- function(X,
          coords_test,
          samples_train)
   })
-  # nElements <- 5 # not sure why this is 5
-  nElements <- length(split_list[[1]]) # maybe it is this?
+  nElements <- length(split_list[[1]])
   result <- lapply(seq_len(nElements),
                    function(i) lapply(split_list, "[[", i))
   # the above is like a list version of transpose
 
   if (verbose) message("set up nrep random splits of the data into training and test sets")
 
-  param_combinations_split = split.data.frame(param_combinations,
-                                              seq_len(nrow(param_combinations)))
+  param_combinations_split <- split.data.frame(param_combinations,
+                                               seq_len(nrow(param_combinations)))
 
-  # for (ii in seq_len(nrow(param_combinations))) {
-
-  res_scores_split = BiocParallel::bplapply(
+  res_scores_split <- BiocParallel::bplapply(
 
     param_combinations_split,
 
     function(x) {
 
-      slices_ii = x$slices
-      alpha_ii = x$alpha
-      rep_ii = x$rep
+      slices_ii <- x$slices
+      alpha_ii <- x$alpha
+      rep_ii <- x$rep
 
-      data_split_ii = split_list[[rep_ii]]
+      data_split_ii <- split_list[[rep_ii]]
 
-      # this call to mapply will always be over the nrep iterations
-      # if (FALSE) {
-      #   cv_scores <- mapply(function(X_train, coords_train, X_test,
-      #                                coords_test,  samples_train){
-      #     wSIR:::wSIROptimisation(exprs_train = as.matrix(X_train),
-      #                             coords_train = coords_train,
-      #                             exprs_test = as.matrix(X_test),
-      #                             coords_test = coords_test,
-      #                             samples_train = samples_train,
-      #                             # param_combinations$slices[ii],
-      #                             # param_combinations$alpha[ii],
-      #                             slices = slices_ii,
-      #                             alpha = alpha_ii,
-      #                             evalmetrics = metric,
-      #                             ...)
-      #   }, result[[1]], result[[2]], result[[3]], result[[4]], result[[5]])
-      # }
-      cv_score = wSIROptimisation(exprs_train = as.matrix(data_split_ii[[1]]),
-                                  coords_train = data_split_ii[[2]],
-                                  exprs_test = as.matrix(data_split_ii[[3]]),
-                                  coords_test = data_split_ii[[4]],
-                                  samples_train = data_split_ii[[5]],
-                                  # param_combinations$slices[ii],
-                                  # param_combinations$alpha[ii],
-                                  slices = slices_ii,
-                                  alpha = alpha_ii,
-                                  evalmetrics = metric,
-                                  # evalmetrics = "DC",
-                                  ...
-                                  )
-
-      # return('hello')
-
-      # param_combinations$metric[ii] <- mean(cv_scores, na.rm = TRUE)
-      # param_combinations$metric_sd[ii] <- sd(cv_scores, na.rm = TRUE)
-
+      cv_score <- wSIROptimisation(exprs_train = as.matrix(data_split_ii[[1]]),
+                                   coords_train = data_split_ii[[2]],
+                                   exprs_test = as.matrix(data_split_ii[[3]]),
+                                   coords_test = data_split_ii[[4]],
+                                   samples_train = data_split_ii[[5]],
+                                   slices = slices_ii,
+                                   alpha = alpha_ii,
+                                   evalmetrics = metric,
+                                   ...
+      )
 
       return(data.frame(
         slices = slices_ii,
@@ -221,34 +173,18 @@ exploreWSIRParams <- function(X,
         metric = cv_score
       ))
 
-      # if (FALSE) {
-      #   return(data.frame(
-      #     metric = mean(cv_scores, na.rm = TRUE),
-      #     metric_sd = sd(cv_scores, na.rm = TRUE)
-      #   ))
-      # }
-
     },
     BPPARAM = BPPARAM)
 
   if (verbose) message("completed runs of wSIR and metric calculation")
 
   res_scores <- do.call(rbind, res_scores_split)
-  # param_combinations <- cbind(param_combinations, res_scores)
-
-  # param_combinations <- res_scores %>%
-  #   dplyr::group_by(slices,alpha) %>%
-  #   dplyr::mutate(metric = mean(metric),
-  #          metric_sd = sd(metric))
 
   param_combinations <- do.call(
     rbind,
     lapply(split.data.frame(res_scores,
                             interaction(res_scores$slices, res_scores$alpha)),
            colMeans))
-
-  # return(param_combinations)
-  # }
 
   res_df <- param_combinations
   best_metric_index <- which.max(res_df[, "metric"])

@@ -80,7 +80,7 @@ wSIRSpecifiedParams <- function(X,
                                        as.integer(factor(samples)))
 
   sliceName <- "coordinate"
-  labels <- tile_allocation[,sliceName,drop = FALSE]
+  labels <- tile_allocation[, sliceName, drop = FALSE]
 
   H <- base::table(tile_allocation$coordinate)
   Dmatrix <- diag(sqrt(H)/nrow(X), ncol = length(H))

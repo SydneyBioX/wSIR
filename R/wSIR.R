@@ -82,8 +82,6 @@ wSIR <- function(X,
                  verbose = FALSE,
                  ...) {
 
-  # browser()
-
   if (is.null(coords)) {
     stop("coords must be provided")
   }
