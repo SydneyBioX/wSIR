@@ -6,13 +6,16 @@
 <url><loc>https://sydneybiox.github.io/wSIR/index.html</loc></url>
 <url><loc>https://sydneybiox.github.io/wSIR/news/index.html</loc></url>
 <url><loc>https://sydneybiox.github.io/wSIR/reference/MouseData.html</loc></url>
+<url><loc>https://sydneybiox.github.io/wSIR/reference/calculatewSIR.html</loc></url>
 <url><loc>https://sydneybiox.github.io/wSIR/reference/createWeightMatrix.html</loc></url>
+<url><loc>https://sydneybiox.github.io/wSIR/reference/dot-generateBPParam.html</loc></url>
 <url><loc>https://sydneybiox.github.io/wSIR/reference/exploreWSIRParams.html</loc></url>
 <url><loc>https://sydneybiox.github.io/wSIR/reference/findTopGenes.html</loc></url>
 <url><loc>https://sydneybiox.github.io/wSIR/reference/generateUmapFromWSIR.html</loc></url>
 <url><loc>https://sydneybiox.github.io/wSIR/reference/index.html</loc></url>
 <url><loc>https://sydneybiox.github.io/wSIR/reference/plotUmapFromWSIR.html</loc></url>
 <url><loc>https://sydneybiox.github.io/wSIR/reference/projectWSIR.html</loc></url>
+<url><loc>https://sydneybiox.github.io/wSIR/reference/runwSIR.html</loc></url>
 <url><loc>https://sydneybiox.github.io/wSIR/reference/sirCategorical.html</loc></url>
 <url><loc>https://sydneybiox.github.io/wSIR/reference/sirPCA.html</loc></url>
 <url><loc>https://sydneybiox.github.io/wSIR/reference/slicerCategorical.html</loc></url>

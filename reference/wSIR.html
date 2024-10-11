@@ -62,8 +62,8 @@ into low-dimensional space.</p>
 <span>  <span class="va">X</span>,</span>
 <span>  <span class="va">coords</span>,</span>
 <span>  optim_params <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  alpha_vals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">4</span>, <span class="fl">8</span>, <span class="fl">12</span><span class="op">)</span>,</span>
-<span>  slice_vals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">5</span>, <span class="fl">7</span>, <span class="fl">10</span>, <span class="fl">15</span>, <span class="fl">20</span><span class="op">)</span>,</span>
+<span>  optim_alpha <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">4</span>, <span class="fl">8</span>, <span class="fl">12</span><span class="op">)</span>,</span>
+<span>  optim_slices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">5</span>, <span class="fl">7</span>, <span class="fl">10</span>, <span class="fl">15</span>, <span class="fl">20</span><span class="op">)</span>,</span>
 <span>  metric <span class="op">=</span> <span class="st">"DC"</span>,</span>
 <span>  nrep <span class="op">=</span> <span class="fl">5</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -97,7 +97,7 @@ optimal slices and alpha values and then use
 them in the relevant function, then setting optim_params = FALSE.</p></dd>
 
 
-<dt id="arg-alpha-vals">alpha_vals<a class="anchor" aria-label="anchor" href="#arg-alpha-vals"></a></dt>
+<dt id="arg-optim-alpha">optim_alpha<a class="anchor" aria-label="anchor" href="#arg-optim-alpha"></a></dt>
 <dd><p>If you have optim_params = TRUE, then this is the
 values of alpha to optimise over in wSIR. 0
 gives Sliced Inverse Regression (SIR) implementation, and larger values
@@ -106,7 +106,7 @@ Suggest to use integers for interpretability, but can use non-integers.
 Values must be non-negative.</p></dd>
 
 
-<dt id="arg-slice-vals">slice_vals<a class="anchor" aria-label="anchor" href="#arg-slice-vals"></a></dt>
+<dt id="arg-optim-slices">optim_slices<a class="anchor" aria-label="anchor" href="#arg-optim-slices"></a></dt>
 <dd><p>If you have optim_params = TRUE, then this is the values
 of slices to optimise over in wSIR.
 Suggest maximum value in the vector to be no more than around
@@ -159,10 +159,13 @@ first j evalues equals 0.95% of the sum of all evalues.</p></li>
 <span class="r-in"><span><span class="va">wsir_obj</span> <span class="op">=</span> <span class="fu">wSIR</span><span class="op">(</span>X <span class="op">=</span> <span class="va">sample1_exprs</span>,</span></span>
 <span class="r-in"><span>  coords <span class="op">=</span> <span class="va">sample1_coords</span>,</span></span>
 <span class="r-in"><span>  optim_params <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
-<span class="r-in"><span>  alpha_vals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">2</span>,<span class="fl">4</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  slice_vals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">6</span>,<span class="fl">10</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  optim_alpha <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">2</span>,<span class="fl">4</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  optim_slices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">6</span>,<span class="fl">10</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  metric <span class="op">=</span> <span class="st">"DC"</span>,</span></span>
 <span class="r-in"><span>  nrep <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="co"># create wsir object</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> set up nrep random splits of the data into training and test sets</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> completed runs of wSIR and metric calculation</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Optimal (alpha, slices) pair: (0, 3)</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

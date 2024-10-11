@@ -46,7 +46,7 @@ allocations, and weight matrix.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">sirCategorical</span><span class="op">(</span><span class="va">X</span>, <span class="va">Y</span>, maxDirections <span class="op">=</span> <span class="fl">50</span>, W <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">sirCategorical</span><span class="op">(</span><span class="va">X</span>, <span class="va">Y</span>, W <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -62,12 +62,6 @@ cells.</p></dd>
 <dd><p>dataframe with 1 column named "coordinate" that is the tile
 allocation for each cell. There should
 be up to slices^2 unique tile IDs in this column.</p></dd>
-
-
-<dt id="arg-maxdirections">maxDirections<a class="anchor" aria-label="anchor" href="#arg-maxdirections"></a></dt>
-<dd><p>Integer to specify maximum number of directions to
-retain in thee low-dimensional embedding
-of the data. Use if you need at most a certain number for a downstream task.</p></dd>
 
 
 <dt id="arg-w">W<a class="anchor" aria-label="anchor" href="#arg-w"></a></dt>
