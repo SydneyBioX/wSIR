@@ -112,7 +112,6 @@ exploreWSIRParams <- function(X,
   param_combinations <- expand.grid(slices = optim_slices,
                                     alpha = optim_alpha,
                                     rep = seq_len(nrep))
-  )
 
   # Create pre-specified random splits of data, each columns
   # corresponding to one split
