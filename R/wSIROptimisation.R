@@ -80,8 +80,8 @@ wSIROptimisation <- function(exprs_train,
     results <- c(results, cd = current_cd)
   }
   if ("DC" %in% evalmetrics) {
-    current_dc <- Rfast::dcor(as.matrix(projected_test),
-                              as.matrix(coords_test))$dcor
+    current_dc <- Rfast::bcdcor(as.matrix(projected_test),
+                              as.matrix(coords_test))
     results <- c(results, dc = current_dc)
 
   }
