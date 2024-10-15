@@ -26,7 +26,7 @@ Description: Weighted Sliced Inverse Regression (wSIR) is a supervised dimension
     information present in the gene expression data.
 License: GPL-2
 Encoding: UTF-8
-URL: https://sydneybiox.github.io/wSIR
+URL: https://sydneybiox.github.io/wSIR, https://sydneybiox.github.io/wSIR/
 BugReports: https://github.com/sydneybiox/wSIR/issues
 biocViews: DimensionReduction,
     Software,
