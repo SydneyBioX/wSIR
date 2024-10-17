@@ -10,3 +10,6 @@
 .Rproj*
 wSIR.BiocCheck
 docs
+
+*.o
+*.so
