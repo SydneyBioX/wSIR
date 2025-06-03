@@ -13,7 +13,7 @@ To install wSIR via Bioconductor: (note this won't work yet, only once wSIR is a
 library(BiocManager)
 BiocManager::install("wSIR")
 ```
-To install wSIR from [GitHub] (https://github.com/SydneyBioX/wSIR):
+To install wSIR from [GitHub](https://github.com/SydneyBioX/wSIR):
 
 ```{r}
 library(devtools)
