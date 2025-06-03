@@ -34,7 +34,8 @@ biocViews: DimensionReduction,
     SingleCell,
     Spatial,
     Transcriptomics,
-    Regression
+    Regression,
+    CellBasedArrays
 LazyData: false
 Roxygen: list(markdown = TRUE)
 Depends: R (>= 4.4.0),
