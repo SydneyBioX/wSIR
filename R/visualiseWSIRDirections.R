@@ -35,12 +35,12 @@
 #'
 #' @examples
 #' data(MouseData)
-#' wsir_obj = wSIR(X = sample1_exprs,
-#'   coords = sample1_coords,
-#'   optim_params = FALSE,
-#'   alpha = 4,
-#'   slices = 6) # create wsir object
-#' vis_obj = visualiseWSIRDirections(coords = sample1_coords,
+#' wsir_obj <- wSIR(X = sample1_exprs,
+#'     coords = sample1_coords,
+#'     optim_params = FALSE,
+#'     alpha = 4,
+#'     slices = 6) # create wsir object
+#' vis_obj <- visualiseWSIRDirections(coords = sample1_coords,
 #' WSIR = wsir_obj, dirs = 8) # create visualisations
 #' vis_obj
 #'
@@ -51,27 +51,27 @@ visualiseWSIRDirections <- function(coords,
                                     dirs = 6,
                                     mincol = "blue",
                                     maxcol = "red") {
-  dirs <- min(dirs, ncol(WSIR$scores)) # make sure it is a valid value
+    dirs <- min(dirs, ncol(WSIR$scores)) # make sure it is a valid value
 
-  # initialise empty long df
-  vis_df_long <- matrix(NA, nrow = dirs*nrow(coords), ncol = 4) %>%
-    as.data.frame()
-  colnames(vis_df_long) <- c("x", "y", "value", "WSIR_direction")
+    # initialise empty long df
+    vis_df_long <- matrix(NA, nrow = dirs*nrow(coords), ncol = 4) %>%
+        as.data.frame()
+    colnames(vis_df_long) <- c("x", "y", "value", "WSIR_direction")
 
-  # fill columns of long df with relevant WSIR1/2/... values
-  vis_df_long$x <- rep(coords$x, dirs)
-  vis_df_long$y <- rep(coords$y, dirs)
-  vis_df_long$value <- as.vector(WSIR$scores[,seq_len(dirs)])
-  vis_df_long$WSIR_direction <- as.factor(vec_rep_each(c(seq_len(dirs)),
-                                                       nrow(coords)))
+    # fill columns of long df with relevant WSIR1/2/... values
+    vis_df_long$x <- rep(coords$x, dirs)
+    vis_df_long$y <- rep(coords$y, dirs)
+    vis_df_long$value <- as.vector(WSIR$scores[,seq_len(dirs)])
+    vis_df_long$WSIR_direction <- as.factor(vec_rep_each(c(seq_len(dirs)),
+                                                         nrow(coords)))
 
-  # produce plot
-  plot <- ggplot2::ggplot(aes(x = .data$x, y = .data$y, color = .data$value),
-                          data = vis_df_long) +
-    ggplot2::geom_point() +
-    ggplot2::theme_classic() +
-    ggplot2::facet_wrap(~WSIR_direction, scales = "fixed") +
-    ggplot2::ggtitle("Cells at true positions coloured by WSIR values") +
-    ggplot2::scale_color_gradient(low = mincol, high = maxcol)
-  return(plot)
+    # produce plot
+    plot <- ggplot2::ggplot(aes(x = .data$x, y = .data$y, color = .data$value),
+                            data = vis_df_long) +
+        ggplot2::geom_point() +
+        ggplot2::theme_classic() +
+        ggplot2::facet_wrap(~WSIR_direction, scales = "fixed") +
+        ggplot2::ggtitle("Cells at true positions coloured by WSIR values") +
+        ggplot2::scale_color_gradient(low = mincol, high = maxcol)
+    return(plot)
 }

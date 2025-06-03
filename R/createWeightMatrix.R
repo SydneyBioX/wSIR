@@ -22,33 +22,33 @@
 #' @keywords internal
 
 createWeightMatrix <- function(coords, labels, alpha = 4) {
-  alpha <- 4/alpha
-  # alpha_old = 0 (function argument = 0) gives
-  # alpha_new = Inf (rather than undefined) which equals SIR
+    alpha <- 4/alpha
+    # alpha_old = 0 (function argument = 0) gives
+    # alpha_new = Inf (rather than undefined) which equals SIR
 
-  avg_coords <- slicerCategorical(coords, labels)
+    avg_coords <- slicerCategorical(coords, labels)
 
-  avg_coords_groups <- gsub(".*, ", "", rownames(avg_coords))
+    avg_coords_groups <- gsub(".*, ", "", rownames(avg_coords))
 
-  dist_mat <- as.matrix(stats::dist(avg_coords, diag = TRUE, upper = TRUE))
+    dist_mat <- as.matrix(stats::dist(avg_coords, diag = TRUE, upper = TRUE))
 
-  # mask out the slices that are far away from each other
-  D2 <- as.matrix(stats::dist(avg_coords_groups, method = "manhattan"))
-  D2[D2 > 0] <- Inf
+    # mask out the slices that are far away from each other
+    D2 <- as.matrix(stats::dist(avg_coords_groups, method = "manhattan"))
+    D2[D2 > 0] <- Inf
 
-  dist_mat_new <- dist_mat + D2
+    dist_mat_new <- dist_mat + D2
 
-  dist_norm <- (1 - dist_mat_new / max(dist_mat, na.rm = TRUE))^alpha
-  weight_mat <- dist_norm
-  weight_mat[!is.finite(weight_mat)] <- 0 # turn -inf into 0
-  # ensure it is psd
-  eig <- .fastEigen(weight_mat)
-  k <- eig$values > 1e-8
-  weight_mat <- eig$vectors[, k, drop = FALSE] %*%
-    diag(eig$values[k]) %*%
-    t(eig$vectors[, k, drop = FALSE])
+    dist_norm <- (1 - dist_mat_new / max(dist_mat, na.rm = TRUE))^alpha
+    weight_mat <- dist_norm
+    weight_mat[!is.finite(weight_mat)] <- 0 # turn -inf into 0
+    # ensure it is psd
+    eig <- .fastEigen(weight_mat)
+    k <- eig$values > 1e-8
+    weight_mat <- eig$vectors[, k, drop = FALSE] %*%
+        diag(eig$values[k]) %*%
+        t(eig$vectors[, k, drop = FALSE])
 
-  weight_mat[!is.finite(weight_mat)] <- 0 #(-1)
+    weight_mat[!is.finite(weight_mat)] <- 0 #(-1)
 
-  return(weight_mat)
+    return(weight_mat)
 }

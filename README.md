@@ -8,6 +8,13 @@ For an overview of the method and examples, see the vignette at this [website](h
 
 ## Installation
 
+To install wSIR via Bioconductor: (note this won't work yet, only once wSIR is actually on Bioconductor)
+```{r}
+library(BiocManager)
+BiocManager::install("wSIR")
+```
+To install wSIR from [GitHub] (https://github.com/SydneyBioX/wSIR):
+
 ```{r}
 library(devtools)
 install_github("SydneyBioX/wSIR")

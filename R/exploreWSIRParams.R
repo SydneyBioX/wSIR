@@ -81,10 +81,10 @@
 #' best_alpha = explore_params$best_alpha
 #' best_slices = explore_params$best_slices
 #' wsir_obj = wSIR(X = sample1_exprs,
-#'   coords = sample1_coords,
-#'   optim_params = FALSE,
-#'   alpha = best_alpha,
-#'   slices = best_slices)
+#'     coords = sample1_coords,
+#'     optim_params = FALSE,
+#'     alpha = best_alpha,
+#'     slices = best_slices)
 #'
 #' @importFrom magrittr %>%
 #' @importFrom ggplot2 ggplot aes geom_point theme_classic ggtitle
@@ -106,110 +106,110 @@ exploreWSIRParams <- function(X,
                               ...
 ) {
 
-  BPPARAM <- .generateBPParam(cores = nCores)
+    BPPARAM <- .generateBPParam(cores = nCores)
 
-  # vector of all parameter combinations
-  param_combinations <- expand.grid(slices = optim_slices,
-                                    alpha = optim_alpha,
-                                    rep = seq_len(nrep))
+    # vector of all parameter combinations
+    param_combinations <- expand.grid(slices = optim_slices,
+                                      alpha = optim_alpha,
+                                      rep = seq_len(nrep))
 
-  # Create pre-specified random splits of data, each columns
-  # corresponding to one split
-  index_rep <- matrix(
-    sample(c(TRUE, FALSE), nrow(X)*nrep, replace = TRUE),
-    nrow = nrow(X), ncol = nrep
-  )
-  # create training and test set from each column index
-  split_list <- apply(index_rep, 2, function(keep) {
-    X_train <- X[keep,]
-    coords_train <- coords[keep,]
-    samples_train <- samples[keep]
-    X_test <- X[!keep,]
-    coords_test <- coords[!keep,]
-    list(X_train,
-         coords_train,
-         X_test,
-         coords_test,
-         samples_train)
-  })
-  nElements <- length(split_list[[1]])
-  result <- lapply(seq_len(nElements),
-                   function(i) lapply(split_list, "[[", i))
-  # the above is like a list version of transpose
+    # Create pre-specified random splits of data, each columns
+    # corresponding to one split
+    index_rep <- matrix(
+        sample(c(TRUE, FALSE), nrow(X)*nrep, replace = TRUE),
+        nrow = nrow(X), ncol = nrep
+    )
+    # create training and test set from each column index
+    split_list <- apply(index_rep, 2, function(keep) {
+        X_train <- X[keep,]
+        coords_train <- coords[keep,]
+        samples_train <- samples[keep]
+        X_test <- X[!keep,]
+        coords_test <- coords[!keep,]
+        list(X_train,
+             coords_train,
+             X_test,
+             coords_test,
+             samples_train)
+    })
+    nElements <- length(split_list[[1]])
+    result <- lapply(seq_len(nElements),
+                     function(i) lapply(split_list, "[[", i))
+    # the above is like a list version of transpose
 
-  if (verbose) message("set up nrep random splits of the data into training and test sets")
+    if (verbose) message("set up nrep random splits of the data into training and test sets")
 
-  param_combinations_split <- split.data.frame(param_combinations,
-                                               seq_len(nrow(param_combinations)))
+    param_combinations_split <- split.data.frame(param_combinations,
+                                                 seq_len(nrow(param_combinations)))
 
-  res_scores_split <- BiocParallel::bplapply(
+    res_scores_split <- BiocParallel::bplapply(
 
-    param_combinations_split,
+        param_combinations_split,
 
-    function(x) {
+        function(x) {
 
-      slices_ii <- x$slices
-      alpha_ii <- x$alpha
-      rep_ii <- x$rep
+            slices_ii <- x$slices
+            alpha_ii <- x$alpha
+            rep_ii <- x$rep
 
-      data_split_ii <- split_list[[rep_ii]]
+            data_split_ii <- split_list[[rep_ii]]
 
-      cv_score <- wSIROptimisation(exprs_train = as.matrix(data_split_ii[[1]]),
-                                   coords_train = data_split_ii[[2]],
-                                   exprs_test = as.matrix(data_split_ii[[3]]),
-                                   coords_test = data_split_ii[[4]],
-                                   samples_train = data_split_ii[[5]],
-                                   slices = slices_ii,
-                                   alpha = alpha_ii,
-                                   evalmetrics = metric,
-                                   ...
-      )
+            cv_score <- wSIROptimisation(exprs_train = as.matrix(data_split_ii[[1]]),
+                                         coords_train = data_split_ii[[2]],
+                                         exprs_test = as.matrix(data_split_ii[[3]]),
+                                         coords_test = data_split_ii[[4]],
+                                         samples_train = data_split_ii[[5]],
+                                         slices = slices_ii,
+                                         alpha = alpha_ii,
+                                         evalmetrics = metric,
+                                         ...
+            )
 
-      return(data.frame(
-        slices = slices_ii,
-        alpha = alpha_ii,
-        rep = rep_ii,
-        metric = cv_score
-      ))
+            return(data.frame(
+                slices = slices_ii,
+                alpha = alpha_ii,
+                rep = rep_ii,
+                metric = cv_score
+            ))
 
-    },
-    BPPARAM = BPPARAM)
+        },
+        BPPARAM = BPPARAM)
 
-  if (verbose) message("completed runs of wSIR and metric calculation")
+        if (verbose) message("completed runs of wSIR and metric calculation")
 
-  res_scores <- do.call(rbind, res_scores_split)
+        res_scores <- do.call(rbind, res_scores_split)
 
-  param_combinations <- do.call(
-    rbind,
-    lapply(split.data.frame(res_scores,
-                            interaction(res_scores$slices, res_scores$alpha)),
-           colMeans))
+        param_combinations <- do.call(
+            rbind,
+            lapply(split.data.frame(res_scores,
+                                    interaction(res_scores$slices, res_scores$alpha)),
+                   colMeans))
 
-  res_df <- param_combinations
-  best_metric_index <- which.max(res_df[, "metric"])
-  best_alpha <- res_df[best_metric_index, "alpha"]
-  best_slices <- res_df[best_metric_index, "slices"]
+    res_df <- param_combinations
+    best_metric_index <- which.max(res_df[, "metric"])
+    best_alpha <- res_df[best_metric_index, "alpha"]
+    best_slices <- res_df[best_metric_index, "slices"]
 
-  message_value <- paste0("Optimal (alpha, slices) pair: (",
-                          best_alpha, ", ", best_slices, ")")
-  if (verbose) message(message_value)
+    message_value <- paste0("Optimal (alpha, slices) pair: (",
+                            best_alpha, ", ", best_slices, ")")
+    if (verbose) message(message_value)
 
-  if (plot) {
-    plot <- ggplot2::ggplot(res_df, mapping = aes(
-      x = .data$alpha, y = .data$slices, size = .data$metric)) +
-      ggplot2::geom_point() +
-      ggplot2::theme_classic() +
-      ggplot2::ggtitle(
+    if (plot) {
+        plot <- ggplot2::ggplot(res_df, mapping = aes(
+            x = .data$alpha, y = .data$slices, size = .data$metric)) +
+            ggplot2::geom_point() +
+            ggplot2::theme_classic() +
+            ggplot2::ggtitle(
         paste0("Metric value for different parameter combinations (",
                nrep, " iterations of train/test split)"))
-  } else {
+    } else {
     plot = NULL
-  }
+    }
 
-  return(list(plot = plot,
-              message = message_value,
-              best_alpha = best_alpha,
-              best_slices = best_slices,
-              results_dataframe = res_df))
+    return(list(plot = plot,
+                message = message_value,
+                best_alpha = best_alpha,
+                best_slices = best_slices,
+                results_dataframe = res_df))
 
 }

@@ -23,16 +23,16 @@
 
 spatialAllocator <- function(coords, slices = 3) {
 
-  sliced <- lapply(coords, function(x) {
-    if (is.factor(x[1])) {
-      as.integer(x)
-    } else {
-      as.integer(cut(rank(x), slices))
-    }
-  })
-  allocation <- as.factor(do.call(paste, c(sliced, sep = ", ")))
+    sliced <- lapply(coords, function(x) {
+        if (is.factor(x[1])) {
+            as.integer(x)
+        } else {
+            as.integer(cut(rank(x), slices))
+        }
+    })
+    allocation <- as.factor(do.call(paste, c(sliced, sep = ", ")))
 
-  newcoords <- cbind(coords, coordinate = allocation)
+    newcoords <- cbind(coords, coordinate = allocation)
 
-  return(newcoords)
+    return(newcoords)
 }

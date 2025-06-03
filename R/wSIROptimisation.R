@@ -61,35 +61,35 @@ wSIROptimisation <- function(exprs_train,
                              evalmetrics = c("CD","DC","ncol"),
                              ...) {
 
-  results <- NULL
-  wsir_obj <- wSIRSpecifiedParams(X = exprs_train,
-                                  coords = coords_train,
-                                  samples = samples_train,
-                                  slices = slices,
-                                  alpha = alpha,
-                                  ...)
-  projected_test <- projectWSIR(wsir = wsir_obj, newdata = exprs_test)
+    results <- NULL
+    wsir_obj <- wSIRSpecifiedParams(X = exprs_train,
+                                    coords = coords_train,
+                                    samples = samples_train,
+                                    slices = slices,
+                                    alpha = alpha,
+                                    ...)
+   projected_test <- projectWSIR(wsir = wsir_obj, newdata = exprs_test)
 
-  if ("CD" %in% evalmetrics) {
-    # Replace dist by distances
-    d1 <- as.matrix(distances::distances(projected_test))
-    d2 <- as.matrix(distances::distances(coords_test))
-    k1 <- .subsetLowerTri(as.matrix(d1))
-    k2 <- .subsetLowerTri(as.matrix(d2))
-    current_cd <- .spearman_correlation(k1, k2)
-    results <- c(results, cd = current_cd)
-  }
-  if ("DC" %in% evalmetrics) {
-    current_dc <- Rfast::bcdcor(as.matrix(projected_test),
-                              as.matrix(coords_test))
-    results <- c(results, dc = current_dc)
+    if ("CD" %in% evalmetrics) {
+        # Replace dist by distances
+        d1 <- as.matrix(distances::distances(projected_test))
+        d2 <- as.matrix(distances::distances(coords_test))
+        k1 <- .subsetLowerTri(as.matrix(d1))
+        k2 <- .subsetLowerTri(as.matrix(d2))
+        current_cd <- .spearman_correlation(k1, k2)
+        results <- c(results, cd = current_cd)
+    }
+    if ("DC" %in% evalmetrics) {
+        current_dc <- Rfast::bcdcor(as.matrix(projected_test),
+                                    as.matrix(coords_test))
+        results <- c(results, dc = current_dc)
 
-  }
-  if ("ncol" %in% evalmetrics) {
-    current_ncol <- ncol(projected_test)
-    ncol_vals <- current_ncol
-    results <- c(results, ncol = ncol_vals)
-  }
+    }
+    if ("ncol" %in% evalmetrics) {
+      current_ncol <- ncol(projected_test)
+      ncol_vals <- current_ncol
+      results <- c(results, ncol = ncol_vals)
+    }
 
-  return(results)
+    return(results)
 }

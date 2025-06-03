@@ -44,56 +44,56 @@ calculatewSIR <- function(x,
                           spatialCoords = FALSE,
                           ...) {
 
-  isMatLike <- methods::is(x, "matrix")
+    isMatLike <- methods::is(x, "matrix")
 
-  if (isMatLike) {
+    if (isMatLike) {
 
-    wsir_obj <- wSIR(X = x, ...)
+        wsir_obj <- wSIR(X = x, ...)
 
-    return(wsir_obj)
+        return(wsir_obj)
 
-  }
-
-  if (!assay.type %in% names(SummarizedExperiment::assays(x))) {
-    stop("assay.type not within assays of x")
-  }
-
-  X <- SummarizedExperiment::assay(x, assay.type)
-
-  if (!is.null(dimred)) {
-
-    if (!dimred %in% names(SingleCellExperiment::reducedDims(x))) {
-      stop("dimred not within reducedDims of x")
     }
 
-    coords <- SingleCellExperiment::reducedDim(x, dimred)
+    if (!assay.type %in% names(SummarizedExperiment::assays(x))) {
+        stop("assay.type not within assays of x")
+    }
 
-  } else {
+    X <- SummarizedExperiment::assay(x, assay.type)
 
-    if (!is.null(colData_columns)) {
+    if (!is.null(dimred)) {
 
-      if (!all(colData_columns %in% colnames(SummarizedExperiment::colData(x)))) {
-        stop("not all colData_columns names are in colnames(colData(x))")
-      }
+        if (!dimred %in% names(SingleCellExperiment::reducedDims(x))) {
+            stop("dimred not within reducedDims of x")
+        }
 
-      coords <- SummarizedExperiment::colData(x)[,colData_columns, drop = FALSE]
-      coords <- methods::as(coords, "data.frame")
+        coords <- SingleCellExperiment::reducedDim(x, dimred)
 
     } else {
 
-      if (!is.null(spatialCoords)) {
+        if (!is.null(colData_columns)) {
 
-        coords <- SpatialExperiment::spatialCoords(x)
-        coords <- base::as.data.frame(coords)
-        colnames(coords)[seq_len(2)] <- c("x", "y")
+            if (!all(colData_columns %in% colnames(SummarizedExperiment::colData(x)))) {
+                stop("not all colData_columns names are in colnames(colData(x))")
+            }
 
-      }
+            coords <- SummarizedExperiment::colData(x)[,colData_columns, drop = FALSE]
+            coords <- methods::as(coords, "data.frame")
+
+        } else {
+
+            if (!is.null(spatialCoords)) {
+
+                coords <- SpatialExperiment::spatialCoords(x)
+                coords <- base::as.data.frame(coords)
+                colnames(coords)[seq_len(2)] <- c("x", "y")
+
+            }
+
+        }
 
     }
 
-  }
+    wsir_obj <- wSIR(X = BiocGenerics::t(X), coords = coords, ...)
 
-  wsir_obj <- wSIR(X = BiocGenerics::t(X), coords = coords, ...)
-
-  return(wsir_obj)
+    return(wsir_obj)
 }

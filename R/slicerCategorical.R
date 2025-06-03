@@ -21,8 +21,8 @@
 
 slicerCategorical <- function(X, Y) {
 
-  avg_X <- do.call(rbind,lapply(split.data.frame(X, Y$coordinate), colMeans))
+    avg_X <- do.call(rbind,lapply(split.data.frame(X, Y$coordinate), colMeans))
 
-  return(avg_X)
+    return(avg_X)
 
 }

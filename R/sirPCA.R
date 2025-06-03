@@ -25,19 +25,19 @@ sirPCA <- function(sliced_data,
                    W = diag(nrow(sliced_data)),
                    varThreshold = 0.99) {
 
-  nslices <- nrow(sliced_data)
-  sliced_data <- as.matrix(sliced_data)
-  m1 <- .matMultArma(t(sliced_data), W)
-  m <- .matMultArma(m1, sliced_data)
+    nslices <- nrow(sliced_data)
+    sliced_data <- as.matrix(sliced_data)
+    m1 <- .matMultArma(t(sliced_data), W)
+    m <- .matMultArma(m1, sliced_data)
 
-  eig_m <- .fastEigen(m)
-  all_pc <- eig_m$vectors[, ncol(m):1]
-  eig_m_values <- base::pmax(rev(eig_m$values), 0)
+    eig_m <- .fastEigen(m)
+    all_pc <- eig_m$vectors[, ncol(m):1]
+    eig_m_values <- base::pmax(rev(eig_m$values), 0)
 
-  propvariance_explained <- base::cumsum(eig_m_values)/sum(eig_m_values)
-  d <- which(propvariance_explained >= varThreshold)[1]
-  d <- min(d, maxDirections)
-  return(list(evectors = all_pc[,seq_len(d)],
-              d = d,
-              evalues = eig_m$values))
+    propvariance_explained <- base::cumsum(eig_m_values)/sum(eig_m_values)
+    d <- which(propvariance_explained >= varThreshold)[1]
+    d <- min(d, maxDirections)
+    return(list(evectors = all_pc[,seq_len(d)],
+                d = d,
+                evalues = eig_m$values))
 }

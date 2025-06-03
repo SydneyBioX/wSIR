@@ -63,13 +63,13 @@
 #'
 #' @examples
 #' data(MouseData)
-#' wsir_obj = wSIR(X = sample1_exprs,
-#'   coords = sample1_coords,
-#'   optim_params = TRUE,
-#'   optim_alpha = c(0,2,4),
-#'   optim_slices = c(3,6,10),
-#'   metric = "DC",
-#'   nrep = 1) # create wsir object
+#' wsir_obj <- wSIR(X = sample1_exprs,
+#'     coords = sample1_coords,
+#'     optim_params = TRUE,
+#'     optim_alpha = c(0,2,4),
+#'     optim_slices = c(3,6,10),
+#'     metric = "DC",
+#'     nrep = 1) # create wsir object
 #'
 #' @export
 wSIR <- function(X,
@@ -82,30 +82,30 @@ wSIR <- function(X,
                  verbose = FALSE,
                  ...) {
 
-  if (is.null(coords)) {
-    stop("coords must be provided")
-  }
+    if (is.null(coords)) {
+        stop("coords must be provided")
+    }
 
-  if (optim_params) {
-    if (verbose) message("Optimising parameters...")
-    optim_obj <- exploreWSIRParams(X = X,
-                                   coords = coords,
-                                   optim_alpha = optim_alpha,
-                                   optim_slices = optim_slices,
-                                   metric = metric,
-                                   nrep = nrep,
-                                   ...)
-    alpha <- optim_obj$best_alpha
-    slices <- optim_obj$best_slices
-    if (verbose) message("Optimising parameters... complete!")
-  }
+    if (optim_params) {
+        if (verbose) message("Optimising parameters...")
+            optim_obj <- exploreWSIRParams(X = X,
+                                           coords = coords,
+                                           optim_alpha = optim_alpha,
+                                           optim_slices = optim_slices,
+                                           metric = metric,
+                                           nrep = nrep,
+                                           ...)
+            alpha <- optim_obj$best_alpha
+            slices <- optim_obj$best_slices
+        if (verbose) message("Optimising parameters... complete!")
+    }
 
-  if (verbose) message("Fitting wSIR model...")
-  wsir_obj <- wSIRSpecifiedParams(X = X,
-                                  coords = coords,
-                                  ...
-  )
-  if (verbose) message("Fitting wSIR model... complete!")
+    if (verbose) message("Fitting wSIR model...")
+    wsir_obj <- wSIRSpecifiedParams(X = X,
+                                    coords = coords,
+                                    ...
+    )
+    if (verbose) message("Fitting wSIR model... complete!")
 
-  return(wsir_obj)
+    return(wsir_obj)
 }

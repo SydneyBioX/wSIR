@@ -98,40 +98,40 @@ cells from each of the three biological replicate samples.
 set.seed(2024)
 
 seqfish_data_sample1 <- LohoffSeqFISHData(samples = c(1,2))
-seqfish_data_sample1 = logNormCounts(seqfish_data_sample1) # log transform variance stabilising
+seqfish_data_sample1 <- logNormCounts(seqfish_data_sample1) # log transform variance stabilising
 rownames(seqfish_data_sample1) <- rowData(seqfish_data_sample1)[,"SYMBOL"] # change rownames to gene symbols that are consistent
-sample1_exprs = t(assay(seqfish_data_sample1, "logcounts")) # extract matrix of gene expressions
-sample1_coords = spatialCoords(seqfish_data_sample1)[,1:2] %>% as.data.frame()
-colnames(sample1_coords) = c("x", "y")
+sample1_exprs <- t(assay(seqfish_data_sample1, "logcounts")) # extract matrix of gene expressions
+sample1_coords <- spatialCoords(seqfish_data_sample1)[,1:2] %>% as.data.frame()
+colnames(sample1_coords) <- c("x", "y")
 
 seqfish_data_sample2 <- LohoffSeqFISHData(samples = c(3,4))
-seqfish_data_sample2 = logNormCounts(seqfish_data_sample2)
+seqfish_data_sample2 <- logNormCounts(seqfish_data_sample2)
 rownames(seqfish_data_sample2) <- rowData(seqfish_data_sample2)[,"SYMBOL"]
-sample2_exprs = t(assay(seqfish_data_sample2, "logcounts"))
-sample2_coords = spatialCoords(seqfish_data_sample2)[,1:2] %>% as.data.frame()
-colnames(sample2_coords) = c("x", "y")
+sample2_exprs <- t(assay(seqfish_data_sample2, "logcounts"))
+sample2_coords <- spatialCoords(seqfish_data_sample2)[,1:2] %>% as.data.frame()
+colnames(sample2_coords) <- c("x", "y")
 
 seqfish_data_sample3 <- LohoffSeqFISHData(samples = c(5,6))
-seqfish_data_sample3 = logNormCounts(seqfish_data_sample3)
+seqfish_data_sample3 <- logNormCounts(seqfish_data_sample3)
 rownames(seqfish_data_sample3) <- rowData(seqfish_data_sample3)[,"SYMBOL"]
-sample3_exprs = t(assay(seqfish_data_sample3, "logcounts"))
-sample3_coords = spatialCoords(seqfish_data_sample3)[,1:2] %>% as.data.frame()
-colnames(sample3_coords) = c("x", "y")
+sample3_exprs <- t(assay(seqfish_data_sample3, "logcounts"))
+sample3_coords <- spatialCoords(seqfish_data_sample3)[,1:2] %>% as.data.frame()
+colnames(sample3_coords) <- c("x", "y")
 
-keep1 = sample(c(TRUE, FALSE), nrow(sample1_exprs), replace = TRUE, prob = c(0.2, 0.8))
-keep2 = sample(c(TRUE, FALSE), nrow(sample2_exprs), replace = TRUE, prob = c(0.2, 0.8))
-keep3 = sample(c(TRUE, FALSE), nrow(sample3_exprs), replace = TRUE, prob = c(0.2, 0.8))
+keep1 <- sample(c(TRUE, FALSE), nrow(sample1_exprs), replace = TRUE, prob = c(0.2, 0.8))
+keep2 <- sample(c(TRUE, FALSE), nrow(sample2_exprs), replace = TRUE, prob = c(0.2, 0.8))
+keep3 <- sample(c(TRUE, FALSE), nrow(sample3_exprs), replace = TRUE, prob = c(0.2, 0.8))
 
-sample1_exprs = sample1_exprs[keep1,]
-sample1_coords = sample1_coords[keep1,]
-sample2_exprs = sample2_exprs[keep2,]
-sample2_coords = sample2_coords[keep2,]
-sample3_exprs = sample3_exprs[keep3,]
-sample3_coords = sample3_coords[keep3,]
+sample1_exprs <- sample1_exprs[keep1,]
+sample1_coords <- sample1_coords[keep1,]
+sample2_exprs <- sample2_exprs[keep2,]
+sample2_coords <- sample2_coords[keep2,]
+sample3_exprs <- sample3_exprs[keep3,]
+sample3_coords <- sample3_coords[keep3,]
 
-sample1_cell_types = seqfish_data_sample1$celltype[keep1]
-sample2_cell_types = seqfish_data_sample2$celltype[keep2]
-sample3_cell_types = seqfish_data_sample3$celltype[keep3]
+sample1_cell_types <- seqfish_data_sample1$celltype[keep1]
+sample2_cell_types <- seqfish_data_sample2$celltype[keep2]
+sample3_cell_types <- seqfish_data_sample3$celltype[keep3]
 
 save(sample1_exprs, sample1_coords, sample1_cell_types, 
      sample2_exprs, sample2_coords, sample2_cell_types, 
@@ -198,14 +198,14 @@ stable for all non-zero alpha and slice combinations (which correspond to wSIR).
 
 ```{r}
 a <- Sys.time()
-optim_obj = exploreWSIRParams(X = sample1_exprs, 
-                              coords = sample1_coords, 
-                              # optim_alpha = c(0,.5, 1,2,4,8), 
-                              # optim_slices = c(5,10,15),
-                              optim_alpha = c(0, 4),
-                              optim_slices = c(10, 15),
-                              nrep = 5,
-                              metric = "DC")
+optim_obj <- exploreWSIRParams(X = sample1_exprs, 
+                               coords = sample1_coords, 
+                               # optim_alpha = c(0,.5, 1,2,4,8), 
+                               # optim_slices = c(5,10,15),
+                               optim_alpha = c(0, 4),
+                               optim_slices = c(10, 15),
+                               nrep = 5,
+                               metric = "DC")
 Sys.time()-a
 optim_obj$plot
 ```
@@ -218,11 +218,11 @@ from sample 1 here. This returns a list of results with 5 (named) slots, whose
 details can be found at `?wSIR::wSIR`. 
 
 ```{r}
-wsir_obj = wSIR(X = sample1_exprs, 
-                coords = sample1_coords, 
-                slices = optim_obj$best_slices, 
-                alpha = optim_obj$best_alpha,
-                optim_params = FALSE)
+wsir_obj <- wSIR(X = sample1_exprs, 
+                 coords = sample1_coords, 
+                 slices = optim_obj$best_slices, 
+                 alpha = optim_obj$best_alpha,
+                 optim_params = FALSE)
 
 names(wsir_obj)
 ```
@@ -252,12 +252,12 @@ We can simultaneously plot top genes for multiple directions, and utilise the
 
 
 ```{r}
-top_genes_obj = findTopGenes(WSIR = wsir_obj, highest = 8) # create top genes object
-top_genes_plot = top_genes_obj$plot # select plot
+top_genes_obj <- findTopGenes(WSIR = wsir_obj, highest = 8) # create top genes object
+top_genes_plot <- top_genes_obj$plot # select plot
 top_genes_plot # print plot
 
-top_genes_obj = findTopGenes(WSIR = wsir_obj, highest = 8, dirs = 2:4)
-top_genes_plot = top_genes_obj$plot
+top_genes_obj <- findTopGenes(WSIR = wsir_obj, highest = 8, dirs = 2:4)
+top_genes_plot <- top_genes_obj$plot
 top_genes_plot
 ```
 
@@ -278,7 +278,7 @@ all contain information about cell types, which we can tell by the regions of
 high and low wSIR column values spread across the tissue. 
 
 ```{r}
-vis_obj = visualiseWSIRDirections(coords = sample1_coords, WSIR = wsir_obj, dirs = 8) # create visualisations
+vis_obj <- visualiseWSIRDirections(coords = sample1_coords, WSIR = wsir_obj, dirs = 8) # create visualisations
 vis_obj
 ```
 
@@ -310,11 +310,11 @@ there are specific regions of high expression in the UMAP plots, suggesting
 that the wSIR space separates cells based on their expression for those genes.
 
 ```{r}
-umap_coords = generateUmapFromWSIR(WSIR = wsir_obj)
-umap_plots = plotUmapFromWSIR(X = sample1_exprs,
-                              umap_coords = umap_coords,
-                              highest_genes = top_genes_obj,
-                              n_genes = 6)
+umap_coords <- generateUmapFromWSIR(WSIR = wsir_obj)
+umap_plots <- plotUmapFromWSIR(X = sample1_exprs,
+                               umap_coords = umap_coords,
+                               highest_genes = top_genes_obj,
+                               n_genes = 6)
 umap_plots
 ```
 
@@ -346,7 +346,7 @@ expression matrix into the wSIR low-dimensional space, which will therefore
 have an ability to predict sample 2's (unknown at this stage) spatial locations.
 
 ```{r}
-sample2_low_dim_exprs = projectWSIR(wsir = wsir_obj, newdata = sample2_exprs)
+sample2_low_dim_exprs <- projectWSIR(wsir = wsir_obj, newdata = sample2_exprs)
 ```
 
 Check the dimension of sample 2's low-dimensional gene expression data:
@@ -401,12 +401,12 @@ wSIR scores as the input rather than the (unreduced) gene expression matrix.
 An example of a very simple application is using the wSIR scores as an input to a KNN cell type classification algorithm. This is demonstrated below, using the 'knn' function from 'class' package.
 
 ```{r}
-samples12_cell_types = append(sample1_cell_types, sample2_cell_types)
+samples12_cell_types <- append(sample1_cell_types, sample2_cell_types)
 
-knn_classification_object = knn(train = wsir_obj_samples12$scores, 
-                                test = sample3_low_dim_exprs,
-                                cl = samples12_cell_types,
-                                k = 10)
+knn_classification_object <- knn(train = wsir_obj_samples12$scores, 
+                                 test = sample3_low_dim_exprs,
+                                 cl = samples12_cell_types,
+                                 k = 10)
 
 tail(knn_classification_object)
 ```

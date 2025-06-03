@@ -57,43 +57,43 @@ wSIRSpecifiedParams <- function(X,
                                 ...
 ) {
 
-  if (!is.null(group)) {
+    if (!is.null(group)) {
 
-    if (methods::is(group, "factor")) {
-      message("group is not a factor, setting as.factor")
-      group <- factor(group)
+        if (methods::is(group, "factor")) {
+            message("group is not a factor, setting as.factor")
+            group <- factor(group)
+        }
+
+        coords2 <- cbind(coords, group = group)
+    } else {
+        coords2 <- coords
     }
 
-    coords2 <- cbind(coords, group = group)
-  } else {
-    coords2 <- coords
-  }
+    coords_split <- split.data.frame(coords2, samples)
 
-  coords_split <- split.data.frame(coords2, samples)
+    tile_allocations <- lapply(coords_split, spatialAllocator, slices = slices)
 
-  tile_allocations <- lapply(coords_split, spatialAllocator, slices = slices)
+    tile_allocation <- do.call(rbind, tile_allocations)
 
-  tile_allocation <- do.call(rbind, tile_allocations)
+    tile_allocation$coordinate <- paste0(tile_allocation$coordinate,
+                                         ", ",
+                                         as.integer(factor(samples)))
 
-  tile_allocation$coordinate <- paste0(tile_allocation$coordinate,
-                                       ", ",
-                                       as.integer(factor(samples)))
+    sliceName <- "coordinate"
+    labels <- tile_allocation[, sliceName, drop = FALSE]
 
-  sliceName <- "coordinate"
-  labels <- tile_allocation[, sliceName, drop = FALSE]
+    H <- base::table(tile_allocation$coordinate)
+    Dmatrix <- diag(sqrt(H)/nrow(X), ncol = length(H))
 
-  H <- base::table(tile_allocation$coordinate)
-  Dmatrix <- diag(sqrt(H)/nrow(X), ncol = length(H))
+    corrMatrix <- createWeightMatrix(coords, labels = labels, alpha = alpha)
 
-  corrMatrix <- createWeightMatrix(coords, labels = labels, alpha = alpha)
+    W <- Dmatrix %*% corrMatrix %*% Dmatrix
 
-  W <- Dmatrix %*% corrMatrix %*% Dmatrix
+    wsir_obj <- sirCategorical(X = X,
+                               Y = tile_allocation,
+                               W = W,
+                               ...
+    )
 
-  wsir_obj <- sirCategorical(X = X,
-                             Y = tile_allocation,
-                             W = W,
-                             ...
-  )
-
-  return(wsir_obj)
+    return(wsir_obj)
 }

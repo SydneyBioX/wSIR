@@ -49,17 +49,17 @@
 #'
 #' @examples
 #' data(MouseData)
-#' wsir_obj = wSIR(X = sample1_exprs,
-#'   coords = sample1_coords,
-#'   optim_params = FALSE,
-#'   alpha = 4,
-#'   slices = 6) # create wsir object
-#' umap_coords = generateUmapFromWSIR(WSIR = wsir_obj)
-#' top_genes_obj = findTopGenes(WSIR = wsir_obj, highest = 4)
-#' umap_plot = plotUmapFromWSIR(umap_coords = umap_coords,
-#'   X = sample1_exprs,
-#'   highest_genes = top_genes_obj,
-#'   n_genes = 4)
+#' wsir_obj <- wSIR(X = sample1_exprs,
+#'     coords = sample1_coords,
+#'     optim_params = FALSE,
+#'     alpha = 4,
+#'     slices = 6) # create wsir object
+#' umap_coords <- generateUmapFromWSIR(WSIR = wsir_obj)
+#' top_genes_obj <- findTopGenes(WSIR = wsir_obj, highest = 4)
+#' umap_plot <- plotUmapFromWSIR(umap_coords = umap_coords,
+#'     X = sample1_exprs,
+#'     highest_genes = top_genes_obj,
+#'     n_genes = 4)
 #' umap_plot
 #'
 #' @export
@@ -70,33 +70,33 @@ plotUmapFromWSIR <- function(X,
                              genes = NULL,
                              n_genes,
                              ...) {
-  if (is.null(highest_genes) == is.null(genes)) {
-    # error message if incorrect inputs
-    return("Must provide one of highest_genes or genes, not neither nor both.")
-  }
+    if (is.null(highest_genes) == is.null(genes)) {
+        # error message if incorrect inputs
+        return("Must provide one of highest_genes or genes, not neither nor both.")
+    }
 
-  if (is.null(genes)) {
-    genes <- unique(highest_genes$genes$gene)
-  }
+    if (is.null(genes)) {
+       genes <- unique(highest_genes$genes$gene)
+    }
 
-  n_genes <- min(n_genes, length(genes))
-  gene_names <- genes[seq_len(n_genes)]
+    n_genes <- min(n_genes, length(genes))
+    gene_names <- genes[seq_len(n_genes)]
 
-  gene_inds <- base::match(gene_names, colnames(X))
+    gene_inds <- base::match(gene_names, colnames(X))
 
-  umap_df <- matrix(NA, nrow = n_genes*nrow(X), ncol = 4) %>%
-    as.data.frame()
-  colnames(umap_df) <- c("UMAP1", "UMAP2", "gene", "expression")
+    umap_df <- matrix(NA, nrow = n_genes*nrow(X), ncol = 4) %>%
+        as.data.frame()
+    colnames(umap_df) <- c("UMAP1", "UMAP2", "gene", "expression")
 
-  umap_df$UMAP1 <- rep(umap_coords[,1], n_genes)
-  umap_df$UMAP2 <- rep(umap_coords[,2], n_genes)
-  umap_df$gene <- vctrs::vec_rep_each(gene_names, nrow(X))
-  umap_df$expression <- as.matrix(X)[, gene_inds] %>% as.vector()
+    umap_df$UMAP1 <- rep(umap_coords[,1], n_genes)
+    umap_df$UMAP2 <- rep(umap_coords[,2], n_genes)
+    umap_df$gene <- vctrs::vec_rep_each(gene_names, nrow(X))
+    umap_df$expression <- as.matrix(X)[, gene_inds] %>% as.vector()
 
-  plot <- ggplot2::ggplot(data = umap_df, aes(x = .data$UMAP1, y = .data$UMAP2,
-                                              colour = .data$expression)) +
-    ggplot2::geom_point() +
-    ggplot2::facet_wrap(~gene) +
-    ggplot2::theme_classic()
-  return(plot)
+    plot <- ggplot2::ggplot(data = umap_df, aes(x = .data$UMAP1, y = .data$UMAP2,
+                                                colour = .data$expression)) +
+        ggplot2::geom_point() +
+        ggplot2::facet_wrap(~gene) +
+        ggplot2::theme_classic()
+    return(plot)
 }

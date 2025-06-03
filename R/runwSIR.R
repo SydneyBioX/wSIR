@@ -32,15 +32,15 @@
 #' library(SingleCellExperiment)
 #' library(SpatialExperiment)
 #'
-#' sce = SingleCellExperiment(assays = list(logcounts = t(sample1_exprs)),
-#' reducedDims = list(spatial = sample1_coords))
+#' sce <- SingleCellExperiment(assays = list(logcounts = t(sample1_exprs)),
+#' reducedDims <- list(spatial = sample1_coords))
 #'
-#' sce = runwSIR(x = sce, dimred = "spatial")
+#' sce <- runwSIR(x = sce, dimred = "spatial")
 #'
-#' spe = SpatialExperiment(assays = list(logcounts = t(sample1_exprs)),
-#' spatialCoords = as.matrix(sample1_coords))
+#' spe <- SpatialExperiment(assays = list(logcounts = t(sample1_exprs)),
+#' spatialCoords <- as.matrix(sample1_coords))
 #'
-#' spe = runwSIR(x = spe, spatialCoords = TRUE)
+#' spe <- runwSIR(x = spe, spatialCoords = TRUE)
 #'
 #' @export
 runwSIR <- function(x,
@@ -48,28 +48,28 @@ runwSIR <- function(x,
                     scores_only = FALSE,
                     ...) {
 
-  isMatLike <- methods::is(x, "matrix")
+    isMatLike <- methods::is(x, "matrix")
 
-  wsir_obj <- calculatewSIR(x = x, ...)
+    wsir_obj <- calculatewSIR(x = x, ...)
 
-  if (isMatLike) {
+    if (isMatLike) {
 
-    return(wsir_obj)
+        return(wsir_obj)
 
-  }
+    }
 
-  dr <- wsir_obj$scores
+    dr <- wsir_obj$scores
 
-  if (scores_only) {
+    if (scores_only) {
 
-    base::attr(dr, "directions") <- wsir_obj$directions
-    base::attr(dr, "estd") <- wsir_obj$estd
-    base::attr(dr, "W") <- wsir_obj$W
-    base::attr(dr, "evalues") <- wsir_obj$evalues
+        base::attr(dr, "directions") <- wsir_obj$directions
+        base::attr(dr, "estd") <- wsir_obj$estd
+        base::attr(dr, "W") <- wsir_obj$W
+        base::attr(dr, "evalues") <- wsir_obj$evalues
 
-  }
+    }
 
-  SingleCellExperiment::reducedDim(x, name) <- dr
+    SingleCellExperiment::reducedDim(x, name) <- dr
 
-  return(x)
+    return(x)
 }
