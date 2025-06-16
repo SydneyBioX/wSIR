@@ -220,8 +220,8 @@ details can be found at `?wSIR::wSIR`.
 ```{r}
 wsir_obj <- wSIR(X = sample1_exprs, 
                  coords = sample1_coords, 
-                 slices = 10#optim_obj$best_slices, 
-                 alpha = 4#optim_obj$best_alpha,
+                 slices = 10,#optim_obj$best_slices, 
+                 alpha = 4,#optim_obj$best_alpha,
                  optim_params = FALSE)
 
 names(wsir_obj)
@@ -383,8 +383,8 @@ matrix.
 wsir_obj_samples12 <- wSIR(X = rbind(sample1_exprs, sample2_exprs),
                            coords = rbind(sample1_coords, sample2_coords),
                            samples = c(rep(1, nrow(sample1_coords)), rep(2, nrow(sample2_coords))),
-                           slices = 10#optim_obj$best_slices, 
-                           alpha = 4#optim_obj$best_alpha,
+                           slices = 10,#optim_obj$best_slices, 
+                           alpha = 4,#optim_obj$best_alpha,
                            optim_params = FALSE)
 
 sample3_low_dim_exprs <- projectWSIR(wsir = wsir_obj_samples12, newdata = sample3_exprs)
