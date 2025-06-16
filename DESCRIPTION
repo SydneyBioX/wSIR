@@ -55,12 +55,15 @@ Imports: Rfast (>= 2.1.0),
     SummarizedExperiment (>= 1.34.0),
     SingleCellExperiment (>= 1.26.0),
     SpatialExperiment (>= 1.14.0) 
-Suggests: knitr,
+Suggests: 
+    knitr,
     BiocStyle,
-    class
+    class,
+    testthat (>= 3.0.0)
 LinkingTo: Rcpp,
     RcppArmadillo
 VignetteBuilder: knitr
 RoxygenNote: 7.3.2
 NeedsCompilation: yes
 Packaged: 2024-08-19 05:25:13 UTC; linhnghiem
+Config/testthat/edition: 3
