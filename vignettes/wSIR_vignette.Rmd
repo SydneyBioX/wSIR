@@ -197,6 +197,8 @@ the number of slices for $\alpha = 0$ (which corresponds to SIR). Performance is
 stable for all non-zero alpha and slice combinations (which correspond to wSIR). 
 
 ```{r}
+# adding text to see if it works
+
 a <- Sys.time()
 optim_obj = exploreWSIRParams(X = sample1_exprs, 
                               coords = sample1_coords, 
