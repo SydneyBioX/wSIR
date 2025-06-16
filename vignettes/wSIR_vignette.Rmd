@@ -198,7 +198,7 @@ stable for all non-zero alpha and slice combinations (which correspond to wSIR).
 
 ```{r}
 a <- Sys.time()
-optim_obj <- exploreWSIRParams(X = sample1_exprs, 
+optim_obj <- exploreWSIRParams(X = as.matrix(sample1_exprs), 
                                coords = sample1_coords, 
                                # optim_alpha = c(0,.5, 1,2,4,8), 
                                # optim_slices = c(5,10,15),
