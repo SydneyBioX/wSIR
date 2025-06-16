@@ -220,8 +220,8 @@ details can be found at `?wSIR::wSIR`.
 ```{r}
 wsir_obj <- wSIR(X = sample1_exprs, 
                  coords = sample1_coords, 
-                 slices = optim_obj$best_slices, 
-                 alpha = optim_obj$best_alpha,
+                 slices = 10#optim_obj$best_slices, 
+                 alpha = 4#optim_obj$best_alpha,
                  optim_params = FALSE)
 
 names(wsir_obj)
