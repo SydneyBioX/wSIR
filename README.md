@@ -19,3 +19,5 @@ To install wSIR from [GitHub](https://github.com/SydneyBioX/wSIR):
 library(devtools)
 install_github("SydneyBioX/wSIR")
 ```
+
+The analysis codes to recreate the results from the paper are:
