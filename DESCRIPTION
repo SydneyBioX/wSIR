@@ -39,8 +39,7 @@ biocViews: DimensionReduction,
 LazyData: false
 Roxygen: list(markdown = TRUE)
 Depends: R (>= 4.4.0),
-Imports: Rfast (<= 2.1.0),
-    magrittr (>= 2.0) ,
+Imports: magrittr (>= 2.0) ,
     ggplot2 (>= 3.5.1),
     umap (>= 0.2.10),
     vctrs (>= 0.6),

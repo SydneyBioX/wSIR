@@ -47,7 +47,6 @@
 #'
 #' @importFrom stats cor
 #' @importFrom distances distances
-#' @importFrom Rfast dcor
 #' @importFrom energy bcdcor
 #'
 #' @keywords internal
