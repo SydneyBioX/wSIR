@@ -48,6 +48,7 @@
 #' @importFrom stats cor
 #' @importFrom distances distances
 #' @importFrom Rfast dcor
+#' @importFrom energy bcdcor
 #'
 #' @keywords internal
 
@@ -82,9 +83,10 @@ wSIROptimisation <- function(exprs_train,
   if ("DC" %in% evalmetrics) {
     # current_dc <- unlist(Rfast::dcor(as.matrix(projected_test),
     #                           as.matrix(coords_test), bc = TRUE))[4]
-    current_dc <- Rfast::bcdcor(as.matrix(projected_test),
-                                as.matrix(coords_test))
-    browser()
+    # current_dc <- Rfast::bcdcor(as.matrix(projected_test),
+    #                             as.matrix(coords_test))
+    current_dc <- energy::bcdcor(as.matrix(projected_test),
+                                 as.matrix(coords_test))
     results <- c(results, dc = current_dc)
 
   }
