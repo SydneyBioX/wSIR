@@ -26,7 +26,6 @@ collapse = FALSE
 library(wSIR) # package itself
 library(magrittr) # for %>% 
 library(ggplot2) # for ggplot
-library(Rfast) # for distance correlation
 library(doBy) # for which.maxn
 library(vctrs) # for vec_rep_each
 library(umap) # for umap
