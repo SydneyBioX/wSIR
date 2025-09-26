@@ -8,8 +8,8 @@
 <title>Weighted Sliced Inverse Regression (WSIR) • wSIR</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Weighted Sliced Inverse Regression (WSIR)">
 </head>
 <body>
@@ -77,7 +77,6 @@ Ghazanfar</h4>
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://sydneybiox.github.io/wSIR">wSIR</a></span><span class="op">)</span> <span class="co"># package itself</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org" class="external-link">magrittr</a></span><span class="op">)</span> <span class="co"># for %&gt;% </span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span> <span class="co"># for ggplot</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RfastOfficial/Rfast" class="external-link">Rfast</a></span><span class="op">)</span> <span class="co"># for distance correlation</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/hojsgaard/doBy" class="external-link">doBy</a></span><span class="op">)</span> <span class="co"># for which.maxn</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://vctrs.r-lib.org/" class="external-link">vctrs</a></span><span class="op">)</span> <span class="co"># for vec_rep_each</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tkonopka/umap" class="external-link">umap</a></span><span class="op">)</span> <span class="co"># for umap</span></span>
@@ -150,40 +149,40 @@ replicate samples.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">2024</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">seqfish_data_sample1</span> <span class="op">&lt;-</span> <span class="fu">LohoffSeqFISHData</span><span class="op">(</span>samples <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">seqfish_data_sample1</span> <span class="op">=</span> <span class="fu">logNormCounts</span><span class="op">(</span><span class="va">seqfish_data_sample1</span><span class="op">)</span> <span class="co"># log transform variance stabilising</span></span>
+<span><span class="va">seqfish_data_sample1</span> <span class="op">&lt;-</span> <span class="fu">logNormCounts</span><span class="op">(</span><span class="va">seqfish_data_sample1</span><span class="op">)</span> <span class="co"># log transform variance stabilising</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">seqfish_data_sample1</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">rowData</a></span><span class="op">(</span><span class="va">seqfish_data_sample1</span><span class="op">)</span><span class="op">[</span>,<span class="st">"SYMBOL"</span><span class="op">]</span> <span class="co"># change rownames to gene symbols that are consistent</span></span>
-<span><span class="va">sample1_exprs</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">seqfish_data_sample1</span>, <span class="st">"logcounts"</span><span class="op">)</span><span class="op">)</span> <span class="co"># extract matrix of gene expressions</span></span>
-<span><span class="va">sample1_coords</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/SpatialExperiment/man/SpatialExperiment-methods.html" class="external-link">spatialCoords</a></span><span class="op">(</span><span class="va">seqfish_data_sample1</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">sample1_coords</span><span class="op">)</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span><span class="op">)</span></span>
+<span><span class="va">sample1_exprs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">seqfish_data_sample1</span>, <span class="st">"logcounts"</span><span class="op">)</span><span class="op">)</span> <span class="co"># extract matrix of gene expressions</span></span>
+<span><span class="va">sample1_coords</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SpatialExperiment/man/SpatialExperiment-methods.html" class="external-link">spatialCoords</a></span><span class="op">(</span><span class="va">seqfish_data_sample1</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">sample1_coords</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">seqfish_data_sample2</span> <span class="op">&lt;-</span> <span class="fu">LohoffSeqFISHData</span><span class="op">(</span>samples <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">seqfish_data_sample2</span> <span class="op">=</span> <span class="fu">logNormCounts</span><span class="op">(</span><span class="va">seqfish_data_sample2</span><span class="op">)</span></span>
+<span><span class="va">seqfish_data_sample2</span> <span class="op">&lt;-</span> <span class="fu">logNormCounts</span><span class="op">(</span><span class="va">seqfish_data_sample2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">seqfish_data_sample2</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">rowData</a></span><span class="op">(</span><span class="va">seqfish_data_sample2</span><span class="op">)</span><span class="op">[</span>,<span class="st">"SYMBOL"</span><span class="op">]</span></span>
-<span><span class="va">sample2_exprs</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">seqfish_data_sample2</span>, <span class="st">"logcounts"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">sample2_coords</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/SpatialExperiment/man/SpatialExperiment-methods.html" class="external-link">spatialCoords</a></span><span class="op">(</span><span class="va">seqfish_data_sample2</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">sample2_coords</span><span class="op">)</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span><span class="op">)</span></span>
+<span><span class="va">sample2_exprs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">seqfish_data_sample2</span>, <span class="st">"logcounts"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">sample2_coords</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SpatialExperiment/man/SpatialExperiment-methods.html" class="external-link">spatialCoords</a></span><span class="op">(</span><span class="va">seqfish_data_sample2</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">sample2_coords</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">seqfish_data_sample3</span> <span class="op">&lt;-</span> <span class="fu">LohoffSeqFISHData</span><span class="op">(</span>samples <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">6</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">seqfish_data_sample3</span> <span class="op">=</span> <span class="fu">logNormCounts</span><span class="op">(</span><span class="va">seqfish_data_sample3</span><span class="op">)</span></span>
+<span><span class="va">seqfish_data_sample3</span> <span class="op">&lt;-</span> <span class="fu">logNormCounts</span><span class="op">(</span><span class="va">seqfish_data_sample3</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">seqfish_data_sample3</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">rowData</a></span><span class="op">(</span><span class="va">seqfish_data_sample3</span><span class="op">)</span><span class="op">[</span>,<span class="st">"SYMBOL"</span><span class="op">]</span></span>
-<span><span class="va">sample3_exprs</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">seqfish_data_sample3</span>, <span class="st">"logcounts"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">sample3_coords</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/SpatialExperiment/man/SpatialExperiment-methods.html" class="external-link">spatialCoords</a></span><span class="op">(</span><span class="va">seqfish_data_sample3</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">sample3_coords</span><span class="op">)</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span><span class="op">)</span></span>
+<span><span class="va">sample3_exprs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">seqfish_data_sample3</span>, <span class="st">"logcounts"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">sample3_coords</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SpatialExperiment/man/SpatialExperiment-methods.html" class="external-link">spatialCoords</a></span><span class="op">(</span><span class="va">seqfish_data_sample3</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">sample3_coords</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">keep1</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">sample1_exprs</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">TRUE</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">0.8</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">keep2</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">sample2_exprs</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">TRUE</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">0.8</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">keep3</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">sample3_exprs</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">TRUE</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">0.8</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">keep1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">sample1_exprs</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">TRUE</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">0.8</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">keep2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">sample2_exprs</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">TRUE</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">0.8</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">keep3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">sample3_exprs</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">TRUE</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">0.8</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">sample1_exprs</span> <span class="op">=</span> <span class="va">sample1_exprs</span><span class="op">[</span><span class="va">keep1</span>,<span class="op">]</span></span>
-<span><span class="va">sample1_coords</span> <span class="op">=</span> <span class="va">sample1_coords</span><span class="op">[</span><span class="va">keep1</span>,<span class="op">]</span></span>
-<span><span class="va">sample2_exprs</span> <span class="op">=</span> <span class="va">sample2_exprs</span><span class="op">[</span><span class="va">keep2</span>,<span class="op">]</span></span>
-<span><span class="va">sample2_coords</span> <span class="op">=</span> <span class="va">sample2_coords</span><span class="op">[</span><span class="va">keep2</span>,<span class="op">]</span></span>
-<span><span class="va">sample3_exprs</span> <span class="op">=</span> <span class="va">sample3_exprs</span><span class="op">[</span><span class="va">keep3</span>,<span class="op">]</span></span>
-<span><span class="va">sample3_coords</span> <span class="op">=</span> <span class="va">sample3_coords</span><span class="op">[</span><span class="va">keep3</span>,<span class="op">]</span></span>
+<span><span class="va">sample1_exprs</span> <span class="op">&lt;-</span> <span class="va">sample1_exprs</span><span class="op">[</span><span class="va">keep1</span>,<span class="op">]</span></span>
+<span><span class="va">sample1_coords</span> <span class="op">&lt;-</span> <span class="va">sample1_coords</span><span class="op">[</span><span class="va">keep1</span>,<span class="op">]</span></span>
+<span><span class="va">sample2_exprs</span> <span class="op">&lt;-</span> <span class="va">sample2_exprs</span><span class="op">[</span><span class="va">keep2</span>,<span class="op">]</span></span>
+<span><span class="va">sample2_coords</span> <span class="op">&lt;-</span> <span class="va">sample2_coords</span><span class="op">[</span><span class="va">keep2</span>,<span class="op">]</span></span>
+<span><span class="va">sample3_exprs</span> <span class="op">&lt;-</span> <span class="va">sample3_exprs</span><span class="op">[</span><span class="va">keep3</span>,<span class="op">]</span></span>
+<span><span class="va">sample3_coords</span> <span class="op">&lt;-</span> <span class="va">sample3_coords</span><span class="op">[</span><span class="va">keep3</span>,<span class="op">]</span></span>
 <span></span>
-<span><span class="va">sample1_cell_types</span> <span class="op">=</span> <span class="va">seqfish_data_sample1</span><span class="op">$</span><span class="va">celltype</span><span class="op">[</span><span class="va">keep1</span><span class="op">]</span></span>
-<span><span class="va">sample2_cell_types</span> <span class="op">=</span> <span class="va">seqfish_data_sample2</span><span class="op">$</span><span class="va">celltype</span><span class="op">[</span><span class="va">keep2</span><span class="op">]</span></span>
-<span><span class="va">sample3_cell_types</span> <span class="op">=</span> <span class="va">seqfish_data_sample3</span><span class="op">$</span><span class="va">celltype</span><span class="op">[</span><span class="va">keep3</span><span class="op">]</span></span>
+<span><span class="va">sample1_cell_types</span> <span class="op">&lt;-</span> <span class="va">seqfish_data_sample1</span><span class="op">$</span><span class="va">celltype</span><span class="op">[</span><span class="va">keep1</span><span class="op">]</span></span>
+<span><span class="va">sample2_cell_types</span> <span class="op">&lt;-</span> <span class="va">seqfish_data_sample2</span><span class="op">$</span><span class="va">celltype</span><span class="op">[</span><span class="va">keep2</span><span class="op">]</span></span>
+<span><span class="va">sample3_cell_types</span> <span class="op">&lt;-</span> <span class="va">seqfish_data_sample3</span><span class="op">$</span><span class="va">celltype</span><span class="op">[</span><span class="va">keep3</span><span class="op">]</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/save.html" class="external-link">save</a></span><span class="op">(</span><span class="va">sample1_exprs</span>, <span class="va">sample1_coords</span>, <span class="va">sample1_cell_types</span>, </span>
 <span>     <span class="va">sample2_exprs</span>, <span class="va">sample2_coords</span>, <span class="va">sample2_cell_types</span>, </span>
@@ -250,24 +249,17 @@ increase the number of slices for
 (which corresponds to SIR). Performance is stable for all non-zero alpha
 and slice combinations (which correspond to wSIR).</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="va">optim_obj</span> <span class="op">=</span> <span class="fu"><a href="../reference/exploreWSIRParams.html">exploreWSIRParams</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">sample1_exprs</span>, </span>
-<span>                              coords <span class="op">=</span> <span class="va">sample1_coords</span>, </span>
-<span>                              <span class="co"># optim_alpha = c(0,.5, 1,2,4,8), </span></span>
-<span>                              <span class="co"># optim_slices = c(5,10,15),</span></span>
-<span>                              optim_alpha <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">4</span><span class="op">)</span>,</span>
-<span>                              optim_slices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">15</span><span class="op">)</span>,</span>
-<span>                              nrep <span class="op">=</span> <span class="fl">5</span>,</span>
-<span>                              metric <span class="op">=</span> <span class="st">"DC"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## set up nrep random splits of the data into training and test sets</span></span></code></pre>
-<pre><code><span><span class="co">## completed runs of wSIR and metric calculation</span></span></code></pre>
-<pre><code><span><span class="co">## Optimal (alpha, slices) pair: (0, 10)</span></span></code></pre>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span><span class="op">-</span><span class="va">a</span></span></code></pre></div>
-<pre><code><span><span class="co">## Time difference of 6.785663 secs</span></span></code></pre>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">optim_obj</span><span class="op">$</span><span class="va">plot</span></span></code></pre></div>
-<p><img src="wSIR_vignette_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
+<code class="sourceCode R"><span><span class="co"># a &lt;- Sys.time()</span></span>
+<span><span class="co"># optim_obj &lt;- exploreWSIRParams(X = as.matrix(sample1_exprs), </span></span>
+<span><span class="co">#                                coords = sample1_coords, </span></span>
+<span><span class="co">#                                # optim_alpha = c(0,.5, 1,2,4,8), </span></span>
+<span><span class="co">#                                # optim_slices = c(5,10,15),</span></span>
+<span><span class="co">#                                optim_alpha = c(0, 4),</span></span>
+<span><span class="co">#                                optim_slices = c(10, 15),</span></span>
+<span><span class="co">#                                nrep = 5,</span></span>
+<span><span class="co">#                                metric = "DC")</span></span>
+<span><span class="co"># Sys.time()-a</span></span>
+<span><span class="co"># optim_obj$plot</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="wsir-computation">wSIR Computation<a class="anchor" aria-label="anchor" href="#wsir-computation"></a>
@@ -277,12 +269,12 @@ found in the previous section. We use the gene expression matrix and
 spatial coordinates from sample 1 here. This returns a list of results
 with 5 (named) slots, whose details can be found at
 <code><a href="../reference/wSIR.html">?wSIR::wSIR</a></code>.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">wsir_obj</span> <span class="op">=</span> <span class="fu"><a href="../reference/wSIR.html">wSIR</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">sample1_exprs</span>, </span>
-<span>                coords <span class="op">=</span> <span class="va">sample1_coords</span>, </span>
-<span>                slices <span class="op">=</span> <span class="va">optim_obj</span><span class="op">$</span><span class="va">best_slices</span>, </span>
-<span>                alpha <span class="op">=</span> <span class="va">optim_obj</span><span class="op">$</span><span class="va">best_alpha</span>,</span>
-<span>                optim_params <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">wsir_obj</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/wSIR.html">wSIR</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">sample1_exprs</span>, </span>
+<span>                 coords <span class="op">=</span> <span class="va">sample1_coords</span>, </span>
+<span>                 slices <span class="op">=</span> <span class="fl">10</span>,<span class="co">#optim_obj$best_slices, </span></span>
+<span>                 alpha <span class="op">=</span> <span class="fl">4</span>,<span class="co">#optim_obj$best_alpha,</span></span>
+<span>                 optim_params <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">wsir_obj</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "scores"     "directions" "estd"       "W"          "evalues"</span></span></code></pre>
@@ -312,14 +304,14 @@ genes are known spatial genes (e.g. Cdx2, Hox-), which is what we would
 expect to see.</p>
 <p>We can simultaneously plot top genes for multiple directions, and
 utilise the</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">top_genes_obj</span> <span class="op">=</span> <span class="fu"><a href="../reference/findTopGenes.html">findTopGenes</a></span><span class="op">(</span>WSIR <span class="op">=</span> <span class="va">wsir_obj</span>, highest <span class="op">=</span> <span class="fl">8</span><span class="op">)</span> <span class="co"># create top genes object</span></span>
-<span><span class="va">top_genes_plot</span> <span class="op">=</span> <span class="va">top_genes_obj</span><span class="op">$</span><span class="va">plot</span> <span class="co"># select plot</span></span>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">top_genes_obj</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/findTopGenes.html">findTopGenes</a></span><span class="op">(</span>WSIR <span class="op">=</span> <span class="va">wsir_obj</span>, highest <span class="op">=</span> <span class="fl">8</span><span class="op">)</span> <span class="co"># create top genes object</span></span>
+<span><span class="va">top_genes_plot</span> <span class="op">&lt;-</span> <span class="va">top_genes_obj</span><span class="op">$</span><span class="va">plot</span> <span class="co"># select plot</span></span>
 <span><span class="va">top_genes_plot</span> <span class="co"># print plot</span></span></code></pre></div>
 <p><img src="wSIR_vignette_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">top_genes_obj</span> <span class="op">=</span> <span class="fu"><a href="../reference/findTopGenes.html">findTopGenes</a></span><span class="op">(</span>WSIR <span class="op">=</span> <span class="va">wsir_obj</span>, highest <span class="op">=</span> <span class="fl">8</span>, dirs <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span></span>
-<span><span class="va">top_genes_plot</span> <span class="op">=</span> <span class="va">top_genes_obj</span><span class="op">$</span><span class="va">plot</span></span>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">top_genes_obj</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/findTopGenes.html">findTopGenes</a></span><span class="op">(</span>WSIR <span class="op">=</span> <span class="va">wsir_obj</span>, highest <span class="op">=</span> <span class="fl">8</span>, dirs <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span></span>
+<span><span class="va">top_genes_plot</span> <span class="op">&lt;-</span> <span class="va">top_genes_obj</span><span class="op">$</span><span class="va">plot</span></span>
 <span><span class="va">top_genes_plot</span></span></code></pre></div>
 <p><img src="wSIR_vignette_files/figure-html/unnamed-chunk-6-2.png" width="700"></p>
 </div>
@@ -340,8 +332,8 @@ see that wSIR column two appears to capture information about the “x”
 spatial coordinate. The remaining three wSIR columns all contain
 information about cell types, which we can tell by the regions of high
 and low wSIR column values spread across the tissue.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">vis_obj</span> <span class="op">=</span> <span class="fu"><a href="../reference/visualiseWSIRDirections.html">visualiseWSIRDirections</a></span><span class="op">(</span>coords <span class="op">=</span> <span class="va">sample1_coords</span>, WSIR <span class="op">=</span> <span class="va">wsir_obj</span>, dirs <span class="op">=</span> <span class="fl">8</span><span class="op">)</span> <span class="co"># create visualisations</span></span>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">vis_obj</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/visualiseWSIRDirections.html">visualiseWSIRDirections</a></span><span class="op">(</span>coords <span class="op">=</span> <span class="va">sample1_coords</span>, WSIR <span class="op">=</span> <span class="va">wsir_obj</span>, dirs <span class="op">=</span> <span class="fl">8</span><span class="op">)</span> <span class="co"># create visualisations</span></span>
 <span><span class="va">vis_obj</span></span></code></pre></div>
 <p><img src="wSIR_vignette_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
 </div>
@@ -375,12 +367,12 @@ by the <code>findTopGenes</code> function previously). We can see that
 for some of these genes, there are specific regions of high expression
 in the UMAP plots, suggesting that the wSIR space separates cells based
 on their expression for those genes.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">umap_coords</span> <span class="op">=</span> <span class="fu"><a href="../reference/generateUmapFromWSIR.html">generateUmapFromWSIR</a></span><span class="op">(</span>WSIR <span class="op">=</span> <span class="va">wsir_obj</span><span class="op">)</span></span>
-<span><span class="va">umap_plots</span> <span class="op">=</span> <span class="fu"><a href="../reference/plotUmapFromWSIR.html">plotUmapFromWSIR</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">sample1_exprs</span>,</span>
-<span>                              umap_coords <span class="op">=</span> <span class="va">umap_coords</span>,</span>
-<span>                              highest_genes <span class="op">=</span> <span class="va">top_genes_obj</span>,</span>
-<span>                              n_genes <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">umap_coords</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/generateUmapFromWSIR.html">generateUmapFromWSIR</a></span><span class="op">(</span>WSIR <span class="op">=</span> <span class="va">wsir_obj</span><span class="op">)</span></span>
+<span><span class="va">umap_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotUmapFromWSIR.html">plotUmapFromWSIR</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">sample1_exprs</span>,</span>
+<span>                               umap_coords <span class="op">=</span> <span class="va">umap_coords</span>,</span>
+<span>                               highest_genes <span class="op">=</span> <span class="va">top_genes_obj</span>,</span>
+<span>                               n_genes <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
 <span><span class="va">umap_plots</span></span></code></pre></div>
 <p><img src="wSIR_vignette_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
 </div>
@@ -414,79 +406,72 @@ the spatial transcriptomics dataset from the first sample.</p>
 2’s gene expression matrix into the wSIR low-dimensional space, which
 will therefore have an ability to predict sample 2’s (unknown at this
 stage) spatial locations.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sample2_low_dim_exprs</span> <span class="op">=</span> <span class="fu"><a href="../reference/projectWSIR.html">projectWSIR</a></span><span class="op">(</span>wsir <span class="op">=</span> <span class="va">wsir_obj</span>, newdata <span class="op">=</span> <span class="va">sample2_exprs</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sample2_low_dim_exprs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/projectWSIR.html">projectWSIR</a></span><span class="op">(</span>wsir <span class="op">=</span> <span class="va">wsir_obj</span>, newdata <span class="op">=</span> <span class="va">sample2_exprs</span><span class="op">)</span></span></code></pre></div>
 <p>Check the dimension of sample 2’s low-dimensional gene expression
 data:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">sample2_low_dim_exprs</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] 2986   50</span></span></code></pre>
+<pre><code><span><span class="co">## [1] 2986   44</span></span></code></pre>
 <p>Observe some of sample 2’s low-dimensional gene expression data:</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">sample2_low_dim_exprs</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##            [,1]       [,2]       [,3]       [,4]     [,5]       [,6]       [,7]</span></span>
-<span><span class="co">## [1,]  0.4033853 -1.1406906  0.9342274 -0.6690855 1.183150 -0.4204610 -1.6947454</span></span>
-<span><span class="co">## [2,] -0.3976906 -1.1332231  0.2099434 -0.9262752 1.452108 -0.3434242  0.2826430</span></span>
-<span><span class="co">## [3,]  2.8521104  0.5786873  1.7263464 -0.4939740 1.545942  1.9442965 -0.9077402</span></span>
-<span><span class="co">## [4,]  3.0851403  0.8251517  0.6092021 -0.5964077 1.349482  1.1061599 -0.8913565</span></span>
-<span><span class="co">## [5,]  1.7075150 -1.5915042 -0.4335929 -0.6712088 1.829439  1.3707372  0.8978932</span></span>
-<span><span class="co">## [6,]  1.5921375 -1.3481260 -0.4065247  0.1631131 1.854096  0.2094885  0.5237807</span></span>
-<span><span class="co">##            [,8]        [,9]       [,10]      [,11]      [,12]        [,13]</span></span>
-<span><span class="co">## [1,] -1.2416277  1.59455858  0.87866970  0.1545180 -0.1226031  0.007213118</span></span>
-<span><span class="co">## [2,] -0.9156203 -0.01792227  0.17127514 -0.6272048  0.3600095  0.041998794</span></span>
-<span><span class="co">## [3,] -1.1414361  0.88014085  0.10466509 -1.1003643  0.2268346  0.104254143</span></span>
-<span><span class="co">## [4,] -1.5925948  0.98843793  0.55220381 -0.9919387  1.0468458  0.535745625</span></span>
-<span><span class="co">## [5,] -1.5563948 -0.37715216 -0.29244180 -0.4787738  0.4219472 -0.599094022</span></span>
-<span><span class="co">## [6,] -1.1472571 -0.85171920  0.06985137 -0.5388220 -0.4363146 -1.735954576</span></span>
-<span><span class="co">##            [,14]      [,15]      [,16]       [,17]      [,18]        [,19]</span></span>
-<span><span class="co">## [1,] -0.26403842 -0.1667892 -0.1674317 -0.84025812 -1.2032348 -1.923318769</span></span>
-<span><span class="co">## [2,]  0.02027922 -0.1912650  0.4971098 -0.03229449 -0.6919699 -0.005947897</span></span>
-<span><span class="co">## [3,] -1.07366605 -0.6264570  1.6476511 -1.85407880 -1.2730726 -0.277065604</span></span>
-<span><span class="co">## [4,] -0.26912731  0.1633992  1.3475923 -1.08817836 -0.8927717  0.104622662</span></span>
-<span><span class="co">## [5,] -0.11342803 -0.7663365  0.3608360  1.22403405 -0.8265268  1.261045070</span></span>
-<span><span class="co">## [6,]  0.66379966 -1.2086104 -0.1218102  0.83435792 -1.8961773  1.151805215</span></span>
-<span><span class="co">##           [,20]       [,21]       [,22]      [,23]      [,24]       [,25]</span></span>
-<span><span class="co">## [1,] -1.3525301 -0.90228595  0.21986234  1.7140137  1.7309975  0.74602409</span></span>
-<span><span class="co">## [2,] -0.8091922 -2.27363291  0.20854077 -0.1540283 -1.1164174 -0.05310395</span></span>
-<span><span class="co">## [3,]  0.5378237 -0.03316571 -0.27216629 -0.5039993 -0.1865994 -0.79026591</span></span>
-<span><span class="co">## [4,] -0.3044058  0.39915731 -0.54615606 -1.0883485 -0.6943658 -1.00291231</span></span>
-<span><span class="co">## [5,] -0.1299859 -1.53565884  0.03956295 -0.5873782  0.1000467 -1.63964609</span></span>
-<span><span class="co">## [6,] -0.6253794 -0.99818155  0.14399058 -0.4114348 -0.3822816 -0.54459743</span></span>
-<span><span class="co">##            [,26]      [,27]      [,28]      [,29]      [,30]        [,31]</span></span>
-<span><span class="co">## [1,]  0.35040014 -1.9244114  1.0994142 -0.8017454 0.06630328  0.018409306</span></span>
-<span><span class="co">## [2,] -0.04033414 -2.4342194  0.1775621  0.4003911 1.99938051 -0.001305528</span></span>
-<span><span class="co">## [3,] -0.16474872 -1.2637777  0.1026267  0.2428714 0.58283064  0.195284812</span></span>
-<span><span class="co">## [4,] -0.32528226 -0.6078707 -0.1877018  0.3551147 0.25573785 -0.906437879</span></span>
-<span><span class="co">## [5,] -1.00529104 -1.7031747  1.2513900  0.4557731 0.18030373  0.863123205</span></span>
-<span><span class="co">## [6,] -1.13653850 -1.8444441 -0.1379572  0.2130001 0.62098951  0.555737550</span></span>
-<span><span class="co">##           [,32]       [,33]       [,34]       [,35]      [,36]       [,37]</span></span>
-<span><span class="co">## [1,]  0.3581564 -0.29453308 -1.22243261 -0.83359997  0.5626265  0.27147656</span></span>
-<span><span class="co">## [2,] -0.2014190 -0.32778650 -0.54913966 -1.38506568 -0.2047991 -0.55698357</span></span>
-<span><span class="co">## [3,] -0.3263791 -0.32772422  0.19305454 -0.01615896  0.1681945 -0.03517469</span></span>
-<span><span class="co">## [4,] -0.5392833 -0.06349666 -0.32993882 -1.26199626  0.3987478  0.47164230</span></span>
-<span><span class="co">## [5,] -0.2326273 -0.49177219 -0.22691262 -1.14278654  1.1506724  0.50078317</span></span>
-<span><span class="co">## [6,]  0.5669336 -0.12087072  0.00246478 -0.45564116  0.2931448  0.29778589</span></span>
-<span><span class="co">##           [,38]       [,39]      [,40]       [,41]     [,42]      [,43]</span></span>
-<span><span class="co">## [1,] -0.7485256  0.41777984  0.4383434 -2.50295425 0.3573508 -1.6484713</span></span>
-<span><span class="co">## [2,]  0.7616677  0.77111513 -1.1546844 -0.50097650 0.6704736  0.9528671</span></span>
-<span><span class="co">## [3,]  0.2185019  0.16336572 -0.3048052 -0.92621527 0.7283678  0.2140502</span></span>
-<span><span class="co">## [4,]  0.1381785 -0.05387757 -0.4122033 -0.09306071 0.7372195 -0.0273528</span></span>
-<span><span class="co">## [5,]  0.3879110  0.19807621 -0.5889438 -0.69818005 0.6589139  0.4508320</span></span>
-<span><span class="co">## [6,]  0.6482173  0.20978183 -1.0426766 -1.42117800 0.4702585  0.2349036</span></span>
-<span><span class="co">##           [,44]       [,45]       [,46]       [,47]      [,48]      [,49]</span></span>
-<span><span class="co">## [1,] -0.4895815 -0.59446975  0.71408399 -1.23068370  0.3799625 -0.3894140</span></span>
-<span><span class="co">## [2,] -0.2195819  0.62827717 -0.52972392  1.08694513  0.5879184 -2.0141168</span></span>
-<span><span class="co">## [3,]  0.2567104 -0.48469833  0.12967940  0.37968571  0.4806475 -0.5887303</span></span>
-<span><span class="co">## [4,]  0.1112703  0.02530738 -0.21172745  0.99822491  0.5224671 -0.6332211</span></span>
-<span><span class="co">## [5,]  0.2628886  0.19487445 -0.07063846 -0.59261012 -0.2320150 -0.7073504</span></span>
-<span><span class="co">## [6,]  0.9833049 -0.10346168  0.52593553  0.01375025  0.1666974 -0.5304861</span></span>
-<span><span class="co">##            [,50]</span></span>
-<span><span class="co">## [1,] -0.39796516</span></span>
-<span><span class="co">## [2,] -0.02853424</span></span>
-<span><span class="co">## [3,] -0.06295446</span></span>
-<span><span class="co">## [4,]  0.44533316</span></span>
-<span><span class="co">## [5,] -0.25872334</span></span>
-<span><span class="co">## [6,] -0.23373365</span></span></code></pre>
+<pre><code><span><span class="co">##           [,1]       [,2]       [,3]       [,4]       [,5]       [,6]      [,7]</span></span>
+<span><span class="co">## [1,] 0.9620371  0.3110799  1.1089848  1.5289340  1.9271125  0.5422921 -2.758546</span></span>
+<span><span class="co">## [2,] 0.7523121 -0.2465434 -0.1081170  1.3678515 -0.8973240  0.5026232 -1.689691</span></span>
+<span><span class="co">## [3,] 1.2591073  1.1140162  1.5139605 -0.2417953 -0.3189655  1.2008635 -2.404611</span></span>
+<span><span class="co">## [4,] 1.7502957  0.5348216  1.0360547  0.1344173 -0.4961112  0.3310037 -2.461843</span></span>
+<span><span class="co">## [5,] 2.3368448  0.9677439 -0.1354583  0.8147331 -1.2502722  0.2982408 -1.133255</span></span>
+<span><span class="co">## [6,] 1.5662205  1.2977930 -1.2149662  0.7562771 -0.4726028 -0.5316084 -1.467567</span></span>
+<span><span class="co">##              [,8]        [,9]      [,10]       [,11]      [,12]      [,13]</span></span>
+<span><span class="co">## [1,] -0.878289353 -0.15136731  0.1172642 -0.92775162 -0.3091796 -0.1220917</span></span>
+<span><span class="co">## [2,]  0.813173248  0.59382729  0.6982216  0.03104585  0.1555940 -0.3218627</span></span>
+<span><span class="co">## [3,]  0.003985041  0.58233627 -0.3576803  0.57576658  1.9525325 -0.4242322</span></span>
+<span><span class="co">## [4,]  0.411869535  0.01113766 -0.9077542  0.37998687  0.8279598 -1.3414098</span></span>
+<span><span class="co">## [5,]  0.876151822  0.95284957  0.5277299  0.71076255  0.6695275 -0.3520610</span></span>
+<span><span class="co">## [6,]  0.793425744 -0.37377837  1.0838457  0.02822141  1.1278321  0.4978481</span></span>
+<span><span class="co">##           [,14]      [,15]      [,16]      [,17]       [,18]       [,19]</span></span>
+<span><span class="co">## [1,] -0.3210947 -0.4938224  0.7106230  0.8889187  1.70684363  0.01128095</span></span>
+<span><span class="co">## [2,] -0.1754038  0.6160532 -0.9181360  0.4636540  0.51142758  1.21264067</span></span>
+<span><span class="co">## [3,]  0.4392647 -0.2331439 -1.3500701  0.2058900  0.74297811 -0.95106356</span></span>
+<span><span class="co">## [4,] -0.4461322 -0.6943448 -0.7144001  0.5240779 -0.17968397 -1.16574365</span></span>
+<span><span class="co">## [5,] -1.8010309  1.0516648 -0.6462458 -0.6351850 -0.06087527 -0.86220708</span></span>
+<span><span class="co">## [6,] -1.0686411  0.6988442 -0.3760458 -0.3196726  0.28263895 -1.28542961</span></span>
+<span><span class="co">##          [,20]      [,21]      [,22]        [,23]       [,24]       [,25]</span></span>
+<span><span class="co">## [1,] 0.8458046  0.4229522  0.7136327 -1.841563590  0.87965590  0.92801217</span></span>
+<span><span class="co">## [2,] 0.6218108 -1.1372960 -0.4426513 -1.685418172  1.54751262  0.87362884</span></span>
+<span><span class="co">## [3,] 0.3962581  0.1806827 -1.0079143  0.214192733  1.17013068  0.64154416</span></span>
+<span><span class="co">## [4,] 0.3318306  0.6172806 -0.7042294 -0.003759057  0.67068982 -0.04539306</span></span>
+<span><span class="co">## [5,] 0.1319873 -0.2153216 -0.6080445 -1.649523606 -0.12483384  0.98129078</span></span>
+<span><span class="co">## [6,] 0.4044962 -1.2597042 -0.3466557 -1.614609822 -0.03334281  0.68874209</span></span>
+<span><span class="co">##           [,26]       [,27]      [,28]      [,29]      [,30]       [,31]</span></span>
+<span><span class="co">## [1,]  0.3510249 -0.01225293 -2.0413161 0.66673214  0.4173229  0.84279872</span></span>
+<span><span class="co">## [2,]  0.8029553  0.58322427  0.1781413 0.38988367  0.9001791  0.03546506</span></span>
+<span><span class="co">## [3,] -0.1261648 -0.01674851  0.4138024 0.12823155 -0.2352651  0.32848967</span></span>
+<span><span class="co">## [4,] -0.2200947  0.54860572  0.6855232 0.23337603 -0.2037149 -0.30363563</span></span>
+<span><span class="co">## [5,] -0.9339121  0.82257050 -0.5342728 0.83299562 -0.4068402  0.83941742</span></span>
+<span><span class="co">## [6,] -0.4180738  0.98051586 -0.4651916 0.08865279  0.8604329  0.59265549</span></span>
+<span><span class="co">##            [,32]      [,33]      [,34]     [,35]       [,36]       [,37]</span></span>
+<span><span class="co">## [1,]  0.76768568  0.9562948  1.1221015 1.2919747  0.64092555 -0.02953907</span></span>
+<span><span class="co">## [2,]  1.28980139  0.3136727 -0.8747969 1.3693149  0.33529346 -1.66417862</span></span>
+<span><span class="co">## [3,]  0.26533135  0.3041565 -0.3860913 0.1701034 -0.53692301 -0.49671823</span></span>
+<span><span class="co">## [4,]  1.14073633  0.1221311 -0.7054455 0.6285957 -0.41847179 -0.23790211</span></span>
+<span><span class="co">## [5,] -0.09167963  0.8495608 -1.5672563 0.8577989 -0.16408546 -0.79815152</span></span>
+<span><span class="co">## [6,] -0.26523843 -0.3302569 -0.5968303 0.6888426 -0.06198161 -1.07154845</span></span>
+<span><span class="co">##           [,38]      [,39]      [,40]      [,41]       [,42]       [,43]</span></span>
+<span><span class="co">## [1,] -0.5743165 -0.0616172 -0.9666513  0.6549592  0.64706327 -1.42437001</span></span>
+<span><span class="co">## [2,]  1.3470207  0.3350110 -0.4193424 -0.5543509  0.42738160 -0.16331417</span></span>
+<span><span class="co">## [3,]  0.4687317  0.6755292 -0.2090447  0.5463401  0.55922115 -0.05127076</span></span>
+<span><span class="co">## [4,] -0.2027674 -0.2491808 -0.3058621  0.5949275 -0.03533708 -0.60159931</span></span>
+<span><span class="co">## [5,]  0.1954227  0.5137788 -0.2657544 -0.3563407  0.48550485 -0.13219288</span></span>
+<span><span class="co">## [6,]  0.4545507  0.9457214 -0.1728273 -0.2370770  0.61332027  0.32498225</span></span>
+<span><span class="co">##           [,44]</span></span>
+<span><span class="co">## [1,] -0.7647771</span></span>
+<span><span class="co">## [2,] -0.9288050</span></span>
+<span><span class="co">## [3,] -0.8671982</span></span>
+<span><span class="co">## [4,] -0.4379087</span></span>
+<span><span class="co">## [5,] -0.7633625</span></span>
+<span><span class="co">## [6,] -1.1947672</span></span></code></pre>
 <p>This low-dimensional gene expression data can then be used for any
 later tasks which would benefit from a low-dimensional embedding of the
 gene expression data for all the samples, rather than just the gene
@@ -505,17 +490,17 @@ and a “2” for each row in sample 2.</p>
 <p>We use the resulting wSIR output to project the gene expression data
 from sample 3 into low-dimensional space. We check the dimension of the
 resulting matrix.</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">wsir_obj_samples12</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/wSIR.html">wSIR</a></span><span class="op">(</span>X <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">sample1_exprs</span>, <span class="va">sample2_exprs</span><span class="op">)</span>,</span>
 <span>                           coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">sample1_coords</span>, <span class="va">sample2_coords</span><span class="op">)</span>,</span>
 <span>                           samples <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">sample1_coords</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">sample2_coords</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>                           slices <span class="op">=</span> <span class="va">optim_obj</span><span class="op">$</span><span class="va">best_slices</span>, </span>
-<span>                           alpha <span class="op">=</span> <span class="va">optim_obj</span><span class="op">$</span><span class="va">best_alpha</span>,</span>
+<span>                           slices <span class="op">=</span> <span class="fl">10</span>,<span class="co">#optim_obj$best_slices, </span></span>
+<span>                           alpha <span class="op">=</span> <span class="fl">4</span>,<span class="co">#optim_obj$best_alpha,</span></span>
 <span>                           optim_params <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">sample3_low_dim_exprs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/projectWSIR.html">projectWSIR</a></span><span class="op">(</span>wsir <span class="op">=</span> <span class="va">wsir_obj_samples12</span>, newdata <span class="op">=</span> <span class="va">sample3_exprs</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">sample3_low_dim_exprs</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] 4607   50</span></span></code></pre>
+<pre><code><span><span class="co">## [1] 4607   44</span></span></code></pre>
 <p>This low-dimensional matrix can then be used for downstream tasks
 which would benefit from a low-dimensional embedding of sample 3’s gene
 expression matrix that contains information about each cell’s location.
@@ -526,13 +511,13 @@ expression matrix.</p>
 <p>An example of a very simple application is using the wSIR scores as
 an input to a KNN cell type classification algorithm. This is
 demonstrated below, using the ‘knn’ function from ‘class’ package.</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">samples12_cell_types</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/append.html" class="external-link">append</a></span><span class="op">(</span><span class="va">sample1_cell_types</span>, <span class="va">sample2_cell_types</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">samples12_cell_types</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/append.html" class="external-link">append</a></span><span class="op">(</span><span class="va">sample1_cell_types</span>, <span class="va">sample2_cell_types</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">knn_classification_object</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/Rfast/man/knn.html" class="external-link">knn</a></span><span class="op">(</span>train <span class="op">=</span> <span class="va">wsir_obj_samples12</span><span class="op">$</span><span class="va">scores</span>, </span>
-<span>                                test <span class="op">=</span> <span class="va">sample3_low_dim_exprs</span>,</span>
-<span>                                cl <span class="op">=</span> <span class="va">samples12_cell_types</span>,</span>
-<span>                                k <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
+<span><span class="va">knn_classification_object</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/class/man/knn.html" class="external-link">knn</a></span><span class="op">(</span>train <span class="op">=</span> <span class="va">wsir_obj_samples12</span><span class="op">$</span><span class="va">scores</span>, </span>
+<span>                                 test <span class="op">=</span> <span class="va">sample3_low_dim_exprs</span>,</span>
+<span>                                 cl <span class="op">=</span> <span class="va">samples12_cell_types</span>,</span>
+<span>                                 k <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="va">knn_classification_object</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] Presomitic mesoderm Presomitic mesoderm Presomitic mesoderm</span></span>
@@ -544,15 +529,15 @@ prediction vector, demonstrating how we can use the wSIR-based
 low-dimensional gene expression data from a new sample as a step in a
 realistic analysis pipeline.</p>
 <details><summary><strong>Session Info</strong>
-</summary><div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+</summary><div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## R version 4.4.1 (2024-06-14)</span></span>
+<pre><code><span><span class="co">## R version 4.5.1 (2025-06-13)</span></span>
 <span><span class="co">## Platform: x86_64-pc-linux-gnu</span></span>
-<span><span class="co">## Running under: Ubuntu 22.04.5 LTS</span></span>
+<span><span class="co">## Running under: Ubuntu 24.04.3 LTS</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Matrix products: default</span></span>
 <span><span class="co">## BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 </span></span>
-<span><span class="co">## LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.20.so;  LAPACK version 3.10.0</span></span>
+<span><span class="co">## LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.26.so;  LAPACK version 3.12.0</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## locale:</span></span>
 <span><span class="co">##  [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       </span></span>
@@ -567,57 +552,56 @@ realistic analysis pipeline.</p>
 <span><span class="co">## [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## other attached packages:</span></span>
-<span><span class="co">##  [1] class_7.3-22       umap_0.2.10.0      vctrs_0.6.5        doBy_4.6.24       </span></span>
-<span><span class="co">##  [5] Rfast_2.1.0        RcppParallel_5.1.9 RcppZiggurat_0.1.6 Rcpp_1.0.13       </span></span>
-<span><span class="co">##  [9] ggplot2_3.5.1      magrittr_2.0.3     wSIR_0.99.3        BiocStyle_2.32.1  </span></span>
+<span><span class="co">## [1] class_7.3-23     umap_0.2.10.0    vctrs_0.6.5      doBy_4.7.0      </span></span>
+<span><span class="co">## [5] ggplot2_4.0.0    magrittr_2.0.4   wSIR_0.99.3      BiocStyle_2.36.0</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
-<span><span class="co">##  [1] rlang_1.1.4                 matrixStats_1.4.1          </span></span>
-<span><span class="co">##  [3] compiler_4.4.1              png_0.1-8                  </span></span>
-<span><span class="co">##  [5] systemfonts_1.1.0           stringr_1.5.1              </span></span>
-<span><span class="co">##  [7] pkgconfig_2.0.3             SpatialExperiment_1.14.0   </span></span>
-<span><span class="co">##  [9] crayon_1.5.3                fastmap_1.2.0              </span></span>
-<span><span class="co">## [11] backports_1.5.0             magick_2.8.5               </span></span>
-<span><span class="co">## [13] XVector_0.44.0              labeling_0.4.3             </span></span>
-<span><span class="co">## [15] utf8_1.2.4                  rmarkdown_2.28             </span></span>
-<span><span class="co">## [17] UCSC.utils_1.0.0            ragg_1.3.3                 </span></span>
-<span><span class="co">## [19] purrr_1.0.2                 xfun_0.48                  </span></span>
-<span><span class="co">## [21] zlibbioc_1.50.0             cachem_1.1.0               </span></span>
-<span><span class="co">## [23] GenomeInfoDb_1.40.1         jsonlite_1.8.9             </span></span>
-<span><span class="co">## [25] highr_0.11                  DelayedArray_0.30.1        </span></span>
-<span><span class="co">## [27] BiocParallel_1.38.0         Deriv_4.1.6                </span></span>
-<span><span class="co">## [29] broom_1.0.7                 parallel_4.4.1             </span></span>
-<span><span class="co">## [31] R6_2.5.1                    bslib_0.8.0                </span></span>
-<span><span class="co">## [33] stringi_1.8.4               reticulate_1.39.0          </span></span>
-<span><span class="co">## [35] boot_1.3-30                 GenomicRanges_1.56.2       </span></span>
-<span><span class="co">## [37] jquerylib_0.1.4             bookdown_0.41              </span></span>
-<span><span class="co">## [39] SummarizedExperiment_1.34.0 knitr_1.48                 </span></span>
-<span><span class="co">## [41] modelr_0.1.11               IRanges_2.38.1             </span></span>
-<span><span class="co">## [43] Matrix_1.7-0                tidyselect_1.2.1           </span></span>
-<span><span class="co">## [45] abind_1.4-8                 yaml_2.3.10                </span></span>
-<span><span class="co">## [47] codetools_0.2-20            lattice_0.22-6             </span></span>
-<span><span class="co">## [49] tibble_3.2.1                Biobase_2.64.0             </span></span>
-<span><span class="co">## [51] withr_3.0.1                 askpass_1.2.1              </span></span>
-<span><span class="co">## [53] evaluate_1.0.1              desc_1.4.3                 </span></span>
-<span><span class="co">## [55] pillar_1.9.0                BiocManager_1.30.25        </span></span>
-<span><span class="co">## [57] MatrixGenerics_1.16.0       stats4_4.4.1               </span></span>
-<span><span class="co">## [59] generics_0.1.3              S4Vectors_0.42.1           </span></span>
-<span><span class="co">## [61] munsell_0.5.1               scales_1.3.0               </span></span>
-<span><span class="co">## [63] glue_1.8.0                  tools_4.4.1                </span></span>
-<span><span class="co">## [65] distances_0.1.11            RSpectra_0.16-2            </span></span>
-<span><span class="co">## [67] fs_1.6.4                    cowplot_1.1.3              </span></span>
-<span><span class="co">## [69] grid_4.4.1                  tidyr_1.3.1                </span></span>
-<span><span class="co">## [71] colorspace_2.1-1            SingleCellExperiment_1.26.0</span></span>
-<span><span class="co">## [73] GenomeInfoDbData_1.2.12     cli_3.6.3                  </span></span>
-<span><span class="co">## [75] textshaping_0.4.0           fansi_1.0.6                </span></span>
-<span><span class="co">## [77] S4Arrays_1.4.1              dplyr_1.1.4                </span></span>
-<span><span class="co">## [79] gtable_0.3.5                sass_0.4.9                 </span></span>
-<span><span class="co">## [81] digest_0.6.37               BiocGenerics_0.50.0        </span></span>
-<span><span class="co">## [83] SparseArray_1.4.8           rjson_0.2.23               </span></span>
-<span><span class="co">## [85] farver_2.1.2                htmltools_0.5.8.1          </span></span>
-<span><span class="co">## [87] pkgdown_2.1.1               lifecycle_1.0.4            </span></span>
-<span><span class="co">## [89] httr_1.4.7                  microbenchmark_1.5.0       </span></span>
-<span><span class="co">## [91] openssl_2.2.2               MASS_7.3-60.2</span></span></code></pre>
+<span><span class="co">##  [1] tidyselect_1.2.1            dplyr_1.1.4                </span></span>
+<span><span class="co">##  [3] farver_2.1.2                S7_0.2.0                   </span></span>
+<span><span class="co">##  [5] fastmap_1.2.0               SingleCellExperiment_1.30.1</span></span>
+<span><span class="co">##  [7] digest_0.6.37               lifecycle_1.0.4            </span></span>
+<span><span class="co">##  [9] Deriv_4.2.0                 compiler_4.5.1             </span></span>
+<span><span class="co">## [11] rlang_1.1.6                 sass_0.4.10                </span></span>
+<span><span class="co">## [13] tools_4.5.1                 yaml_2.3.10                </span></span>
+<span><span class="co">## [15] knitr_1.50                  labeling_0.4.3             </span></span>
+<span><span class="co">## [17] askpass_1.2.1               S4Arrays_1.8.1             </span></span>
+<span><span class="co">## [19] reticulate_1.43.0           DelayedArray_0.34.1        </span></span>
+<span><span class="co">## [21] RColorBrewer_1.1-3          abind_1.4-8                </span></span>
+<span><span class="co">## [23] BiocParallel_1.42.2         withr_3.0.2                </span></span>
+<span><span class="co">## [25] purrr_1.1.0                 BiocGenerics_0.54.0        </span></span>
+<span><span class="co">## [27] desc_1.4.3                  grid_4.5.1                 </span></span>
+<span><span class="co">## [29] stats4_4.5.1                scales_1.4.0               </span></span>
+<span><span class="co">## [31] MASS_7.3-65                 SummarizedExperiment_1.38.1</span></span>
+<span><span class="co">## [33] cli_3.6.5                   rmarkdown_2.29             </span></span>
+<span><span class="co">## [35] crayon_1.5.3                ragg_1.5.0                 </span></span>
+<span><span class="co">## [37] generics_0.1.4              RSpectra_0.16-2            </span></span>
+<span><span class="co">## [39] httr_1.4.7                  modelr_0.1.11              </span></span>
+<span><span class="co">## [41] rjson_0.2.23                energy_1.7-12              </span></span>
+<span><span class="co">## [43] cachem_1.1.0                stringr_1.5.2              </span></span>
+<span><span class="co">## [45] parallel_4.5.1              BiocManager_1.30.26        </span></span>
+<span><span class="co">## [47] XVector_0.48.0              matrixStats_1.5.0          </span></span>
+<span><span class="co">## [49] boot_1.3-31                 Matrix_1.7-3               </span></span>
+<span><span class="co">## [51] jsonlite_2.0.0              bookdown_0.44              </span></span>
+<span><span class="co">## [53] IRanges_2.42.0              distances_0.1.12           </span></span>
+<span><span class="co">## [55] S4Vectors_0.46.0            systemfonts_1.2.3          </span></span>
+<span><span class="co">## [57] magick_2.9.0                jquerylib_0.1.4            </span></span>
+<span><span class="co">## [59] tidyr_1.3.1                 glue_1.8.0                 </span></span>
+<span><span class="co">## [61] pkgdown_2.1.3               codetools_0.2-20           </span></span>
+<span><span class="co">## [63] cowplot_1.2.0               stringi_1.8.7              </span></span>
+<span><span class="co">## [65] gtable_0.3.6                GenomeInfoDb_1.44.3        </span></span>
+<span><span class="co">## [67] GenomicRanges_1.60.0        UCSC.utils_1.4.0           </span></span>
+<span><span class="co">## [69] gsl_2.1-8                   tibble_3.3.0               </span></span>
+<span><span class="co">## [71] pillar_1.11.1               htmltools_0.5.8.1          </span></span>
+<span><span class="co">## [73] openssl_2.3.3               GenomeInfoDbData_1.2.14    </span></span>
+<span><span class="co">## [75] R6_2.6.1                    textshaping_1.0.3          </span></span>
+<span><span class="co">## [77] microbenchmark_1.5.0        evaluate_1.0.5             </span></span>
+<span><span class="co">## [79] lattice_0.22-7              Biobase_2.68.0             </span></span>
+<span><span class="co">## [81] png_0.1-8                   backports_1.5.0            </span></span>
+<span><span class="co">## [83] SpatialExperiment_1.18.1    broom_1.0.10               </span></span>
+<span><span class="co">## [85] bslib_0.9.0                 Rcpp_1.1.0                 </span></span>
+<span><span class="co">## [87] SparseArray_1.8.1           xfun_0.53                  </span></span>
+<span><span class="co">## [89] fs_1.6.6                    MatrixGenerics_1.20.0      </span></span>
+<span><span class="co">## [91] pkgconfig_2.0.3</span></span></code></pre>
 </details>
 </div>
 </div>
@@ -632,7 +616,7 @@ realistic analysis pipeline.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer>
