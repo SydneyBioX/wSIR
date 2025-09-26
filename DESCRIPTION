@@ -39,8 +39,7 @@ biocViews: DimensionReduction,
 LazyData: false
 Roxygen: list(markdown = TRUE)
 Depends: R (>= 4.4.0),
-Imports: Rfast (>= 2.1.0),
-    magrittr (>= 2.0) ,
+Imports: magrittr (>= 2.0) ,
     ggplot2 (>= 3.5.1),
     umap (>= 0.2.10),
     vctrs (>= 0.6),
@@ -54,13 +53,17 @@ Imports: Rfast (>= 2.1.0),
     BiocGenerics (>= 0.50.0),
     SummarizedExperiment (>= 1.34.0),
     SingleCellExperiment (>= 1.26.0),
-    SpatialExperiment (>= 1.14.0) 
-Suggests: knitr,
+    SpatialExperiment (>= 1.14.0),
+    energy
+Suggests: 
+    knitr,
     BiocStyle,
-    class
+    class,
+    testthat (>= 3.0.0)
 LinkingTo: Rcpp,
     RcppArmadillo
 VignetteBuilder: knitr
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 NeedsCompilation: yes
 Packaged: 2024-08-19 05:25:13 UTC; linhnghiem
+Config/testthat/edition: 3

@@ -113,9 +113,9 @@ explore_params$message
 best_alpha = explore_params$best_alpha
 best_slices = explore_params$best_slices
 wsir_obj = wSIR(X = sample1_exprs,
-  coords = sample1_coords,
-  optim_params = FALSE,
-  alpha = best_alpha,
-  slices = best_slices)
+    coords = sample1_coords,
+    optim_params = FALSE,
+    alpha = best_alpha,
+    slices = best_slices)
 
 }

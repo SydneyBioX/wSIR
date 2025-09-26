@@ -7,7 +7,7 @@
 .vscode
 *_cache
 *_files
-.Rproj*
+*.Rproj*
 wSIR.BiocCheck
 docs
 
