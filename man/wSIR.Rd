@@ -88,12 +88,12 @@ into low-dimensional space.
 }
 \examples{
 data(MouseData)
-wsir_obj = wSIR(X = sample1_exprs,
-  coords = sample1_coords,
-  optim_params = TRUE,
-  optim_alpha = c(0,2,4),
-  optim_slices = c(3,6,10),
-  metric = "DC",
-  nrep = 1) # create wsir object
+wsir_obj <- wSIR(X = sample1_exprs,
+    coords = sample1_coords,
+    optim_params = TRUE,
+    optim_alpha = c(0,2,4),
+    optim_slices = c(3,6,10),
+    metric = "DC",
+    nrep = 1) # create wsir object
 
 }

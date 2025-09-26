@@ -28,17 +28,17 @@ resulting plot as much as desired with the plotUmapFromWSIR function.
 }
 \examples{
 data(MouseData)
-wsir_obj = wSIR(X = sample1_exprs,
-  coords = sample1_coords,
-  optim_params = FALSE,
-  alpha = 4,
-  slices = 6) # create wsir object
-umap_coords = generateUmapFromWSIR(WSIR = wsir_obj)
-top_genes_obj = findTopGenes(WSIR = wsir_obj, highest = 4)
-umap_plot = plotUmapFromWSIR(umap_coords = umap_coords,
-  X = sample1_exprs,
-  highest_genes = top_genes_obj,
-  n_genes = 4)
+wsir_obj <- wSIR(X = sample1_exprs,
+    coords = sample1_coords,
+    optim_params = FALSE,
+    alpha = 4,
+    slices = 6) # create wsir object
+umap_coords <- generateUmapFromWSIR(WSIR = wsir_obj)
+top_genes_obj <- findTopGenes(WSIR = wsir_obj, highest = 4)
+umap_plot <- plotUmapFromWSIR(umap_coords = umap_coords,
+    X = sample1_exprs,
+    highest_genes = top_genes_obj,
+    n_genes = 4)
 umap_plot
 
 }

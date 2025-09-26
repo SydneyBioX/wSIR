@@ -42,14 +42,14 @@ data(MouseData)
 library(SingleCellExperiment)
 library(SpatialExperiment)
 
-sce = SingleCellExperiment(assays = list(logcounts = t(sample1_exprs)),
+sce <- SingleCellExperiment(assays = list(logcounts = t(sample1_exprs)),
 reducedDims = list(spatial = sample1_coords))
 
-sce = runwSIR(x = sce, dimred = "spatial")
+sce <- runwSIR(x = sce, dimred = "spatial")
 
-spe = SpatialExperiment(assays = list(logcounts = t(sample1_exprs)),
+spe <- SpatialExperiment(assays = list(logcounts = t(sample1_exprs)),
 spatialCoords = as.matrix(sample1_coords))
 
-spe = runwSIR(x = spe, spatialCoords = TRUE)
+spe <- runwSIR(x = spe, spatialCoords = TRUE)
 
 }

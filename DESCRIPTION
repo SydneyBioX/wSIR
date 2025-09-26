@@ -63,7 +63,7 @@ Suggests:
 LinkingTo: Rcpp,
     RcppArmadillo
 VignetteBuilder: knitr
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 NeedsCompilation: yes
 Packaged: 2024-08-19 05:25:13 UTC; linhnghiem
 Config/testthat/edition: 3
