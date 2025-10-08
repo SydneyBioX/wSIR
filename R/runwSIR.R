@@ -60,7 +60,7 @@ runwSIR <- function(x,
 
     dr <- wsir_obj$scores
 
-    if (scores_only) {
+    if (!scores_only) {
 
         base::attr(dr, "directions") <- wsir_obj$directions
         base::attr(dr, "estd") <- wsir_obj$estd

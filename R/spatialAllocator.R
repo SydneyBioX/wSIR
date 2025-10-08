@@ -23,6 +23,7 @@
 
 spatialAllocator <- function(coords, slices = 3) {
 
+    coords <- as.data.frame(coords)
     sliced <- lapply(coords, function(x) {
         if (is.factor(x[1])) {
             as.integer(x)
