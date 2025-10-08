@@ -13,6 +13,7 @@
 #' represents the spatial correlation level
 #' between tiles i and j. The diagonal values should be all 1. If not
 #' provided, SIR implementation will be used.
+#' @param ... arguments passed to sirPCA
 #'
 #' @return list of outputs with 5 named slots. They are the same as the
 #' output of the wSIR function: this is
