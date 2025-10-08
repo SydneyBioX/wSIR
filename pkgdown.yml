@@ -3,7 +3,7 @@ pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
   wSIR_vignette: wSIR_vignette.html
-last_built: 2025-10-08T03:07Z
+last_built: 2025-10-08T06:28Z
 urls:
   reference: https://sydneybiox.github.io/wSIR/reference
   article: https://sydneybiox.github.io/wSIR/articles
