@@ -18,6 +18,8 @@ be up to slices^2 unique tile IDs in this column.}
 represents the spatial correlation level
 between tiles i and j. The diagonal values should be all 1. If not
 provided, SIR implementation will be used.}
+
+\item{...}{arguments passed to sirPCA}
 }
 \value{
 list of outputs with 5 named slots. They are the same as the
