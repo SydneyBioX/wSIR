@@ -23,4 +23,3 @@ install_github("SydneyBioX/wSIR")
 The analysis codes to recreate the results from the paper are:
 
 test extra text
-more test text
