@@ -47,7 +47,6 @@
 #'
 #' @importFrom stats cor
 #' @importFrom distances distances
-#' @importFrom energy bcdcor
 #'
 #' @keywords internal
 
@@ -80,8 +79,8 @@ wSIROptimisation <- function(exprs_train,
     results <- c(results, cd = current_cd)
   }
   if ("DC" %in% evalmetrics) {
-    current_dc <- energy::bcdcor(as.matrix(projected_test),
-                                 as.matrix(coords_test))
+    current_dc <- dcovU_stats(as.matrix(projected_test),
+                                 as.matrix(coords_test))["bcdcor"]
     results <- c(results, dc = current_dc)
 
   }

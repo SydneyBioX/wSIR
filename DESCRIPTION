@@ -26,44 +26,31 @@ Description: Weighted Sliced Inverse Regression (wSIR) is a supervised dimension
     information present in the gene expression data.
 License: GPL-2
 Encoding: UTF-8
-URL: https://sydneybiox.github.io/wSIR, https://sydneybiox.github.io/wSIR/
+URL: https://sydneybiox.github.io/wSIR,
+        https://sydneybiox.github.io/wSIR/
 BugReports: https://github.com/sydneybiox/wSIR/issues
-biocViews: DimensionReduction,
-    Software,
-    GeneExpression, 
-    SingleCell,
-    Spatial,
-    Transcriptomics,
-    Regression,
-    CellBasedArrays
+biocViews: DimensionReduction, Software, GeneExpression, SingleCell,
+        Spatial, Transcriptomics, Regression, CellBasedArrays
 LazyData: false
 Roxygen: list(markdown = TRUE)
 Depends: R (>= 4.4.0),
-Imports: magrittr (>= 2.0) ,
-    ggplot2 (>= 3.5.1),
-    umap (>= 0.2.10),
-    vctrs (>= 0.6),
-    stringr (>= 1.5.1),
-    distances (>= 0.1.11),
-    Rcpp (>= 1.0.11),
-    doBy (>= 4.6.0),
-    BiocParallel (>= 1.38.0),
-    rlang,
-    methods,
-    BiocGenerics (>= 0.50.0),
-    SummarizedExperiment (>= 1.34.0),
-    SingleCellExperiment (>= 1.26.0),
-    SpatialExperiment (>= 1.14.0)
-Suggests: 
-    knitr,
-    BiocStyle,
-    class,
-    testthat (>= 3.0.0),
-    energy
-LinkingTo: Rcpp,
-    RcppArmadillo
+Imports: magrittr (>= 2.0) , ggplot2 (>= 3.5.1), umap (>= 0.2.10),
+        vctrs (>= 0.6), stringr (>= 1.5.1), distances (>= 0.1.11), Rcpp
+        (>= 1.0.11), doBy (>= 4.6.0), BiocParallel (>= 1.38.0), rlang,
+        methods, BiocGenerics (>= 0.50.0), SummarizedExperiment (>=
+        1.34.0), SingleCellExperiment (>= 1.26.0), SpatialExperiment
+        (>= 1.14.0)
+Suggests: knitr, BiocStyle, class, testthat (>= 3.0.0)
+LinkingTo: Rcpp, RcppArmadillo
 VignetteBuilder: knitr
 RoxygenNote: 7.3.3
 NeedsCompilation: yes
-Packaged: 2024-08-19 05:25:13 UTC; linhnghiem
+Packaged: 2026-02-24 06:43:07 UTC; hngh7483
 Config/testthat/edition: 3
+Author: Max Woollard [aut, cre, ctb] (ORCID:
+    <https://orcid.org/0009-0000-6319-6926>),
+  Pratibha Panwar [ctb] (ORCID: <https://orcid.org/0000-0002-7437-7084>),
+  Linh Nghiem [aut, ctb] (ORCID: <https://orcid.org/0000-0003-2874-9067>),
+  Shila Ghazanfar [aut, ctb] (ORCID:
+    <https://orcid.org/0000-0001-7861-6997>)
+Maintainer: Max Woollard <mwoo5086@uni.sydney.edu.au>

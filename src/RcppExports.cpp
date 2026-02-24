@@ -23,6 +23,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// U_center
+NumericMatrix U_center(NumericMatrix Dx);
+RcppExport SEXP _wSIR_U_center(SEXP DxSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type Dx(DxSEXP);
+    rcpp_result_gen = Rcpp::wrap(U_center(Dx));
+    return rcpp_result_gen;
+END_RCPP
+}
 // computeRandZ
 Rcpp::List computeRandZ(const arma::mat& X);
 RcppExport SEXP _wSIR_computeRandZ(SEXP XSEXP) {
@@ -79,14 +90,28 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// dcovU_stats
+NumericVector dcovU_stats(NumericMatrix Dx, NumericMatrix Dy);
+RcppExport SEXP _wSIR_dcovU_stats(SEXP DxSEXP, SEXP DySEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type Dx(DxSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type Dy(DySEXP);
+    rcpp_result_gen = Rcpp::wrap(dcovU_stats(Dx, Dy));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_wSIR_matMultArma", (DL_FUNC) &_wSIR_matMultArma, 2},
+    {"_wSIR_U_center", (DL_FUNC) &_wSIR_U_center, 1},
     {"_wSIR_computeRandZ", (DL_FUNC) &_wSIR_computeRandZ, 1},
     {"_wSIR_fastEigen", (DL_FUNC) &_wSIR_fastEigen, 1},
     {"_wSIR_subsetLowerTri", (DL_FUNC) &_wSIR_subsetLowerTri, 1},
     {"_wSIR_rank", (DL_FUNC) &_wSIR_rank, 1},
     {"_wSIR_spearman_correlation", (DL_FUNC) &_wSIR_spearman_correlation, 2},
+    {"_wSIR_dcovU_stats", (DL_FUNC) &_wSIR_dcovU_stats, 2},
     {NULL, NULL, 0}
 };
 

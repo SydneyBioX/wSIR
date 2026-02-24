@@ -8,6 +8,44 @@ arma::mat matMultArma(const arma::mat& A, const arma::mat& B) {
   return A * B;
 }
 
+// [[Rcpp::export]]
+NumericMatrix U_center(NumericMatrix Dx) {
+  /*
+   computes the A_{kl}^U distances from the distance matrix (Dx_{kl}) for dCov^U
+   U-centering: if Dx = (a_{ij}) then compute U-centered A^U using
+   a_{ij} - a_{i.}/(n-2) - a_{.j}/(n-2) + a_{..}/((n-1)(n-2)), i \neq j
+   and zero diagonal
+   */
+  int j, k;
+  int n = Dx.nrow();
+  NumericVector akbar(n);
+  NumericMatrix A(n, n);
+  double abar = 0.0;
+  
+  for (k=0; k<n; k++) {
+    akbar(k) = 0.0;
+    for (j=0; j<n; j++) {
+      akbar(k) += Dx(k, j);
+    }
+    abar += akbar(k);
+    akbar(k) /= (double) (n-2);
+  }
+  abar /= (double) ((n-1)*(n-2));
+  
+  for (k=0; k<n; k++) {
+    for (j=k; j<n; j++) {
+      A(k, j) = Dx(k, j) - akbar(k) - akbar(j) + abar;
+      A(j, k) = A(k, j);
+    }
+  }
+  /* diagonal is zero */
+  for (k=0; k<n; k++)
+    A(k, k) = 0.0;
+  
+  return A;
+}
+
+
 // [[Rcpp::export(.computeRandZ)]]
 Rcpp::List computeRandZ(const arma::mat& X) {
   int n = X.n_rows;
@@ -92,4 +130,38 @@ arma::vec spearman_correlation(const arma::vec &x, const arma::vec &y) {
   // Compute the Pearson correlation on the ranks
   arma::vec spearman_corr = arma::cor(rx, ry);
   return spearman_corr;
+}
+
+
+//[[Rcpp::export]]
+NumericVector dcovU_stats(NumericMatrix Dx, NumericMatrix Dy) {
+  // x and y must be square distance matrices
+  NumericMatrix A = U_center(Dx);
+  NumericMatrix B = U_center(Dy);
+  double ab = 0.0, aa = 0.0, bb = 0.0;
+  double V, dcorU = 0.0;
+  double eps = std::numeric_limits<double>::epsilon();  //machine epsilon
+  int n = Dx.nrow();
+  int n2 = n * (n - 3);
+  
+  for (int i=0; i<n; i++)
+    for (int j=0; j<i; j++) {
+      // U-centered is symmetric, with zero diagonal
+      ab += A(i, j) * B(i, j);
+      aa += A(i, j) * A(i, j);
+      bb += B(i, j) * B(i, j);
+    }
+    ab = 2.0 * ab / (double) n2;
+  aa = 2.0 * aa / (double) n2;
+  bb = 2.0 * bb / (double) n2;
+  V = aa * bb;
+  if (V > eps)
+    dcorU = ab / sqrt(V);
+  
+  return NumericVector::create(
+    _["dCovU"] = ab,
+    _["bcdcor"] = dcorU,
+    _["dVarXU"] = aa,
+    _["dVarYU"] = bb
+  );
 }
