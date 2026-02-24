@@ -29,7 +29,7 @@ U_center <- function(Dx) {
     .Call('_wSIR_spearman_correlation', PACKAGE = 'wSIR', x, y)
 }
 
-dcovU_stats <- function(Dx, Dy) {
+.dcovU <- function(Dx, Dy) {
     .Call('_wSIR_dcovU_stats', PACKAGE = 'wSIR', Dx, Dy)
 }
 

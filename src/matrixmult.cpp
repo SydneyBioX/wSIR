@@ -133,7 +133,7 @@ arma::vec spearman_correlation(const arma::vec &x, const arma::vec &y) {
 }
 
 
-//[[Rcpp::export]]
+//[[Rcpp::export(.dcovU)]]
 NumericVector dcovU_stats(NumericMatrix Dx, NumericMatrix Dy) {
   // x and y must be square distance matrices
   NumericMatrix A = U_center(Dx);

@@ -45,7 +45,7 @@ LinkingTo: Rcpp, RcppArmadillo
 VignetteBuilder: knitr
 RoxygenNote: 7.3.3
 NeedsCompilation: yes
-Packaged: 2026-02-24 06:43:07 UTC; hngh7483
+Packaged: 2026-02-24 22:32:57 UTC; hngh7483
 Config/testthat/edition: 3
 Author: Max Woollard [aut, cre, ctb] (ORCID:
     <https://orcid.org/0009-0000-6319-6926>),

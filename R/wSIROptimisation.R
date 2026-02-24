@@ -79,7 +79,7 @@ wSIROptimisation <- function(exprs_train,
     results <- c(results, cd = current_cd)
   }
   if ("DC" %in% evalmetrics) {
-    current_dc <- dcovU_stats(as.matrix(projected_test),
+    current_dc <- .dcovU(as.matrix(projected_test),
                                  as.matrix(coords_test))["bcdcor"]
     results <- c(results, dc = current_dc)
 
