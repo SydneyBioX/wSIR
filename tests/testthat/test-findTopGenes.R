@@ -14,6 +14,6 @@ nhighest <- 3
 ndirs <- 4
 find_out <- wSIR::findTopGenes(WSIR = out,
                                highest = nhighest,
-                               dirs = ndirs)
+                               dirs = c(1:ndirs))
 dim_find_out <- nrow(find_out$genes)
 expect_equal(dim_find_out, nhighest*ndirs)
