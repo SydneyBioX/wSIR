@@ -20,7 +20,4 @@ library(devtools)
 install_github("SydneyBioX/wSIR")
 ```
 
-The analysis codes to recreate the results from the paper are:
-
-test extra text
-test text
+The analysis codes to recreate the results from the paper are available [here](https://github.com/SydneyBioX/wSIR_2024).

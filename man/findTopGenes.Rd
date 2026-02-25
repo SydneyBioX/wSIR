@@ -22,10 +22,11 @@ show/find the top genes from.}
 \value{
 List containing two slots. First is named "plot" and shows a
 barplot with the top genes
-and their corresponding loadings. Second is named "genes" and is a vector
-of the genes with highest
-(in absolute value) loading in low-dimensional direction 1. Length is
-parameter highest.
+and their corresponding loadings. Second is named "genes" and is a dataframe
+of the genes with highest (in absolute value)
+loading in the specified low-dimensional directions. There are three
+columns: gene name, loading value, and which direction it is in. The number
+of columns is the product of parameters highest and dirs.
 }
 \description{
 A function to find and visualise the genes with the highest

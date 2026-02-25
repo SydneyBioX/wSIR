@@ -1,5 +1,6 @@
 context("Test spatialAllocator")
 
+library(wSIR)
 # create extreme example of points being not together, i.e in a ring shape
 
 slices = 6 # number of slices
@@ -16,6 +17,6 @@ coords <- data.frame("x" = xcoords,
                      "y" = ycoords)
 rownames(coords) <- c(1:n)
 
-allocation <- spatialAllocator(coords = coords, slices = slices)
+allocation <- wSIR:::spatialAllocator(coords = coords, slices = slices)
 n_tiles <- allocation$coordinate %>% unique() %>% length() # find number of unique tiles
 # finish with an expect less tiles than 36 statement 
