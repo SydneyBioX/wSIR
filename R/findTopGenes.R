@@ -54,7 +54,7 @@ findTopGenes <- function(WSIR, highest = 10, dirs = 1) {
     res_df <- matrix(NA, nrow = length(dirs)*highest, ncol = 3) %>%
         as.data.frame()
     colnames(res_df) <- c("gene", "loading", "direction")
-    res_df$direction <- vctrs::vec_rep_each(paste0("WSIR",dirs), highest)
+    res_df$direction <- paste0("wSIR", vctrs::vec_rep_each(dirs, highest))
 
     j <- 0
     for (i in dirs) {

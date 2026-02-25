@@ -85,6 +85,11 @@ wSIR <- function(X,
     if (is.null(coords)) {
         stop("coords must be provided")
     }
+    nrow_x <- nrow(X)
+    nrow_coords <- nrow(coords)
+    if (nrow_x != nrow(coords)) { # Needed since wSIR would run if unequal, but clearly wrong
+      stop("number of rows in X and coords must be equal")
+    }
 
     if (optim_params) {
         if (verbose) message("Optimising parameters...")
