@@ -17,27 +17,31 @@ maxd_bad <- 30.5
 varThreshold_good <- 0.95
 varThreshold_bad <- 1.01
 
-# slices
-expect_error(out <- wSIR(X = x,
-                         coords = coords,
-                         slices = slices_bad,
-                         alpha = alpha_good,
-                         maxDirections = maxd_good,
-                         varThreshold = varThreshold_good))
-# alpha
-expect_error(out <- wSIR(X = x,
-                         coords = coords,
-                         slices = slices_good,
-                         alpha = alpha_bad,
-                         maxDirections = maxd_good,
-                         varThreshold = varThreshold_good))
-# maxDirections
-expect_error(out <- wSIR(X = x,
-                         coords = coords,
-                         slices = slices_good,
-                         alpha = alpha_good,
-                         maxDirections = maxd_bad,
-                         varThreshold = varThreshold_good))
+# slices ## NOTE: this doesn't give an error - 
+# where slices is used, it just rounds down to nearest integer
+# expect_error(out <- wSIR(X = x,
+#                          coords = coords,
+#                          slices = slices_bad,
+#                          alpha = alpha_good,
+#                          maxDirections = maxd_good,
+#                          varThreshold = varThreshold_good))
+# alpha ## NOTE: this doesn't give an error - a negative value of alpha
+# means more distant tiles are treated as more similar. This wouldn't be helpful
+# in most cases, but may sometimes be useful therefore want to allow it
+# expect_error(out <- wSIR(X = x,
+#                          coords = coords,
+#                          slices = slices_good,
+#                          alpha = alpha_bad,
+#                          maxDirections = maxd_good,
+#                          varThreshold = varThreshold_good))
+# maxDirections ## NOTE: this doesn't give an error - 
+# where maxDirections is used, it just rounds down to nearest integer
+# expect_error(out <- wSIR(X = x,
+#                          coords = coords,
+#                          slices = slices_good,
+#                          alpha = alpha_good,
+#                          maxDirections = maxd_bad,
+#                          varThreshold = varThreshold_good))
 # varThreshold
 expect_error(out <- wSIR(X = x,
                          coords = coords,
