@@ -308,12 +308,12 @@ utilise the</p>
 <code class="sourceCode R"><span><span class="va">top_genes_obj</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/findTopGenes.html">findTopGenes</a></span><span class="op">(</span>WSIR <span class="op">=</span> <span class="va">wsir_obj</span>, highest <span class="op">=</span> <span class="fl">8</span><span class="op">)</span> <span class="co"># create top genes object</span></span>
 <span><span class="va">top_genes_plot</span> <span class="op">&lt;-</span> <span class="va">top_genes_obj</span><span class="op">$</span><span class="va">plot</span> <span class="co"># select plot</span></span>
 <span><span class="va">top_genes_plot</span> <span class="co"># print plot</span></span></code></pre></div>
-<p><img src="wSIR_vignette_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
+<p><img src="wSIR_vignette_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" alt="" width="700"></p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">top_genes_obj</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/findTopGenes.html">findTopGenes</a></span><span class="op">(</span>WSIR <span class="op">=</span> <span class="va">wsir_obj</span>, highest <span class="op">=</span> <span class="fl">8</span>, dirs <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span></span>
 <span><span class="va">top_genes_plot</span> <span class="op">&lt;-</span> <span class="va">top_genes_obj</span><span class="op">$</span><span class="va">plot</span></span>
 <span><span class="va">top_genes_plot</span></span></code></pre></div>
-<p><img src="wSIR_vignette_files/figure-html/unnamed-chunk-6-2.png" width="700"></p>
+<p><img src="wSIR_vignette_files/figure-html/unnamed-chunk-6-2.png" class="r-plt" alt="" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="visualising-wsir-scores">Visualising wSIR Scores<a class="anchor" aria-label="anchor" href="#visualising-wsir-scores"></a>
@@ -335,7 +335,7 @@ and low wSIR column values spread across the tissue.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">vis_obj</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/visualiseWSIRDirections.html">visualiseWSIRDirections</a></span><span class="op">(</span>coords <span class="op">=</span> <span class="va">sample1_coords</span>, WSIR <span class="op">=</span> <span class="va">wsir_obj</span>, dirs <span class="op">=</span> <span class="fl">8</span><span class="op">)</span> <span class="co"># create visualisations</span></span>
 <span><span class="va">vis_obj</span></span></code></pre></div>
-<p><img src="wSIR_vignette_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
+<p><img src="wSIR_vignette_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="umap-on-low-dimensional-embedding">UMAP on low-dimensional embedding<a class="anchor" aria-label="anchor" href="#umap-on-low-dimensional-embedding"></a>
@@ -374,7 +374,7 @@ on their expression for those genes.</p>
 <span>                               highest_genes <span class="op">=</span> <span class="va">top_genes_obj</span>,</span>
 <span>                               n_genes <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
 <span><span class="va">umap_plots</span></span></code></pre></div>
-<p><img src="wSIR_vignette_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
+<p><img src="wSIR_vignette_files/figure-html/unnamed-chunk-8-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 </div>
 <div class="section level2">
@@ -531,7 +531,7 @@ realistic analysis pipeline.</p>
 <details><summary><strong>Session Info</strong>
 </summary><div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## R version 4.5.1 (2025-06-13)</span></span>
+<pre><code><span><span class="co">## R version 4.5.2 (2025-10-31)</span></span>
 <span><span class="co">## Platform: x86_64-pc-linux-gnu</span></span>
 <span><span class="co">## Running under: Ubuntu 24.04.3 LTS</span></span>
 <span><span class="co">## </span></span>
@@ -552,56 +552,56 @@ realistic analysis pipeline.</p>
 <span><span class="co">## [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## other attached packages:</span></span>
-<span><span class="co">## [1] class_7.3-23     umap_0.2.10.0    vctrs_0.6.5      doBy_4.7.0      </span></span>
-<span><span class="co">## [5] ggplot2_4.0.0    magrittr_2.0.4   wSIR_0.99.3      BiocStyle_2.36.0</span></span>
+<span><span class="co">## [1] class_7.3-23     umap_0.2.10.0    vctrs_0.7.1      doBy_4.7.1      </span></span>
+<span><span class="co">## [5] ggplot2_4.0.2    magrittr_2.0.4   wSIR_0.99.3      BiocStyle_2.38.0</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
-<span><span class="co">##  [1] tidyselect_1.2.1            dplyr_1.1.4                </span></span>
-<span><span class="co">##  [3] farver_2.1.2                S7_0.2.0                   </span></span>
-<span><span class="co">##  [5] fastmap_1.2.0               SingleCellExperiment_1.30.1</span></span>
-<span><span class="co">##  [7] digest_0.6.37               lifecycle_1.0.4            </span></span>
-<span><span class="co">##  [9] Deriv_4.2.0                 compiler_4.5.1             </span></span>
-<span><span class="co">## [11] rlang_1.1.6                 sass_0.4.10                </span></span>
-<span><span class="co">## [13] tools_4.5.1                 yaml_2.3.10                </span></span>
-<span><span class="co">## [15] knitr_1.50                  labeling_0.4.3             </span></span>
-<span><span class="co">## [17] askpass_1.2.1               S4Arrays_1.8.1             </span></span>
-<span><span class="co">## [19] reticulate_1.43.0           DelayedArray_0.34.1        </span></span>
-<span><span class="co">## [21] RColorBrewer_1.1-3          abind_1.4-8                </span></span>
-<span><span class="co">## [23] BiocParallel_1.42.2         withr_3.0.2                </span></span>
-<span><span class="co">## [25] purrr_1.1.0                 BiocGenerics_0.54.0        </span></span>
-<span><span class="co">## [27] desc_1.4.3                  grid_4.5.1                 </span></span>
-<span><span class="co">## [29] stats4_4.5.1                scales_1.4.0               </span></span>
-<span><span class="co">## [31] MASS_7.3-65                 SummarizedExperiment_1.38.1</span></span>
-<span><span class="co">## [33] cli_3.6.5                   rmarkdown_2.30             </span></span>
-<span><span class="co">## [35] crayon_1.5.3                ragg_1.5.0                 </span></span>
-<span><span class="co">## [37] generics_0.1.4              RSpectra_0.16-2            </span></span>
-<span><span class="co">## [39] httr_1.4.7                  modelr_0.1.11              </span></span>
-<span><span class="co">## [41] rjson_0.2.23                energy_1.7-12              </span></span>
-<span><span class="co">## [43] cachem_1.1.0                stringr_1.5.2              </span></span>
-<span><span class="co">## [45] parallel_4.5.1              BiocManager_1.30.26        </span></span>
-<span><span class="co">## [47] XVector_0.48.0              matrixStats_1.5.0          </span></span>
-<span><span class="co">## [49] boot_1.3-31                 Matrix_1.7-3               </span></span>
-<span><span class="co">## [51] jsonlite_2.0.0              bookdown_0.45              </span></span>
-<span><span class="co">## [53] IRanges_2.42.0              distances_0.1.12           </span></span>
-<span><span class="co">## [55] S4Vectors_0.46.0            systemfonts_1.3.1          </span></span>
-<span><span class="co">## [57] magick_2.9.0                jquerylib_0.1.4            </span></span>
-<span><span class="co">## [59] tidyr_1.3.1                 glue_1.8.0                 </span></span>
-<span><span class="co">## [61] pkgdown_2.1.3               codetools_0.2-20           </span></span>
-<span><span class="co">## [63] cowplot_1.2.0               stringi_1.8.7              </span></span>
-<span><span class="co">## [65] gtable_0.3.6                GenomeInfoDb_1.44.3        </span></span>
-<span><span class="co">## [67] GenomicRanges_1.60.0        UCSC.utils_1.4.0           </span></span>
-<span><span class="co">## [69] gsl_2.1-8                   tibble_3.3.0               </span></span>
-<span><span class="co">## [71] pillar_1.11.1               htmltools_0.5.8.1          </span></span>
-<span><span class="co">## [73] openssl_2.3.4               GenomeInfoDbData_1.2.14    </span></span>
-<span><span class="co">## [75] R6_2.6.1                    textshaping_1.0.3          </span></span>
-<span><span class="co">## [77] microbenchmark_1.5.0        evaluate_1.0.5             </span></span>
-<span><span class="co">## [79] lattice_0.22-7              Biobase_2.68.0             </span></span>
-<span><span class="co">## [81] png_0.1-8                   backports_1.5.0            </span></span>
-<span><span class="co">## [83] SpatialExperiment_1.18.1    broom_1.0.10               </span></span>
-<span><span class="co">## [85] bslib_0.9.0                 Rcpp_1.1.0                 </span></span>
-<span><span class="co">## [87] SparseArray_1.8.1           xfun_0.53                  </span></span>
-<span><span class="co">## [89] fs_1.6.6                    MatrixGenerics_1.20.0      </span></span>
-<span><span class="co">## [91] pkgconfig_2.0.3</span></span></code></pre>
+<span><span class="co">##  [1] tidyselect_1.2.1            timeDate_4052.112          </span></span>
+<span><span class="co">##  [3] dplyr_1.2.0                 farver_2.1.2               </span></span>
+<span><span class="co">##  [5] S7_0.2.1                    fastmap_1.2.0              </span></span>
+<span><span class="co">##  [7] SingleCellExperiment_1.32.0 digest_0.6.39              </span></span>
+<span><span class="co">##  [9] lifecycle_1.0.5             Deriv_4.2.0                </span></span>
+<span><span class="co">## [11] compiler_4.5.2              rlang_1.1.7                </span></span>
+<span><span class="co">## [13] sass_0.4.10                 tools_4.5.2                </span></span>
+<span><span class="co">## [15] yaml_2.3.12                 knitr_1.51                 </span></span>
+<span><span class="co">## [17] labeling_0.4.3              askpass_1.2.1              </span></span>
+<span><span class="co">## [19] S4Arrays_1.10.1             reticulate_1.45.0          </span></span>
+<span><span class="co">## [21] DelayedArray_0.36.0         RColorBrewer_1.1-3         </span></span>
+<span><span class="co">## [23] abind_1.4-8                 BiocParallel_1.44.0        </span></span>
+<span><span class="co">## [25] withr_3.0.2                 purrr_1.2.1                </span></span>
+<span><span class="co">## [27] BiocGenerics_0.56.0         desc_1.4.3                 </span></span>
+<span><span class="co">## [29] grid_4.5.2                  stats4_4.5.2               </span></span>
+<span><span class="co">## [31] colorspace_2.1-2            scales_1.4.0               </span></span>
+<span><span class="co">## [33] MASS_7.3-65                 SummarizedExperiment_1.40.0</span></span>
+<span><span class="co">## [35] cli_3.6.5                   rmarkdown_2.30             </span></span>
+<span><span class="co">## [37] ragg_1.5.0                  generics_0.1.4             </span></span>
+<span><span class="co">## [39] RSpectra_0.16-2             modelr_0.1.11              </span></span>
+<span><span class="co">## [41] rjson_0.2.23                cachem_1.1.0               </span></span>
+<span><span class="co">## [43] stringr_1.6.0               forecast_9.0.1             </span></span>
+<span><span class="co">## [45] parallel_4.5.2              urca_1.3-4                 </span></span>
+<span><span class="co">## [47] BiocManager_1.30.27         XVector_0.50.0             </span></span>
+<span><span class="co">## [49] matrixStats_1.5.0           boot_1.3-32                </span></span>
+<span><span class="co">## [51] Matrix_1.7-4                jsonlite_2.0.0             </span></span>
+<span><span class="co">## [53] bookdown_0.46               IRanges_2.44.0             </span></span>
+<span><span class="co">## [55] distances_0.1.13            S4Vectors_0.48.0           </span></span>
+<span><span class="co">## [57] systemfonts_1.3.1           magick_2.9.1               </span></span>
+<span><span class="co">## [59] jquerylib_0.1.4             tidyr_1.3.2                </span></span>
+<span><span class="co">## [61] glue_1.8.0                  pkgdown_2.2.0              </span></span>
+<span><span class="co">## [63] codetools_0.2-20            cowplot_1.2.0              </span></span>
+<span><span class="co">## [65] stringi_1.8.7               gtable_0.3.6               </span></span>
+<span><span class="co">## [67] GenomicRanges_1.62.1        tibble_3.3.1               </span></span>
+<span><span class="co">## [69] pillar_1.11.1               htmltools_0.5.9            </span></span>
+<span><span class="co">## [71] Seqinfo_1.0.0               openssl_2.3.5              </span></span>
+<span><span class="co">## [73] R6_2.6.1                    textshaping_1.0.4          </span></span>
+<span><span class="co">## [75] microbenchmark_1.5.0        evaluate_1.0.5             </span></span>
+<span><span class="co">## [77] lattice_0.22-7              Biobase_2.70.0             </span></span>
+<span><span class="co">## [79] png_0.1-8                   backports_1.5.0            </span></span>
+<span><span class="co">## [81] SpatialExperiment_1.20.0    broom_1.0.12               </span></span>
+<span><span class="co">## [83] fracdiff_1.5-3              bslib_0.10.0               </span></span>
+<span><span class="co">## [85] Rcpp_1.1.1                  SparseArray_1.10.8         </span></span>
+<span><span class="co">## [87] nlme_3.1-168                xfun_0.56                  </span></span>
+<span><span class="co">## [89] fs_1.6.6                    MatrixGenerics_1.22.0      </span></span>
+<span><span class="co">## [91] zoo_1.8-15                  pkgconfig_2.0.3</span></span></code></pre>
 </details>
 </div>
 </div>
@@ -616,7 +616,7 @@ realistic analysis pipeline.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

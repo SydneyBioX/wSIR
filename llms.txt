@@ -1,0 +1,71 @@
+# wSIR
+
+wSIR: ***W***eighted ***S***liced ***I***nverse ***R***egression for
+supervised dimension reduction of spatial transcriptomics and single
+cell gene expression data
+
+This is an R package for computation of the wSIR low-dimensional
+embedding of gene expression data, using its spatial coordinates. It
+includes functions to analyse the resulting low-dimensional space, as
+well as the mapping from high-dimensional gene expression data to
+low-dimensional space. There is a function to project new gene
+expression data (where the spatial coordinates are unknown) into a
+low-dimensional space which has the ability to predict each cell’s
+spatial location.
+
+For an overview of the method and examples, see the vignette at this
+[website](https://sydneybiox.github.io/wSIR/articles/wSIR_vignette.html).
+
+## Installation
+
+To install wSIR via Bioconductor: (note this won’t work yet, only once
+wSIR is actually on Bioconductor)
+`{r} library(BiocManager) BiocManager::install("wSIR")` To install wSIR
+from [GitHub](https://github.com/SydneyBioX/wSIR):
+
+`{r} library(devtools) install_github("SydneyBioX/wSIR")`
+
+The analysis codes to recreate the results from the paper are available
+[here](https://github.com/SydneyBioX/wSIR_2024).
+
+# Package index
+
+## All functions
+
+- [`MouseData`](https://sydneybiox.github.io/wSIR/reference/MouseData.md)
+  [`sample1_exprs`](https://sydneybiox.github.io/wSIR/reference/MouseData.md)
+  [`sample1_coords`](https://sydneybiox.github.io/wSIR/reference/MouseData.md)
+  [`sample1_cell_types`](https://sydneybiox.github.io/wSIR/reference/MouseData.md)
+  [`sample2_exprs`](https://sydneybiox.github.io/wSIR/reference/MouseData.md)
+  [`sample2_coords`](https://sydneybiox.github.io/wSIR/reference/MouseData.md)
+  [`sample2_cell_types`](https://sydneybiox.github.io/wSIR/reference/MouseData.md)
+  [`sample3_exprs`](https://sydneybiox.github.io/wSIR/reference/MouseData.md)
+  [`sample3_coords`](https://sydneybiox.github.io/wSIR/reference/MouseData.md)
+  [`sample3_cell_types`](https://sydneybiox.github.io/wSIR/reference/MouseData.md)
+  : MouseGastrulationData
+- [`calculatewSIR()`](https://sydneybiox.github.io/wSIR/reference/calculatewSIR.md)
+  : calculatewSIR
+- [`.generateBPParam()`](https://sydneybiox.github.io/wSIR/reference/dot-generateBPParam.md)
+  : Utility function to generate BPPARAM object.
+- [`exploreWSIRParams()`](https://sydneybiox.github.io/wSIR/reference/exploreWSIRParams.md)
+  : exploreWSIRParams function
+- [`findTopGenes()`](https://sydneybiox.github.io/wSIR/reference/findTopGenes.md)
+  : findTopGenes
+- [`generateUmapFromWSIR()`](https://sydneybiox.github.io/wSIR/reference/generateUmapFromWSIR.md)
+  : generateUmapfromWSIR
+- [`plotUmapFromWSIR()`](https://sydneybiox.github.io/wSIR/reference/plotUmapFromWSIR.md)
+  : plotUmapFromWSIR
+- [`projectWSIR()`](https://sydneybiox.github.io/wSIR/reference/projectWSIR.md)
+  : projectWSIR
+- [`runwSIR()`](https://sydneybiox.github.io/wSIR/reference/runwSIR.md)
+  : runwSIR
+- [`visualiseWSIRDirections()`](https://sydneybiox.github.io/wSIR/reference/visualiseWSIRDirections.md)
+  : visualiseWSIRDirections
+- [`wSIR()`](https://sydneybiox.github.io/wSIR/reference/wSIR.md) : wSIR
+
+# Articles
+
+### All vignettes
+
+- [Weighted Sliced Inverse Regression
+  (WSIR)](https://sydneybiox.github.io/wSIR/articles/wSIR_vignette.md):

@@ -1,0 +1,567 @@
+# Weighted Sliced Inverse Regression (WSIR)
+
+``` r
+library(wSIR) # package itself
+library(magrittr) # for %>% 
+library(ggplot2) # for ggplot
+library(doBy) # for which.maxn
+library(vctrs) # for vec_rep_each
+library(umap) # for umap
+library(class) # for example wSIR application
+```
+
+## Introduction
+
+Weighted Sliced Inverse Regression (wSIR) is a supervised dimension
+reduction technique for spatial transcriptomics data. This method uses
+each cell’s gene expression values as covariates and spatial position as
+the response. This allows us to create a low-dimensional representation
+of the gene expression data that retains the information about spatial
+patterns that is present in the gene expression data. The resulting
+mapping from gene expression data to a spatially aware low-dimensional
+embedding can be used to project new single-cell gene expression data
+into a low-dimensional space which preserves the ability to predict each
+cell’s spatial location from its low-dimensional embedding.
+
+### Method Overview
+
+wSIR is an extension of the supervised dimension reduction technique of
+Sliced Inverse Regression (SIR).
+
+SIR is an existing supervised dimension reduction method which works by
+grouping together the observations with similar values for the response.
+For spatial transcriptomics data, this means grouping all the cells into
+a certain number of tiles based on their spatial position. For example,
+if we use 4 tiles, then the cells in the top right quadrant of the
+image/tissue go to one group, those in the top left to another, and so
+on. Each of those groups is then summarised by averaging the expression
+level of all cells in each group for each of the genes. From there,
+eigendecomposition is performed on the resulting matrix of tile-gene
+means, then returning the SIR directions and SIR scores.
+
+The motivation behind wSIR is that SIR only uses each cell’s spatial
+position when we are separating the cells into the given number of
+groups/tiles. Once those groups are created, we lose the fact that some
+groups may be more spatially related (if they come from adjacent tiles)
+than other groups (if they come from opposite sides of the tissue). wSIR
+uses a weight matrix to incorporate the spatial correlation between all
+pairs of cells in the SIR algorithm. This matrix has dimension H\*H,
+where H is the number of tiles, and the (i,j)th entry represents the
+distance between tiles i and j. This matrix is incorporated into the
+eigendeomposition step. The wSIR output has the same structure as the
+SIR output.
+
+### Vignette Overview
+
+In this vignette, we will demonstrate how to use WSIR to obtain a
+low-dimensional embedding of gene expression data. We will then explore
+this embedding using the package’s built-in functions. However, this
+low-dimensional matrix is more importantly used for your own downstream
+tasks that would benefit from a lower-dimensional representation of gene
+expression data that preserves information about each cell’s spatial
+location. We perform some basic downstream analysis to demonstrate the
+practicality of wSIR.
+
+## Data
+
+We use data from [Lohoff et al,
+2021](https://www.nature.com/articles/s41587-021-01006-2). The code
+below would allow you to download the mouse data yourself using the
+MouseGastrulationData and scran R packages. We randomly sample 20% of
+the cells from each of the three biological replicate samples.
+
+    # Packages needed to download data
+    #library(scran) # for logNormCounts
+    #library(MouseGastrulationData) # to download the data for this vignette
+
+    set.seed(2024)
+
+    seqfish_data_sample1 <- LohoffSeqFISHData(samples = c(1,2))
+    seqfish_data_sample1 <- logNormCounts(seqfish_data_sample1) # log transform variance stabilising
+    rownames(seqfish_data_sample1) <- rowData(seqfish_data_sample1)[,"SYMBOL"] # change rownames to gene symbols that are consistent
+    sample1_exprs <- t(assay(seqfish_data_sample1, "logcounts")) # extract matrix of gene expressions
+    sample1_coords <- spatialCoords(seqfish_data_sample1)[,1:2] %>% as.data.frame()
+    colnames(sample1_coords) <- c("x", "y")
+
+    seqfish_data_sample2 <- LohoffSeqFISHData(samples = c(3,4))
+    seqfish_data_sample2 <- logNormCounts(seqfish_data_sample2)
+    rownames(seqfish_data_sample2) <- rowData(seqfish_data_sample2)[,"SYMBOL"]
+    sample2_exprs <- t(assay(seqfish_data_sample2, "logcounts"))
+    sample2_coords <- spatialCoords(seqfish_data_sample2)[,1:2] %>% as.data.frame()
+    colnames(sample2_coords) <- c("x", "y")
+
+    seqfish_data_sample3 <- LohoffSeqFISHData(samples = c(5,6))
+    seqfish_data_sample3 <- logNormCounts(seqfish_data_sample3)
+    rownames(seqfish_data_sample3) <- rowData(seqfish_data_sample3)[,"SYMBOL"]
+    sample3_exprs <- t(assay(seqfish_data_sample3, "logcounts"))
+    sample3_coords <- spatialCoords(seqfish_data_sample3)[,1:2] %>% as.data.frame()
+    colnames(sample3_coords) <- c("x", "y")
+
+    keep1 <- sample(c(TRUE, FALSE), nrow(sample1_exprs), replace = TRUE, prob = c(0.2, 0.8))
+    keep2 <- sample(c(TRUE, FALSE), nrow(sample2_exprs), replace = TRUE, prob = c(0.2, 0.8))
+    keep3 <- sample(c(TRUE, FALSE), nrow(sample3_exprs), replace = TRUE, prob = c(0.2, 0.8))
+
+    sample1_exprs <- sample1_exprs[keep1,]
+    sample1_coords <- sample1_coords[keep1,]
+    sample2_exprs <- sample2_exprs[keep2,]
+    sample2_coords <- sample2_coords[keep2,]
+    sample3_exprs <- sample3_exprs[keep3,]
+    sample3_coords <- sample3_coords[keep3,]
+
+    sample1_cell_types <- seqfish_data_sample1$celltype[keep1]
+    sample2_cell_types <- seqfish_data_sample2$celltype[keep2]
+    sample3_cell_types <- seqfish_data_sample3$celltype[keep3]
+
+    save(sample1_exprs, sample1_coords, sample1_cell_types, 
+         sample2_exprs, sample2_coords, sample2_cell_types, 
+         sample3_exprs, sample3_coords, sample3_cell_types, 
+         file = "../data/MouseData.rda", compress = "xz")
+
+For this vignette and the examples for each function in wSIR, we simply
+load this data that has already been saved at `data/MouseData.rda`.
+
+``` r
+data(MouseData)
+```
+
+## Supervised dimension reduction with wSIR
+
+### Parameter Study
+
+wSIR contains two parameters, `alpha` and `slices`. Parameter `slices`
+is the number of groups along each spatial axis into which we split the
+observations in the wSIR algorithm. More slices means we could pick up
+more spatial information in the gene expression data, but we risk
+overfitting on the training set. Parameter `alpha` modifies the strength
+of the weight matrix. `alpha = 0` is equivalent to no spatial weighting,
+meaning the weight matrix becomes the identity matrix. This is
+equivalent to SIR. Larger `alpha` values means there is more weight
+given to spatial correlation rather than gene expression differences
+alone in the computation of the wSIR directions.
+
+The function `exploreWSIRParams` performs wSIR over many choices of
+`alpha` and `slices` to identify the most appropriate parameters moving
+forward. Here, we will use sample 1 only.
+
+These parameters should both be tuned over some reasonable values. The
+function `exploreWSIRParams` computes and visualises the performance of
+wSIR for all given combinations of `slices` and `alpha`. The performance
+is computed from the following procedure: 1) For each combination of
+`slices` and `alpha`, split the data into 50% train and 50% test (where
+train and test halves both include gene expression data and cell
+coordinates). 2) Perform wSIR on the training set using the current
+combination of slices and alpha. 3) Project the gene expression data of
+the testing set into low-dimensional space using the wSIR results from
+step 2. 4) Evaluate wSIR’s performance by computing either the distance
+correlation (“DC”, default), or the correlation of distances (“CD”)
+between the projected gene expression data of the test set and the test
+coordinates, according to parameter `metric`. 5) Repeat steps 2-4 until
+it has been done `nrep` times (`nrep` is a parameter whose default is
+5). Calculate the average metric value over each of the `nrep`
+iterations for this combination of slices and alpha. 6) Repeat steps 1-5
+with all other combinations of `slices` and `alpha` to obtain an average
+metric value for each combination. 7) Return the combination of `slices`
+and `alpha` with the highest average metric value and display a plot
+showing the performance for every combination of parameters.
+
+Note: a key advantage of wSIR over SIR is parameter robustness. Here, we
+can see that SIR’sperformance deteriorates as you use larger values for
+`slices`. However, wSIR’s performance is relatively stable as you vary
+both `slices` and `alpha` across reasonable values (e.g. among the
+default values we optimise over). In the following plot, the metric
+value becomes smaller as we increase the number of slices for
+$\alpha = 0$ (which corresponds to SIR). Performance is stable for all
+non-zero alpha and slice combinations (which correspond to wSIR).
+
+``` r
+# a <- Sys.time()
+# optim_obj <- exploreWSIRParams(X = as.matrix(sample1_exprs), 
+#                                coords = sample1_coords, 
+#                                # optim_alpha = c(0,.5, 1,2,4,8), 
+#                                # optim_slices = c(5,10,15),
+#                                optim_alpha = c(0, 4),
+#                                optim_slices = c(10, 15),
+#                                nrep = 5,
+#                                metric = "DC")
+# Sys.time()-a
+# optim_obj$plot
+```
+
+### wSIR Computation
+
+We next perform wSIR using the optimal parameter combination that we
+found in the previous section. We use the gene expression matrix and
+spatial coordinates from sample 1 here. This returns a list of results
+with 5 (named) slots, whose details can be found at
+[`?wSIR::wSIR`](https://sydneybiox.github.io/wSIR/reference/wSIR.md).
+
+``` r
+wsir_obj <- wSIR(X = sample1_exprs, 
+                 coords = sample1_coords, 
+                 slices = 10,#optim_obj$best_slices, 
+                 alpha = 4,#optim_obj$best_alpha,
+                 optim_params = FALSE)
+
+names(wsir_obj)
+```
+
+    ## [1] "scores"     "directions" "estd"       "W"          "evalues"
+
+## wSIR Results Analysis
+
+In this section, we will demonstrate how to use the built-in analysis
+functions to better understand how wSIR creates a spatially-informed
+low-dimensional embedding. These functions all use a wSIR result as an
+input. Here, we use the output from the previous section, meaning we are
+studying the result of performing wSIR on sample 1 only.
+
+### wSIR Top Genes
+
+The `findTopGenes` function finds and plots the genes with highest
+loading in the specified wSIR directions (default is direction 1). If a
+gene has high loading (in terms of magnitude), it is more important to
+the wSIR direction. Since the wSIR directions are designed to retain
+information about each cell’s spatial position, the genes with high
+loading should be spatially-related genes.
+
+In the plot below, we can see which genes have the highest loading in
+wSIR direction 1. This is useful as it gives us an intuition about how
+wSIR creates the low-dimensional embedding. We can see that some of the
+genes are known spatial genes (e.g. Cdx2, Hox-), which is what we would
+expect to see.
+
+We can simultaneously plot top genes for multiple directions, and
+utilise the
+
+``` r
+top_genes_obj <- findTopGenes(WSIR = wsir_obj, highest = 8) # create top genes object
+top_genes_plot <- top_genes_obj$plot # select plot
+top_genes_plot # print plot
+```
+
+![](wSIR_vignette_files/figure-html/unnamed-chunk-6-1.png)
+
+``` r
+top_genes_obj <- findTopGenes(WSIR = wsir_obj, highest = 8, dirs = 2:4)
+top_genes_plot <- top_genes_obj$plot
+top_genes_plot
+```
+
+![](wSIR_vignette_files/figure-html/unnamed-chunk-6-2.png)
+
+### Visualising wSIR Scores
+
+The `visualiseWSIRDirections` function plots each cell at its spatial
+position, coloured by its value for each of the specified wSIR columns.
+This gives us an understanding of what each column of the
+low-dimensional embedding represents.
+
+Below, we visualise the cells at their spatial positions, coloured by
+each of the 5 wSIR directions The top left plot illustrates how, for
+this example, wSIR direction 1 captures information about the “y”
+spatial axis, since cells with higher “y” coordinate have low wSIR1
+value, while cells with lower “y” coordinate have higher wSIR1 value.
+wSIR2 is shown in the next plot over (the one titled “2”), and we can
+see that wSIR column two appears to capture information about the “x”
+spatial coordinate. The remaining three wSIR columns all contain
+information about cell types, which we can tell by the regions of high
+and low wSIR column values spread across the tissue.
+
+``` r
+vis_obj <- visualiseWSIRDirections(coords = sample1_coords, WSIR = wsir_obj, dirs = 8) # create visualisations
+vis_obj
+```
+
+![](wSIR_vignette_files/figure-html/unnamed-chunk-7-1.png)
+
+### UMAP on low-dimensional embedding
+
+The two functions `generateUmapFromWSIR` and `plotUmapFromWSIR` create
+and display UMAP dimension reduction calculated on the wSIR
+low-dimensional embedding. We can colour the UMAP plot (where each point
+represents a cell) by its value for various genes of interest. This
+visualises the structure of the wSIR dimension reduction space, which is
+useful to gain more intuition about what the space represents.
+Specifically, we can see if the wSIR space contains neighbourhoods of
+high expression for specific genes, thus better understanding how this
+space is made.
+
+To specify which genes we would like to include, we can use the output
+from the `findTopGenes` function from above, which finds
+spatially-related genes by ranking those with the highest loading in
+relevant wSIR directions. This output is then the value for the
+`highest_genes` parameter. Otherwise, we could also specify our own
+genes of interest if there are some specific genes we would like to
+visualise. For example, if we wanted to visualise the expression
+distribution for Cdx2 and Hoxb4, we could use
+`genes = c("Cdx2", "Hoxb4")` as an argument in `plotUmapFromWSIR` (and
+leave `highest_genes` blank).
+
+Below, we use the UMAP function to visualise the wSIR space computed on
+the gene expression data from sample 1. We colour each cell by their
+values for the 6 genes with highest value in wSIR direction 1 (as found
+by the `findTopGenes` function previously). We can see that for some of
+these genes, there are specific regions of high expression in the UMAP
+plots, suggesting that the wSIR space separates cells based on their
+expression for those genes.
+
+``` r
+umap_coords <- generateUmapFromWSIR(WSIR = wsir_obj)
+umap_plots <- plotUmapFromWSIR(X = sample1_exprs,
+                               umap_coords = umap_coords,
+                               highest_genes = top_genes_obj,
+                               n_genes = 6)
+umap_plots
+```
+
+![](wSIR_vignette_files/figure-html/unnamed-chunk-8-1.png)
+
+## Projection of new data with wSIR
+
+A key functionality of the wSIR package is the ability to project new
+single-cell data into the wSIR low-dimensional space. This will allow
+for a low-dimensional representation of gene expression data that
+contains information about each cell’s spatial position even though we
+do not have access to the spatial coordinates for this new data. This
+low-dimensional wSIR embedding would be especially useful for downstream
+applications, like spatial alignment or spatial clustering (where we
+don’t have spatial coordinates).
+
+Here, we will demonstrate the steps for that, as well as a specific
+application.
+
+For each projection example, we will perform wSIR on a spatial
+transcriptomics dataset which includes gene expression data and spatial
+coordinates. We will then project a “single-cell” dataset, which only
+contains the gene expression matrix, into wSIR low-dimensional space.
+
+### Single-sample spatial dataset, single-sample single-cell dataset
+
+Here, we demonstrate the steps to project a new sample single-cell
+dataset into wSIR low-dimensional space having already performed wSIR on
+the spatial transcriptomics dataset from the first sample.
+
+We have already performed wSIR on sample 1, so here we project sample
+2’s gene expression matrix into the wSIR low-dimensional space, which
+will therefore have an ability to predict sample 2’s (unknown at this
+stage) spatial locations.
+
+``` r
+sample2_low_dim_exprs <- projectWSIR(wsir = wsir_obj, newdata = sample2_exprs)
+```
+
+Check the dimension of sample 2’s low-dimensional gene expression data:
+
+``` r
+dim(sample2_low_dim_exprs)
+```
+
+    ## [1] 2986   44
+
+Observe some of sample 2’s low-dimensional gene expression data:
+
+``` r
+head(sample2_low_dim_exprs)
+```
+
+    ##           [,1]       [,2]       [,3]       [,4]       [,5]       [,6]      [,7]
+    ## [1,] 0.9620371  0.3110799  1.1089848  1.5289340  1.9271125  0.5422921 -2.758546
+    ## [2,] 0.7523121 -0.2465434 -0.1081170  1.3678515 -0.8973240  0.5026232 -1.689691
+    ## [3,] 1.2591073  1.1140162  1.5139605 -0.2417953 -0.3189655  1.2008635 -2.404611
+    ## [4,] 1.7502957  0.5348216  1.0360547  0.1344173 -0.4961112  0.3310037 -2.461843
+    ## [5,] 2.3368448  0.9677439 -0.1354583  0.8147331 -1.2502722  0.2982408 -1.133255
+    ## [6,] 1.5662205  1.2977930 -1.2149662  0.7562771 -0.4726028 -0.5316084 -1.467567
+    ##              [,8]        [,9]      [,10]       [,11]      [,12]      [,13]
+    ## [1,] -0.878289353 -0.15136731  0.1172642 -0.92775162 -0.3091796 -0.1220917
+    ## [2,]  0.813173248  0.59382729  0.6982216  0.03104585  0.1555940 -0.3218627
+    ## [3,]  0.003985041  0.58233627 -0.3576803  0.57576658  1.9525325 -0.4242322
+    ## [4,]  0.411869535  0.01113766 -0.9077542  0.37998687  0.8279598 -1.3414098
+    ## [5,]  0.876151822  0.95284957  0.5277299  0.71076255  0.6695275 -0.3520610
+    ## [6,]  0.793425744 -0.37377837  1.0838457  0.02822141  1.1278321  0.4978481
+    ##           [,14]      [,15]      [,16]      [,17]       [,18]       [,19]
+    ## [1,] -0.3210947 -0.4938224  0.7106230  0.8889187  1.70684363  0.01128095
+    ## [2,] -0.1754038  0.6160532 -0.9181360  0.4636540  0.51142758  1.21264067
+    ## [3,]  0.4392647 -0.2331439 -1.3500701  0.2058900  0.74297811 -0.95106356
+    ## [4,] -0.4461322 -0.6943448 -0.7144001  0.5240779 -0.17968397 -1.16574365
+    ## [5,] -1.8010309  1.0516648 -0.6462458 -0.6351850 -0.06087527 -0.86220708
+    ## [6,] -1.0686411  0.6988442 -0.3760458 -0.3196726  0.28263895 -1.28542961
+    ##          [,20]      [,21]      [,22]        [,23]       [,24]       [,25]
+    ## [1,] 0.8458046  0.4229522  0.7136327 -1.841563590  0.87965590  0.92801217
+    ## [2,] 0.6218108 -1.1372960 -0.4426513 -1.685418172  1.54751262  0.87362884
+    ## [3,] 0.3962581  0.1806827 -1.0079143  0.214192733  1.17013068  0.64154416
+    ## [4,] 0.3318306  0.6172806 -0.7042294 -0.003759057  0.67068982 -0.04539306
+    ## [5,] 0.1319873 -0.2153216 -0.6080445 -1.649523606 -0.12483384  0.98129078
+    ## [6,] 0.4044962 -1.2597042 -0.3466557 -1.614609822 -0.03334281  0.68874209
+    ##           [,26]       [,27]      [,28]      [,29]      [,30]       [,31]
+    ## [1,]  0.3510249 -0.01225293 -2.0413161 0.66673214  0.4173229  0.84279872
+    ## [2,]  0.8029553  0.58322427  0.1781413 0.38988367  0.9001791  0.03546506
+    ## [3,] -0.1261648 -0.01674851  0.4138024 0.12823155 -0.2352651  0.32848967
+    ## [4,] -0.2200947  0.54860572  0.6855232 0.23337603 -0.2037149 -0.30363563
+    ## [5,] -0.9339121  0.82257050 -0.5342728 0.83299562 -0.4068402  0.83941742
+    ## [6,] -0.4180738  0.98051586 -0.4651916 0.08865279  0.8604329  0.59265549
+    ##            [,32]      [,33]      [,34]     [,35]       [,36]       [,37]
+    ## [1,]  0.76768568  0.9562948  1.1221015 1.2919747  0.64092555 -0.02953907
+    ## [2,]  1.28980139  0.3136727 -0.8747969 1.3693149  0.33529346 -1.66417862
+    ## [3,]  0.26533135  0.3041565 -0.3860913 0.1701034 -0.53692301 -0.49671823
+    ## [4,]  1.14073633  0.1221311 -0.7054455 0.6285957 -0.41847179 -0.23790211
+    ## [5,] -0.09167963  0.8495608 -1.5672563 0.8577989 -0.16408546 -0.79815152
+    ## [6,] -0.26523843 -0.3302569 -0.5968303 0.6888426 -0.06198161 -1.07154845
+    ##           [,38]      [,39]      [,40]      [,41]       [,42]       [,43]
+    ## [1,] -0.5743165 -0.0616172 -0.9666513  0.6549592  0.64706327 -1.42437001
+    ## [2,]  1.3470207  0.3350110 -0.4193424 -0.5543509  0.42738160 -0.16331417
+    ## [3,]  0.4687317  0.6755292 -0.2090447  0.5463401  0.55922115 -0.05127076
+    ## [4,] -0.2027674 -0.2491808 -0.3058621  0.5949275 -0.03533708 -0.60159931
+    ## [5,]  0.1954227  0.5137788 -0.2657544 -0.3563407  0.48550485 -0.13219288
+    ## [6,]  0.4545507  0.9457214 -0.1728273 -0.2370770  0.61332027  0.32498225
+    ##           [,44]
+    ## [1,] -0.7647771
+    ## [2,] -0.9288050
+    ## [3,] -0.8671982
+    ## [4,] -0.4379087
+    ## [5,] -0.7633625
+    ## [6,] -1.1947672
+
+This low-dimensional gene expression data can then be used for any later
+tasks which would benefit from a low-dimensional embedding of the gene
+expression data for all the samples, rather than just the gene
+expression data.
+
+### Multi-sample spatial dataset, single-sample single-cell dataset
+
+Here, we perform wSIR on samples 1 and 2 together. This requires the
+gene expression matrices from both samples joined together into one
+matrix, and the coords dataframes joined into one dataframe. We do this
+concatenation using rbind. We then specify the sample IDs for each row
+in the joined expression matrix and coordinates dataframe using the
+samples argument. This is a vector with a “1” for each row in sample 1
+and a “2” for each row in sample 2.
+
+We use the resulting wSIR output to project the gene expression data
+from sample 3 into low-dimensional space. We check the dimension of the
+resulting matrix.
+
+``` r
+wsir_obj_samples12 <- wSIR(X = rbind(sample1_exprs, sample2_exprs),
+                           coords = rbind(sample1_coords, sample2_coords),
+                           samples = c(rep(1, nrow(sample1_coords)), rep(2, nrow(sample2_coords))),
+                           slices = 10,#optim_obj$best_slices, 
+                           alpha = 4,#optim_obj$best_alpha,
+                           optim_params = FALSE)
+
+sample3_low_dim_exprs <- projectWSIR(wsir = wsir_obj_samples12, newdata = sample3_exprs)
+dim(sample3_low_dim_exprs)
+```
+
+    ## [1] 4607   44
+
+This low-dimensional matrix can then be used for downstream tasks which
+would benefit from a low-dimensional embedding of sample 3’s gene
+expression matrix that contains information about each cell’s location.
+Examples for downstream use include spatial alignment of single-cell and
+spatial gene expression data via
+[Tangram](https://www.nature.com/articles/s41592-021-01264-7), using the
+wSIR scores as the input rather than the (unreduced) gene expression
+matrix.
+
+An example of a very simple application is using the wSIR scores as an
+input to a KNN cell type classification algorithm. This is demonstrated
+below, using the ‘knn’ function from ‘class’ package.
+
+``` r
+samples12_cell_types <- append(sample1_cell_types, sample2_cell_types)
+
+knn_classification_object <- knn(train = wsir_obj_samples12$scores, 
+                                 test = sample3_low_dim_exprs,
+                                 cl = samples12_cell_types,
+                                 k = 10)
+
+tail(knn_classification_object)
+```
+
+    ## [1] Presomitic mesoderm Presomitic mesoderm Presomitic mesoderm
+    ## [4] Presomitic mesoderm Presomitic mesoderm Presomitic mesoderm
+    ## 24 Levels: Allantois Anterior somitic tissues ... Surface ectoderm
+
+In the above code, we use the wSIR scores as input for a simple
+KNN-based cell type classification tool. We print the tail of the
+prediction vector, demonstrating how we can use the wSIR-based
+low-dimensional gene expression data from a new sample as a step in a
+realistic analysis pipeline.
+
+**Session Info**
+
+``` r
+sessionInfo()
+```
+
+    ## R version 4.5.2 (2025-10-31)
+    ## Platform: x86_64-pc-linux-gnu
+    ## Running under: Ubuntu 24.04.3 LTS
+    ## 
+    ## Matrix products: default
+    ## BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 
+    ## LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.26.so;  LAPACK version 3.12.0
+    ## 
+    ## locale:
+    ##  [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       
+    ##  [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   
+    ##  [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          
+    ## [10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   
+    ## 
+    ## time zone: UTC
+    ## tzcode source: system (glibc)
+    ## 
+    ## attached base packages:
+    ## [1] stats     graphics  grDevices utils     datasets  methods   base     
+    ## 
+    ## other attached packages:
+    ## [1] class_7.3-23     umap_0.2.10.0    vctrs_0.7.1      doBy_4.7.1      
+    ## [5] ggplot2_4.0.2    magrittr_2.0.4   wSIR_0.99.3      BiocStyle_2.38.0
+    ## 
+    ## loaded via a namespace (and not attached):
+    ##  [1] tidyselect_1.2.1            timeDate_4052.112          
+    ##  [3] dplyr_1.2.0                 farver_2.1.2               
+    ##  [5] S7_0.2.1                    fastmap_1.2.0              
+    ##  [7] SingleCellExperiment_1.32.0 digest_0.6.39              
+    ##  [9] lifecycle_1.0.5             Deriv_4.2.0                
+    ## [11] compiler_4.5.2              rlang_1.1.7                
+    ## [13] sass_0.4.10                 tools_4.5.2                
+    ## [15] yaml_2.3.12                 knitr_1.51                 
+    ## [17] labeling_0.4.3              askpass_1.2.1              
+    ## [19] S4Arrays_1.10.1             reticulate_1.45.0          
+    ## [21] DelayedArray_0.36.0         RColorBrewer_1.1-3         
+    ## [23] abind_1.4-8                 BiocParallel_1.44.0        
+    ## [25] withr_3.0.2                 purrr_1.2.1                
+    ## [27] BiocGenerics_0.56.0         desc_1.4.3                 
+    ## [29] grid_4.5.2                  stats4_4.5.2               
+    ## [31] colorspace_2.1-2            scales_1.4.0               
+    ## [33] MASS_7.3-65                 SummarizedExperiment_1.40.0
+    ## [35] cli_3.6.5                   rmarkdown_2.30             
+    ## [37] ragg_1.5.0                  generics_0.1.4             
+    ## [39] RSpectra_0.16-2             modelr_0.1.11              
+    ## [41] rjson_0.2.23                cachem_1.1.0               
+    ## [43] stringr_1.6.0               forecast_9.0.1             
+    ## [45] parallel_4.5.2              urca_1.3-4                 
+    ## [47] BiocManager_1.30.27         XVector_0.50.0             
+    ## [49] matrixStats_1.5.0           boot_1.3-32                
+    ## [51] Matrix_1.7-4                jsonlite_2.0.0             
+    ## [53] bookdown_0.46               IRanges_2.44.0             
+    ## [55] distances_0.1.13            S4Vectors_0.48.0           
+    ## [57] systemfonts_1.3.1           magick_2.9.1               
+    ## [59] jquerylib_0.1.4             tidyr_1.3.2                
+    ## [61] glue_1.8.0                  pkgdown_2.2.0              
+    ## [63] codetools_0.2-20            cowplot_1.2.0              
+    ## [65] stringi_1.8.7               gtable_0.3.6               
+    ## [67] GenomicRanges_1.62.1        tibble_3.3.1               
+    ## [69] pillar_1.11.1               htmltools_0.5.9            
+    ## [71] Seqinfo_1.0.0               openssl_2.3.5              
+    ## [73] R6_2.6.1                    textshaping_1.0.4          
+    ## [75] microbenchmark_1.5.0        evaluate_1.0.5             
+    ## [77] lattice_0.22-7              Biobase_2.70.0             
+    ## [79] png_0.1-8                   backports_1.5.0            
+    ## [81] SpatialExperiment_1.20.0    broom_1.0.12               
+    ## [83] fracdiff_1.5-3              bslib_0.10.0               
+    ## [85] Rcpp_1.1.1                  SparseArray_1.10.8         
+    ## [87] nlme_3.1-168                xfun_0.56                  
+    ## [89] fs_1.6.6                    MatrixGenerics_1.22.0      
+    ## [91] zoo_1.8-15                  pkgconfig_2.0.3
