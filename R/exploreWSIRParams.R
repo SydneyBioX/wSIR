@@ -203,7 +203,7 @@ exploreWSIRParams <- function(X,
         paste0("Metric value for different parameter combinations (",
                nrep, " iterations of train/test split)"))
     } else {
-    plot = NULL
+    plot <- NULL
     }
 
     return(list(plot = plot,
