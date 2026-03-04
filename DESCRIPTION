@@ -30,7 +30,7 @@ URL: https://sydneybiox.github.io/wSIR,
         https://sydneybiox.github.io/wSIR/
 BugReports: https://github.com/sydneybiox/wSIR/issues
 biocViews: DimensionReduction, Software, GeneExpression, SingleCell,
-        Spatial, Transcriptomics, Regression, CellBasedArrays
+        Spatial, Transcriptomics, Regression, CellBasedAssays
 LazyData: false
 Roxygen: list(markdown = TRUE)
 Depends: R (>= 4.4.0),
@@ -47,10 +47,3 @@ RoxygenNote: 7.3.3
 NeedsCompilation: yes
 Packaged: 2026-02-24 23:52:00 UTC; hngh7483
 Config/testthat/edition: 3
-Author: Max Woollard [aut, cre, ctb] (ORCID:
-    <https://orcid.org/0009-0000-6319-6926>),
-  Pratibha Panwar [ctb] (ORCID: <https://orcid.org/0000-0002-7437-7084>),
-  Linh Nghiem [aut, ctb] (ORCID: <https://orcid.org/0000-0003-2874-9067>),
-  Shila Ghazanfar [aut, ctb] (ORCID:
-    <https://orcid.org/0000-0001-7861-6997>)
-Maintainer: Max Woollard <mwoo5086@uni.sydney.edu.au>
