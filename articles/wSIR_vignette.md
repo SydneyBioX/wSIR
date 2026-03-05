@@ -113,9 +113,9 @@ the cells from each of the three biological replicate samples.
     sample3_cell_types <- seqfish_data_sample3$celltype[keep3]
 
     save(sample1_exprs, sample1_coords, sample1_cell_types, 
-         sample2_exprs, sample2_coords, sample2_cell_types, 
-         sample3_exprs, sample3_coords, sample3_cell_types, 
-         file = "../data/MouseData.rda", compress = "xz")
+        sample2_exprs, sample2_coords, sample2_cell_types, 
+        sample3_exprs, sample3_coords, sample3_cell_types, 
+        file = "../data/MouseData.rda", compress = "xz")
 
 For this vignette and the examples for each function in wSIR, we simply
 load this data that has already been saved at `data/MouseData.rda`.
@@ -197,10 +197,10 @@ with 5 (named) slots, whose details can be found at
 
 ``` r
 wsir_obj <- wSIR(X = sample1_exprs, 
-                 coords = sample1_coords, 
-                 slices = 10,#optim_obj$best_slices, 
-                 alpha = 4,#optim_obj$best_alpha,
-                 optim_params = FALSE)
+    coords = sample1_coords, 
+    slices = 10,#optim_obj$best_slices, 
+    alpha = 4,#optim_obj$best_alpha,
+    optim_params = FALSE)
 
 names(wsir_obj)
 ```
@@ -234,7 +234,7 @@ We can simultaneously plot top genes for multiple directions, and
 utilise the
 
 ``` r
-top_genes_obj <- findTopGenes(WSIR = wsir_obj, highest = 8) # create top genes object
+top_genes_obj <- findTopGenes(WSIR = wsir_obj, highest = 8) # create object
 top_genes_plot <- top_genes_obj$plot # select plot
 top_genes_plot # print plot
 ```
@@ -268,7 +268,9 @@ information about cell types, which we can tell by the regions of high
 and low wSIR column values spread across the tissue.
 
 ``` r
-vis_obj <- visualiseWSIRDirections(coords = sample1_coords, WSIR = wsir_obj, dirs = 8) # create visualisations
+vis_obj <- visualiseWSIRDirections(coords = sample1_coords, 
+    WSIR = wsir_obj, 
+    dirs = 8) # create visualisations
 vis_obj
 ```
 
@@ -308,9 +310,9 @@ expression for those genes.
 ``` r
 umap_coords <- generateUmapFromWSIR(WSIR = wsir_obj)
 umap_plots <- plotUmapFromWSIR(X = sample1_exprs,
-                               umap_coords = umap_coords,
-                               highest_genes = top_genes_obj,
-                               n_genes = 6)
+    umap_coords = umap_coords,
+    highest_genes = top_genes_obj,
+    n_genes = 6)
 umap_plots
 ```
 
@@ -442,13 +444,14 @@ resulting matrix.
 
 ``` r
 wsir_obj_samples12 <- wSIR(X = rbind(sample1_exprs, sample2_exprs),
-                           coords = rbind(sample1_coords, sample2_coords),
-                           samples = c(rep(1, nrow(sample1_coords)), rep(2, nrow(sample2_coords))),
-                           slices = 10,#optim_obj$best_slices, 
-                           alpha = 4,#optim_obj$best_alpha,
-                           optim_params = FALSE)
+    coords = rbind(sample1_coords, sample2_coords),
+    samples = c(rep(1, nrow(sample1_coords)), rep(2, nrow(sample2_coords))),
+    slices = 10,#optim_obj$best_slices, 
+    alpha = 4,#optim_obj$best_alpha,
+    optim_params = FALSE)
 
-sample3_low_dim_exprs <- projectWSIR(wsir = wsir_obj_samples12, newdata = sample3_exprs)
+sample3_low_dim_exprs <- projectWSIR(wsir = wsir_obj_samples12, 
+    newdata = sample3_exprs)
 dim(sample3_low_dim_exprs)
 ```
 
@@ -471,9 +474,9 @@ below, using the ‘knn’ function from ‘class’ package.
 samples12_cell_types <- append(sample1_cell_types, sample2_cell_types)
 
 knn_classification_object <- knn(train = wsir_obj_samples12$scores, 
-                                 test = sample3_low_dim_exprs,
-                                 cl = samples12_cell_types,
-                                 k = 10)
+    test = sample3_low_dim_exprs,
+    cl = samples12_cell_types,
+    k = 10)
 
 tail(knn_classification_object)
 ```

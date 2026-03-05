@@ -185,9 +185,9 @@ replicate samples.</p>
 <span><span class="va">sample3_cell_types</span> <span class="op">&lt;-</span> <span class="va">seqfish_data_sample3</span><span class="op">$</span><span class="va">celltype</span><span class="op">[</span><span class="va">keep3</span><span class="op">]</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/save.html" class="external-link">save</a></span><span class="op">(</span><span class="va">sample1_exprs</span>, <span class="va">sample1_coords</span>, <span class="va">sample1_cell_types</span>, </span>
-<span>     <span class="va">sample2_exprs</span>, <span class="va">sample2_coords</span>, <span class="va">sample2_cell_types</span>, </span>
-<span>     <span class="va">sample3_exprs</span>, <span class="va">sample3_coords</span>, <span class="va">sample3_cell_types</span>, </span>
-<span>     file <span class="op">=</span> <span class="st">"../data/MouseData.rda"</span>, compress <span class="op">=</span> <span class="st">"xz"</span><span class="op">)</span></span></code></pre>
+<span>    <span class="va">sample2_exprs</span>, <span class="va">sample2_coords</span>, <span class="va">sample2_cell_types</span>, </span>
+<span>    <span class="va">sample3_exprs</span>, <span class="va">sample3_coords</span>, <span class="va">sample3_cell_types</span>, </span>
+<span>    file <span class="op">=</span> <span class="st">"../data/MouseData.rda"</span>, compress <span class="op">=</span> <span class="st">"xz"</span><span class="op">)</span></span></code></pre>
 <p>For this vignette and the examples for each function in wSIR, we
 simply load this data that has already been saved at
 <code>data/MouseData.rda</code>.</p>
@@ -271,10 +271,10 @@ with 5 (named) slots, whose details can be found at
 <code><a href="../reference/wSIR.html">?wSIR::wSIR</a></code>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">wsir_obj</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/wSIR.html">wSIR</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">sample1_exprs</span>, </span>
-<span>                 coords <span class="op">=</span> <span class="va">sample1_coords</span>, </span>
-<span>                 slices <span class="op">=</span> <span class="fl">10</span>,<span class="co">#optim_obj$best_slices, </span></span>
-<span>                 alpha <span class="op">=</span> <span class="fl">4</span>,<span class="co">#optim_obj$best_alpha,</span></span>
-<span>                 optim_params <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span>    coords <span class="op">=</span> <span class="va">sample1_coords</span>, </span>
+<span>    slices <span class="op">=</span> <span class="fl">10</span>,<span class="co">#optim_obj$best_slices, </span></span>
+<span>    alpha <span class="op">=</span> <span class="fl">4</span>,<span class="co">#optim_obj$best_alpha,</span></span>
+<span>    optim_params <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">wsir_obj</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "scores"     "directions" "estd"       "W"          "evalues"</span></span></code></pre>
@@ -305,7 +305,7 @@ expect to see.</p>
 <p>We can simultaneously plot top genes for multiple directions, and
 utilise the</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">top_genes_obj</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/findTopGenes.html">findTopGenes</a></span><span class="op">(</span>WSIR <span class="op">=</span> <span class="va">wsir_obj</span>, highest <span class="op">=</span> <span class="fl">8</span><span class="op">)</span> <span class="co"># create top genes object</span></span>
+<code class="sourceCode R"><span><span class="va">top_genes_obj</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/findTopGenes.html">findTopGenes</a></span><span class="op">(</span>WSIR <span class="op">=</span> <span class="va">wsir_obj</span>, highest <span class="op">=</span> <span class="fl">8</span><span class="op">)</span> <span class="co"># create object</span></span>
 <span><span class="va">top_genes_plot</span> <span class="op">&lt;-</span> <span class="va">top_genes_obj</span><span class="op">$</span><span class="va">plot</span> <span class="co"># select plot</span></span>
 <span><span class="va">top_genes_plot</span> <span class="co"># print plot</span></span></code></pre></div>
 <p><img src="wSIR_vignette_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" alt="" width="700"></p>
@@ -333,7 +333,9 @@ spatial coordinate. The remaining three wSIR columns all contain
 information about cell types, which we can tell by the regions of high
 and low wSIR column values spread across the tissue.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">vis_obj</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/visualiseWSIRDirections.html">visualiseWSIRDirections</a></span><span class="op">(</span>coords <span class="op">=</span> <span class="va">sample1_coords</span>, WSIR <span class="op">=</span> <span class="va">wsir_obj</span>, dirs <span class="op">=</span> <span class="fl">8</span><span class="op">)</span> <span class="co"># create visualisations</span></span>
+<code class="sourceCode R"><span><span class="va">vis_obj</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/visualiseWSIRDirections.html">visualiseWSIRDirections</a></span><span class="op">(</span>coords <span class="op">=</span> <span class="va">sample1_coords</span>, </span>
+<span>    WSIR <span class="op">=</span> <span class="va">wsir_obj</span>, </span>
+<span>    dirs <span class="op">=</span> <span class="fl">8</span><span class="op">)</span> <span class="co"># create visualisations</span></span>
 <span><span class="va">vis_obj</span></span></code></pre></div>
 <p><img src="wSIR_vignette_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" alt="" width="700"></p>
 </div>
@@ -370,9 +372,9 @@ on their expression for those genes.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">umap_coords</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/generateUmapFromWSIR.html">generateUmapFromWSIR</a></span><span class="op">(</span>WSIR <span class="op">=</span> <span class="va">wsir_obj</span><span class="op">)</span></span>
 <span><span class="va">umap_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plotUmapFromWSIR.html">plotUmapFromWSIR</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">sample1_exprs</span>,</span>
-<span>                               umap_coords <span class="op">=</span> <span class="va">umap_coords</span>,</span>
-<span>                               highest_genes <span class="op">=</span> <span class="va">top_genes_obj</span>,</span>
-<span>                               n_genes <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
+<span>    umap_coords <span class="op">=</span> <span class="va">umap_coords</span>,</span>
+<span>    highest_genes <span class="op">=</span> <span class="va">top_genes_obj</span>,</span>
+<span>    n_genes <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
 <span><span class="va">umap_plots</span></span></code></pre></div>
 <p><img src="wSIR_vignette_files/figure-html/unnamed-chunk-8-1.png" class="r-plt" alt="" width="700"></p>
 </div>
@@ -492,13 +494,14 @@ from sample 3 into low-dimensional space. We check the dimension of the
 resulting matrix.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">wsir_obj_samples12</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/wSIR.html">wSIR</a></span><span class="op">(</span>X <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">sample1_exprs</span>, <span class="va">sample2_exprs</span><span class="op">)</span>,</span>
-<span>                           coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">sample1_coords</span>, <span class="va">sample2_coords</span><span class="op">)</span>,</span>
-<span>                           samples <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">sample1_coords</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">sample2_coords</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>                           slices <span class="op">=</span> <span class="fl">10</span>,<span class="co">#optim_obj$best_slices, </span></span>
-<span>                           alpha <span class="op">=</span> <span class="fl">4</span>,<span class="co">#optim_obj$best_alpha,</span></span>
-<span>                           optim_params <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span>    coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">sample1_coords</span>, <span class="va">sample2_coords</span><span class="op">)</span>,</span>
+<span>    samples <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">sample1_coords</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">sample2_coords</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    slices <span class="op">=</span> <span class="fl">10</span>,<span class="co">#optim_obj$best_slices, </span></span>
+<span>    alpha <span class="op">=</span> <span class="fl">4</span>,<span class="co">#optim_obj$best_alpha,</span></span>
+<span>    optim_params <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">sample3_low_dim_exprs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/projectWSIR.html">projectWSIR</a></span><span class="op">(</span>wsir <span class="op">=</span> <span class="va">wsir_obj_samples12</span>, newdata <span class="op">=</span> <span class="va">sample3_exprs</span><span class="op">)</span></span>
+<span><span class="va">sample3_low_dim_exprs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/projectWSIR.html">projectWSIR</a></span><span class="op">(</span>wsir <span class="op">=</span> <span class="va">wsir_obj_samples12</span>, </span>
+<span>    newdata <span class="op">=</span> <span class="va">sample3_exprs</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">sample3_low_dim_exprs</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 4607   44</span></span></code></pre>
 <p>This low-dimensional matrix can then be used for downstream tasks
@@ -515,9 +518,9 @@ demonstrated below, using the ‘knn’ function from ‘class’ package.</p>
 <code class="sourceCode R"><span><span class="va">samples12_cell_types</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/append.html" class="external-link">append</a></span><span class="op">(</span><span class="va">sample1_cell_types</span>, <span class="va">sample2_cell_types</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">knn_classification_object</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/class/man/knn.html" class="external-link">knn</a></span><span class="op">(</span>train <span class="op">=</span> <span class="va">wsir_obj_samples12</span><span class="op">$</span><span class="va">scores</span>, </span>
-<span>                                 test <span class="op">=</span> <span class="va">sample3_low_dim_exprs</span>,</span>
-<span>                                 cl <span class="op">=</span> <span class="va">samples12_cell_types</span>,</span>
-<span>                                 k <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
+<span>    test <span class="op">=</span> <span class="va">sample3_low_dim_exprs</span>,</span>
+<span>    cl <span class="op">=</span> <span class="va">samples12_cell_types</span>,</span>
+<span>    k <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="va">knn_classification_object</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] Presomitic mesoderm Presomitic mesoderm Presomitic mesoderm</span></span>
