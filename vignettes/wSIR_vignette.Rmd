@@ -15,7 +15,7 @@ vignette: |
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
-  
+
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
 collapse = FALSE
@@ -133,9 +133,9 @@ sample2_cell_types <- seqfish_data_sample2$celltype[keep2]
 sample3_cell_types <- seqfish_data_sample3$celltype[keep3]
 
 save(sample1_exprs, sample1_coords, sample1_cell_types, 
-     sample2_exprs, sample2_coords, sample2_cell_types, 
-     sample3_exprs, sample3_coords, sample3_cell_types, 
-     file = "../data/MouseData.rda", compress = "xz")
+    sample2_exprs, sample2_coords, sample2_cell_types, 
+    sample3_exprs, sample3_coords, sample3_cell_types, 
+    file = "../data/MouseData.rda", compress = "xz")
 ```
 
 For this vignette and the examples for each function in wSIR, we simply load 
@@ -175,9 +175,9 @@ and alpha.
 3) Project the gene expression data of the testing set into low-dimensional 
 space using the wSIR results from step 2.
 4) Evaluate wSIR's performance by computing either the distance correlation 
-("DC", default), or the correlation of distances ("CD") between the projected gene 
-expression data of the test set and the test coordinates, according to parameter
-`metric`.
+("DC", default), or the correlation of distances ("CD") between the projected 
+gene expression data of the test set and the test coordinates, according to 
+parameter `metric`.
 5) Repeat steps 2-4 until it has been done `nrep` times (`nrep` is a parameter 
 whose default is 5). Calculate the average metric value over each of the `nrep` 
 iterations for this combination of slices and alpha.
@@ -218,10 +218,10 @@ details can be found at `?wSIR::wSIR`.
 
 ```{r}
 wsir_obj <- wSIR(X = sample1_exprs, 
-                 coords = sample1_coords, 
-                 slices = 10,#optim_obj$best_slices, 
-                 alpha = 4,#optim_obj$best_alpha,
-                 optim_params = FALSE)
+    coords = sample1_coords, 
+    slices = 10,#optim_obj$best_slices, 
+    alpha = 4,#optim_obj$best_alpha,
+    optim_params = FALSE)
 
 names(wsir_obj)
 ```
@@ -251,7 +251,7 @@ We can simultaneously plot top genes for multiple directions, and utilise the
 
 
 ```{r}
-top_genes_obj <- findTopGenes(WSIR = wsir_obj, highest = 8) # create top genes object
+top_genes_obj <- findTopGenes(WSIR = wsir_obj, highest = 8) # create object
 top_genes_plot <- top_genes_obj$plot # select plot
 top_genes_plot # print plot
 
@@ -277,7 +277,9 @@ all contain information about cell types, which we can tell by the regions of
 high and low wSIR column values spread across the tissue. 
 
 ```{r}
-vis_obj <- visualiseWSIRDirections(coords = sample1_coords, WSIR = wsir_obj, dirs = 8) # create visualisations
+vis_obj <- visualiseWSIRDirections(coords = sample1_coords, 
+    WSIR = wsir_obj, 
+    dirs = 8) # create visualisations
 vis_obj
 ```
 
@@ -311,9 +313,9 @@ that the wSIR space separates cells based on their expression for those genes.
 ```{r}
 umap_coords <- generateUmapFromWSIR(WSIR = wsir_obj)
 umap_plots <- plotUmapFromWSIR(X = sample1_exprs,
-                               umap_coords = umap_coords,
-                               highest_genes = top_genes_obj,
-                               n_genes = 6)
+    umap_coords = umap_coords,
+    highest_genes = top_genes_obj,
+    n_genes = 6)
 umap_plots
 ```
 
@@ -327,7 +329,7 @@ access to the spatial coordinates for this new data. This low-dimensional wSIR
 embedding would be especially useful for downstream applications, like spatial 
 alignment or spatial clustering (where we don't have spatial coordinates). 
 
-Here, we will demonstrate the steps for that, as well as a specific application. 
+Here, we will demonstrate the steps for that, as well as a specific application.
 
 For each projection example, we will perform wSIR on a spatial transcriptomics 
 dataset which includes gene expression data and spatial coordinates. We will 
@@ -380,13 +382,14 @@ matrix.
 
 ```{r}
 wsir_obj_samples12 <- wSIR(X = rbind(sample1_exprs, sample2_exprs),
-                           coords = rbind(sample1_coords, sample2_coords),
-                           samples = c(rep(1, nrow(sample1_coords)), rep(2, nrow(sample2_coords))),
-                           slices = 10,#optim_obj$best_slices, 
-                           alpha = 4,#optim_obj$best_alpha,
-                           optim_params = FALSE)
+    coords = rbind(sample1_coords, sample2_coords),
+    samples = c(rep(1, nrow(sample1_coords)), rep(2, nrow(sample2_coords))),
+    slices = 10,#optim_obj$best_slices, 
+    alpha = 4,#optim_obj$best_alpha,
+    optim_params = FALSE)
 
-sample3_low_dim_exprs <- projectWSIR(wsir = wsir_obj_samples12, newdata = sample3_exprs)
+sample3_low_dim_exprs <- projectWSIR(wsir = wsir_obj_samples12, 
+    newdata = sample3_exprs)
 dim(sample3_low_dim_exprs)
 ```
 
@@ -397,15 +400,17 @@ use include spatial alignment of single-cell and spatial gene expression data
 via [Tangram](https://www.nature.com/articles/s41592-021-01264-7), using the 
 wSIR scores as the input rather than the (unreduced) gene expression matrix. 
 
-An example of a very simple application is using the wSIR scores as an input to a KNN cell type classification algorithm. This is demonstrated below, using the 'knn' function from 'class' package.
+An example of a very simple application is using the wSIR scores as an input to 
+a KNN cell type classification algorithm. This is demonstrated below, using the 
+'knn' function from 'class' package.
 
 ```{r}
 samples12_cell_types <- append(sample1_cell_types, sample2_cell_types)
 
 knn_classification_object <- knn(train = wsir_obj_samples12$scores, 
-                                 test = sample3_low_dim_exprs,
-                                 cl = samples12_cell_types,
-                                 k = 10)
+    test = sample3_low_dim_exprs,
+    cl = samples12_cell_types,
+    k = 10)
 
 tail(knn_classification_object)
 ```

@@ -73,33 +73,34 @@
 #'
 #' @export
 wSIR <- function(X,
-                 coords,
-                 optim_params = FALSE,
-                 optim_alpha = c(0,1,2,4,8,12),
-                 optim_slices = c(3,5,7,10,15,20),
-                 metric = "DC",
-                 nrep = 5,
-                 verbose = FALSE,
-                 ...) {
+    coords,
+    optim_params = FALSE,
+    optim_alpha = c(0,1,2,4,8,12),
+    optim_slices = c(3,5,7,10,15,20),
+    metric = "DC",
+    nrep = 5,
+    verbose = FALSE,
+    ...) {
 
     if (is.null(coords)) {
         stop("coords must be provided")
     }
     nrow_x <- nrow(X)
     nrow_coords <- nrow(coords)
-    if (nrow_x != nrow(coords)) { # Needed since wSIR would run if unequal, but clearly wrong
-      stop("number of rows in X and coords must be equal")
+    if (nrow_x != nrow(coords)) { 
+        # Needed since wSIR would run if unequal, but clearly shouldn't
+        stop("number of rows in X and coords must be equal")
     }
 
     if (optim_params) {
         if (verbose) message("Optimising parameters...")
             optim_obj <- exploreWSIRParams(X = X,
-                                           coords = coords,
-                                           optim_alpha = optim_alpha,
-                                           optim_slices = optim_slices,
-                                           metric = metric,
-                                           nrep = nrep,
-                                           ...)
+                coords = coords,
+                optim_alpha = optim_alpha,
+                optim_slices = optim_slices,
+                metric = metric,
+                nrep = nrep,
+                ...)
             alpha <- optim_obj$best_alpha
             slices <- optim_obj$best_slices
         if (verbose) message("Optimising parameters... complete!")
@@ -107,8 +108,8 @@ wSIR <- function(X,
 
     if (verbose) message("Fitting wSIR model...")
     wsir_obj <- wSIRSpecifiedParams(X = X,
-                                    coords = coords,
-                                    ...
+        coords = coords,
+        ...
     )
     if (verbose) message("Fitting wSIR model... complete!")
 

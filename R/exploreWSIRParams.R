@@ -94,24 +94,24 @@
 #'
 #' @export
 exploreWSIRParams <- function(X,
-                              coords,
-                              samples = rep(1, nrow(coords)),
-                              optim_alpha = c(0,2,4,10),
-                              optim_slices = c(5,10,15,20),
-                              metric = "DC",
-                              nrep = 5,
-                              nCores = 1,
-                              plot = TRUE,
-                              verbose = TRUE,
-                              ...
+    coords,
+    samples = rep(1, nrow(coords)),
+    optim_alpha = c(0,2,4,10),
+    optim_slices = c(5,10,15,20),
+    metric = "DC",
+    nrep = 5,
+    nCores = 1,
+    plot = TRUE,
+    verbose = TRUE,
+    ...
 ) {
 
     BPPARAM <- .generateBPParam(cores = nCores)
 
     # vector of all parameter combinations
     param_combinations <- expand.grid(slices = optim_slices,
-                                      alpha = optim_alpha,
-                                      rep = seq_len(nrep))
+        alpha = optim_alpha,
+        rep = seq_len(nrep))
 
     # Create pre-specified random splits of data, each columns
     # corresponding to one split
@@ -127,20 +127,20 @@ exploreWSIRParams <- function(X,
         X_test <- X[!keep,]
         coords_test <- coords[!keep,]
         list(X_train,
-             coords_train,
-             X_test,
-             coords_test,
-             samples_train)
+            coords_train,
+            X_test,
+            coords_test,
+            samples_train)
     })
     nElements <- length(split_list[[1]])
     result <- lapply(seq_len(nElements),
-                     function(i) lapply(split_list, "[[", i))
+        function(i) lapply(split_list, "[[", i))
     # the above is like a list version of transpose
 
     if (verbose) message("set up nrep random splits of the data into training and test sets")
 
     param_combinations_split <- split.data.frame(param_combinations,
-                                                 seq_len(nrow(param_combinations)))
+        seq_len(nrow(param_combinations)))
 
     res_scores_split <- BiocParallel::bplapply(
 
@@ -155,14 +155,14 @@ exploreWSIRParams <- function(X,
             data_split_ii <- split_list[[rep_ii]]
 
             cv_score <- wSIROptimisation(exprs_train = as.matrix(data_split_ii[[1]]),
-                                         coords_train = data_split_ii[[2]],
-                                         exprs_test = as.matrix(data_split_ii[[3]]),
-                                         coords_test = data_split_ii[[4]],
-                                         samples_train = data_split_ii[[5]],
-                                         slices = slices_ii,
-                                         alpha = alpha_ii,
-                                         evalmetrics = metric,
-                                         ...
+                coords_train = data_split_ii[[2]],
+                exprs_test = as.matrix(data_split_ii[[3]]),
+                coords_test = data_split_ii[[4]],
+                samples_train = data_split_ii[[5]],
+                slices = slices_ii,
+                alpha = alpha_ii,
+                evalmetrics = metric,
+                ...
             )
 
             return(data.frame(
@@ -182,8 +182,8 @@ exploreWSIRParams <- function(X,
         param_combinations <- do.call(
             rbind,
             lapply(split.data.frame(res_scores,
-                                    interaction(res_scores$slices, res_scores$alpha)),
-                   colMeans))
+                interaction(res_scores$slices, res_scores$alpha)),
+                colMeans))
 
     res_df <- param_combinations
     best_metric_index <- which.max(res_df[, "metric"])
@@ -191,7 +191,7 @@ exploreWSIRParams <- function(X,
     best_slices <- res_df[best_metric_index, "slices"]
 
     message_value <- paste0("Optimal (alpha, slices) pair: (",
-                            best_alpha, ", ", best_slices, ")")
+        best_alpha, ", ", best_slices, ")")
     if (verbose) message(message_value)
 
     if (plot) {
@@ -201,15 +201,15 @@ exploreWSIRParams <- function(X,
             ggplot2::theme_classic() +
             ggplot2::ggtitle(
         paste0("Metric value for different parameter combinations (",
-               nrep, " iterations of train/test split)"))
+            nrep, " iterations of train/test split)"))
     } else {
     plot <- NULL
     }
 
     return(list(plot = plot,
-                message = message_value,
-                best_alpha = best_alpha,
-                best_slices = best_slices,
-                results_dataframe = res_df))
+        message = message_value,
+        best_alpha = best_alpha,
+        best_slices = best_slices,
+        results_dataframe = res_df))
 
 }

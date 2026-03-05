@@ -22,10 +22,10 @@
 #' @keywords internal
 
 sirCategorical <- function(X,
-                           Y,
-                           # maxDirections = 50,
-                           W = NULL,
-                           ...
+    Y,
+    # maxDirections = 50,
+    W = NULL,
+    ...
 ) {
 
     # do the transformation (QR scaling method)
@@ -42,8 +42,8 @@ sirCategorical <- function(X,
     }
 
     pc_dirs <- sirPCA(sliced_data,
-                      W = W,
-                      ...
+        W = W,
+        ...
     )
 
     betas <- base::backsolve(R, pc_dirs$evectors)
@@ -53,8 +53,8 @@ sirCategorical <- function(X,
     final_XB <- .matMultArma(X, betas)
 
     return(list(scores = final_XB,
-                directions = betas,
-                estd = pc_dirs[[2]],
-                W = W,
-                evalues = pc_dirs$evalues))
+        directions = betas,
+        estd = pc_dirs[[2]],
+        W = W,
+        evalues = pc_dirs$evalues))
 }

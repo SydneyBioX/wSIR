@@ -47,10 +47,10 @@
 #' @export
 
 visualiseWSIRDirections <- function(coords,
-                                    WSIR,
-                                    dirs = 6,
-                                    mincol = "blue",
-                                    maxcol = "red") {
+    WSIR,
+    dirs = 6,
+    mincol = "blue",
+    maxcol = "red") {
     dirs <- min(dirs, ncol(WSIR$scores)) # make sure it is a valid value
 
     # initialise empty long df
@@ -63,11 +63,11 @@ visualiseWSIRDirections <- function(coords,
     vis_df_long$y <- rep(coords$y, dirs)
     vis_df_long$value <- as.vector(WSIR$scores[,seq_len(dirs)])
     vis_df_long$WSIR_direction <- as.factor(vec_rep_each(c(seq_len(dirs)),
-                                                         nrow(coords)))
+        nrow(coords)))
 
     # produce plot
     plot <- ggplot2::ggplot(aes(x = .data$x, y = .data$y, color = .data$value),
-                            data = vis_df_long) +
+        data = vis_df_long) +
         ggplot2::geom_point() +
         ggplot2::theme_classic() +
         ggplot2::facet_wrap(~WSIR_direction, scales = "fixed") +

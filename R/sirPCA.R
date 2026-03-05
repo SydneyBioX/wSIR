@@ -21,9 +21,9 @@
 #' @keywords internal
 
 sirPCA <- function(sliced_data,
-                   maxDirections = 50,
-                   W = diag(nrow(sliced_data)),
-                   varThreshold = 0.99) {
+    maxDirections = 50,
+    W = diag(nrow(sliced_data)),
+    varThreshold = 0.99) {
 
     nslices <- nrow(sliced_data)
     sliced_data <- as.matrix(sliced_data)
@@ -38,6 +38,6 @@ sirPCA <- function(sliced_data,
     d <- which(propvariance_explained >= varThreshold)[1]
     d <- min(d, maxDirections)
     return(list(evectors = all_pc[,seq_len(d)],
-                d = d,
-                evalues = eig_m$values))
+        d = d,
+        evalues = eig_m$values))
 }

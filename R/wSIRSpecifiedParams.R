@@ -49,12 +49,12 @@
 #' @importFrom methods is
 #' @keywords internal
 wSIRSpecifiedParams <- function(X,
-                                coords,
-                                group = NULL,
-                                samples = rep(1, nrow(coords)),
-                                slices = 8,
-                                alpha = 4,
-                                ...
+    coords,
+    group = NULL,
+    samples = rep(1, nrow(coords)),
+    slices = 8,
+    alpha = 4,
+    ...
 ) {
 
     if (!is.null(group)) {
@@ -76,8 +76,8 @@ wSIRSpecifiedParams <- function(X,
     tile_allocation <- do.call(rbind, tile_allocations)
 
     tile_allocation$coordinate <- paste0(tile_allocation$coordinate,
-                                         ", ",
-                                         as.integer(factor(samples)))
+        ", ",
+        as.integer(factor(samples)))
 
     sliceName <- "coordinate"
     labels <- tile_allocation[, sliceName, drop = FALSE]
@@ -90,9 +90,9 @@ wSIRSpecifiedParams <- function(X,
     W <- Dmatrix %*% corrMatrix %*% Dmatrix
 
     wsir_obj <- sirCategorical(X = X,
-                               Y = tile_allocation,
-                               W = W,
-                               ...
+        Y = tile_allocation,
+        W = W,
+        ...
     )
 
     return(wsir_obj)

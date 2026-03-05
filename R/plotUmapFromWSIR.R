@@ -65,18 +65,18 @@
 #' @export
 
 plotUmapFromWSIR <- function(X,
-                             umap_coords,
-                             highest_genes = NULL,
-                             genes = NULL,
-                             n_genes,
-                             ...) {
+    umap_coords,
+    highest_genes = NULL,
+    genes = NULL,
+    n_genes,
+    ...) {
     if (is.null(highest_genes) == is.null(genes)) {
         # error message if incorrect inputs
         return("Must provide one of highest_genes or genes, not neither nor both.")
     }
 
     if (is.null(genes)) {
-       genes <- unique(highest_genes$genes$gene)
+        genes <- unique(highest_genes$genes$gene)
     }
 
     n_genes <- min(n_genes, length(genes))
@@ -93,8 +93,9 @@ plotUmapFromWSIR <- function(X,
     umap_df$gene <- vctrs::vec_rep_each(gene_names, nrow(X))
     umap_df$expression <- as.matrix(X)[, gene_inds] %>% as.vector()
 
-    plot <- ggplot2::ggplot(data = umap_df, aes(x = .data$UMAP1, y = .data$UMAP2,
-                                                colour = .data$expression)) +
+    plot <- ggplot2::ggplot(data = umap_df, aes(x = .data$UMAP1, 
+        y = .data$UMAP2,
+        colour = .data$expression)) +
         ggplot2::geom_point() +
         ggplot2::facet_wrap(~gene) +
         ggplot2::theme_classic()

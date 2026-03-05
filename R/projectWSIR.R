@@ -21,7 +21,8 @@
 #'     optim_params = FALSE,
 #'     alpha = 4,
 #'     slices = 6)
-#' sample2_low_dim_exprs <- projectWSIR(wsir = wsir_obj, newdata = sample2_exprs)
+#' sample2_low_dim_exprs <- projectWSIR(wsir = wsir_obj, 
+#'     newdata = sample2_exprs)
 #'
 #' @export
 

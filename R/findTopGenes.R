@@ -74,11 +74,11 @@ findTopGenes <- function(WSIR, highest = 10, dirs = 1) {
         ggplot2::labs(x = "Gene", y = "Loading values from WSIR directions") +
         ggplot2::geom_hline(yintercept = 0) +
         ggplot2::ggtitle(paste0("Top ",
-                                highest,
-                                " genes with highest/lowest loading in wSIR ",
-                                dirs)) +
+            highest,
+            " genes with highest/lowest loading in wSIR ",
+            dirs)) +
         ggplot2::facet_wrap(~direction, nrow = 2, scales = "free")
 
     return(list(plot = loadings_plot,
-                genes = res_df))
+        genes = res_df))
 }

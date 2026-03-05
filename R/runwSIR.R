@@ -44,9 +44,9 @@
 #'
 #' @export
 runwSIR <- function(x,
-                    name = "wSIR",
-                    scores_only = FALSE,
-                    ...) {
+    name = "wSIR",
+    scores_only = FALSE,
+    ...) {
 
     isMatLike <- methods::is(x, "matrix")
 
