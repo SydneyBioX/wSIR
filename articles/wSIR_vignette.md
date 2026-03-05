@@ -519,7 +519,7 @@ sessionInfo()
     ## 
     ## other attached packages:
     ## [1] class_7.3-23     umap_0.2.10.0    vctrs_0.7.1      doBy_4.7.1      
-    ## [5] ggplot2_4.0.2    magrittr_2.0.4   wSIR_0.99.6      BiocStyle_2.38.0
+    ## [5] ggplot2_4.0.2    magrittr_2.0.4   wSIR_0.99.7      BiocStyle_2.38.0
     ## 
     ## loaded via a namespace (and not attached):
     ##  [1] tidyselect_1.2.1            timeDate_4052.112          
