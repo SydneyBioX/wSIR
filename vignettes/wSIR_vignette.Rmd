@@ -69,7 +69,7 @@ they come from opposite sides of the tissue). wSIR uses a weight matrix to
 incorporate the spatial correlation between all pairs of cells in the SIR 
 algorithm. This matrix has dimension H*H, where H is the number of tiles, 
 and the (i,j)th entry represents the distance between tiles i and j. This 
-matrix is incorporated into the eigendeomposition step. The wSIR output has the 
+matrix is incorporated into the eigendecomposition step. The wSIR output has the 
 same structure as the SIR output. 
 
 ## Vignette Overview
@@ -188,7 +188,7 @@ metric value and display a plot showing the performance for every combination
 of parameters.
 
 Note: a key advantage of wSIR over SIR is parameter robustness. Here, we can 
-see that SIR'sperformance deteriorates as you use larger values for `slices`. 
+see that SIR's performance deteriorates as you use larger values for `slices`. 
 However, wSIR's performance is relatively stable as you vary both `slices` and 
 `alpha` across reasonable values (e.g. among the default values we optimise 
 over). In the following plot, the metric value becomes smaller as we increase 
