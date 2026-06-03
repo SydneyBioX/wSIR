@@ -7,7 +7,7 @@
 #' @param x A numeric matrix of normalised gene expression data where rows are
 #' features and columns are cells. Alternatively, a SingleCellExperiment or
 #' SpatialExperiment containing such a matrix
-#' @param assay.type if `x` is a SingleCellExperiment of SpatialExperiment then
+#' @param assay_type if `x` is a SingleCellExperiment of SpatialExperiment then
 #' this is the assay for which wSIR will be calculated. Default "logcounts".
 #' @param dimred String or integer scalar specifying the dimensionality
 #' reduction slot for which to use for the slicing mechanism. Ignored if 
@@ -39,7 +39,7 @@
 #'
 #' @export
 calculatewSIR <- function(x,
-    assay.type = "logcounts",
+    assay_type = "logcounts",
     dimred = NULL,
     colData_columns = NULL,
     spatialCoords = FALSE,
@@ -50,10 +50,10 @@ calculatewSIR <- function(x,
         wsir_obj <- wSIR(X = x, ...)
         return(wsir_obj)
     }
-    if (!assay.type %in% names(SummarizedExperiment::assays(x))) {
-        stop("assay.type not within assays of x")
+    if (!assay_type %in% names(SummarizedExperiment::assays(x))) {
+        stop("assay_type not within assays of x")
     }
-    X <- SummarizedExperiment::assay(x, assay.type)
+    X <- SummarizedExperiment::assay(x, assay_type)
     if (!is.null(dimred)) {
         if (!dimred %in% names(SingleCellExperiment::reducedDims(x))) {
             stop("dimred not within reducedDims of x")
