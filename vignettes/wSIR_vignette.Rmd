@@ -251,11 +251,11 @@ We can simultaneously plot top genes for multiple directions, and utilise the
 
 
 ```{r}
-top_genes_obj <- findTopGenes(WSIR = wsir_obj, highest = 8) # create object
+top_genes_obj <- findTopGenes(wsir = wsir_obj, highest = 8) # create object
 top_genes_plot <- top_genes_obj$plot # select plot
 top_genes_plot # print plot
 
-top_genes_obj <- findTopGenes(WSIR = wsir_obj, highest = 8, dirs = 2:4)
+top_genes_obj <- findTopGenes(wsir = wsir_obj, highest = 8, dirs = 2:4)
 top_genes_plot <- top_genes_obj$plot
 top_genes_plot
 ```
@@ -278,7 +278,7 @@ high and low wSIR column values spread across the tissue.
 
 ```{r}
 vis_obj <- visualiseWSIRDirections(coords = sample1_coords, 
-    WSIR = wsir_obj, 
+    wsir = wsir_obj, 
     dirs = 8) # create visualisations
 vis_obj
 ```
@@ -311,7 +311,7 @@ there are specific regions of high expression in the UMAP plots, suggesting
 that the wSIR space separates cells based on their expression for those genes.
 
 ```{r}
-umap_coords <- generateUmapFromWSIR(WSIR = wsir_obj)
+umap_coords <- generateUmapFromWSIR(wsir = wsir_obj)
 umap_plots <- plotUmapFromWSIR(X = sample1_exprs,
     umap_coords = umap_coords,
     highest_genes = top_genes_obj,

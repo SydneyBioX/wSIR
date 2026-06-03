@@ -9,7 +9,7 @@
 #' a long time), then modify the
 #' resulting plot as much as desired with the plotUmapFromWSIR function.
 #'
-#' @param WSIR wsir object that is output of wSIR function. If you wish to
+#' @param wsir wsir object that is output of wSIR function. If you wish to
 #' generate UMAP plots based on other DR methods, ensure
 #' that the slot named "scores" in WSIR parameter contains the low-dimensional
 #' representation of exprs.
@@ -27,8 +27,8 @@
 #'     optim_params = FALSE,
 #'     alpha = 4,
 #'     slices = 6) # create wsir object
-#' umap_coords <- generateUmapFromWSIR(WSIR = wsir_obj)
-#' top_genes_obj <- findTopGenes(WSIR = wsir_obj, highest = 4)
+#' umap_coords <- generateUmapFromWSIR(wsir = wsir_obj)
+#' top_genes_obj <- findTopGenes(wsir = wsir_obj, highest = 4)
 #' umap_plot <- plotUmapFromWSIR(umap_coords = umap_coords,
 #'     X = sample1_exprs,
 #'     highest_genes = top_genes_obj,
@@ -37,7 +37,7 @@
 #'
 #' @export
 
-generateUmapFromWSIR <- function(WSIR) {
-    umap_obj <- umap::umap(WSIR$scores) # create umap object
+generateUmapFromWSIR <- function(wsir) {
+    umap_obj <- umap::umap(wsir$scores) # create umap object
     return(umap_obj$layout)
 }

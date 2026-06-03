@@ -10,7 +10,7 @@
 #'
 #' @param coords dataframe containing spatial positions of n cells in 2D space.
 #' Dimension n * 2. Column names must be c("x", "y").
-#' @param WSIR wsir object as output of wSIR function. To analyse a different
+#' @param wsir wsir object as output of wSIR function. To analyse a different
 #' DR method, ensure the
 #' slot named 'directions' contains the loadings as a matrix with the gene
 #' names as the rownames. Must
@@ -41,17 +41,17 @@
 #'     alpha = 4,
 #'     slices = 6) # create wsir object
 #' vis_obj <- visualiseWSIRDirections(coords = sample1_coords,
-#' WSIR = wsir_obj, dirs = 8) # create visualisations
+#' wsir = wsir_obj, dirs = 8) # create visualisations
 #' vis_obj
 #'
 #' @export
 
 visualiseWSIRDirections <- function(coords,
-    WSIR,
+                                    wsir,
     dirs = 6,
     mincol = "blue",
     maxcol = "red") {
-    dirs <- min(dirs, ncol(WSIR$scores)) # make sure it is a valid value
+    dirs <- min(dirs, ncol(wsir$scores)) # make sure it is a valid value
 
     # initialise empty long df
     vis_df_long <- matrix(NA, nrow = dirs*nrow(coords), ncol = 4) %>%
@@ -61,7 +61,7 @@ visualiseWSIRDirections <- function(coords,
     # fill columns of long df with relevant WSIR1/2/... values
     vis_df_long$x <- rep(coords$x, dirs)
     vis_df_long$y <- rep(coords$y, dirs)
-    vis_df_long$value <- as.vector(WSIR$scores[,seq_len(dirs)])
+    vis_df_long$value <- as.vector(wsir$scores[,seq_len(dirs)])
     vis_df_long$WSIR_direction <- as.factor(vec_rep_each(c(seq_len(dirs)),
         nrow(coords)))
 

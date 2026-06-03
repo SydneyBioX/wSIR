@@ -54,8 +54,8 @@
 #'     optim_params = FALSE,
 #'     alpha = 4,
 #'     slices = 6) # create wsir object
-#' umap_coords <- generateUmapFromWSIR(WSIR = wsir_obj)
-#' top_genes_obj <- findTopGenes(WSIR = wsir_obj, highest = 4)
+#' umap_coords <- generateUmapFromWSIR(wsir = wsir_obj)
+#' top_genes_obj <- findTopGenes(wsir = wsir_obj, highest = 4)
 #' umap_plot <- plotUmapFromWSIR(umap_coords = umap_coords,
 #'     X = sample1_exprs,
 #'     highest_genes = top_genes_obj,
