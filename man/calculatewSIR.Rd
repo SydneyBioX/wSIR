@@ -6,7 +6,7 @@
 \usage{
 calculatewSIR(
   x,
-  assay.type = "logcounts",
+  assay_type = "logcounts",
   dimred = NULL,
   colData_columns = NULL,
   spatialCoords = FALSE,
@@ -18,11 +18,12 @@ calculatewSIR(
 features and columns are cells. Alternatively, a SingleCellExperiment or
 SpatialExperiment containing such a matrix}
 
-\item{assay.type}{if \code{x} is a SingleCellExperiment of SpatialExperiment then
+\item{assay_type}{if \code{x} is a SingleCellExperiment of SpatialExperiment then
 this is the assay for which wSIR will be calculated. Default "logcounts".}
 
-\item{dimred}{String or integer scalar specifying the dimensionality reduction
-slot for which to use for the slicing mechanism. Ignored if \code{coords} given.}
+\item{dimred}{String or integer scalar specifying the dimensionality
+reduction slot for which to use for the slicing mechanism. Ignored if
+\code{coords} given.}
 
 \item{colData_columns}{character vector specifying the subset of colData
 columns to be used for the wSIR slicing mechanism. Ignored if \code{coords} or

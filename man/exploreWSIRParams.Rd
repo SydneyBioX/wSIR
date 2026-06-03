@@ -11,7 +11,7 @@ exploreWSIRParams(
   optim_alpha = c(0, 2, 4, 10),
   optim_slices = c(5, 10, 15, 20),
   metric = "DC",
-  nrep = 5,
+  nrep = 50,
   nCores = 1,
   plot = TRUE,
   verbose = TRUE,

@@ -6,7 +6,7 @@
 \usage{
 visualiseWSIRDirections(
   coords,
-  WSIR,
+  wsir,
   dirs = 6,
   mincol = "blue",
   maxcol = "red"
@@ -16,7 +16,7 @@ visualiseWSIRDirections(
 \item{coords}{dataframe containing spatial positions of n cells in 2D space.
 Dimension n * 2. Column names must be c("x", "y").}
 
-\item{WSIR}{wsir object as output of wSIR function. To analyse a different
+\item{wsir}{wsir object as output of wSIR function. To analyse a different
 DR method, ensure the
 slot named 'directions' contains the loadings as a matrix with the gene
 names as the rownames. Must
@@ -53,7 +53,7 @@ wsir_obj <- wSIR(X = sample1_exprs,
     alpha = 4,
     slices = 6) # create wsir object
 vis_obj <- visualiseWSIRDirections(coords = sample1_coords,
-WSIR = wsir_obj, dirs = 8) # create visualisations
+wsir = wsir_obj, dirs = 8) # create visualisations
 vis_obj
 
 }

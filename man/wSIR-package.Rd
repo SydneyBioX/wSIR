@@ -11,18 +11,18 @@ Weighted Sliced Inverse Regression (wSIR) is a supervised dimension reduction al
 Useful links:
 \itemize{
   \item \url{https://sydneybiox.github.io/wSIR}
-  \item \url{https://sydneybiox.github.io/wSIR/}
+  \item \url{https://github.com/SydneyBioX/wSIR}
   \item Report bugs at \url{https://github.com/sydneybiox/wSIR/issues}
 }
 
 }
 \author{
-\strong{Maintainer}: Max Woollard \email{mwoo5086@uni.sydney.edu.au} (\href{https://orcid.org/0009-0000-6319-6926}{ORCID}) [contributor]
+\strong{Maintainer}: Max Woollard \email{mwoo5086@uni.sydney.edu.au} (\href{https://orcid.org/0009-0000-6319-6926}{ORCID})
 
 Authors:
 \itemize{
-  \item Linh Nghiem (\href{https://orcid.org/0000-0003-2874-9067}{ORCID}) [contributor]
-  \item Shila Ghazanfar \email{shazanfar@gmail.com} (\href{https://orcid.org/0000-0001-7861-6997}{ORCID}) [contributor]
+  \item Linh Nghiem (\href{https://orcid.org/0000-0003-2874-9067}{ORCID})
+  \item Shila Ghazanfar \email{shazanfar@gmail.com} (\href{https://orcid.org/0000-0001-7861-6997}{ORCID})
 }
 
 Other contributors:
