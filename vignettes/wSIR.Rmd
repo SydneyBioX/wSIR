@@ -207,7 +207,7 @@ optim_obj <- exploreWSIRParams(X = as.matrix(sample1_exprs),
                                # optim_slices = c(5,10,15),
                                optim_alpha = c(0, 4),
                                optim_slices = c(10, 15),
-                               nrep = 5,
+                               n_rep = 5,
                                metric = "DC")
 Sys.time()-a
 optim_obj$plot
@@ -352,7 +352,7 @@ expression matrix into the wSIR low-dimensional space, which will therefore
 have an ability to predict sample 2's (unknown at this stage) spatial locations.
 
 ```{r}
-sample2_low_dim_exprs <- projectWSIR(wsir = wsir_obj, newdata = sample2_exprs)
+sample2_low_dim_exprs <- projectWSIR(wsir = wsir_obj, new_data = sample2_exprs)
 ```
 
 Check the dimension of sample 2's low-dimensional gene expression data:
@@ -394,7 +394,7 @@ wsir_obj_samples12 <- wSIR(X = rbind(sample1_exprs, sample2_exprs),
     optim_params = FALSE)
 
 sample3_low_dim_exprs <- projectWSIR(wsir = wsir_obj_samples12, 
-    newdata = sample3_exprs)
+    new_data = sample3_exprs)
 dim(sample3_low_dim_exprs)
 ```
 

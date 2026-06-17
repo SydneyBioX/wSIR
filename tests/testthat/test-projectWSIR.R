@@ -14,8 +14,8 @@ wsir_out <- wSIR(X = x,
 new_n <- 80
 new_x <- matrix(rnorm(n = new_n*p), nrow = new_n, ncol = p)
 
-newdata_low_dim_exprs <- projectWSIR(wsir = wsir_out, 
-                                     newdata = new_x)
+new_data_low_dim_exprs <- projectWSIR(wsir = wsir_out, 
+                                     new_data = new_x)
 
-expect_equal(nrow(newdata_low_dim_exprs), new_n)
-expect_equal(ncol(newdata_low_dim_exprs), wsir_out$estd)
+expect_equal(nrow(new_data_low_dim_exprs), new_n)
+expect_equal(ncol(new_data_low_dim_exprs), wsir_out$estd)

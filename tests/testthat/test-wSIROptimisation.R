@@ -14,9 +14,9 @@ coords2 <- data.frame(x = runif(n2),
                       y = runif(n2))
 samples1 <- rep(1,n1)
 
-evalmetrics1 <- c("CD")
-evalmetrics2 <- c("CD", "DC")
-evalmetrics3 <- c("CD", "DC", "ncol")
+eval_metrics1 <- c("CD")
+eval_metrics2 <- c("CD", "DC")
+eval_metrics3 <- c("CD", "DC", "ncol")
 
 out1 <- wSIR:::wSIROptimisation(exprs_train = x1, 
                                 coords_train = coords1, 
@@ -25,7 +25,7 @@ out1 <- wSIR:::wSIROptimisation(exprs_train = x1,
                                 samples_train = samples1, 
                                 slices = 5, 
                                 alpha = 4, 
-                                evalmetrics = evalmetrics1)
+                                eval_metrics = eval_metrics1)
 out2 <- wSIR:::wSIROptimisation(exprs_train = x1, 
                                 coords_train = coords1, 
                                 exprs_test = x2, 
@@ -33,7 +33,7 @@ out2 <- wSIR:::wSIROptimisation(exprs_train = x1,
                                 samples_train = samples1, 
                                 slices = 5, 
                                 alpha = 4, 
-                                evalmetrics = evalmetrics2)
+                                eval_metrics = eval_metrics2)
 out3 <- wSIR:::wSIROptimisation(exprs_train = x1, 
                                 coords_train = coords1, 
                                 exprs_test = x2, 
@@ -41,7 +41,7 @@ out3 <- wSIR:::wSIROptimisation(exprs_train = x1,
                                 samples_train = samples1, 
                                 slices = 5, 
                                 alpha = 4, 
-                                evalmetrics = evalmetrics3)
+                                eval_metrics = eval_metrics3)
 # check all right lengths
 expect_equal(length(out1), 1)
 expect_equal(length(out2), 2)

@@ -37,9 +37,9 @@
 #' use distance correlation, "CD" to use correlation of distances, or "ncol"
 #' for the number of dimensions in the low-dimensional
 #' embedding. Default is "DC".
-#' @param nrep integer for the number of train/test splits of the data to
+#' @param n_rep integer for the number of train/test splits of the data to
 #' perform.
-#' @param nCores number of cores for parallel computing setup BiocParallel
+#' @param n_cores number of cores for parallel computing setup BiocParallel
 #' package. Default is to use a single core
 #' @param plot logical whether a dotplot of parameters and metrics should be
 #' produced, default TRUE
@@ -48,7 +48,7 @@
 #'
 #' @return List with five slots, named "plot", "message", "best_alpha",
 #' "best_slices" and "results_dataframe".
-#' 1) "plot" shows the average metric value across the nrep iterations for
+#' 1) "plot" shows the average metric value across the n_rep iterations for
 #' every combination of parameters slices and alpha.
 #' Larger circles for a slices/alpha combination indicates better performance
 #' for that pair of values. There is one panel per
@@ -99,25 +99,25 @@ exploreWSIRParams <- function(X,
     optim_alpha = c(0,2,4,10),
     optim_slices = c(5,10,15,20),
     metric = "DC",
-    nrep = 50,
-    nCores = 1,
+    n_rep = 50,
+    n_cores = 1,
     plot = TRUE,
     verbose = TRUE,
     ...
 ) {
 
-    BPPARAM <- .generateBPParam(cores = nCores)
+    BPPARAM <- .generateBPParam(cores = n_cores)
 
     # vector of all parameter combinations
     param_combinations <- expand.grid(slices = optim_slices,
         alpha = optim_alpha,
-        rep = seq_len(nrep))
+        rep = seq_len(n_rep))
 
     # Create pre-specified random splits of data, each columns
     # corresponding to one split
     index_rep <- matrix(
-        sample(c(TRUE, FALSE), nrow(X)*nrep, replace = TRUE),
-        nrow = nrow(X), ncol = nrep
+        sample(c(TRUE, FALSE), nrow(X)*n_rep, replace = TRUE),
+        nrow = nrow(X), ncol = n_rep
     )
     # create training and test set from each column index
     split_list <- apply(index_rep, 2, function(keep) {
@@ -137,7 +137,7 @@ exploreWSIRParams <- function(X,
         function(i) lapply(split_list, "[[", i))
     # the above is like a list version of transpose
 
-    if (verbose) message("set up nrep random splits of the data into training and test sets")
+    if (verbose) message("set up n_rep random splits of the data into training and test sets")
 
     param_combinations_split <- split.data.frame(param_combinations,
         seq_len(nrow(param_combinations)))
@@ -161,7 +161,7 @@ exploreWSIRParams <- function(X,
                 samples_train = data_split_ii[[5]],
                 slices = slices_ii,
                 alpha = alpha_ii,
-                evalmetrics = metric,
+                eval_metrics = metric,
                 ...
             )
 
@@ -201,7 +201,7 @@ exploreWSIRParams <- function(X,
             ggplot2::theme_classic() +
             ggplot2::ggtitle(
         paste0("Metric value for different parameter combinations (",
-            nrep, " iterations of train/test split)"))
+            n_rep, " iterations of train/test split)"))
     } else {
     plot <- NULL
     }

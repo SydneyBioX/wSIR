@@ -1,4 +1,4 @@
-#' calculatewSIR
+#' calculateWSIR
 #'
 #' @description
 #' Perform wSIR on cells, based on the expression data and a reducedDim in a
@@ -9,14 +9,14 @@
 #' SpatialExperiment containing such a matrix
 #' @param assay_type if `x` is a SingleCellExperiment of SpatialExperiment then
 #' this is the assay for which wSIR will be calculated. Default "logcounts".
-#' @param dimred String or integer scalar specifying the dimensionality
+#' @param dim_red String or integer scalar specifying the dimensionality
 #' reduction slot for which to use for the slicing mechanism. Ignored if 
 #' `coords` given.
 #' @param colData_columns character vector specifying the subset of colData
 #' columns to be used for the wSIR slicing mechanism. Ignored if `coords` or
-#' `dimred` given
+#' `dim_red` given
 #' @param spatialCoords logical indicating if spatialCoords should be used for
-#' the wSIR slicing mechanism. Ignored if `coords`, `dimred`, or
+#' the wSIR slicing mechanism. Ignored if `coords`, `dim_red`, or
 #' `colData_columns` given, or if `x` is not a SpatialExperiment object.
 #' @param ... arguments passing to `wSIR`
 #'
@@ -34,13 +34,13 @@
 #' sce = SingleCellExperiment(assays = list(logcounts = t(sample1_exprs)),
 #' reducedDims = list(spatial = sample1_coords))
 #'
-#' obj = calculatewSIR(x = sce,
-#'   dimred = "spatial")
+#' obj = calculateWSIR(x = sce,
+#'   dim_red = "spatial")
 #'
 #' @export
-calculatewSIR <- function(x,
+calculateWSIR <- function(x,
     assay_type = "logcounts",
-    dimred = NULL,
+    dim_red = NULL,
     colData_columns = NULL,
     spatialCoords = FALSE,
     ...) {
@@ -54,11 +54,11 @@ calculatewSIR <- function(x,
         stop("assay_type not within assays of x")
     }
     X <- SummarizedExperiment::assay(x, assay_type)
-    if (!is.null(dimred)) {
-        if (!dimred %in% names(SingleCellExperiment::reducedDims(x))) {
-            stop("dimred not within reducedDims of x")
+    if (!is.null(dim_red)) {
+        if (!dim_red %in% names(SingleCellExperiment::reducedDims(x))) {
+            stop("dim_red not within reducedDims of x")
         }
-        coords <- SingleCellExperiment::reducedDim(x, dimred)
+        coords <- SingleCellExperiment::reducedDim(x, dim_red)
     } else {
         if (!is.null(colData_columns)) {
             if (!all(colData_columns %in% colnames(SummarizedExperiment::colData(x)))) {

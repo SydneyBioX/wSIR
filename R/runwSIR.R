@@ -12,7 +12,7 @@
 #' @param scores_only logical whether only the wSIR scores should be calculated.
 #' If FALSE additional information about the wSIR model will be stored in the
 #' attributes of the object. Default FALSE.
-#' @param ... arguments passing to `calculatewSIR`
+#' @param ... arguments passing to `calculateWSIR`
 #'
 #' @return If `x` is matrix-like, a list containing wSIR scores, loadings, etc.
 #' If `x` is a SingleCellExperiment or SpatialExperiment, the same object is
@@ -35,7 +35,7 @@
 #' sce <- SingleCellExperiment(assays = list(logcounts = t(sample1_exprs)),
 #' reducedDims = list(spatial = sample1_coords))
 #'
-#' sce <- runwSIR(x = sce, dimred = "spatial")
+#' sce <- runwSIR(x = sce, dim_red = "spatial")
 #'
 #' spe <- SpatialExperiment(assays = list(logcounts = t(sample1_exprs)),
 #' spatialCoords = as.matrix(sample1_coords))
@@ -50,7 +50,7 @@ runwSIR <- function(x,
 
     isMatLike <- methods::is(x, "matrix")
 
-    wsir_obj <- calculatewSIR(x = x, ...)
+    wsir_obj <- calculateWSIR(x = x, ...)
 
     if (isMatLike) {
 
