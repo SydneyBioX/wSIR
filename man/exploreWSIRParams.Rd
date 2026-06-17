@@ -106,8 +106,8 @@ This pair of slices and alpha can be used for your downstream tasks.
 data(MouseData)
 explore_params = exploreWSIRParams(X = sample1_exprs,
   coords = sample1_coords,
-  optim_alpha = c(0,2,4,8),
-  optim_slices = c(3,6,10))
+  optim_alpha = c(0,4),
+  optim_slices = c(3,6))
 explore_params$plot
 explore_params$message
 best_alpha = explore_params$best_alpha

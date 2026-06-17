@@ -76,7 +76,7 @@ findTopGenes <- function(wsir, highest = 10, dirs = 1) {
         ggplot2::ggtitle(paste0("Top ",
             highest,
             " genes with highest/lowest loading in wSIR ",
-            dirs)) +
+            paste(dirs, collapse = ", "))) +
         ggplot2::facet_wrap(~direction, nrow = 2, scales = "free")
 
     return(list(plot = loadings_plot,

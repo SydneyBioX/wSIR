@@ -252,14 +252,15 @@ the low-dimensional embedding. We can see that some of the genes are known
 spatial genes (e.g. Cdx2, Hox-), which is what we would expect to see.
 
 We can simultaneously plot top genes for multiple directions, and utilise the 
-
+resulting plot to identify a larger subset of the genes that contribute to 
+wSIR's spatially-informed low dimensional embedding.
 
 ```{r}
 top_genes_obj <- findTopGenes(wsir = wsir_obj, highest = 8) # create object
 top_genes_plot <- top_genes_obj$plot # select plot
 top_genes_plot # print plot
 
-top_genes_obj <- findTopGenes(wsir = wsir_obj, highest = 8, dirs = 2:4)
+top_genes_obj <- findTopGenes(wsir = wsir_obj, highest = 8, dirs = c(2:4))
 top_genes_plot <- top_genes_obj$plot
 top_genes_plot
 ```
