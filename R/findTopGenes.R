@@ -5,7 +5,7 @@
 #' (in absolute value) loading in WSIR1.
 #' These genes contribute the most to the first low-dimensional direction.
 #'
-#' @param WSIR wsir object as output of wSIR function. To analyse a different
+#' @param wsir wsir object as output of wSIR function. To analyse a different
 #' DR method, ensure the
 #' slot named 'directions' contains the loadings as a matrix with the gene
 #' names as the rownames.
@@ -39,17 +39,17 @@
 #'   optim_params = FALSE,
 #'   alpha = 4,
 #'   slices = 6) # create wsir object
-#' top_genes_obj = findTopGenes(WSIR = wsir_obj, highest = 8)
+#' top_genes_obj = findTopGenes(wsir = wsir_obj, highest = 8)
 #' top_genes_plot = top_genes_obj$plot # select plot
 #' top_genes_plot # print plot
 #'
 #' @export
 
-findTopGenes <- function(WSIR, highest = 10, dirs = 1) {
+findTopGenes <- function(wsir, highest = 10, dirs = 1) {
 
-    wsir_dirs_df <- WSIR$directions %>%
+    wsir_dirs_df <- wsir$directions %>%
         as.data.frame()
-    wsir_dirs_df$gene <- rownames(WSIR$directions)
+    wsir_dirs_df$gene <- rownames(wsir$directions)
 
     res_df <- matrix(NA, nrow = length(dirs)*highest, ncol = 3) %>%
         as.data.frame()
@@ -76,7 +76,7 @@ findTopGenes <- function(WSIR, highest = 10, dirs = 1) {
         ggplot2::ggtitle(paste0("Top ",
             highest,
             " genes with highest/lowest loading in wSIR ",
-            dirs)) +
+            paste(dirs, collapse = ", "))) +
         ggplot2::facet_wrap(~direction, nrow = 2, scales = "free")
 
     return(list(plot = loadings_plot,

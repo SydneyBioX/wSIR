@@ -12,7 +12,7 @@ wSIROptimisation(
   samples_train,
   slices,
   alpha,
-  evalmetrics = c("CD", "DC", "ncol"),
+  eval_metrics = c("CD", "DC", "ncol"),
   ...
 )
 }
@@ -51,7 +51,7 @@ inversely proportional to the physical distance between them. Suggest
 to tune this
 parameter using exploreWSIRParams() function.}
 
-\item{evalmetrics}{evaluation metrics to use for parameter tuning.
+\item{eval_metrics}{evaluation metrics to use for parameter tuning.
 String, options are any or all of: "DC" to use distance
 correlation; "CD" to use correlation of distances; "ncol" to use number
 of columns in low-dimensional embedding. Default is all three,

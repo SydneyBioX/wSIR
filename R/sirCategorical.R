@@ -23,7 +23,6 @@
 
 sirCategorical <- function(X,
     Y,
-    # maxDirections = 50,
     W = NULL,
     ...
 ) {

@@ -18,7 +18,7 @@ of the output. Default is "wSIR"}
 If FALSE additional information about the wSIR model will be stored in the
 attributes of the object. Default FALSE.}
 
-\item{...}{arguments passing to \code{calculatewSIR}}
+\item{...}{arguments passing to \code{calculateWSIR}}
 }
 \value{
 If \code{x} is matrix-like, a list containing wSIR scores, loadings, etc.
@@ -45,7 +45,7 @@ library(SpatialExperiment)
 sce <- SingleCellExperiment(assays = list(logcounts = t(sample1_exprs)),
 reducedDims = list(spatial = sample1_coords))
 
-sce <- runwSIR(x = sce, dimred = "spatial")
+sce <- runwSIR(x = sce, dim_red = "spatial")
 
 spe <- SpatialExperiment(assays = list(logcounts = t(sample1_exprs)),
 spatialCoords = as.matrix(sample1_coords))

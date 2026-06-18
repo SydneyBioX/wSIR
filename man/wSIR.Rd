@@ -11,7 +11,7 @@ wSIR(
   optim_alpha = c(0, 1, 2, 4, 8, 12),
   optim_slices = c(3, 5, 7, 10, 15, 20),
   metric = "DC",
-  nrep = 5,
+  n_rep = 50,
   verbose = FALSE,
   ...
 )
@@ -51,7 +51,7 @@ for parameter tuning. String,
 either "DC" to use distance correlation or "CD" to use correlation of
 distances. Default is "DC".}
 
-\item{nrep}{If optim_params = TRUE, this is the integer for the number of
+\item{n_rep}{If optim_params = TRUE, this is the integer for the number of
 train/test splits of the data to
 perform during optimisation of parameters slices and alpha.}
 
@@ -94,6 +94,6 @@ wsir_obj <- wSIR(X = sample1_exprs,
     optim_alpha = c(0,2,4),
     optim_slices = c(3,6,10),
     metric = "DC",
-    nrep = 1) # create wsir object
+    n_rep = 1) # create wsir object
 
 }

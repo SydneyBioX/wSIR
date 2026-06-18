@@ -12,7 +12,7 @@ out <- wSIR(X = x,
             coords = coords)
 nhighest <- 3
 ndirs <- 4
-expect_error(find_out <- wSIR::findTopGenes(WSIR = out,
+expect_error(find_out <- wSIR::findTopGenes(wsir = out,
                                             highest = nhighest,
                                             dirs = c(1:ndirs)))
 
@@ -28,7 +28,7 @@ out <- wSIR(X = x,
             coords = coords)
 nhighest <- 3
 ndirs <- 4
-find_out <- wSIR::findTopGenes(WSIR = out,
+find_out <- wSIR::findTopGenes(wsir = out,
                                highest = nhighest,
                                dirs = c(1:ndirs))
 dim_find_out <- nrow(find_out$genes)

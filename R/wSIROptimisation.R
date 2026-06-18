@@ -35,7 +35,7 @@
 #' inversely proportional to the physical distance between them. Suggest
 #' to tune this
 #' parameter using exploreWSIRParams() function.
-#' @param evalmetrics evaluation metrics to use for parameter tuning.
+#' @param eval_metrics evaluation metrics to use for parameter tuning.
 #' String, options are any or all of: "DC" to use distance
 #' correlation; "CD" to use correlation of distances; "ncol" to use number
 #' of columns in low-dimensional embedding. Default is all three,
@@ -57,7 +57,7 @@ wSIROptimisation <- function(exprs_train,
     samples_train,
     slices,
     alpha,
-    evalmetrics = c("CD","DC","ncol"),
+    eval_metrics = c("CD","DC","ncol"),
     ...) {
 
     results <- NULL
@@ -67,9 +67,9 @@ wSIROptimisation <- function(exprs_train,
         slices = slices,
         alpha = alpha,
         ...)
-    projected_test <- projectWSIR(wsir = wsir_obj, newdata = exprs_test)
+    projected_test <- projectWSIR(wsir = wsir_obj, new_data = exprs_test)
 
-    if ("CD" %in% evalmetrics) {
+    if ("CD" %in% eval_metrics) {
         # Replace dist by distances
         d1 <- as.matrix(distances::distances(projected_test))
         d2 <- as.matrix(distances::distances(coords_test))
@@ -78,14 +78,14 @@ wSIROptimisation <- function(exprs_train,
         current_cd <- .spearman_correlation(k1, k2)
         results <- c(results, cd = current_cd)
     }
-    if ("DC" %in% evalmetrics) {
+    if ("DC" %in% eval_metrics) {
         d1 <- as.matrix(distances::distances(projected_test))
         d2 <- as.matrix(distances::distances(coords_test))
         current_dc <- .dcovU(d1, d2)["bcdcor"]
         results <- c(results, dc = current_dc)
 
     }
-    if ("ncol" %in% evalmetrics) {
+    if ("ncol" %in% eval_metrics) {
         current_ncol <- ncol(projected_test)
         ncol_vals <- current_ncol
         results <- c(results, ncol = ncol_vals)

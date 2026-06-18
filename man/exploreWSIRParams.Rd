@@ -11,10 +11,10 @@ exploreWSIRParams(
   optim_alpha = c(0, 2, 4, 10),
   optim_slices = c(5, 10, 15, 20),
   metric = "DC",
-  nrep = 5,
-  nCores = 1,
+  n_rep = 50,
   plot = TRUE,
   verbose = TRUE,
+  BPPARAM = BiocParallel::SerialParam(RNGseed = .Random.seed[1]),
   ...
 )
 }
@@ -53,16 +53,17 @@ use distance correlation, "CD" to use correlation of distances, or "ncol"
 for the number of dimensions in the low-dimensional
 embedding. Default is "DC".}
 
-\item{nrep}{integer for the number of train/test splits of the data to
+\item{n_rep}{integer for the number of train/test splits of the data to
 perform.}
-
-\item{nCores}{number of cores for parallel computing setup BiocParallel
-package. Default is to use a single core}
 
 \item{plot}{logical whether a dotplot of parameters and metrics should be
 produced, default TRUE}
 
 \item{verbose}{default TRUE}
+
+\item{BPPARAM}{Optional parallel computing instance as in
+\code{BiocParallelParam} to be used in \code{BiocParallel::bplapply}. Default is
+\code{BiocParallelParam} instance with one core.}
 
 \item{...}{arguments passed on to wSIROptimisation}
 }
@@ -70,7 +71,7 @@ produced, default TRUE}
 List with five slots, named "plot", "message", "best_alpha",
 "best_slices" and "results_dataframe".
 \enumerate{
-\item "plot" shows the average metric value across the nrep iterations for
+\item "plot" shows the average metric value across the n_rep iterations for
 every combination of parameters slices and alpha.
 Larger circles for a slices/alpha combination indicates better performance
 for that pair of values. There is one panel per
@@ -106,8 +107,8 @@ This pair of slices and alpha can be used for your downstream tasks.
 data(MouseData)
 explore_params = exploreWSIRParams(X = sample1_exprs,
   coords = sample1_coords,
-  optim_alpha = c(0,2,4,8),
-  optim_slices = c(3,6,10))
+  optim_alpha = c(0,4),
+  optim_slices = c(3,6))
 explore_params$plot
 explore_params$message
 best_alpha = explore_params$best_alpha
