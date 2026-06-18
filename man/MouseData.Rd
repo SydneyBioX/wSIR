@@ -12,7 +12,7 @@
 \alias{sample3_exprs}
 \alias{sample3_coords}
 \alias{sample3_cell_types}
-\title{MouseGastrulationData}
+\title{Mouse Gastrulation Data}
 \format{
 \code{sample1_exprs} has a row for each cell in sample 1 and a
 column for the
