@@ -12,9 +12,9 @@ exploreWSIRParams(
   optim_slices = c(5, 10, 15, 20),
   metric = "DC",
   n_rep = 50,
-  n_cores = 1,
   plot = TRUE,
   verbose = TRUE,
+  BPPARAM = BiocParallel::SerialParam(RNGseed = .Random.seed[1]),
   ...
 )
 }
@@ -56,13 +56,14 @@ embedding. Default is "DC".}
 \item{n_rep}{integer for the number of train/test splits of the data to
 perform.}
 
-\item{n_cores}{number of cores for parallel computing setup BiocParallel
-package. Default is to use a single core}
-
 \item{plot}{logical whether a dotplot of parameters and metrics should be
 produced, default TRUE}
 
 \item{verbose}{default TRUE}
+
+\item{BPPARAM}{Optional parallel computing instance as in
+\code{BiocParallelParam} to be used in \code{BiocParallel::bplapply}. Default is
+\code{BiocParallelParam} instance with one core.}
 
 \item{...}{arguments passed on to wSIROptimisation}
 }

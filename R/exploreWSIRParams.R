@@ -39,8 +39,9 @@
 #' embedding. Default is "DC".
 #' @param n_rep integer for the number of train/test splits of the data to
 #' perform.
-#' @param n_cores number of cores for parallel computing setup BiocParallel
-#' package. Default is to use a single core
+#' @param BPPARAM Optional parallel computing instance as in 
+#' `BiocParallelParam` to be used in `BiocParallel::bplapply`. Default is 
+#' `BiocParallelParam` instance with one core.
 #' @param plot logical whether a dotplot of parameters and metrics should be
 #' produced, default TRUE
 #' @param verbose default TRUE
@@ -89,7 +90,7 @@
 #' @importFrom magrittr %>%
 #' @importFrom ggplot2 ggplot aes geom_point theme_classic ggtitle
 #' @importFrom vctrs vec_rep_each
-#' @importFrom BiocParallel SerialParam SnowParam MulticoreParam bpparam bplapply
+#' @importFrom BiocParallel SerialParam bplapply
 #' @importFrom stringr word
 #'
 #' @export
@@ -100,14 +101,11 @@ exploreWSIRParams <- function(X,
     optim_slices = c(5,10,15,20),
     metric = "DC",
     n_rep = 50,
-    n_cores = 1,
     plot = TRUE,
     verbose = TRUE,
+    BPPARAM = BiocParallel::SerialParam(RNGseed = .Random.seed[1]),
     ...
 ) {
-
-    BPPARAM <- .generateBPParam(cores = n_cores)
-
     # vector of all parameter combinations
     param_combinations <- expand.grid(slices = optim_slices,
         alpha = optim_alpha,
