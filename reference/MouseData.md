@@ -1,4 +1,4 @@
-# MouseGastrulationData
+# Mouse Gastrulation Data
 
 Data set consists of spatial transcriptomics data from a mouse embryo.
 There are three samples, for each we have gene expression data (351

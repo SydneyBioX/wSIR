@@ -20,10 +20,20 @@ For an overview of the method and examples, see the vignette at this
 
 To install wSIR via Bioconductor: (note this won’t work yet, only once
 wSIR is actually on Bioconductor)
-`{r} library(BiocManager) BiocManager::install("wSIR")` To install wSIR
-from [GitHub](https://github.com/SydneyBioX/wSIR):
 
-`{r} library(devtools) install_github("SydneyBioX/wSIR")`
+``` r
+
+library(BiocManager)
+BiocManager::install("wSIR")
+```
+
+To install wSIR from [GitHub](https://github.com/SydneyBioX/wSIR):
+
+``` r
+
+library(devtools)
+install_github("SydneyBioX/wSIR")
+```
 
 The analysis codes to recreate the results from the paper are available
 [here](https://github.com/SydneyBioX/wSIR_2024).
@@ -42,11 +52,9 @@ The analysis codes to recreate the results from the paper are available
   [`sample3_exprs`](https://sydneybiox.github.io/wSIR/reference/MouseData.md)
   [`sample3_coords`](https://sydneybiox.github.io/wSIR/reference/MouseData.md)
   [`sample3_cell_types`](https://sydneybiox.github.io/wSIR/reference/MouseData.md)
-  : MouseGastrulationData
-- [`calculatewSIR()`](https://sydneybiox.github.io/wSIR/reference/calculatewSIR.md)
-  : calculatewSIR
-- [`.generateBPParam()`](https://sydneybiox.github.io/wSIR/reference/dot-generateBPParam.md)
-  : Utility function to generate BPPARAM object.
+  : Mouse Gastrulation Data
+- [`calculateWSIR()`](https://sydneybiox.github.io/wSIR/reference/calculateWSIR.md)
+  : calculateWSIR
 - [`exploreWSIRParams()`](https://sydneybiox.github.io/wSIR/reference/exploreWSIRParams.md)
   : exploreWSIRParams function
 - [`findTopGenes()`](https://sydneybiox.github.io/wSIR/reference/findTopGenes.md)
@@ -68,4 +76,4 @@ The analysis codes to recreate the results from the paper are available
 ### All vignettes
 
 - [Weighted Sliced Inverse Regression
-  (WSIR)](https://sydneybiox.github.io/wSIR/articles/wSIR_vignette.md):
+  (WSIR)](https://sydneybiox.github.io/wSIR/articles/wSIR.md):

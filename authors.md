@@ -2,17 +2,15 @@
 
 ## Authors
 
-- **Max Woollard**. Author, maintainer, contributor.
+- **Max Woollard**. Author, maintainer.
   [](https://orcid.org/0009-0000-6319-6926)
 
 - **Pratibha Panwar**. Contributor.
   [](https://orcid.org/0000-0002-7437-7084)
 
-- **Linh Nghiem**. Author, contributor.
-  [](https://orcid.org/0000-0003-2874-9067)
+- **Linh Nghiem**. Author. [](https://orcid.org/0000-0003-2874-9067)
 
-- **Shila Ghazanfar**. Author, contributor.
-  [](https://orcid.org/0000-0001-7861-6997)
+- **Shila Ghazanfar**. Author. [](https://orcid.org/0000-0001-7861-6997)
 
 ## Citation
 

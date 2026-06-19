@@ -12,11 +12,9 @@
   [`sample3_exprs`](https://sydneybiox.github.io/wSIR/reference/MouseData.md)
   [`sample3_coords`](https://sydneybiox.github.io/wSIR/reference/MouseData.md)
   [`sample3_cell_types`](https://sydneybiox.github.io/wSIR/reference/MouseData.md)
-  : MouseGastrulationData
-- [`calculatewSIR()`](https://sydneybiox.github.io/wSIR/reference/calculatewSIR.md)
-  : calculatewSIR
-- [`.generateBPParam()`](https://sydneybiox.github.io/wSIR/reference/dot-generateBPParam.md)
-  : Utility function to generate BPPARAM object.
+  : Mouse Gastrulation Data
+- [`calculateWSIR()`](https://sydneybiox.github.io/wSIR/reference/calculateWSIR.md)
+  : calculateWSIR
 - [`exploreWSIRParams()`](https://sydneybiox.github.io/wSIR/reference/exploreWSIRParams.md)
   : exploreWSIRParams function
 - [`findTopGenes()`](https://sydneybiox.github.io/wSIR/reference/findTopGenes.md)

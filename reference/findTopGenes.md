@@ -7,12 +7,12 @@ low-dimensional direction.
 ## Usage
 
 ``` r
-findTopGenes(WSIR, highest = 10, dirs = 1)
+findTopGenes(wsir, highest = 10, dirs = 1)
 ```
 
 ## Arguments
 
-- WSIR:
+- wsir:
 
   wsir object as output of wSIR function. To analyse a different DR
   method, ensure the slot named 'directions' contains the loadings as a
@@ -47,7 +47,7 @@ wsir_obj = wSIR(X = sample1_exprs,
   optim_params = FALSE,
   alpha = 4,
   slices = 6) # create wsir object
-top_genes_obj = findTopGenes(WSIR = wsir_obj, highest = 8)
+top_genes_obj = findTopGenes(wsir = wsir_obj, highest = 8)
 top_genes_plot = top_genes_obj$plot # select plot
 top_genes_plot # print plot
 

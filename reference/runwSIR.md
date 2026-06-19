@@ -30,7 +30,7 @@ runwSIR(x, name = "wSIR", scores_only = FALSE, ...)
 
 - ...:
 
-  arguments passing to `calculatewSIR`
+  arguments passing to `calculateWSIR`
 
 ## Value
 
@@ -58,7 +58,7 @@ library(SpatialExperiment)
 sce <- SingleCellExperiment(assays = list(logcounts = t(sample1_exprs)),
 reducedDims = list(spatial = sample1_coords))
 
-sce <- runwSIR(x = sce, dimred = "spatial")
+sce <- runwSIR(x = sce, dim_red = "spatial")
 
 spe <- SpatialExperiment(assays = list(logcounts = t(sample1_exprs)),
 spatialCoords = as.matrix(sample1_coords))

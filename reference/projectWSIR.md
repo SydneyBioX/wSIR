@@ -5,7 +5,7 @@ function to project new gene expression data into low-dimensional space
 ## Usage
 
 ``` r
-projectWSIR(wsir, newdata)
+projectWSIR(wsir, new_data)
 ```
 
 ## Arguments
@@ -17,7 +17,7 @@ projectWSIR(wsir, newdata)
   method, at param wsir use a list with matrix of loadings in slot 2
   (e.g PCA loadings) of dimension p \* d
 
-- newdata:
+- new_data:
 
   matrix of new gene expression data to project into low-dimensional
   space. Must have the same p columns as the columns in X argument used
@@ -36,5 +36,6 @@ wsir_obj <- wSIR(X = sample1_exprs,
     optim_params = FALSE,
     alpha = 4,
     slices = 6)
-sample2_low_dim_exprs <- projectWSIR(wsir = wsir_obj, newdata = sample2_exprs)
+sample2_low_dim_exprs <- projectWSIR(wsir = wsir_obj, 
+    new_data = sample2_exprs)
 ```

@@ -18,10 +18,10 @@ exploreWSIRParams(
   optim_alpha = c(0, 2, 4, 10),
   optim_slices = c(5, 10, 15, 20),
   metric = "DC",
-  nrep = 5,
-  nCores = 1,
+  n_rep = 50,
   plot = TRUE,
   verbose = TRUE,
+  BPPARAM = BiocParallel::SerialParam(RNGseed = .Random.seed[1]),
   ...
 )
 ```
@@ -72,14 +72,9 @@ exploreWSIRParams(
   for the number of dimensions in the low-dimensional embedding. Default
   is "DC".
 
-- nrep:
+- n_rep:
 
   integer for the number of train/test splits of the data to perform.
-
-- nCores:
-
-  number of cores for parallel computing setup BiocParallel package.
-  Default is to use a single core
 
 - plot:
 
@@ -90,6 +85,13 @@ exploreWSIRParams(
 
   default TRUE
 
+- BPPARAM:
+
+  Optional parallel computing instance as in `BiocParallelParam` to be
+  used in
+  [`BiocParallel::bplapply`](https://rdrr.io/pkg/BiocParallel/man/bplapply.html).
+  Default is `BiocParallelParam` instance with one core.
+
 - ...:
 
   arguments passed on to wSIROptimisation
@@ -99,9 +101,9 @@ exploreWSIRParams(
 List with five slots, named "plot", "message", "best_alpha",
 "best_slices" and "results_dataframe".
 
-1.  "plot" shows the average metric value across the nrep iterations for
-    every combination of parameters slices and alpha. Larger circles for
-    a slices/alpha combination indicates better performance for that
+1.  "plot" shows the average metric value across the n_rep iterations
+    for every combination of parameters slices and alpha. Larger circles
+    for a slices/alpha combination indicates better performance for that
     pair of values. There is one panel per evaluation metric selected in
     "metrics" argument.
 
@@ -131,9 +133,9 @@ List with five slots, named "plot", "message", "best_alpha",
 data(MouseData)
 explore_params = exploreWSIRParams(X = sample1_exprs,
   coords = sample1_coords,
-  optim_alpha = c(0,2,4,8),
-  optim_slices = c(3,6,10))
-#> set up nrep random splits of the data into training and test sets
+  optim_alpha = c(0,4),
+  optim_slices = c(3,6))
+#> set up n_rep random splits of the data into training and test sets
 #> completed runs of wSIR and metric calculation
 #> Optimal (alpha, slices) pair: (0, 3)
 explore_params$plot

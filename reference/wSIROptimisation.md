@@ -14,7 +14,7 @@ wSIROptimisation(
   samples_train,
   slices,
   alpha,
-  evalmetrics = c("CD", "DC", "ncol"),
+  eval_metrics = c("CD", "DC", "ncol"),
   ...
 )
 ```
@@ -62,7 +62,7 @@ wSIROptimisation(
   between them. Suggest to tune this parameter using exploreWSIRParams()
   function.
 
-- evalmetrics:
+- eval_metrics:
 
   evaluation metrics to use for parameter tuning. String, options are
   any or all of: "DC" to use distance correlation; "CD" to use
