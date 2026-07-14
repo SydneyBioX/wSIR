@@ -1,4 +1,4 @@
-context("Test runwSIR")
+#context("Test runwSIR")
 
 library(wSIR)
 library(SpatialExperiment)

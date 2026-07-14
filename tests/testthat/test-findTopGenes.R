@@ -1,4 +1,4 @@
-context("Test findTopGenes")
+#context("Test findTopGenes")
 
 library(wSIR)
 

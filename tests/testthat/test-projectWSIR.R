@@ -1,4 +1,4 @@
-context("Test projectWSIR")
+#context("Test projectWSIR")
 
 library(wSIR)
 n <- 100

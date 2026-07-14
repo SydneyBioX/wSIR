@@ -34,6 +34,7 @@ library(doBy) # for which.maxn
 library(vctrs) # for vec_rep_each
 library(umap) # for umap
 library(class) # for example wSIR application
+library(SpatialExperiment) # for creating SpatialExperiment object
 ```
 
 # Introduction
@@ -93,7 +94,7 @@ The code below would allow you to download the mouse data yourself using
 the MouseGastrulationData and scran R packages. We randomly sample 20% of the 
 cells from each of the three biological replicate samples.
 
-```{}
+```{r, eval = FALSE}
 # Packages needed to download data
 #library(scran) # for logNormCounts
 #library(MouseGastrulationData) # to download the data for this vignette
@@ -228,6 +229,19 @@ wsir_obj <- wSIR(X = sample1_exprs,
     optim_params = FALSE)
 
 names(wsir_obj)
+```
+
+## wSIR with SingleCellExperiment and SpatialExperiment objects
+
+wSIR can be performed on `SingleCellExperiment` and `SpatialExperiment` objects with the `runwSIR` function as demonstrated below. First a SpatialExperiment object is created based on data from Mouse Embryo Sample 1, then wSIR is performed on it.
+
+```{r}
+spe_object <- SpatialExperiment(
+  assays = list(logcounts = t(sample1_exprs)),
+  spatialCoords = as.matrix(sample1_coords)
+)
+
+spe_object <- runwSIR(spe_object)
 ```
 
 # wSIR Results Analysis

@@ -1,4 +1,4 @@
-context("Test wSIR")
+#context("Test wSIR")
 
 library(wSIR)
 # This is for testing for an error with invalid parameters
@@ -67,9 +67,9 @@ samples2 <- sample(c(1,2), size = n2, replace = TRUE)
 samples3 <- sample(c(1,2), size = n3, replace = TRUE)
 
 # length(samples) unequal
-expect_error(out <- wSIR(X = x1,
-                         coords = coords1,
-                         samples = samples2))
+expect_warning(expect_error(out <- wSIR(X = x1,
+                            coords = coords1,
+                            samples = samples2)))
 # nrow(coords) unequal
 expect_error(out <- wSIR(X = x1,
                          coords = coords2,

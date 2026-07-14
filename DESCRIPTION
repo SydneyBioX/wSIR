@@ -31,7 +31,6 @@ URL: https://sydneybiox.github.io/wSIR,
 BugReports: https://github.com/sydneybiox/wSIR/issues
 biocViews: DimensionReduction, Software, GeneExpression, SingleCell,
         Spatial, Transcriptomics, Regression, CellBasedAssays
-LazyData: false
 Roxygen: list(markdown = TRUE)
 Depends: R (>= 4.4.0),
 Imports: magrittr (>= 2.0) , ggplot2 (>= 3.5.1), umap (>= 0.2.10),

@@ -28,16 +28,8 @@
 #' @importFrom methods is as
 #' @importFrom BiocGenerics t
 #'
-#' @examples
-#' data(MouseData)
-#' library(SingleCellExperiment)
-#' sce = SingleCellExperiment(assays = list(logcounts = t(sample1_exprs)),
-#' reducedDims = list(spatial = sample1_coords))
-#'
-#' obj = calculateWSIR(x = sce,
-#'   dim_red = "spatial")
-#'
-#' @export
+#' @keywords internal
+
 calculateWSIR <- function(x,
     assay_type = "logcounts",
     dim_red = NULL,

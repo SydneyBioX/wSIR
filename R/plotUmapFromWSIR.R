@@ -43,7 +43,7 @@
 #' top_genes.
 #'
 #' @importFrom vctrs vec_rep_each
-#' @importFrom ggplot2 facet_wrap ggplot aes geom_point
+#' @importFrom ggplot2 facet_wrap ggplot aes geom_point vars
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data
 #'
@@ -70,7 +70,7 @@ plotUmapFromWSIR <- function(X,
     genes = NULL,
     n_genes,
     ...) {
-    if (is.null(highest_genes) == is.null(genes)) {
+  if (!xor(is.null(highest_genes), is.null(genes))) {
         # error message if incorrect inputs
         return("Must provide one of highest_genes or genes, not neither nor both.")
     }
@@ -95,7 +95,7 @@ plotUmapFromWSIR <- function(X,
         y = .data$UMAP2,
         colour = .data$expression)) +
         ggplot2::geom_point() +
-        ggplot2::facet_wrap(~gene) +
+        ggplot2::facet_wrap(vars(.data$gene)) +
         ggplot2::theme_classic()
     return(plot)
 }

@@ -1,4 +1,4 @@
-context("Test generateUmapFromWSIR")
+#context("Test generateUmapFromWSIR")
 
 library(wSIR)
 n <- 100
