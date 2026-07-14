@@ -13,6 +13,7 @@ library(doBy) # for which.maxn
 library(vctrs) # for vec_rep_each
 library(umap) # for umap
 library(class) # for example wSIR application
+library(SpatialExperiment) # for creating SpatialExperiment object
 ```
 
 ## Introduction
@@ -75,52 +76,55 @@ below would allow you to download the mouse data yourself using the
 MouseGastrulationData and scran R packages. We randomly sample 20% of
 the cells from each of the three biological replicate samples.
 
-    # Packages needed to download data
-    #library(scran) # for logNormCounts
-    #library(MouseGastrulationData) # to download the data for this vignette
+``` r
 
-    set.seed(2024)
+# Packages needed to download data
+#library(scran) # for logNormCounts
+#library(MouseGastrulationData) # to download the data for this vignette
 
-    seqfish_data_sample1 <- LohoffSeqFISHData(samples = c(1,2))
-    seqfish_data_sample1 <- logNormCounts(seqfish_data_sample1) # log transform variance stabilising
-    rownames(seqfish_data_sample1) <- rowData(seqfish_data_sample1)[,"SYMBOL"] # change rownames to gene symbols that are consistent
-    sample1_exprs <- t(assay(seqfish_data_sample1, "logcounts")) # extract matrix of gene expressions
-    sample1_coords <- spatialCoords(seqfish_data_sample1)[,1:2] %>% as.data.frame()
-    colnames(sample1_coords) <- c("x", "y")
+set.seed(2024)
 
-    seqfish_data_sample2 <- LohoffSeqFISHData(samples = c(3,4))
-    seqfish_data_sample2 <- logNormCounts(seqfish_data_sample2)
-    rownames(seqfish_data_sample2) <- rowData(seqfish_data_sample2)[,"SYMBOL"]
-    sample2_exprs <- t(assay(seqfish_data_sample2, "logcounts"))
-    sample2_coords <- spatialCoords(seqfish_data_sample2)[,1:2] %>% as.data.frame()
-    colnames(sample2_coords) <- c("x", "y")
+seqfish_data_sample1 <- LohoffSeqFISHData(samples = c(1,2))
+seqfish_data_sample1 <- logNormCounts(seqfish_data_sample1) # log transform variance stabilising
+rownames(seqfish_data_sample1) <- rowData(seqfish_data_sample1)[,"SYMBOL"] # change rownames to gene symbols that are consistent
+sample1_exprs <- t(assay(seqfish_data_sample1, "logcounts")) # extract matrix of gene expressions
+sample1_coords <- spatialCoords(seqfish_data_sample1)[,1:2] %>% as.data.frame()
+colnames(sample1_coords) <- c("x", "y")
 
-    seqfish_data_sample3 <- LohoffSeqFISHData(samples = c(5,6))
-    seqfish_data_sample3 <- logNormCounts(seqfish_data_sample3)
-    rownames(seqfish_data_sample3) <- rowData(seqfish_data_sample3)[,"SYMBOL"]
-    sample3_exprs <- t(assay(seqfish_data_sample3, "logcounts"))
-    sample3_coords <- spatialCoords(seqfish_data_sample3)[,1:2] %>% as.data.frame()
-    colnames(sample3_coords) <- c("x", "y")
+seqfish_data_sample2 <- LohoffSeqFISHData(samples = c(3,4))
+seqfish_data_sample2 <- logNormCounts(seqfish_data_sample2)
+rownames(seqfish_data_sample2) <- rowData(seqfish_data_sample2)[,"SYMBOL"]
+sample2_exprs <- t(assay(seqfish_data_sample2, "logcounts"))
+sample2_coords <- spatialCoords(seqfish_data_sample2)[,1:2] %>% as.data.frame()
+colnames(sample2_coords) <- c("x", "y")
 
-    keep1 <- sample(c(TRUE, FALSE), nrow(sample1_exprs), replace = TRUE, prob = c(0.2, 0.8))
-    keep2 <- sample(c(TRUE, FALSE), nrow(sample2_exprs), replace = TRUE, prob = c(0.2, 0.8))
-    keep3 <- sample(c(TRUE, FALSE), nrow(sample3_exprs), replace = TRUE, prob = c(0.2, 0.8))
+seqfish_data_sample3 <- LohoffSeqFISHData(samples = c(5,6))
+seqfish_data_sample3 <- logNormCounts(seqfish_data_sample3)
+rownames(seqfish_data_sample3) <- rowData(seqfish_data_sample3)[,"SYMBOL"]
+sample3_exprs <- t(assay(seqfish_data_sample3, "logcounts"))
+sample3_coords <- spatialCoords(seqfish_data_sample3)[,1:2] %>% as.data.frame()
+colnames(sample3_coords) <- c("x", "y")
 
-    sample1_exprs <- sample1_exprs[keep1,]
-    sample1_coords <- sample1_coords[keep1,]
-    sample2_exprs <- sample2_exprs[keep2,]
-    sample2_coords <- sample2_coords[keep2,]
-    sample3_exprs <- sample3_exprs[keep3,]
-    sample3_coords <- sample3_coords[keep3,]
+keep1 <- sample(c(TRUE, FALSE), nrow(sample1_exprs), replace = TRUE, prob = c(0.2, 0.8))
+keep2 <- sample(c(TRUE, FALSE), nrow(sample2_exprs), replace = TRUE, prob = c(0.2, 0.8))
+keep3 <- sample(c(TRUE, FALSE), nrow(sample3_exprs), replace = TRUE, prob = c(0.2, 0.8))
 
-    sample1_cell_types <- seqfish_data_sample1$celltype[keep1]
-    sample2_cell_types <- seqfish_data_sample2$celltype[keep2]
-    sample3_cell_types <- seqfish_data_sample3$celltype[keep3]
+sample1_exprs <- sample1_exprs[keep1,]
+sample1_coords <- sample1_coords[keep1,]
+sample2_exprs <- sample2_exprs[keep2,]
+sample2_coords <- sample2_coords[keep2,]
+sample3_exprs <- sample3_exprs[keep3,]
+sample3_coords <- sample3_coords[keep3,]
 
-    save(sample1_exprs, sample1_coords, sample1_cell_types, 
-        sample2_exprs, sample2_coords, sample2_cell_types, 
-        sample3_exprs, sample3_coords, sample3_cell_types, 
-        file = "../data/MouseData.rda", compress = "xz")
+sample1_cell_types <- seqfish_data_sample1$celltype[keep1]
+sample2_cell_types <- seqfish_data_sample2$celltype[keep2]
+sample3_cell_types <- seqfish_data_sample3$celltype[keep3]
+
+save(sample1_exprs, sample1_coords, sample1_cell_types, 
+    sample2_exprs, sample2_coords, sample2_cell_types, 
+    sample3_exprs, sample3_coords, sample3_cell_types, 
+    file = "../data/MouseData.rda", compress = "xz")
+```
 
 For this vignette and the examples for each function in wSIR, we simply
 load this data that has already been saved at `data/MouseData.rda`.
@@ -203,14 +207,14 @@ optim_obj <- exploreWSIRParams(X = as.matrix(sample1_exprs),
 Sys.time()-a
 ```
 
-    ## Time difference of 10.15036 secs
+    ## Time difference of 9.530144 secs
 
 ``` r
 
 optim_obj$plot
 ```
 
-![](wSIR_files/figure-html/unnamed-chunk-4-1.png)
+![](wSIR_files/figure-html/unnamed-chunk-5-1.png)
 
 ### wSIR Computation
 
@@ -232,6 +236,23 @@ names(wsir_obj)
 ```
 
     ## [1] "scores"     "directions" "estd"       "W"          "evalues"
+
+### wSIR with SingleCellExperiment and SpatialExperiment objects
+
+wSIR can be performed on `SingleCellExperiment` and `SpatialExperiment`
+objects with the `runwSIR` function as demonstrated below. First a
+SpatialExperiment object is created based on data from Mouse Embryo
+Sample 1, then wSIR is performed on it.
+
+``` r
+
+spe_object <- SpatialExperiment(
+  assays = list(logcounts = t(sample1_exprs)),
+  spatialCoords = as.matrix(sample1_coords)
+)
+
+spe_object <- runwSIR(spe_object)
+```
 
 ## wSIR Results Analysis
 
@@ -267,7 +288,7 @@ top_genes_plot <- top_genes_obj$plot # select plot
 top_genes_plot # print plot
 ```
 
-![](wSIR_files/figure-html/unnamed-chunk-6-1.png)
+![](wSIR_files/figure-html/unnamed-chunk-8-1.png)
 
 ``` r
 
@@ -276,7 +297,7 @@ top_genes_plot <- top_genes_obj$plot
 top_genes_plot
 ```
 
-![](wSIR_files/figure-html/unnamed-chunk-6-2.png)
+![](wSIR_files/figure-html/unnamed-chunk-8-2.png)
 
 ### Visualising wSIR Scores
 
@@ -304,7 +325,7 @@ vis_obj <- visualiseWSIRDirections(coords = sample1_coords,
 vis_obj
 ```
 
-![](wSIR_files/figure-html/unnamed-chunk-7-1.png)
+![](wSIR_files/figure-html/unnamed-chunk-9-1.png)
 
 ### UMAP on low-dimensional embedding
 
@@ -347,7 +368,7 @@ umap_plots <- plotUmapFromWSIR(X = sample1_exprs,
 umap_plots
 ```
 
-![](wSIR_files/figure-html/unnamed-chunk-8-1.png)
+![](wSIR_files/figure-html/unnamed-chunk-10-1.png)
 
 ## Projection of new data with wSIR
 
@@ -534,7 +555,7 @@ realistic analysis pipeline.
 sessionInfo()
 ```
 
-    ## R version 4.6.0 (2026-04-24)
+    ## R version 4.6.1 (2026-06-24)
     ## Platform: x86_64-pc-linux-gnu
     ## Running under: Ubuntu 24.04.4 LTS
     ## 
@@ -552,57 +573,46 @@ sessionInfo()
     ## tzcode source: system (glibc)
     ## 
     ## attached base packages:
-    ## [1] stats     graphics  grDevices utils     datasets  methods   base     
+    ## [1] stats4    stats     graphics  grDevices utils     datasets  methods  
+    ## [8] base     
     ## 
     ## other attached packages:
-    ## [1] class_7.3-23     umap_0.2.10.0    vctrs_0.7.3      doBy_4.7.1      
-    ## [5] ggplot2_4.0.3    magrittr_2.0.5   wSIR_0.99.8      BiocStyle_2.40.0
+    ##  [1] SpatialExperiment_1.22.0    SingleCellExperiment_1.34.0
+    ##  [3] SummarizedExperiment_1.42.0 Biobase_2.72.0             
+    ##  [5] GenomicRanges_1.64.0        Seqinfo_1.2.0              
+    ##  [7] IRanges_2.46.0              S4Vectors_0.50.1           
+    ##  [9] BiocGenerics_0.58.1         generics_0.1.4             
+    ## [11] MatrixGenerics_1.24.0       matrixStats_1.5.0          
+    ## [13] class_7.3-23                umap_0.2.10.0              
+    ## [15] vctrs_0.7.3                 doBy_4.7.2                 
+    ## [17] ggplot2_4.0.3               magrittr_2.0.5             
+    ## [19] wSIR_0.99.9                 BiocStyle_2.40.0           
     ## 
     ## loaded via a namespace (and not attached):
-    ##  [1] tidyselect_1.2.1            timeDate_4052.112          
-    ##  [3] dplyr_1.2.1                 farver_2.1.2               
-    ##  [5] S7_0.2.2                    fastmap_1.2.0              
-    ##  [7] SingleCellExperiment_1.34.0 digest_0.6.39              
-    ##  [9] lifecycle_1.0.5             Deriv_4.2.0                
-    ## [11] compiler_4.6.0              rlang_1.2.0                
-    ## [13] sass_0.4.10                 tools_4.6.0                
-    ## [15] yaml_2.3.12                 knitr_1.51                 
-    ## [17] labeling_0.4.3              askpass_1.2.1              
-    ## [19] S4Arrays_1.12.0             reticulate_1.46.0          
-    ## [21] DelayedArray_0.38.2         RColorBrewer_1.1-3         
-    ## [23] abind_1.4-8                 BiocParallel_1.46.0        
-    ## [25] withr_3.0.2                 purrr_1.2.2                
-    ## [27] BiocGenerics_0.58.1         desc_1.4.3                 
-    ## [29] grid_4.6.0                  stats4_4.6.0               
-    ## [31] colorspace_2.1-2            scales_1.4.0               
-    ## [33] MASS_7.3-65                 SummarizedExperiment_1.42.0
-    ## [35] cli_3.6.6                   rmarkdown_2.31             
-    ## [37] ragg_1.5.2                  generics_0.1.4             
-    ## [39] otel_0.2.0                  RSpectra_0.16-2            
-    ## [41] modelr_0.1.11               rjson_0.2.23               
-    ## [43] cachem_1.1.0                stringr_1.6.0              
-    ## [45] forecast_9.0.2              parallel_4.6.0             
-    ## [47] urca_1.3-4                  BiocManager_1.30.27        
-    ## [49] XVector_0.52.0              matrixStats_1.5.0          
-    ## [51] boot_1.3-32                 Matrix_1.7-5               
-    ## [53] jsonlite_2.0.0              bookdown_0.47              
-    ## [55] IRanges_2.46.0              distances_0.1.13           
-    ## [57] S4Vectors_0.50.1            systemfonts_1.3.2          
-    ## [59] magick_2.9.1                jquerylib_0.1.4            
-    ## [61] tidyr_1.3.2                 glue_1.8.1                 
-    ## [63] pkgdown_2.2.0               codetools_0.2-20           
-    ## [65] cowplot_1.2.0               stringi_1.8.7              
-    ## [67] gtable_0.3.6                GenomicRanges_1.64.0       
-    ## [69] tibble_3.3.1                pillar_1.11.1              
-    ## [71] htmltools_0.5.9             Seqinfo_1.2.0              
-    ## [73] openssl_2.4.2               R6_2.6.1                   
-    ## [75] microbenchmark_1.5.0        textshaping_1.0.5          
-    ## [77] evaluate_1.0.5              lattice_0.22-9             
-    ## [79] Biobase_2.72.0              png_0.1-9                  
-    ## [81] backports_1.5.1             SpatialExperiment_1.22.0   
-    ## [83] broom_1.0.13                fracdiff_1.5-4             
-    ## [85] bslib_0.11.0                Rcpp_1.1.1-1.1             
-    ## [87] SparseArray_1.12.2          nlme_3.1-169               
-    ## [89] xfun_0.58                   fs_2.1.0                   
-    ## [91] MatrixGenerics_1.24.0       zoo_1.8-15                 
-    ## [93] pkgconfig_2.0.3
+    ##  [1] tidyselect_1.2.1    timeDate_4052.112   dplyr_1.2.1        
+    ##  [4] farver_2.1.2        S7_0.2.2            fastmap_1.2.0      
+    ##  [7] digest_0.6.39       lifecycle_1.0.5     Deriv_4.2.0        
+    ## [10] compiler_4.6.1      rlang_1.3.0         sass_0.4.10        
+    ## [13] tools_4.6.1         yaml_2.3.12         knitr_1.51         
+    ## [16] labeling_0.4.3      askpass_1.2.1       S4Arrays_1.12.0    
+    ## [19] reticulate_1.46.0   DelayedArray_0.38.2 RColorBrewer_1.1-3 
+    ## [22] abind_1.4-8         BiocParallel_1.46.0 withr_3.0.3        
+    ## [25] purrr_1.2.2         desc_1.4.3          grid_4.6.1         
+    ## [28] colorspace_2.1-3    scales_1.4.0        MASS_7.3-65        
+    ## [31] cli_3.6.6           rmarkdown_2.31      ragg_1.5.2         
+    ## [34] otel_0.2.0          RSpectra_0.16-2     modelr_0.1.11      
+    ## [37] rjson_0.2.23        cachem_1.1.0        stringr_1.6.0      
+    ## [40] forecast_9.0.2      parallel_4.6.1      urca_1.3-4         
+    ## [43] BiocManager_1.30.27 XVector_0.52.0      boot_1.3-32        
+    ## [46] Matrix_1.7-5        jsonlite_2.0.0      bookdown_0.47      
+    ## [49] distances_0.1.13    systemfonts_1.3.2   magick_2.9.1       
+    ## [52] jquerylib_0.1.4     tidyr_1.3.2         glue_1.8.1         
+    ## [55] pkgdown_2.2.1       codetools_0.2-20    cowplot_1.2.0      
+    ## [58] stringi_1.8.7       gtable_0.3.6        tibble_3.3.1       
+    ## [61] pillar_1.11.1       htmltools_0.5.9     openssl_2.4.2      
+    ## [64] R6_2.6.1            textshaping_1.0.5   evaluate_1.0.5     
+    ## [67] lattice_0.22-9      png_0.1-9           backports_1.5.1    
+    ## [70] broom_1.0.13        fracdiff_1.5-4      bslib_0.11.0       
+    ## [73] Rcpp_1.1.2          SparseArray_1.12.2  nlme_3.1-169       
+    ## [76] xfun_0.60           fs_2.1.0            zoo_1.8-15         
+    ## [79] pkgconfig_2.0.3

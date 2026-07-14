@@ -13,8 +13,6 @@
   [`sample3_coords`](https://sydneybiox.github.io/wSIR/reference/MouseData.md)
   [`sample3_cell_types`](https://sydneybiox.github.io/wSIR/reference/MouseData.md)
   : Mouse Gastrulation Data
-- [`calculateWSIR()`](https://sydneybiox.github.io/wSIR/reference/calculateWSIR.md)
-  : calculateWSIR
 - [`exploreWSIRParams()`](https://sydneybiox.github.io/wSIR/reference/exploreWSIRParams.md)
   : exploreWSIRParams function
 - [`findTopGenes()`](https://sydneybiox.github.io/wSIR/reference/findTopGenes.md)

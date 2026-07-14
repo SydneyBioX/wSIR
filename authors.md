@@ -20,12 +20,12 @@ Source:
 Woollard M, Nghiem L, Ghazanfar S (2026). *wSIR: Weighted Sliced Inverse
 Regression (wSIR) for supervised dimension reduction of spatial
 transcriptomics and single cell gene expression data*. R package version
-0.99.8, <https://sydneybiox.github.io/wSIR>.
+0.99.9, <https://sydneybiox.github.io/wSIR>.
 
     @Manual{,
       title = {wSIR: Weighted Sliced Inverse Regression (wSIR) for supervised dimension reduction of spatial transcriptomics and single cell gene expression data},
       author = {Max Woollard and Linh Nghiem and Shila Ghazanfar},
       year = {2026},
-      note = {R package version 0.99.8},
+      note = {R package version 0.99.9},
       url = {https://sydneybiox.github.io/wSIR},
     }
