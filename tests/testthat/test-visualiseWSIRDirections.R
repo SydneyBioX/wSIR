@@ -1,4 +1,4 @@
-context("Test visualiseWSIRDirections")
+#context("Test visualiseWSIRDirections")
 
 library(wSIR)
 n <- 100

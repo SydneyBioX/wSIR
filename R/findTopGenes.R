@@ -27,6 +27,7 @@
 #' @importFrom magrittr %>%
 #' @importFrom ggplot2 ggplot aes geom_col theme_minimal labs geom_hline
 #' @importFrom ggplot2 ggtitle facet_wrap
+#' @importFrom ggplot2 vars
 #' @importFrom stats reorder
 #' @importFrom vctrs vec_rep_each
 #' @importFrom rlang .data
@@ -77,7 +78,7 @@ findTopGenes <- function(wsir, highest = 10, dirs = 1) {
             highest,
             " genes with highest/lowest loading in wSIR ",
             paste(dirs, collapse = ", "))) +
-        ggplot2::facet_wrap(~direction, nrow = 2, scales = "free")
+        ggplot2::facet_wrap(vars(.data$direction), nrow = 2, scales = "free")
 
     return(list(plot = loadings_plot,
         genes = res_df))

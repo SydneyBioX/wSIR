@@ -42,13 +42,4 @@ A wSIR object
 Perform wSIR on cells, based on the expression data and a reducedDim in a
 SingleCellExperiment or SpatialExperiment object
 }
-\examples{
-data(MouseData)
-library(SingleCellExperiment)
-sce = SingleCellExperiment(assays = list(logcounts = t(sample1_exprs)),
-reducedDims = list(spatial = sample1_coords))
-
-obj = calculateWSIR(x = sce,
-  dim_red = "spatial")
-
-}
+\keyword{internal}

@@ -1,4 +1,4 @@
-context("Test plotUmapFromWSIR")
+#context("Test plotUmapFromWSIR")
 
 library(wSIR)
 n <- 100

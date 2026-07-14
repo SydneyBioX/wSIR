@@ -1,4 +1,4 @@
-context("Test exploreWSIRParams")
+#context("Test exploreWSIRParams")
 
 library(wSIR)
 n <- 100

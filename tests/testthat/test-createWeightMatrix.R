@@ -1,4 +1,4 @@
-context("Test createWeightMatrix")
+#context("Test createWeightMatrix")
 
 library(wSIR)
 nslices = 3

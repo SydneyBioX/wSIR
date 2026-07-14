@@ -1,4 +1,4 @@
-context("Test wSIROptimisation")
+#context("Test wSIROptimisation")
 
 library(wSIR)
 n1 <- 100

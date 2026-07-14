@@ -30,6 +30,7 @@
 #' @importFrom magrittr %>%
 #' @importFrom ggplot2 ggplot aes geom_point theme_classic facet_wrap ggtitle
 #' @importFrom ggplot2 scale_color_gradient
+#' @importFrom ggplot2 vars
 #' @importFrom vctrs vec_rep_each
 #' @importFrom rlang .data
 #'
@@ -70,7 +71,7 @@ visualiseWSIRDirections <- function(coords,
         data = vis_df_long) +
         ggplot2::geom_point() +
         ggplot2::theme_classic() +
-        ggplot2::facet_wrap(~WSIR_direction, scales = "fixed") +
+        ggplot2::facet_wrap(vars(.data$WSIR_direction), scales = "fixed") +
         ggplot2::ggtitle("Cells at true positions coloured by WSIR values") +
         ggplot2::scale_color_gradient(low = mincol, high = maxcol)
     return(plot)
